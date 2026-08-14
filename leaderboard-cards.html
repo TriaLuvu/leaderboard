@@ -4,125 +4,411 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Leaderboard Cards</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 	<script type="text/javascript" src="jquery-3.5.1.min.js"></script>
 <style type="text/css">
-html, body, div, figure, p, h1, h2, ul, li, input, button, textarea {margin:0; padding:0; box-sizing: border-box; font-family: sans-serif;}
-body {background-color: #9b8975; box-sizing: content-box; max-width: 1400px; margin: 0 auto;}
-h1 {padding:30px 0; text-align: center; font-size: 50px; color: #fff8dc;}
-.leaderboard {list-style: none;}
-.leaderboard .card {padding: 0; width: 20%; height: 400px; overflow: hidden; position: relative;}
-.leaderboard .card .card-box {height: 100%; padding: 10px; user-select: none;}
-.leaderboard .card .card-box .card-content {position: relative; background-color: #2d3e50; height: 100%; text-align: center; overflow: hidden;}
-.leaderboard .card .card-box .card-content .card-cover {background: #5e4933; position: absolute; top: 0; left: 0; width: 100%; height: 100%; transition: left 0.4s ease-out; cursor: pointer;}
-.leaderboard .card .card-box .card-content.open .card-cover { left: -100%; }
-.leaderboard .card .card-box .card-content .card-cover .number {font-size: 10vh; line-height: 10vh; top: calc(50% - 5vh); position: absolute; left: 0; width: 100%; color: #fff8dc}
-.leaderboard .card .card-box .icon {font-size: 75px; line-height: 120px; background: #fff8dc; border-radius: 50%; width: 120px; text-align: center; display: inline-block; margin: 35px 0 35px 0;}
-.leaderboard .card .card-box .info {color: #cccccc; font-size: 1.7vh; padding: 25px; font-weight: 700;}
-.leaderboard .card .score {font-size: 50px; line-height: 70px; background: #4a5f75; color: #fff; width: 100%;}
-.leaderboard .card .score.red    {background: #dc3546; }
-.leaderboard .card .score.green  {background: #29a744; }
-.leaderboard .card .score.yellow {background: #fec107; color: #735d1a; }
-
-.add-card {position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; border-radius: 50%; background: #17a2b9; line-height: 50px; text-align: center; font-size: 40px; color: #fff; cursor: pointer;}
-.add-card-popup {display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 20; background-color: rgb(0 0 0 / 70%);}
-body.show-add-card .add-card-popup {display: block;}
-body.show-add-card {overflow: hidden;}
-.add-card-popup .box {display: inline-block; height: 500px; width: 500px; background: #353a40; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 6px dashed #fff8dc; text-align:center;}
-.add-card-popup .box .random-icon {width: 200px; height: 200px; font-size: 100px; line-height: 200px; background: #fff; display: inline-block; border-radius: 50%; margin: 25px 0; border: none; padding: 0; text-align: center; color: #000;}
-.add-card-popup .box input {height: 60px; line-height: 50px; font-size: 50px; border: none; background: #9b8975; color: #fff; text-align: center; width: 95%; margin-bottom: 10px;}
-.add-card-popup .box input::-webkit-input-placeholder {color: #7d6c59;}
-.add-card-popup .box #score {width: 250px;}
-.add-card-popup .box button {cursor: pointer; text-align: center; position: absolute; bottom: 0; width: 50%; height: 60px; border: none; font-size: 25px; font-weight: 700; color: #fff;} 
-.add-card-popup .box button.ok {right: 0; background: #29a744;}
-.add-card-popup .box button.cancel {left: 0; background: #1b252f;}
-
-.edit {position: fixed; bottom: 30px; right: 90px; width: 50px; height: 50px; line-height: 50px; text-align: center; font-size: 40px; color: #fff; cursor: pointer;}
-.edit-popup {display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 20; background-color: rgb(0 0 0 / 70%);}
-body.show-edit .edit-popup {display: block;}
-body.show-edit {overflow: hidden;}
-.edit-popup .box {display: inline-block; height: 500px; width: 500px; background: #353a40; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 6px dashed #fff8dc; text-align:center;}
-.edit-popup .box textarea {width: 100%; background: #353a40; box-sizing: border-box; font-size: 20px; color: #fff; border: none; padding: 15px; height: calc(100% - 60px);}
-.edit-popup .box button {cursor: pointer; text-align: center; position: absolute; bottom: 0; width: 50%; height: 60px; border: none; font-size: 25px; font-weight: 700; color: #fff;} 
-.edit-popup .box button.ok {right: 0; background: #29a744;}
-.edit-popup .box button.cancel {left: 0; background: #1b252f;}
-
-.link {position: fixed; bottom: 30px; left: 30px; width: 50px; height: 50px; line-height: 50px; text-align: center; font-size: 40px; color: #fff; cursor: pointer;}
-.link-popup {display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 20; background-color: rgb(0 0 0 / 70%);}
-body.show-link .link-popup {display: block;}
-body.show-link {overflow: hidden;}
-.link-popup .box {display: inline-block; height: 500px; width: 500px; background: #353a40; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 6px dashed #fff8dc; text-align:center;}
-.link-popup .box textarea {width: 100%; background: #353a40; box-sizing: border-box; font-size: 20px; color: #fff; border: none; padding: 15px; height: calc(100% - 60px);}
-.link-popup .box textarea::selection {background: #ccc;}
-.link-popup .box button {cursor: pointer; text-align: center; position: absolute; bottom: 0; width: 50%; height: 60px; border: none; font-size: 25px; font-weight: 700; color: #fff;} 
-.link-popup .box button.close {left: 0; background: #1b252f; width: 100%;}
-
-.shuffle {position: fixed; bottom: 30px; left: 90px; width: 50px; height: 50px; line-height: 50px; text-align: center; font-size: 40px; color: #fff; cursor: pointer;}
-
-.refresh {position: fixed; bottom: 30px; left: 150px; width: 50px; height: 50px; line-height: 50px; text-align: center; font-size: 40px; color: #fff; cursor: pointer;}
-
-@media (min-width: 360px) {
-	.leaderboard .card {width: 100%;}
+:root {
+	--bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 70%, #090d16 100%);
+	--card-bg: rgba(30, 41, 59, 0.65);
+	--card-border: rgba(255, 255, 255, 0.12);
+	--card-hover-border: rgba(99, 102, 241, 0.5);
+	--text-main: #f8fafc;
+	--text-muted: #94a3b8;
+	--accent-primary: #6366f1;
+	--dock-bg: rgba(15, 23, 42, 0.85);
+	--dock-border: rgba(255, 255, 255, 0.15);
+	--font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* Small devices (landscape phones, 576px and up)*/
-@media (min-width: 576px) {
-	.leaderboard .card {width: 50%;}
+* { margin:0; padding:0; box-sizing: border-box; font-family: var(--font-family); }
+html, body { min-height: 100vh; background: #0f172a; color: var(--text-main); }
+body {
+	background: var(--bg-gradient);
+	background-attachment: fixed;
+	box-sizing: border-box;
+	max-width: 1400px;
+	margin: 0 auto;
+	padding-bottom: 120px;
+	overflow-x: hidden;
 }
 
- /*Medium devices (tablets, 768px and up)*/
-@media (min-width: 768px) {
-	.leaderboard .card {width: 33.333%;}
+/* Header */
+.lb-header-container {
+	text-align: center;
+	padding: 36px 20px 24px 20px;
+}
+h1.lb-header {
+	display: inline-block;
+	font-size: 48px;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #a855f7 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	padding: 6px 24px;
+	border-radius: 16px;
+	outline: none;
+	transition: all 0.3s ease;
+	cursor: pointer;
+}
+h1.lb-header:focus, h1.lb-header:hover {
+	background: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	text-shadow: 0 0 20px rgba(192, 132, 252, 0.3);
 }
 
- /*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) {
-	.leaderboard .card {width: 25%;}
+/* Cards Layout */
+.leaderboard { list-style: none; width: 100%; }
+.leaderboard .card { padding: 0; width: 20%; height: 420px; overflow: hidden; position: relative; }
+.leaderboard .card .card-box { height: 100%; padding: 12px; user-select: none; }
+.leaderboard .card .card-box .card-content {
+	position: relative;
+	background: var(--card-bg);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	border: 1px solid var(--card-border);
+	border-radius: 24px;
+	height: 100%;
+	text-align: center;
+	overflow: hidden;
+	box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+	transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.leaderboard .card:hover .card-content {
+	border-color: var(--card-hover-border);
+	transform: translateY(-4px);
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(168, 85, 247, 0.2);
 }
 
- /*Extra large devices (large desktops, 1200px and up)*/
+/* Card Cover */
+.leaderboard .card .card-box .card-content .card-cover {
+	background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+	border: 2px dashed rgba(255, 255, 255, 0.18);
+	border-radius: 24px;
+	position: absolute;
+	top: 0; left: 0;
+	width: 100%; height: 100%;
+	transition: left 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+	cursor: pointer;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+.leaderboard .card .card-box .card-content.open .card-cover { left: -105%; }
+
+.leaderboard .card .card-box .card-content .card-cover .number {
+	font-size: 85px;
+	font-weight: 800;
+	background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	filter: drop-shadow(0 4px 10px rgba(245, 158, 11, 0.3));
+}
+
+/* Revealed Card Content */
+.leaderboard .card .card-box .icon {
+	font-size: 64px;
+	line-height: 100px;
+	background: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	border-radius: 50%;
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	display: inline-block;
+	margin: 28px 0 20px 0;
+	box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.leaderboard .card .score {
+	font-size: 32px;
+	font-weight: 800;
+	line-height: 56px;
+	height: 56px;
+	background: #334155;
+	color: #fff;
+	width: 90%;
+	margin: 0 auto;
+	border-radius: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.leaderboard .card .score.red    { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
+.leaderboard .card .score.green  { background: linear-gradient(135deg, #10b981, #059669); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
+.leaderboard .card .score.yellow { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); }
+
+.leaderboard .card .card-box .info {
+	color: #cbd5e1;
+	font-size: 15px;
+	font-weight: 600;
+	padding: 16px;
+	line-height: 1.4;
+}
+
+/* Floating Action Dock */
+.action-dock {
+	position: fixed;
+	bottom: 28px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	background: var(--dock-bg);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid var(--dock-border);
+	padding: 10px 18px;
+	border-radius: 9999px;
+	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.dock-item {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 22px;
+	color: #fff;
+	cursor: pointer;
+	user-select: none;
+	transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+	position: relative;
+	background: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.dock-item:hover {
+	transform: translateY(-4px) scale(1.1);
+	background: rgba(255, 255, 255, 0.18);
+	box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+.dock-item:active {
+	transform: translateY(0) scale(0.95);
+}
+
+.add-card { background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important; border: none !important; font-size: 30px; font-weight: 600; }
+.edit { background: rgba(255, 255, 255, 0.08); }
+.shuffle { background: rgba(255, 255, 255, 0.08); }
+.refresh { background: rgba(255, 255, 255, 0.08); }
+.link { background: rgba(255, 255, 255, 0.08); }
+
+/* Modals & Popups */
+.add-card-popup, .edit-popup, .link-popup {
+	display: none;
+	position: fixed;
+	top: 0; left: 0; width: 100%; height: 100%;
+	z-index: 300;
+	background: rgba(15, 23, 42, 0.8);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	align-items: center;
+	justify-content: center;
+	animation: fadeIn 0.25s ease-out;
+}
+body.show-add-card .add-card-popup,
+body.show-edit .edit-popup,
+body.show-link .link-popup {
+	display: flex;
+}
+body.show-add-card, body.show-edit, body.show-link {
+	overflow: hidden;
+}
+
+.modal-box {
+	background: rgba(30, 41, 59, 0.95);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	border-radius: 28px;
+	width: 90%;
+	max-width: 480px;
+	padding: 32px;
+	position: relative;
+	box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+	text-align: center;
+	animation: modalSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-box h2 {
+	font-size: 22px;
+	font-weight: 800;
+	color: #fff;
+	margin-bottom: 20px;
+}
+
+.modal-box .random-icon {
+	width: 120px;
+	height: 120px;
+	font-size: 70px;
+	line-height: 115px;
+	background: rgba(255, 255, 255, 0.06);
+	border: 2px dashed rgba(255, 255, 255, 0.2);
+	border-radius: 50%;
+	margin: 0 auto 20px auto;
+	text-align: center;
+	color: #fff;
+	outline: none;
+	transition: border-color 0.2s ease, transform 0.2s ease;
+	cursor: pointer;
+}
+.modal-box .random-icon:focus, .modal-box .random-icon:hover {
+	border-color: #a855f7;
+	transform: scale(1.05);
+}
+
+.modal-box input[type="text"],
+.modal-box textarea {
+	width: 100%;
+	background: rgba(15, 23, 42, 0.7);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 14px;
+	color: #fff;
+	font-size: 18px;
+	padding: 14px 18px;
+	margin-bottom: 14px;
+	outline: none;
+	transition: all 0.2s ease;
+}
+.modal-box input:focus, .modal-box textarea:focus {
+	border-color: #a855f7;
+	box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.3);
+}
+
+.modal-box textarea {
+	height: 220px;
+	resize: vertical;
+	font-family: monospace;
+	font-size: 15px;
+	line-height: 1.5;
+}
+
+.modal-actions {
+	display: flex;
+	gap: 12px;
+	margin-top: 10px;
+}
+.modal-actions button {
+	flex: 1;
+	height: 50px;
+	border-radius: 14px;
+	border: none;
+	font-size: 16px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+.modal-actions button.cancel {
+	background: rgba(255, 255, 255, 0.08);
+	color: #cbd5e1;
+}
+.modal-actions button.cancel:hover {
+	background: rgba(255, 255, 255, 0.15);
+	color: #fff;
+}
+.modal-actions button.ok {
+	background: linear-gradient(135deg, #10b981, #059669);
+	color: #fff;
+	box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+.modal-actions button.ok:hover {
+	filter: brightness(1.1);
+	transform: translateY(-1px);
+}
+.modal-actions button.close {
+	width: 100%;
+	background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+	color: #fff;
+	box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+
+/* Media Queries for responsive cards grid */
+@media (max-width: 575px) {
+	.leaderboard .card { width: 100%; }
+}
+@media (min-width: 576px) and (max-width: 767px) {
+	.leaderboard .card { width: 50%; }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+	.leaderboard .card { width: 33.333%; }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+	.leaderboard .card { width: 25%; }
+}
 @media (min-width: 1200px) {
-	.leaderboard .card {width: 20%;}
+	.leaderboard .card { width: 20%; }
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+@keyframes modalSlide {
+	from { opacity: 0; transform: translateY(20px) scale(0.95); }
+	to { opacity: 1; transform: translateY(0) scale(1); }
 }
 </style>
 </head>
 <body>
-	<h1 contenteditable="true">Leaderboard Cards</h1>
+	<div class="lb-header-container">
+		<h1 contenteditable="true" class="lb-header">Leaderboard Cards</h1>
+	</div>
+
 	<ul class="leaderboard">
 		<!-- place for cards / isotope plugin -->
 	</ul>
+
+	<!-- Popups -->
 	<div class="add-card-popup">
-		<div class="box">
+		<div class="modal-box">
+			<h2>Add Mystery Card</h2>
 			<input type="text" id="rand-icon" class="random-icon" value="🦊">
-			<br>
-			<input type="text" id="score" placeholder="score">
-			<br>
-			<input type="text" id="info" size="15" placeholder="info">
-			<br>
-			<button class="cancel">CANCEL</button>
-			<button class="ok">OK</button>
+			<input type="text" id="score" placeholder="Score impact (e.g. +5 or -2)">
+			<input type="text" id="info" size="15" placeholder="Description / Info">
+			<div class="modal-actions">
+				<button class="cancel">CANCEL</button>
+				<button class="ok">OK</button>
+			</div>
 		</div>
 	</div>
+
 	<div class="edit-popup">
-		<div class="box">
-			<textarea id="tarea"></textarea>
-			<button class="cancel">CANCEL</button>
-			<button class="ok">OK</button>
+		<div class="modal-box">
+			<h2>Bulk Edit Cards</h2>
+			<textarea id="tarea" placeholder="icon,score,info"></textarea>
+			<div class="modal-actions">
+				<button class="cancel">CANCEL</button>
+				<button class="ok">OK</button>
+			</div>
 		</div>
 	</div>
+
 	<div class="link-popup">
-		<div class="box">
-			<textarea id="tarea-link"></textarea>
-			<button class="close">CLOSE</button>
+		<div class="modal-box">
+			<h2>Share Cards Game</h2>
+			<textarea id="tarea-link" readonly></textarea>
+			<div class="modal-actions">
+				<button class="close">CLOSE</button>
+			</div>
 		</div>
 	</div>
-	
 
-	<div class="add-card">+</div>
-	<div class="edit">📋</div>
-	<div class="shuffle">🃏</div>
-	<div class="refresh">🔁</div>
-	<div class="link">🔗</div>
-
+	<!-- Floating Action Dock -->
+	<div class="action-dock">
+		<div class="dock-item add-card" title="Add Card">+</div>
+		<div class="dock-item edit" title="Bulk Edit">📋</div>
+		<div class="dock-item shuffle" title="Shuffle Cards">🃏</div>
+		<div class="dock-item refresh" title="Refresh / Reset">🔁</div>
+		<div class="dock-item link" title="Share Link">🔗</div>
+	</div>
 
 <script type="text/javascript" src="isotope-v3.0.6.pkgd.min.js"></script>
 <script type="text/javascript">
@@ -147,33 +433,20 @@ var template        = `
 
 $( document ).ready(function() {
 
-	// check if local storage is available
-	// updates `local_storage_available` variable
 	test_local_storage();
-
-	// some button handlers...
 	initialize_basic_btn_listeners();
 
-
-	// intialize isotope plugin
 	leaderboard_iso = $('.leaderboard').isotope({
-		// options
 		itemSelector: '.card',
 	});
-	
 
-	// 1st step:
-	// check for data in "URLSearchParams"
-	// If the url has data in the query string
-	// give priority to this data
+	// 1st step: check URL query string
 	url = new URL((window.location.href));
 	query_string = url.searchParams.get("q");
 	if (query_string != null) {
 		decoded_str = decodeURIComponent(window.atob(query_string));
 		data = JSON.parse(decoded_str);
 
-		// save data to local storage
-		// refresh without data in the url
 		if (local_storage_available) {
 			localStorage.setItem('leaderboard_card_data', JSON.stringify(data));
 			window.location.href = [location.protocol, '//', location.host, location.pathname].join('');
@@ -181,12 +454,10 @@ $( document ).ready(function() {
 		return;
 	}
 
-	// 2nd step:
-	// check for data in the local storage
+	// 2nd step: check local storage
 	if (local_storage_available) {
 		data = JSON.parse(localStorage.getItem('leaderboard_card_data'));
 		
-		// add data to the UI
 		if (data != null) {
 			data = shuffleArray(data);
 			build_leaderboard_cards();
@@ -196,8 +467,7 @@ $( document ).ready(function() {
 		}
 	}
 
-	// 3rd step:
-	// initialize with the following hard-coded data[]
+	// 3rd step: default fallback data
 	data = [
 			{icon: "🎁", score: "2",  info: "Congrats! You win 2 points"},
 			{icon: "🔥", score: "5",  info: "You're on fire! +5" },
@@ -229,53 +499,32 @@ function add_card_colors() {
 	$('.card-content .score').each(function(i, obj) {
 		parsed = parseInt( $(this).text() );
 		if (isNaN(parsed)) {
-			$(this).addClass("yellow");
-			$(this).removeClass("red");
-			$(this).removeClass("green");
+			$(this).addClass("yellow").removeClass("red green");
 		} else if (parsed > 0) {
-			$(this).addClass("green");
-			$(this).removeClass("red");
-			$(this).removeClass("yellow");
+			$(this).addClass("green").removeClass("red yellow");
 		} else if (parsed < 0) {
-			$(this).addClass("red");
-			$(this).removeClass("green");
-			$(this).removeClass("yellow");
+			$(this).addClass("red").removeClass("green yellow");
 		}
 	});
 }
 
-
-
 function initialize_basic_btn_listeners() {
 
-	// check whether MINUS is being pressed
 	$(window).keydown(function(evt) {
-		if (evt.which == 109) { // minus
-			minusPressed = true;
-		}
-		}).keyup(function(evt) {
-		if (evt.which == 109) { // minus
-			minusPressed = false;
-		}
+		if (evt.which == 109) minusPressed = true;
+	}).keyup(function(evt) {
+		if (evt.which == 109) minusPressed = false;
 	});
 
-	// check whether PLUS is being pressed
 	$(window).keydown(function(evt) {
-		if (evt.which == 107) { // plus
-			plusPressed = true;
-		}
-		}).keyup(function(evt) {
-		if (evt.which == 107) { // plus
-			plusPressed = false;
-		}
+		if (evt.which == 107) plusPressed = true;
+	}).keyup(function(evt) {
+		if (evt.which == 107) plusPressed = false;
 	});
 	
-	// adding a new card listeners
-	//
 	$('.add-card').on('click',function(){
 		scroll_to_top_smooth();
 		$("body").toggleClass("show-add-card");
-		// pick random animal emoji and clear form
 		$('#rand-icon').val(emojis[getRandomInt(0,emojis.length)]);
 		$('#info').val("");
 		$('#score').val("");
@@ -296,13 +545,9 @@ function initialize_basic_btn_listeners() {
 		$("body").toggleClass("show-add-card");
 	});
 
-
-	// editing
-	// 
 	$('.edit').on('click',function(){
 		scroll_to_top_smooth();
 		$("body").toggleClass("show-edit");
-		// load data to textarea
 		data_str = "";
 		data.forEach(function(card) {
 			data_str = data_str + (card.icon + "," + card.score + "," + card.info + "\n");
@@ -320,116 +565,89 @@ function initialize_basic_btn_listeners() {
 		$("body").toggleClass("show-edit");
 	});
 
-
-	// link sharing
-	// 
 	$('.link').on('click',function(){
 		scroll_to_top_smooth();
 		$("body").toggleClass("show-link");
-		// load data to textarea
 		$("#tarea-link").val(generate_share_link());
 		$('#tarea-link').select();
+
+		var shareText = $('#tarea-link').val();
+		var $closeBtn = $('.link-popup .close');
+		var originalText = $closeBtn.text();
+		function showCopiedFeedback(success){
+			$closeBtn.text(success ? 'COPIED ✓ — CLOSE' : 'COPY FAILED — CLOSE');
+			setTimeout(function(){ $closeBtn.text(originalText); }, 1500);
+		}
+		if (navigator.clipboard && navigator.clipboard.writeText) {
+			navigator.clipboard.writeText(shareText).then(function(){
+				showCopiedFeedback(true);
+			}).catch(function(){
+				try {
+					var successful = document.execCommand('copy');
+					showCopiedFeedback(!!successful);
+				} catch (err) {
+					showCopiedFeedback(false);
+				}
+			});
+		} else {
+			try {
+				var successful = document.execCommand('copy');
+				showCopiedFeedback(!!successful);
+			} catch (err) {
+				showCopiedFeedback(false);
+			}
+		}
 	});
 
 	$('.link-popup .close').on('click',function(){
 		$("body").toggleClass("show-link");
 	});
 
-
-	// shuffle
-	//
 	$('.shuffle').on('click',function(){
 		shuffle_leaderboard_cards();
 	});
 
-
-	// refresh
-	//
 	$('.refresh').on('click',function(){
 		build_leaderboard_cards();
 	});
 }
-
-
 
 function initialize_card_btn_listeners() {
 	$('.card .card-cover').on('click',function(){
 		$(this).parent().toggleClass("open");
 		if (plusPressed) {
 			$(this).parent().children('.icon').text(emojis[getRandomInt(0,emojis.length)]);
-			$(this).parent().children('.score').removeClass("red").removeClass("yellow").addClass("green").text(10);
+			$(this).parent().children('.score').removeClass("red yellow").addClass("green").text(10);
 			$(this).parent().children('.info').text("Συγχαρητήρια! Κέρδισες 10 βαθμούς");
 		}
 		if (minusPressed) {
 			$(this).parent().children('.icon').text(emojis[getRandomInt(0,emojis.length)]);
-			$(this).parent().children('.score').addClass("red").removeClass("yellow").removeClass("green").text(-10);
+			$(this).parent().children('.score').addClass("red").removeClass("yellow green").text(-10);
 			$(this).parent().children('.info').text("Ατυχία! Μόλις έχασες 10 βαθμούς");
 		}
 	});
-
-	// // +/- points buttons
-	// // also updates data[]
-	// $('.point-btn').on('click', async function(event){
-	// 	event.stopPropagation();
-	// 	var $li            = $(this).parent().parent();
-	// 	var $score         = $li.find('.score');
-	// 	var current_score  = parseInt( $score.text() );
-	// 	var points_clicked = parseInt($(this).attr('data-points-value'));
-	// 	var target_score   = current_score + points_clicked;
-
-	// 	// update UI
-	// 	if (target_score > current_score) {
-	// 		for (i=current_score ; i<=target_score ; i++) {
-	// 			$score.text(i);
-	// 			await sleep(150);
-	// 		}
-	// 	} else {
-	// 		for (i=current_score ; i>=target_score ; i--) {
-	// 			$score.text(i);
-	// 			await sleep(150);
-	// 		}
-	// 	}
-	// 	sort_leaderboard();
-
-	// 	// update data[]
-	// 	data.forEach(function(card) {
-	// 		if ((card.nickname == $li.find('.nickname').text()) && (card.icon == $li.find('.icon').text())) {
-	// 			card.score = target_score;
-	// 		}
-	// 	})
-	// 	// save data to local storage
-	// 	localStorage.setItem('leaderboard_card_data', JSON.stringify(data));
-	// });
 }
 
 function build_leaderboard_cards() {
-	// remove all current list items
 	$('.leaderboard').empty();
 
 	if (data.length == 0) return;
 
 	data = shuffleArray(data);
 
-	// append all card-list-items
 	data.forEach(function(card) {
 		$('.leaderboard').append(
 			template.replace(/{{icon}}/gm,card.icon)
 					.replace(/{{info}}/gm,card.info)
 					.replace(/{{score}}/gm,card.score));
-	})
+	});
 
-	// reload isotope
 	leaderboard_iso.isotope('reloadItems');
 	add_card_numbers();
 	add_card_colors();
 
-	// save data to local storage
 	localStorage.setItem('leaderboard_card_data', JSON.stringify(data));
-
-	// add button listeners for score +/-
 	initialize_card_btn_listeners();
-	// sort_leaderboard();
-	// shuffle_leaderboard_cards();
 	leaderboard_iso.isotope();
 }
 
@@ -439,36 +657,16 @@ function read_data_from_text(data_str) {
 	var lines = data_str.split('\n');
 	lines.forEach(function(line) {
 		tokens = line.split(',');
-		data.push({
-			icon:   tokens[0],
-			score:  tokens[1],
-			info:   tokens[2]
-		});
+		if (tokens.length >= 3) {
+			data.push({
+				icon:  tokens[0].trim(),
+				score: tokens[1].trim(),
+				info:  tokens[2].trim()
+			});
+		}
 	});
 }
 
-
-
-
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-/**
- * Returns a random number between min (inclusive) and max (exclusive)
- */
-function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
-}
-
-/**
- * Returns a random integer between min (inclusive) and max (inclusive).
- * The value is no lower than min (or the next integer greater than min
- * if min isn't an integer) and no greater than max (or the next integer
- * lower than max if max isn't an integer).
- * Using Math.round() will give you a non-uniform distribution!
- */
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -476,19 +674,14 @@ function getRandomInt(min, max) {
 }
 
 function generate_share_link() {
-	// encode to BASE64 the data object
 	base64_str = btoa(encodeURIComponent(JSON.stringify(data)));
-
 	share_url = new URL( [location.protocol, '//', location.host, location.pathname].join('') );
-	share_url.searchParams.append("q",base64_str)
+	share_url.searchParams.append("q",base64_str);
 	return share_url.href;
 }
 
 function scroll_to_top_smooth() {
-	window.scrollTo({
-		top: 0,
-		// behavior: 'smooth'
-	});
+	window.scrollTo({ top: 0 });
 }
 
 function test_local_storage(){
@@ -502,7 +695,6 @@ function test_local_storage(){
     }
 }
 
-/* Randomize array in-place using Durstenfeld shuffle algorithm */
 function shuffleArray(array) {
 	for (var i = array.length - 1; i > 0; i--) {
 		var j = Math.floor(Math.random() * (i + 1));
