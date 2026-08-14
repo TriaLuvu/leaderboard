@@ -152,7 +152,7 @@ h1.lb-header:focus, h1.lb-header:hover {
 	line-height: 1.4;
 }
 
-/* Floating Action Dock */
+/* Floating Action Dock at bottom for Cards view */
 .action-dock {
 	position: fixed;
 	bottom: 28px;
@@ -194,6 +194,32 @@ h1.lb-header:focus, h1.lb-header:hover {
 }
 .dock-item:active {
 	transform: translateY(0) scale(0.95);
+}
+
+/* Tooltip popping upward */
+.dock-item[data-tooltip]::before {
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: calc(100% + 12px);
+	left: 50%;
+	transform: translateX(-50%) scale(0.9);
+	background: rgba(15, 23, 42, 0.95);
+	color: #ffffff;
+	padding: 6px 14px;
+	border-radius: 8px;
+	font-size: 13px;
+	font-weight: 600;
+	white-space: nowrap;
+	pointer-events: none;
+	opacity: 0;
+	transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+	z-index: 110;
+}
+.dock-item[data-tooltip]:hover::before {
+	opacity: 1;
+	transform: translateX(-50%) scale(1);
 }
 
 .add-card { background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important; border: none !important; font-size: 30px; font-weight: 600; }
@@ -401,14 +427,14 @@ body.show-add-card, body.show-edit, body.show-link {
 		</div>
 	</div>
 
-	<!-- Floating Action Dock -->
+	<!-- Sidebar Action Dock -->
 	<div class="action-dock">
-		<div class="dock-item add-card" title="Add Card">+</div>
-		<div class="dock-item edit" title="Bulk Edit">📋</div>
-		<div class="dock-item shuffle" title="Shuffle Cards">🃏</div>
-		<div class="dock-item refresh" title="Refresh / Reset">🔁</div>
-		<div class="dock-item sound-toggle" title="Toggle Sound">🔊</div>
-		<div class="dock-item link" title="Share Link">🔗</div>
+		<div class="dock-item add-card" title="Add Card" data-tooltip="Add Card">+</div>
+		<div class="dock-item edit" title="Bulk Edit" data-tooltip="Bulk Edit">📋</div>
+		<div class="dock-item shuffle" title="Shuffle Cards" data-tooltip="Shuffle Cards">🃏</div>
+		<div class="dock-item refresh" title="Refresh / Reset" data-tooltip="Refresh / Reset">🔁</div>
+		<div class="dock-item sound-toggle" title="Toggle Sound" data-tooltip="Toggle Sound">🔊</div>
+		<div class="dock-item link" title="Share Link" data-tooltip="Share Link">🔗</div>
 	</div>
 
 <script type="text/javascript" src="isotope-v3.0.6.pkgd.min.js"></script>
