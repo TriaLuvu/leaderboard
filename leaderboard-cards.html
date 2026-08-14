@@ -200,6 +200,7 @@ h1.lb-header:focus, h1.lb-header:hover {
 .edit { background: rgba(255, 255, 255, 0.08); }
 .shuffle { background: rgba(255, 255, 255, 0.08); }
 .refresh { background: rgba(255, 255, 255, 0.08); }
+.sound-toggle { background: rgba(255, 255, 255, 0.08); }
 .link { background: rgba(255, 255, 255, 0.08); }
 
 /* Modals & Popups */
@@ -329,7 +330,6 @@ body.show-add-card, body.show-edit, body.show-link {
 	box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
 }
 
-/* Media Queries for responsive cards grid */
 @media (max-width: 575px) {
 	.leaderboard .card { width: 100%; }
 }
@@ -407,11 +407,168 @@ body.show-add-card, body.show-edit, body.show-link {
 		<div class="dock-item edit" title="Bulk Edit">📋</div>
 		<div class="dock-item shuffle" title="Shuffle Cards">🃏</div>
 		<div class="dock-item refresh" title="Refresh / Reset">🔁</div>
+		<div class="dock-item sound-toggle" title="Toggle Sound">🔊</div>
 		<div class="dock-item link" title="Share Link">🔗</div>
 	</div>
 
 <script type="text/javascript" src="isotope-v3.0.6.pkgd.min.js"></script>
 <script type="text/javascript">
+// --- Audio Engine (Web Audio API) ---
+var AudioEngine = (function() {
+    var audioCtx = null;
+    var isMuted = localStorage.getItem('sound_muted') === 'true';
+
+    function getContext() {
+        if (!audioCtx) {
+            var AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            if (AudioContextClass) audioCtx = new AudioContextClass();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+        return audioCtx;
+    }
+
+    function playTone(freq, type, duration, delay) {
+        if (isMuted) return;
+        var ctx = getContext();
+        if (!ctx) return;
+        setTimeout(function() {
+            try {
+                var osc = ctx.createOscillator();
+                var gain = ctx.createGain();
+                osc.type = type || 'sine';
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                gain.gain.setValueAtTime(0.12, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch(e) {}
+        }, delay || 0);
+    }
+
+    return {
+        isMuted: function() { return isMuted; },
+        toggleMute: function() {
+            isMuted = !isMuted;
+            localStorage.setItem('sound_muted', isMuted ? 'true' : 'false');
+            return isMuted;
+        },
+        playPositive: function() {
+            playTone(523.25, 'sine', 0.15, 0);   // C5
+            playTone(659.25, 'sine', 0.15, 60);  // E5
+            playTone(783.99, 'sine', 0.25, 120); // G5
+        },
+        playNegative: function() {
+            playTone(392.00, 'triangle', 0.15, 0);   // G4
+            playTone(311.13, 'triangle', 0.25, 80);  // Eb4
+        },
+        playFlip: function() {
+            playTone(440, 'sine', 0.08, 0);
+            playTone(880, 'sine', 0.08, 30);
+        },
+        playShuffle: function() {
+            for (var i = 0; i < 5; i++) {
+                playTone(300 + i * 80, 'triangle', 0.05, i * 40);
+            }
+        },
+        playMilestone: function() {
+            playTone(523.25, 'sine', 0.2, 0);
+            playTone(659.25, 'sine', 0.2, 80);
+            playTone(783.99, 'sine', 0.2, 160);
+            playTone(1046.50, 'triangle', 0.4, 240);
+        }
+    };
+})();
+
+// --- Confetti Celebration Engine ---
+var ConfettiEngine = (function() {
+    var canvas = null;
+    var ctx = null;
+    var particles = [];
+    var animationId = null;
+
+    function init() {
+        if (!canvas) {
+            canvas = document.createElement('canvas');
+            canvas.id = 'confetti-canvas';
+            canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;';
+            document.body.appendChild(canvas);
+            ctx = canvas.getContext('2d');
+            resize();
+            window.addEventListener('resize', resize);
+        }
+    }
+
+    function resize() {
+        if (canvas) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+    }
+
+    function launch(count) {
+        init();
+        var colors = ['#f43f5e', '#10b981', '#6366f1', '#f59e0b', '#ec4899', '#3b82f6', '#a855f7'];
+        count = count || 80;
+        for (var i = 0; i < count; i++) {
+            particles.push({
+                x: canvas.width / 2 + (Math.random() * 200 - 100),
+                y: canvas.height * 0.4 + (Math.random() * 100 - 50),
+                vx: (Math.random() - 0.5) * 16,
+                vy: Math.random() * -14 - 6,
+                size: Math.random() * 8 + 6,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                rotation: Math.random() * 360,
+                rSpeed: (Math.random() - 0.5) * 10,
+                opacity: 1,
+                decay: Math.random() * 0.015 + 0.01
+            });
+        }
+        if (!animationId) {
+            update();
+        }
+    }
+
+    function update() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (var i = particles.length - 1; i >= 0; i--) {
+            var p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.4;
+            p.vx *= 0.98;
+            p.rotation += p.rSpeed;
+            p.opacity -= p.decay;
+
+            if (p.opacity <= 0 || p.y > canvas.height) {
+                particles.splice(i, 1);
+                continue;
+            }
+
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rotation * Math.PI) / 180);
+            ctx.globalAlpha = p.opacity;
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+            ctx.restore();
+        }
+
+        if (particles.length > 0) {
+            animationId = requestAnimationFrame(update);
+        } else {
+            animationId = null;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+
+    return { launch: launch };
+})();
+
 var leaderboard_iso = null;
 var local_storage_available = false;
 var data            = [];
@@ -436,11 +593,12 @@ $( document ).ready(function() {
 	test_local_storage();
 	initialize_basic_btn_listeners();
 
+	update_sound_icon();
+
 	leaderboard_iso = $('.leaderboard').isotope({
 		itemSelector: '.card',
 	});
 
-	// 1st step: check URL query string
 	url = new URL((window.location.href));
 	query_string = url.searchParams.get("q");
 	if (query_string != null) {
@@ -454,7 +612,6 @@ $( document ).ready(function() {
 		return;
 	}
 
-	// 2nd step: check local storage
 	if (local_storage_available) {
 		data = JSON.parse(localStorage.getItem('leaderboard_card_data'));
 		
@@ -467,7 +624,6 @@ $( document ).ready(function() {
 		}
 	}
 
-	// 3rd step: default fallback data
 	data = [
 			{icon: "🎁", score: "2",  info: "Congrats! You win 2 points"},
 			{icon: "🔥", score: "5",  info: "You're on fire! +5" },
@@ -479,6 +635,10 @@ $( document ).ready(function() {
 	build_leaderboard_cards();
 });
 
+function update_sound_icon() {
+	$('.sound-toggle').text(AudioEngine.isMuted() ? '🔇' : '🔊');
+}
+
 function sort_leaderboard(){
 	leaderboard_iso.isotope( 'updateSortData');
 	leaderboard_iso.isotope({ sortBy: "score", sortAscending : false });
@@ -487,6 +647,7 @@ function sort_leaderboard(){
 function shuffle_leaderboard_cards(){
 	leaderboard_iso.isotope();
 	leaderboard_iso.isotope( 'shuffle' );
+	AudioEngine.playShuffle();
 }
 
 function add_card_numbers() {
@@ -543,6 +704,7 @@ function initialize_basic_btn_listeners() {
 		data.push(new_card);
 		build_leaderboard_cards();
 		$("body").toggleClass("show-add-card");
+		AudioEngine.playFlip();
 	});
 
 	$('.edit').on('click',function(){
@@ -563,6 +725,12 @@ function initialize_basic_btn_listeners() {
 		read_data_from_text( $('#tarea').val().trim() );
 		build_leaderboard_cards();
 		$("body").toggleClass("show-edit");
+		AudioEngine.playFlip();
+	});
+
+	$('.sound-toggle').on('click', function(){
+		AudioEngine.toggleMute();
+		update_sound_icon();
 	});
 
 	$('.link').on('click',function(){
@@ -609,21 +777,46 @@ function initialize_basic_btn_listeners() {
 
 	$('.refresh').on('click',function(){
 		build_leaderboard_cards();
+		AudioEngine.playFlip();
 	});
 }
 
 function initialize_card_btn_listeners() {
 	$('.card .card-cover').on('click',function(){
-		$(this).parent().toggleClass("open");
-		if (plusPressed) {
-			$(this).parent().children('.icon').text(emojis[getRandomInt(0,emojis.length)]);
-			$(this).parent().children('.score').removeClass("red yellow").addClass("green").text(10);
-			$(this).parent().children('.info').text("Συγχαρητήρια! Κέρδισες 10 βαθμούς");
-		}
-		if (minusPressed) {
-			$(this).parent().children('.icon').text(emojis[getRandomInt(0,emojis.length)]);
-			$(this).parent().children('.score').addClass("red").removeClass("yellow green").text(-10);
-			$(this).parent().children('.info').text("Ατυχία! Μόλις έχασες 10 βαθμούς");
+		var $content = $(this).parent();
+		var isOpening = !$content.hasClass("open");
+		$content.toggleClass("open");
+
+		if (isOpening) {
+			AudioEngine.playFlip();
+
+			if (plusPressed) {
+				$content.children('.icon').text(emojis[getRandomInt(0,emojis.length)]);
+				$content.children('.score').removeClass("red yellow").addClass("green").text(10);
+				$content.children('.info').text("Συγχαρητήρια! Κέρδισες 10 βαθμούς");
+				AudioEngine.playMilestone();
+				ConfettiEngine.launch(90);
+				return;
+			}
+			if (minusPressed) {
+				$content.children('.icon').text(emojis[getRandomInt(0,emojis.length)]);
+				$content.children('.score').addClass("red").removeClass("yellow green").text(-10);
+				$content.children('.info').text("Ατυχία! Μόλις έχασες 10 βαθμούς");
+				AudioEngine.playNegative();
+				return;
+			}
+
+			// Check score value of card
+			var scoreText = $content.children('.score').text();
+			var parsed = parseInt(scoreText);
+			if (parsed > 0) {
+				AudioEngine.playPositive();
+				ConfettiEngine.launch(70);
+			} else if (parsed < 0) {
+				AudioEngine.playNegative();
+			} else {
+				AudioEngine.playFlip();
+			}
 		}
 	});
 }
