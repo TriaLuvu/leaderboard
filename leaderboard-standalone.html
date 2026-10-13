@@ -177,7 +177,7 @@ body {
 	justify-content: space-between;
 	gap: 16px;
 	flex-wrap: wrap;
-	border-bottom: 2px solid rgba(255, 248, 220, 0.25);
+	/* border-bottom removed */
 	margin-bottom: 24px;
 }
 
@@ -200,7 +200,7 @@ body {
 	height: 44px;
 	border-radius: 8px;
 	background: #353a40;
-	border: 2px solid var(--text-cornsilk);
+	border: none;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -231,7 +231,7 @@ body {
 	display: flex;
 	align-items: center;
 	background: #353a40;
-	border: 2px solid var(--text-cornsilk);
+	border: none;
 	border-radius: 999px;
 	padding: 3px;
 	gap: 4px;
@@ -274,7 +274,7 @@ body {
 	display: flex;
 	align-items: center;
 	background: #353a40;
-	border: 2px solid var(--text-cornsilk);
+	border: none;
 	border-radius: 999px;
 	padding: 6px 14px;
 	width: 190px;
@@ -318,7 +318,7 @@ body {
 
 .tool-btn {
 	background: #353a40;
-	border: 2px solid var(--text-cornsilk);
+	border: none;
 	border-radius: 50%;
 	color: #ffffff;
 	width: 38px;
@@ -352,7 +352,7 @@ body {
 
 .tool-btn.active-swap-btn {
 	background: var(--score-green);
-	border-color: var(--score-green);
+	
 	animation: pulse 1.5s infinite;
 }
 
@@ -363,7 +363,7 @@ body {
 	max-width: 620px;
 	margin: 0 auto 28px auto;
 	background: #353a40;
-	border: 2px solid var(--text-cornsilk);
+	border: none;
 	border-radius: 12px;
 	padding: 12px 24px;
 	display: flex;
@@ -415,7 +415,7 @@ body {
 
 .btn-toggle-podium {
 	background: #353a40;
-	border: 2px solid var(--text-cornsilk);
+	border: none;
 	border-radius: 999px;
 	color: var(--text-cornsilk);
 	font-family: inherit;
@@ -481,7 +481,7 @@ body {
 }
 .podium-profile-card {
 	background: #2d3e50;
-	border: 2px solid var(--text-cornsilk);
+	border: none;
 	border-radius: 12px;
 	padding: 12px 10px;
 	display: flex;
@@ -537,8 +537,8 @@ body {
 .podium-pedestal {
 	width: 100%;
 	background: #2d3e50;
-	border: 2px solid var(--text-cornsilk);
-	border-bottom: none;
+	border: none;
+	
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -547,15 +547,15 @@ body {
 }
 .podium-column.rank-1 .podium-pedestal {
 	height: 120px;
-	border-color: #fec107;
+	
 }
 .podium-column.rank-2 .podium-pedestal {
 	height: 90px;
-	border-color: #e2e8f0;
+	
 }
 .podium-column.rank-3 .podium-pedestal {
 	height: 70px;
-	border-color: #ea580c;
+	
 }
 
 .pedestal-rank-num {
@@ -591,7 +591,7 @@ body {
 	justify-content: space-between;
 	margin-bottom: 16px;
 	padding-bottom: 12px;
-	border-bottom: 2px solid rgba(255, 248, 220, 0.25);
+	/* border-bottom removed */
 }
 .table-header-left {
 	display: flex;
@@ -617,7 +617,7 @@ body {
 
 .btn-panel-action {
 	background: #353a40;
-	border: 2px solid var(--text-cornsilk);
+	border: none;
 	border-radius: 6px;
 	color: #ffffff;
 	font-family: inherit;
@@ -641,7 +641,7 @@ body {
 
 .btn-save-inline {
 	background: var(--btn-ok) !important;
-	border-color: var(--btn-ok) !important;
+	
 }
 .btn-cancel-inline {
 	background: var(--btn-cancel) !important;
@@ -649,7 +649,7 @@ body {
 
 .btn-view-toggle {
 	background: #353a40;
-	border: 2px solid var(--text-cornsilk);
+	border: none;
 	border-radius: 6px;
 	color: #ffffff;
 	padding: 6px 10px;
@@ -681,6 +681,19 @@ body {
 	align-items: center;
 	padding: 0 120px 0 0;
 	box-sizing: border-box;
+	transition: box-shadow 0.35s ease, opacity 0.35s ease, background-color 0.35s ease;
+}
+
+/* Dynamic Rank Overtaking Animation Styles */
+.person.rank-climbing {
+	z-index: 35 !important;
+	box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55), 0 0 22px rgba(41, 167, 68, 0.5) !important;
+	background-color: #35495e !important;
+}
+.person.rank-falling {
+	z-index: 5 !important;
+	opacity: 0.85 !important;
+	background-color: #243242 !important;
 }
 
 /* Rank Badge */
@@ -821,7 +834,7 @@ body {
 .pt-btn-neg1 { background: #efd68d; color: #a79255; }
 .pt-btn-pos1 { background: #5ace72; color: #bef5ca; }
 .pt-btn-pos2 { background: #3dc159; color: #a0efb1; }
-.pt-btn-pos5 { background: #29a744; color: #a0efb1; border-right: 2px solid #1e9237; }
+.pt-btn-pos5 { background: #29a744; color: #a0efb1;  }
 
 /* Swap Mode */
 body.swap-mode-active::before {
@@ -851,7 +864,7 @@ body.swap-mode-active::before {
 	left: 50%;
 	transform: translateX(-50%);
 	background: rgba(0, 0, 0, 0.85);
-	border: 2px solid var(--text-cornsilk);
+	border: none;
 	color: var(--text-cornsilk);
 	padding: 10px 22px;
 	border-radius: 30px;
@@ -869,7 +882,7 @@ body.swap-mode-active .swap-hint {
    INLINE EDIT MODE ON TABLE
    ======================================================== */
 .person.edit-mode-row {
-	border: 2px solid var(--text-cornsilk) !important;
+	border: none !important;
 	padding-right: 20px;
 }
 .inline-avatar-btn {
@@ -895,7 +908,7 @@ body.swap-mode-active .swap-hint {
 }
 .inline-name-field {
 	background: #9b8975;
-	border: 2px solid var(--text-cornsilk);
+	border: none;
 	border-radius: 6px;
 	color: #ffffff;
 	font-family: inherit;
@@ -911,7 +924,7 @@ body.swap-mode-active .swap-hint {
 }
 .inline-score-field {
 	background: #9b8975;
-	border: 2px solid var(--text-cornsilk);
+	border: none;
 	border-radius: 6px;
 	color: #ffffff;
 	font-family: var(--font-mono);
@@ -947,7 +960,7 @@ body.swap-mode-active .swap-hint {
 	width: 100%;
 	height: 56px;
 	background: #353a40;
-	border: 2px solid var(--text-cornsilk);
+	border: none;
 	border-radius: 8px;
 	color: var(--text-cornsilk);
 	font-family: inherit;
@@ -1101,7 +1114,7 @@ body.show-confirm .confirm-popup {
 	position: fixed;
 	top: 50%; left: 50%;
 	transform: translate(-50%, -50%);
-	border: 3px solid var(--text-cornsilk);
+	border: none;
 	text-align: center;
 	border-radius: 8px;
 	box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
@@ -1205,7 +1218,7 @@ body.show-confirm .confirm-popup {
 	left: 50%;
 	transform: translateX(-50%) translateY(-20px);
 	background: #353a40;
-	border: 2px solid var(--text-cornsilk);
+	border: none;
 	color: var(--text-cornsilk);
 	padding: 12px 24px;
 	border-radius: 999px;
@@ -1866,7 +1879,7 @@ var minusPressed = false;
 
 // Template for leaderboard person row
 var lb_template = `
-<li class="person {{top_class}}" data-id="{{idx}}">
+<li class="person {{top_class}}" data-id="{{idx}}" data-nickname="{{nickname}}">
 	<div class="person-rank-badge">{{rank}}</div>
 	<div class="person-avatar-wrap">
 		{{avatar_svg}}
@@ -1917,8 +1930,13 @@ $(document).ready(function() {
 		layoutMode: "vertical",
 		transitionDuration: "0.65s",
 		getSortData: {
-			score: ".person-score-badge parseInt",
-			nickname: ".person-nickname"
+			score: function(itemElem) {
+				var text = $(itemElem).find(".person-score-badge span").text().trim();
+				return parseInt(text, 10) || 0;
+			},
+			nickname: function(itemElem) {
+				return $(itemElem).find(".person-nickname").text().trim();
+			}
 		}
 	});
 
@@ -2084,7 +2102,7 @@ function build_leaderboard() {
 			.replace("{{idx}}", index)
 			.replace("{{rank}}", rank)
 			.replace("{{avatar_svg}}", render_avatar(person.icon))
-			.replace("{{nickname}}", person.nickname)
+			.replace(/{{nickname}}/g, person.nickname)
 			.replace("{{country}}", person.country || "🌐")
 			.replace("{{subtitle}}", person.subtitle || "Contender")
 			.replace("{{score_display}}", (person.score || 0));
@@ -2097,13 +2115,21 @@ function build_leaderboard() {
 			layoutMode: "vertical",
 			transitionDuration: "0.65s",
 			getSortData: {
-				score: ".person-score-badge parseInt",
-				nickname: ".person-nickname"
+				score: function(itemElem) {
+					var text = $(itemElem).find(".person-score-badge span").text().trim();
+					return parseInt(text, 10) || 0;
+				},
+				nickname: function(itemElem) {
+					return $(itemElem).find(".person-nickname").text().trim();
+				}
 			}
 		});
 	}
 	leaderboard_iso.isotope("reloadItems");
-	leaderboard_iso.isotope({ sortBy: "score", sortAscending: false });
+	leaderboard_iso.isotope({
+		sortBy: ['score', 'nickname'],
+		sortAscending: { score: false, nickname: true }
+	});
 
 	update_podium(sorted);
 	update_ticker_stats(sorted);
@@ -2330,9 +2356,119 @@ function update_ticker_stats(sorted) {
 	$("#ticker-avg-score").text(avgScore);
 }
 
+/* --- DYNAMIC RANK OVERTAKING & ANIMATED SWAP ENGINE --- */
+function animate_reorder_ranks(changedPersons) {
+	if (!leaderboard_iso) {
+		build_leaderboard();
+		return;
+	}
+
+	var newSorted = get_sorted_lb_data();
+
+	// Update DOM score display on changed persons
+	if (changedPersons && changedPersons.length > 0) {
+		changedPersons.forEach(function(p) {
+			var $pRow = $(".person").filter(function() {
+				return $(this).find(".person-nickname").text().trim() === p.nickname;
+			});
+			$pRow.find(".person-score-badge span").text(p.score || 0);
+		});
+	}
+
+	// Update Isotope sort data and trigger animated repositioning
+	leaderboard_iso.isotope("updateSortData");
+	leaderboard_iso.isotope({
+		sortBy: ["score", "nickname"],
+		sortAscending: { score: false, nickname: true }
+	});
+
+	// Synchronize rank numbers, data-id, and top classes to new positions
+	newSorted.forEach(function(person, idx) {
+		var newRank = idx + 1;
+		var $pRow = $(".person").filter(function() {
+			return $(this).find(".person-nickname").text().trim() === person.nickname;
+		});
+		$pRow.attr("data-id", idx);
+		$pRow.find(".person-rank-badge").text(newRank);
+		$pRow.removeClass("top-1 top-2 top-3");
+		if (newRank === 1) $pRow.addClass("top-1");
+		else if (newRank === 2) $pRow.addClass("top-2");
+		else if (newRank === 3) $pRow.addClass("top-3");
+	});
+
+	// Update Top 3 Podium and ticker stats
+	update_podium(newSorted);
+	update_ticker_stats(newSorted);
+
+	if (local_storage_available) {
+		localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+	}
+
+	// Clear temporary overtake elevation and styling after animation finishes
+	setTimeout(function() {
+		$(".person").removeClass("rank-climbing rank-falling");
+	}, 700);
+}
+
+function apply_score_change(targetPerson, delta, $row) {
+	if (!targetPerson) return;
+	var oldSorted = get_sorted_lb_data();
+	var oldRank = oldSorted.indexOf(targetPerson) + 1;
+	var oldScore = targetPerson.score || 0;
+	var newScore = oldScore + delta;
+
+	targetPerson.score = newScore;
+
+	if (!$row || $row.length === 0) {
+		$row = $(".person").filter(function() {
+			return $(this).find(".person-nickname").text().trim() === targetPerson.nickname;
+		});
+	}
+	$row.find(".person-score-badge span").text(newScore);
+
+	var newSorted = get_sorted_lb_data();
+	var newRank = newSorted.indexOf(targetPerson) + 1;
+
+	// Visual overtake classes: climbing card elevates above, overtaken cards slide below
+	if (newRank < oldRank) {
+		$row.addClass("rank-climbing");
+		for (var i = newRank - 1; i < oldRank - 1; i++) {
+			var passed = newSorted[i + 1];
+			if (passed && passed !== targetPerson) {
+				$(".person").filter(function() {
+					return $(this).find(".person-nickname").text().trim() === passed.nickname;
+				}).addClass("rank-falling");
+			}
+		}
+	} else if (newRank > oldRank) {
+		$row.addClass("rank-falling");
+		for (var i = oldRank - 1; i < newRank - 1; i++) {
+			var climber = newSorted[i];
+			if (climber && climber !== targetPerson) {
+				$(".person").filter(function() {
+					return $(this).find(".person-nickname").text().trim() === climber.nickname;
+				}).addClass("rank-climbing");
+			}
+		}
+	}
+
+	// Audio & Confetti feedback
+	if (newRank === 1 && oldRank > 1) {
+		AudioEngine.playMilestone();
+		ConfettiEngine.launch(100);
+	} else if (delta > 0) {
+		AudioEngine.playPositive();
+		if (delta >= 5) ConfettiEngine.launch(60);
+	} else if (delta < 0) {
+		AudioEngine.playNegative();
+	}
+
+	animate_reorder_ranks([targetPerson]);
+}
+
 /* --- PERSON EVENTS & SCORE ADJUSTMENTS --- */
 function bind_person_events() {
-	// Point buttons (+1, +2, +5, -1, -2, -5)
+	// Point buttons (+1, +2, +5, -1, -2, -5) with smooth overtake animation
 	$(".person .pt-btn").off("click").on("click", function(e) {
 		e.stopPropagation();
 		var delta = parseInt($(this).attr("data-val"), 10);
@@ -2342,14 +2478,7 @@ function bind_person_events() {
 		var targetPerson = sorted[sortedIdx];
 
 		if (targetPerson) {
-			targetPerson.score = (targetPerson.score || 0) + delta;
-			if (delta > 0) {
-				AudioEngine.playPositive();
-				if (delta >= 5) ConfettiEngine.launch(60);
-			} else {
-				AudioEngine.playNegative();
-			}
-			build_leaderboard();
+			apply_score_change(targetPerson, delta, $row);
 		}
 	});
 
@@ -2367,7 +2496,7 @@ function bind_person_events() {
 		if (!targetPerson) return;
 
 		var currentVal = targetPerson.score || 0;
-		var $input = $(`<input type="number" class="instant-score-input" value="${currentVal}" style="background: rgba(0,0,0,0.65); border: 2px solid var(--accent-primary); border-radius: 14px; color: #fff; font-family: inherit; font-size: 14px; font-weight: 800; width: 75px; padding: 3px 6px; text-align: center; outline: none; box-shadow: 0 0 15px var(--accent-glow);">`);
+		var $input = $(`<input type="number" class="instant-score-input" value="${currentVal}" style="background: rgba(0,0,0,0.65); border: none; border-radius: 14px; color: #fff; font-family: inherit; font-size: 14px; font-weight: 800; width: 75px; padding: 3px 6px; text-align: center; outline: none;">`);
 		$badge.html($input);
 		$input.focus().select();
 
@@ -2377,7 +2506,7 @@ function bind_person_events() {
 			if (isHandlingScore) return;
 			var newVal = parseInt($input.val(), 10);
 			if (isNaN(newVal) || newVal === currentVal) {
-				build_leaderboard();
+				$badge.html(`<span>${currentVal}</span>`);
 				return;
 			}
 			isHandlingScore = true;
@@ -2386,13 +2515,12 @@ function bind_person_events() {
 				"Θέλετε να αλλάξετε τους βαθμούς του παίκτη <strong>" + escapeHtml(targetPerson.nickname) + "</strong> από <strong>" + currentVal + "</strong> σε <strong style=\"color: var(--accent-primary); font-size: 16px;\">" + newVal + "</strong>;",
 				"✏️",
 				function() {
-					targetPerson.score = newVal;
-					AudioEngine.playPositive();
+					var delta = newVal - currentVal;
+					apply_score_change(targetPerson, delta, $row);
 					showToast("✓ Οι βαθμοί του παίκτη " + targetPerson.nickname + " ενημερώθηκαν σε " + newVal + "!");
-					build_leaderboard();
 				},
 				function() {
-					build_leaderboard();
+					$badge.html(`<span>${currentVal}</span>`);
 				}
 			);
 		}
@@ -2413,7 +2541,7 @@ function bind_person_events() {
 					return;
 				}
 				isHandlingScore = true;
-				build_leaderboard();
+				$badge.html(`<span>${currentVal}</span>`);
 			}
 		});
 		$input.on("blur", function() {
@@ -2484,11 +2612,16 @@ function perform_swap() {
 				ConfettiEngine.launch(90);
 				showToast("✨ Έγινε ανταλλαγή σκορ μεταξύ " + nickA + " και " + nickB + "!");
 				exit_swap_mode();
-				build_leaderboard();
+
+				var $rowA = $(".person").filter(function() { return $(this).find(".person-nickname").text().trim() === nickA; });
+				var $rowB = $(".person").filter(function() { return $(this).find(".person-nickname").text().trim() === nickB; });
+				$rowA.addClass(scoreB > scoreA ? "rank-climbing" : "rank-falling");
+				$rowB.addClass(scoreA > scoreB ? "rank-climbing" : "rank-falling");
+
+				animate_reorder_ranks([pA, pB]);
 			},
 			function() {
 				exit_swap_mode();
-				build_leaderboard();
 			}
 		);
 	}
