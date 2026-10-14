@@ -852,37 +852,50 @@ body.swap-mode-active::before {
 	z-index: 5;
 	pointer-events: none;
 }
-.person.swap-selected,
-.person.selected {
-	outline: 3px solid var(--text-cornsilk);
+.person.swap-selected {
+	box-shadow: 0 0 0 3px var(--accent-teal), 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+	transform: scale(1.02);
+	z-index: 100 !important;
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-.person.swap-selected .person-nickname,
-.person.selected .person-nickname {
-	background: #000000;
+.person.swap-selected .person-nickname {
+	background: var(--accent-teal);
 	color: #ffffff;
 	padding: 2px 10px;
 	border-radius: 4px;
+}
+.podium-column.swap-selected .podium-profile-card {
+	box-shadow: 0 0 0 3px var(--accent-teal), 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+	transform: scale(1.05);
 }
 
 /* Floating Swap Hint */
 .swap-hint {
 	position: fixed;
-	bottom: 14px;
+	bottom: 18px;
 	left: 50%;
 	transform: translateX(-50%);
-	background: rgba(0, 0, 0, 0.85);
+	background: rgba(0, 0, 0, 0.9);
 	border: none;
 	color: var(--text-cornsilk);
-	padding: 10px 22px;
+	padding: 10px 20px;
 	border-radius: 30px;
 	font-weight: 700;
 	font-size: 15px;
-	z-index: 30;
+	z-index: 3000;
 	display: none;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 body.swap-mode-active .swap-hint {
-	display: block;
+	display: flex;
+	align-items: center;
+	gap: 12px;
 	animation: hint-bounce 1.4s ease-in-out infinite;
+}
+.tool-btn.active-swap-btn {
+	background: var(--score-green) !important;
+	box-shadow: 0 0 14px rgba(41, 167, 68, 0.7) !important;
+	animation: pulse 1.5s infinite;
 }
 
 /* ========================================================
@@ -1555,7 +1568,7 @@ body.show-modal .modal-backdrop {
 	<!-- Floating Swap Mode Hint -->
 	<div class="swap-hint">
 		<span>Λειτουργία Ανταλλαγής: Επιλέξτε 2 παίκτες</span>
-		<kbd>Esc για ακύρωση</kbd>
+		<button type="button" id="btn-cancel-swap-hint" style="background: rgba(255,255,255,0.18); border:none; color:#fff; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight:700; cursor:pointer;">Ακύρωση (Esc)</button>
 	</div>
 
 	<!-- Custom Confirmation Dialog Modal -->
@@ -2018,7 +2031,7 @@ $(document).ready(function() {
 		transitionDuration: "0.65s",
 		getSortData: {
 			score: function(itemElem) {
-				var text = $(itemElem).find(".person-score-badge span").text().trim();
+				var text = $(itemElem).find(".person-score-badge").text().trim();
 				return parseInt(text, 10) || 0;
 			},
 			nickname: function(itemElem) {
@@ -2218,7 +2231,7 @@ function build_leaderboard() {
 			transitionDuration: "0.65s",
 			getSortData: {
 				score: function(itemElem) {
-					var text = $(itemElem).find(".person-score-badge span").text().trim();
+					var text = $(itemElem).find(".person-score-badge").text().trim();
 					return parseInt(text, 10) || 0;
 				},
 				nickname: function(itemElem) {
@@ -2473,7 +2486,7 @@ function animate_reorder_ranks(changedPersons) {
 			var $pRow = $(".person").filter(function() {
 				return $(this).find(".person-nickname").text().trim() === p.nickname;
 			});
-			$pRow.find(".person-score-badge span").text(p.score || 0);
+			$pRow.find(".person-score-badge").html("<span>" + (p.score || 0) + "</span>");
 		});
 	}
 
@@ -2526,7 +2539,7 @@ function apply_score_change(targetPerson, delta, $row) {
 			return $(this).find(".person-nickname").text().trim() === targetPerson.nickname;
 		});
 	}
-	$row.find(".person-score-badge span").text(newScore);
+	$row.find(".person-score-badge").html("<span>" + newScore + "</span>");
 
 	var newSorted = get_sorted_lb_data();
 	var newRank = newSorted.indexOf(targetPerson) + 1;
@@ -2572,12 +2585,15 @@ function apply_score_change(targetPerson, delta, $row) {
 function bind_person_events() {
 	// Point buttons (+1, +2, +5, -1, -2, -5) with smooth overtake animation
 	$(".person .pt-btn").off("click").on("click", function(e) {
+		if (swap_mode_active) {
+			// When swap mode is active, clicking anywhere on the card selects it for swap
+			return;
+		}
 		e.stopPropagation();
 		var delta = parseInt($(this).attr("data-val"), 10);
 		var $row = $(this).closest(".person");
-		var sortedIdx = parseInt($row.attr("data-id"), 10);
-		var sorted = get_sorted_lb_data();
-		var targetPerson = sorted[sortedIdx];
+		var nick = $row.find(".person-nickname").text().trim();
+		var targetPerson = lb_data.find(function(p) { return p.nickname === nick; });
 
 		if (targetPerson) {
 			apply_score_change(targetPerson, delta, $row);
@@ -2586,18 +2602,21 @@ function bind_person_events() {
 
 	// Instant inline single-score edit with Confirmation
 	$(".person .person-score-badge").off("click").on("click", function(e) {
+		if (swap_mode_active) {
+			// In swap mode, clicking on the score badge selects the player for swap!
+			return; // Let click bubble to .person
+		}
 		e.stopPropagation();
-		if (swap_mode_active || $("body").hasClass("inline-edit-active") || $("body").hasClass("show-confirm")) return;
+		if ($("body").hasClass("inline-edit-active") || $("body").hasClass("show-confirm")) return;
 		var $badge = $(this);
 		if ($badge.find("input").length > 0) return;
 
 		var $row = $badge.closest(".person");
-		var sortedIdx = parseInt($row.attr("data-id"), 10);
-		var sorted = get_sorted_lb_data();
-		var targetPerson = sorted[sortedIdx];
+		var nick = $row.find(".person-nickname").text().trim();
+		var targetPerson = lb_data.find(function(p) { return p.nickname === nick; });
 		if (!targetPerson) return;
 
-		var currentVal = targetPerson.score || 0;
+		var currentVal = parseInt(targetPerson.score, 10) || 0;
 		var $input = $(`<input type="number" class="instant-score-input" value="${currentVal}" style="background: rgba(0,0,0,0.65); border: none; border-radius: 14px; color: #fff; font-family: inherit; font-size: 14px; font-weight: 800; width: 75px; padding: 3px 6px; text-align: center; outline: none;">`);
 		$badge.html($input);
 		$input.focus().select();
@@ -2614,7 +2633,7 @@ function bind_person_events() {
 			isHandlingScore = true;
 			showConfirmDialog(
 				"Επιβεβαίωση Αλλαγής Βαθμών",
-				"Θέλετε να αλλάξετε τους βαθμούς του παίκτη <strong>" + escapeHtml(targetPerson.nickname) + "</strong> από <strong>" + currentVal + "</strong> σε <strong style=\"color: var(--accent-primary); font-size: 16px;\">" + newVal + "</strong>;",
+				"Θέλετε να αλλάξετε τους βαθμούς του παίκτη <strong>" + escapeHtml(targetPerson.nickname) + "</strong> από <strong>" + currentVal + "</strong> σε <strong style=\"color: #29a744; font-size: 16px;\">" + newVal + "</strong>;",
 				"edit",
 				function() {
 					var delta = newVal - currentVal;
@@ -2653,25 +2672,42 @@ function bind_person_events() {
 		});
 	});
 
-	// Swap mode click selection
+	// Swap mode click selection on person rows
 	$(".person").off("click").on("click", function() {
 		if (!swap_mode_active) return;
-		var sortedIdx = parseInt($(this).attr("data-id"), 10);
-		var sorted = get_sorted_lb_data();
-		var person = sorted[sortedIdx];
+		var nick = $(this).find(".person-nickname").text().trim();
+		var person = lb_data.find(function(p) { return p.nickname === nick; });
+		if (!person) return;
 
 		if ($(this).hasClass("swap-selected")) {
 			$(this).removeClass("swap-selected");
-			swap_selected = swap_selected.filter(function(p) { return p !== person; });
+			swap_selected = swap_selected.filter(function(p) { return p.nickname !== person.nickname; });
+			showToast("Αποεπιλέξατε: " + person.nickname);
 		} else {
-			if (swap_selected.length < 2) {
+			if (swap_selected.indexOf(person) === -1 && swap_selected.length < 2) {
 				$(this).addClass("swap-selected");
 				swap_selected.push(person);
+				if (swap_selected.length === 1) {
+					AudioEngine.playPositive();
+					showToast("1ος Παίκτης: " + person.nickname + " (" + (person.score || 0) + "). Επιλέξτε τον 2ο παίκτη.");
+				}
 			}
 		}
 
 		if (swap_selected.length === 2) {
 			perform_swap();
+		}
+	});
+
+	// Podium click selection for swap mode
+	$(".podium-column").off("click").on("click", function() {
+		if (!swap_mode_active) return;
+		var nick = $(this).find(".podium-nickname").text().trim();
+		var $row = $(".person").filter(function() {
+			return $(this).find(".person-nickname").text().trim() === nick;
+		});
+		if ($row.length > 0) {
+			$row.trigger("click");
 		}
 	});
 }
@@ -2681,15 +2717,18 @@ function enter_swap_mode() {
 	swap_mode_active = true;
 	swap_selected = [];
 	$("body").addClass("swap-mode-active");
+	$("#tool-btn-swap").addClass("active-swap-btn");
 	AudioEngine.playFlip();
-	showToast("Επιλέξτε 2 παίκτες για να ανταλλάξετε τα σκορ τους.");
+	showToast("Λειτουργία Ανταλλαγής: Επιλέξτε 2 παίκτες για εναλλαγή των βαθμών τους.");
 }
 
 function exit_swap_mode() {
 	swap_mode_active = false;
 	swap_selected = [];
 	$("body").removeClass("swap-mode-active");
+	$("#tool-btn-swap").removeClass("active-swap-btn");
 	$(".person").removeClass("swap-selected");
+	$(".podium-column").removeClass("swap-selected");
 }
 
 function perform_swap() {
@@ -2698,14 +2737,14 @@ function perform_swap() {
 		var pB = swap_selected[1];
 		var nickA = pA.nickname;
 		var nickB = pB.nickname;
-		var scoreA = pA.score;
-		var scoreB = pB.score;
+		var scoreA = parseInt(pA.score, 10) || 0;
+		var scoreB = parseInt(pB.score, 10) || 0;
 
 		showConfirmDialog(
 			"Επιβεβαίωση Ανταλλαγής Βαθμών",
 			"Θέλετε να γίνει ανταλλαγή βαθμών ανάμεσα στους παίκτες:<br><br>" +
-			"• <strong>" + escapeHtml(nickA) + "</strong> (" + scoreA + " -> <strong style=\"color: var(--accent-primary);\">" + scoreB + "</strong>)<br>" +
-			"• <strong>" + escapeHtml(nickB) + "</strong> (" + scoreB + " -> <strong style=\"color: var(--accent-primary);\">" + scoreA + "</strong>);",
+			"• <strong>" + escapeHtml(nickA) + "</strong> (" + scoreA + " &rarr; <strong style=\"color: #29a744; font-size: 16px;\">" + scoreB + "</strong>)<br>" +
+			"• <strong>" + escapeHtml(nickB) + "</strong> (" + scoreB + " &rarr; <strong style=\"color: #29a744; font-size: 16px;\">" + scoreA + "</strong>);",
 			"swap",
 			function() {
 				pA.score = scoreB;
@@ -2892,6 +2931,9 @@ function init_event_listeners() {
 			$("#btn-confirm-ok").trigger("click");
 			return;
 		}
+		if ((e.key === "s" || e.key === "S") && !$(e.target).is("input, textarea") && !$("body").hasClass("show-confirm")) {
+			$("#tool-btn-swap").trigger("click");
+		}
 		if (e.key === "Escape") {
 			if ($("body").hasClass("show-confirm")) {
 				$("#btn-confirm-cancel").trigger("click");
@@ -2940,6 +2982,10 @@ function init_event_listeners() {
 	$("#tool-btn-swap").on("click", function() {
 		if (!swap_mode_active) enter_swap_mode();
 		else exit_swap_mode();
+	});
+
+	$("#btn-cancel-swap-hint").on("click", function() {
+		exit_swap_mode();
 	});
 
 	$("#tool-btn-sound").on("click", function() {
