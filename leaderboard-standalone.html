@@ -138,6 +138,9 @@
 	--accent-teal: #17a2b9;
 	--btn-ok: #29a744;
 	--btn-cancel: #1b252f;
+	--card-border: transparent;
+	--frame-border: transparent;
+	--card-hover-border: transparent;
 	--font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 	--font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
@@ -458,8 +461,12 @@ body {
 	margin-bottom: 0 !important;
 	pointer-events: none !important;
 }
-.podium-stage-container.podium-collapsed .podium-toggle-arrow {
+.podium-stage-container.podium-collapsed .podium-toggle-arrow svg {
 	transform: rotate(180deg);
+}
+.podium-toggle-arrow svg {
+	display: block;
+	transition: transform 0.3s ease;
 }
 .podium-stage-container.podium-collapsed .btn-toggle-podium {
 	background: #2d3e50;
@@ -1081,133 +1088,201 @@ body.swap-mode-active .swap-hint {
 .cards-list .card .score.yellow { background: var(--score-yellow); color: #735d1a; }
 
 /* ========================================================
-   MODALS & POPUPS
-   Solid #fff8dc border on #353a40 box
+   MODALS & POPUPS (RETRO MODERN BUNDLE)
+   Clean, borderless, fully centered overlays
    ======================================================== */
+.popup-modal,
 .modal-backdrop,
-.popup-overlay {
+.popup-overlay,
+.confirm-modal,
+.add-person-popup,
+.add-card-popup,
+.link-popup,
+.sync-modal,
+.edit-popup {
 	display: none;
 	position: fixed;
-	top: 0; left: 0;
-	width: 100%; height: 100%;
-	z-index: 9999;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 10000;
 	background-color: rgba(0, 0, 0, 0.72);
-	backdrop-filter: blur(2px);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	overflow-y: auto;
 }
-body.show-modal .modal-backdrop,
-body.show-confirm .modal-backdrop,
+
+body.show-confirm .confirm-modal,
+body.show-confirm #confirm-modal,
 body.show-add-person .add-person-popup,
 body.show-add-card .add-card-popup,
-body.show-edit .edit-popup,
 body.show-link .link-popup,
-body.show-sync .sync-popup,
-body.show-confirm .confirm-popup {
-	display: block;
+body.show-link .sync-modal,
+body.show-edit .edit-popup,
+body.show-modal .modal-backdrop {
+	display: flex !important;
 }
 
-.modal-content,
-.popup-box {
-	display: inline-block;
-	width: 500px;
-	max-width: 90vw;
+.modal-box {
 	background: #353a40;
-	position: fixed;
-	top: 50%; left: 50%;
-	transform: translate(-50%, -50%);
+	color: #ffffff;
 	border: none;
-	text-align: center;
-	border-radius: 8px;
-	box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
-	color: #ffffff;
-	padding: 24px 20px 80px 20px;
-	overflow: hidden;
-}
-
-.modal-content h3,
-.popup-box h3 {
-	font-size: 26px;
-	color: var(--text-cornsilk);
-	margin-bottom: 16px;
-}
-.modal-content p,
-.popup-box p {
-	font-size: 18px;
-	color: #ffffff;
-	line-height: 1.5;
-	margin-bottom: 14px;
-}
-
-.modal-content input,
-.popup-box input {
-	height: 56px;
-	line-height: 50px;
-	font-size: 30px;
-	border: none;
-	background: #9b8975;
-	color: #ffffff;
-	text-align: center;
-	width: 90%;
-	margin-bottom: 12px;
-	border-radius: 6px;
-	outline: none;
-}
-.modal-content input::placeholder,
-.popup-box input::placeholder {
-	color: #d5c8ba;
-}
-
-.modal-content textarea,
-.popup-box textarea {
+	border-radius: 12px;
+	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+	padding: 28px 24px;
 	width: 100%;
-	background: #353a40;
-	box-sizing: border-box;
-	font-size: 18px;
-	font-family: var(--font-mono);
-	color: #ffffff;
-	border: none;
-	padding: 16px;
-	height: 240px;
-	resize: none;
-	outline: none;
-}
-
-.modal-actions,
-.popup-buttons-row {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height: 60px;
+	max-width: 460px;
 	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	position: relative;
+	margin: auto;
 }
 
+.modal-box h2 {
+	font-size: 22px;
+	font-weight: 800;
+	color: var(--text-cornsilk);
+	text-align: center;
+	margin-bottom: 6px;
+}
+
+.modal-box input,
+.modal-box textarea {
+	background: #25282c;
+	color: #ffffff;
+	border: none;
+	border-radius: 8px;
+	padding: 12px 16px;
+	font-size: 15px;
+	font-family: inherit;
+	width: 100%;
+	outline: none;
+	box-sizing: border-box;
+}
+.modal-box input:focus,
+.modal-box textarea:focus {
+	box-shadow: 0 0 0 2px var(--accent-teal);
+}
+.modal-box input::placeholder,
+.modal-box textarea::placeholder {
+	color: #a0978c;
+}
+.modal-box .random-icon {
+	text-align: center;
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+
+.modal-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 12px;
+	margin-top: 8px;
+}
+
+.modal-actions button,
 .modal-btn,
 .popup-box button {
-	cursor: pointer;
-	text-align: center;
-	height: 60px;
+	height: 44px;
+	padding: 0 22px;
 	border: none;
-	font-size: 22px;
-	font-weight: 700;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 800;
+	cursor: pointer;
 	color: #ffffff;
-	flex: 1;
-	transition: opacity 0.15s ease;
+	font-family: inherit;
+	transition: opacity 0.15s ease, transform 0.1s ease;
 }
+.modal-actions button:hover,
 .modal-btn:hover,
 .popup-box button:hover {
 	opacity: 0.9;
+	transform: translateY(-1px);
 }
-.modal-btn-confirm,
-.popup-box button.ok {
-	background: var(--btn-ok);
-}
+.modal-actions .cancel,
 .modal-btn-cancel,
 .popup-box button.cancel {
 	background: var(--btn-cancel);
 }
-.popup-box button.close {
+.modal-actions .ok,
+.modal-btn-confirm,
+.popup-box button.ok {
+	background: var(--btn-ok);
+}
+
+/* Custom Confirmation Dialog Modal */
+.confirm-modal .confirm-box {
+	max-width: 440px;
+	text-align: center;
+	padding: 30px 24px;
+	gap: 10px;
+}
+.confirm-icon-wrap {
+	width: 56px;
+	height: 56px;
+	margin: 0 auto 8px auto;
+	border-radius: 50%;
+	background: rgba(245, 158, 11, 0.15);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fbbf24;
+}
+.confirm-title {
+	font-size: 20px;
+	font-weight: 800;
+	color: var(--text-cornsilk);
+	margin-bottom: 4px;
+}
+.confirm-message {
+	font-size: 15px;
+	line-height: 1.5;
+	color: #e5ded7;
+	margin-bottom: 14px;
+}
+.confirm-actions {
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+}
+.btn-confirm-cancel,
+.btn-confirm-ok {
+	flex: 1;
+	height: 44px;
+	border-radius: 8px;
+	border: none;
+	font-family: inherit;
+	font-size: 14px;
+	font-weight: 800;
+	cursor: pointer;
+	color: #ffffff;
+	transition: opacity 0.15s ease, transform 0.1s ease;
+}
+.btn-confirm-cancel:hover,
+.btn-confirm-ok:hover {
+	opacity: 0.9;
+	transform: translateY(-1px);
+}
+.btn-confirm-cancel {
 	background: var(--btn-cancel);
-	width: 100%;
+}
+.btn-confirm-ok {
+	background: var(--btn-ok);
+}
+
+/* Sync & Backup Hub Modal Adjustments */
+.sync-modal .modal-box {
+	max-width: 680px;
+}
+.sync-card {
+	border: none !important;
+	border-radius: 12px !important;
 }
 
 /* Toast Notifications */
@@ -1282,8 +1357,8 @@ body.show-confirm .confirm-popup {
 
 			<!-- Single Mode Badge when locked to 1 mode -->
 			<div class="single-mode-badge" style="display:none; align-items: center; gap: 8px; background: rgba(255,255,255,0.06); border: 1px solid var(--card-border); padding: 6px 14px; border-radius: 999px;">
-				<span class="sm-label" style="font-size: 13px; font-weight: 700; color: var(--text-primary);">🏆 Μόνο Leaderboard</span>
-				<button type="button" class="sm-change-btn" title="Αλλαγή λειτουργίας προβολής" style="background: var(--accent-subtle); border: 1px solid var(--accent-primary); color: var(--accent-primary); border-radius: 999px; padding: 2px 8px; font-size: 11px; font-weight: 800; cursor: pointer;">Αλλαγή ⚙️</button>
+				<span class="sm-label" style="font-size: 13px; font-weight: 700; color: var(--text-primary);">Μόνο Leaderboard</span>
+				<button type="button" class="sm-change-btn" title="Αλλαγή λειτουργίας προβολής" style="background: var(--accent-subtle); border: 1px solid var(--accent-primary); color: var(--accent-primary); border-radius: 999px; padding: 2px 8px; font-size: 11px; font-weight: 800; cursor: pointer;">Αλλαγή</button>
 			</div>
 
 			<!-- Top Nav Right: Search, Quick Actions, Theme -->
@@ -1329,9 +1404,9 @@ body.show-confirm .confirm-popup {
 				<section class="podium-stage-container" id="podium-stage-container">
 					<div class="podium-header-bar">
 						<button type="button" class="btn-toggle-podium" id="btn-toggle-podium" title="Σύμπτυξη / Ανάπτυξη Βάθρου">
-							<span class="podium-toggle-icon">🏆</span>
+							<span class="podium-toggle-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fec107" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34M14 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></span>
 							<span class="podium-toggle-label">Βάθρο Κορυφαίων (Top 3)</span>
-							<span class="podium-toggle-arrow">▲</span>
+							<span class="podium-toggle-arrow"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></span>
 						</button>
 					</div>
 
@@ -1479,14 +1554,14 @@ body.show-confirm .confirm-popup {
 
 	<!-- Floating Swap Mode Hint -->
 	<div class="swap-hint">
-		<span>🔄 Λειτουργία Ανταλλαγής: Επιλέξτε 2 παίκτες</span>
+		<span>Λειτουργία Ανταλλαγής: Επιλέξτε 2 παίκτες</span>
 		<kbd>Esc για ακύρωση</kbd>
 	</div>
 
 	<!-- Custom Confirmation Dialog Modal -->
 	<div class="popup-modal confirm-modal" id="confirm-modal">
 		<div class="modal-box confirm-box">
-			<div class="confirm-icon-wrap" id="confirm-icon">⚠️</div>
+			<div class="confirm-icon-wrap" id="confirm-icon"></div>
 			<h2 class="confirm-title" id="confirm-title">Επιβεβαίωση</h2>
 			<div class="confirm-message" id="confirm-message">Είστε σίγουροι;</div>
 			<div class="confirm-actions">
@@ -1503,7 +1578,7 @@ body.show-confirm .confirm-popup {
 	<div class="popup-modal add-person-popup">
 		<div class="modal-box">
 			<h2>Add New Player</h2>
-			<input type="text" id="rand-person-icon" class="random-icon" value="🦁" title="Click or type an avatar">
+			<input type="text" id="rand-person-icon" class="random-icon" value="lion" title="Click or type an avatar">
 			<input type="text" id="nickname" placeholder="Player Nickname (e.g. Hawk)">
 			<input type="number" id="score" placeholder="Initial Score (e.g. 100)">
 			<div class="modal-actions">
@@ -1517,7 +1592,7 @@ body.show-confirm .confirm-popup {
 	<div class="popup-modal add-card-popup">
 		<div class="modal-box">
 			<h2>Add Mystery Card</h2>
-			<input type="text" id="rand-card-icon" class="random-icon" value="🎁">
+			<input type="text" id="rand-card-icon" class="random-icon" value="gift">
 			<input type="text" id="card-score" placeholder="Score impact (e.g. +5 or -2)">
 			<input type="text" id="card-info" placeholder="Description / Surprise info">
 			<div class="modal-actions">
@@ -1540,7 +1615,7 @@ body.show-confirm .confirm-popup {
 						<p class="sync-subtitle" style="font-size: 13px; color: var(--text-secondary); margin: 0;">Στείλτε σε συναδέλφους ή πάρτε το Leaderboard σε άλλο PC πανεύκολα</p>
 					</div>
 				</div>
-				<button class="modal-actions-btn close" type="button" style="background: rgba(255,255,255,0.08); border:none; color: var(--text-secondary); border-radius: 10px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px;">✕</button>
+				<button class="modal-actions-btn close" type="button" style="background: rgba(255,255,255,0.08); border:none; color: var(--text-secondary); border-radius: 10px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px;">&times;</button>
 			</div>
 
 			<div class="sync-options-grid" style="display: flex; flex-direction: column; gap: 18px;">
@@ -1549,7 +1624,7 @@ body.show-confirm .confirm-popup {
 				<div class="sync-card" style="padding: 20px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px;">
 					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
 						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
-							<span style="font-size: 20px;">🚀</span>
+							<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#6366f1" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.71 1.26-1.5 1.5-2.5L4.5 16.5z"/><path d="M12 15l-3-3 7.5-7.5c1.38-1.38 3.62-1.38 5 0 1.38 1.38 1.38 3.62 0 5L14 17l-2-2z"/></svg>
 							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">1. Στείλτε σε Άλλον (Χωρίς Αρχεία • 0 Files)</h3>
 						</div>
 						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(99, 102, 241, 0.15); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3);">ΑΜΕΣΟ & ONLINE</span>
@@ -1565,16 +1640,16 @@ body.show-confirm .confirm-popup {
 							<span>Αντιγραφή Link</span>
 						</button>
 						<button id="btn-native-share" type="button" style="height: 40px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>📤 AirDrop / Κοινοποίηση</span>
+							<span>AirDrop / Κοινοποίηση</span>
 						</button>
 						<button id="btn-share-email" type="button" style="height: 40px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>✉️ Email</span>
+							<span>Email</span>
 						</button>
 						<button id="btn-share-whatsapp" type="button" style="height: 40px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>💬 WhatsApp</span>
+							<span>WhatsApp</span>
 						</button>
 						<button id="btn-toggle-qr" type="button" style="height: 40px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>📱 QR Code</span>
+							<span>QR Code</span>
 						</button>
 					</div>
 
@@ -1596,7 +1671,7 @@ body.show-confirm .confirm-popup {
 				<div class="sync-card" style="padding: 20px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px;">
 					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
 						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
-							<span style="font-size: 20px;">💾</span>
+							<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#10b981" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
 							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">2. Πάρτε σε USB / Offline (1 Μόνο Αρχείο HTML)</h3>
 						</div>
 						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">1 ΑΡΧΕΙΟ • OFFLINE</span>
@@ -1611,10 +1686,10 @@ body.show-confirm .confirm-popup {
 							<span>Λήψη Έτοιμης Εφαρμογής (.html)</span>
 						</button>
 						<button id="btn-export-backup-json" type="button" style="flex: 1; min-width: 140px; height: 42px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>⬇️ Backup (.json)</span>
+							<span>Backup (.json)</span>
 						</button>
 						<label style="flex: 1; min-width: 140px; height: 42px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-sizing: border-box;">
-							<span>⬆️ Επαναφορά</span>
+							<span>Επαναφορά</span>
 							<input type="file" id="backup-file-input" accept=".json" style="display:none;">
 						</label>
 					</div>
@@ -1624,7 +1699,7 @@ body.show-confirm .confirm-popup {
 				<div class="sync-card" style="padding: 20px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px;">
 					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
 						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
-							<span style="font-size: 20px;">🖥️</span>
+							<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#38bdf8" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
 							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">3. Επιλογή Εμφάνισης (Display Mode)</h3>
 						</div>
 						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);">ΑΠΟΘΗΚΕΥΕΤΑΙ</span>
@@ -1635,17 +1710,17 @@ body.show-confirm .confirm-popup {
 
 					<div class="viewmode-selector" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
 						<button type="button" class="viewmode-btn active" data-viewmode="all" style="padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.04); color: var(--text-secondary); cursor: pointer; text-align: center; transition: all 0.2s;">
-							<div style="font-size: 22px; margin-bottom: 4px;">🔄</div>
+							<div style="font-size: 14px; margin-bottom: 4px; font-weight: bold;">ALL</div>
 							<div style="font-size: 13px; font-weight: 800; color: var(--text-primary);">Και τα δύο</div>
 							<div style="font-size: 11px; color: var(--text-secondary);">Εναλλαγή με καρτέλες</div>
 						</button>
 						<button type="button" class="viewmode-btn" data-viewmode="leaderboard_only" style="padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.04); color: var(--text-secondary); cursor: pointer; text-align: center; transition: all 0.2s;">
-							<div style="font-size: 22px; margin-bottom: 4px;">🏆</div>
+							<div style="font-size: 14px; margin-bottom: 4px; font-weight: bold;">LB</div>
 							<div style="font-size: 13px; font-weight: 800; color: var(--text-primary);">Μόνο Leaderboard</div>
 							<div style="font-size: 11px; color: var(--text-secondary);">Πίνακας κατάταξης</div>
 						</button>
 						<button type="button" class="viewmode-btn" data-viewmode="cards_only" style="padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.04); color: var(--text-secondary); cursor: pointer; text-align: center; transition: all 0.2s;">
-							<div style="font-size: 22px; margin-bottom: 4px;">🃏</div>
+							<div style="font-size: 14px; margin-bottom: 4px; font-weight: bold;">CARD</div>
 							<div style="font-size: 13px; font-weight: 800; color: var(--text-primary);">Μόνο Mystery Cards</div>
 							<div style="font-size: 11px; color: var(--text-secondary);">Κάρτες μυστηρίου</div>
 						</button>
@@ -1655,7 +1730,7 @@ body.show-confirm .confirm-popup {
 			</div>
 
 			<div class="sync-footer-actions" style="display: flex; align-items: center; justify-content: space-between; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--card-border);">
-				<button class="btn-reset-data" type="button" style="background: transparent; border:none; color: #ef4444; font-size: 13px; font-weight: 700; cursor: pointer;">🔄 Επαναφορά Προεπιλογών</button>
+				<button class="btn-reset-data" type="button" style="background: transparent; border:none; color: #ef4444; font-size: 13px; font-weight: 700; cursor: pointer;">Επαναφορά Προεπιλογών</button>
 				<button class="modal-actions-btn close" type="button" style="padding: 10px 24px; border-radius: 10px; background: rgba(255,255,255,0.12); border:none; color:#fff; font-weight:700; cursor:pointer;">ΚΛΕΙΣΙΜΟ</button>
 			</div>
 		</div>
@@ -1689,34 +1764,47 @@ function render_avatar(iconStr) {
 		// Image 1 Alfonso: Blue hair cool boy
 		"alfonso": `<svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="18" fill="#3b82f6"/><circle cx="18" cy="19" r="12" fill="#ffedd5"/><path d="M11 15c0-5 3-9 7-9s7 4 7 9c0 2-2 3-3 3-2 0-3-2-4-2s-2 2-4 2c-1 0-3-1-3-3z" fill="#1d4ed8"/><circle cx="14" cy="19" r="1.5" fill="#1e293b"/><circle cx="22" cy="19" r="1.5" fill="#1e293b"/><path d="M15 24c1.5 1 4.5 1 6 0" stroke="#1e293b" stroke-width="1.8" stroke-linecap="round"/></svg>`,
 
-		// Vector Animal Badges
-		"🦁": `<svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 11h.01M16 11h.01"/><path d="M9 16c1.5 1 4.5 1 6 0"/><path d="M12 13v2"/></svg>`,
-		"🦊": `<svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round"><path d="M12 21l-9-9 3-9 6 3 6-3 3 9-9 9z"/><circle cx="9" cy="11" r="1.5" fill="#f97316"/><circle cx="15" cy="11" r="1.5" fill="#f97316"/></svg>`,
-		"🐼": `<svg viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><circle cx="6" cy="6" r="3" fill="#cbd5e1"/><circle cx="18" cy="6" r="3" fill="#cbd5e1"/><circle cx="9" cy="12" r="1.5" fill="#334155"/><circle cx="15" cy="12" r="1.5" fill="#334155"/></svg>`,
-		"🦄": `<svg viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round"><path d="M19 3L13 9M5 21c0-4.5 3.5-8 8-8l2-6 4 3-2 5c2.5 1.5 4 4 4 6"/></svg>`,
-		"🦉": `<svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="14" r="7"/><circle cx="9" cy="9" r="3"/><circle cx="15" cy="9" r="3"/><circle cx="9" cy="9" r="1" fill="#a855f7"/><circle cx="15" cy="9" r="1" fill="#a855f7"/></svg>`,
-		"🐯": `<svg viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 4v4M8 6l2 3M16 6l-2 3M9 15c1.5 1 4.5 1 6 0"/></svg>`,
-		"🐬": `<svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round"><path d="M22 12c-4-8-12-6-15 0-3 6-5 6-5 6s4 0 7-3c3-3 7-1 13-3z"/></svg>`,
-		"🐸": `<svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round"><ellipse cx="12" cy="14" rx="8" ry="6"/><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="7" cy="7" r="1" fill="#10b981"/><circle cx="17" cy="7" r="1" fill="#10b981"/></svg>`,
-		"🏆": `<svg viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34M14 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>`,
-		"🔥": `<svg viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" stroke-linecap="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"/></svg>`,
-		"🎁": `<svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>`,
-		"⭐": `<svg viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
-		"🚀": `<svg viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.71 1.26-1.5 1.5-2.5L4.5 16.5z"/><path d="M12 15l-3-3 7.5-7.5c1.38-1.38 3.62-1.38 5 0 1.38 1.38 1.38 3.62 0 5L14 17l-2-2z"/></svg>`
+		// Vector Badges
+		"lion": `<svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 11h.01M16 11h.01"/><path d="M9 16c1.5 1 4.5 1 6 0"/><path d="M12 13v2"/></svg>`,
+		"fox": `<svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round"><path d="M12 21l-9-9 3-9 6 3 6-3 3 9-9 9z"/><circle cx="9" cy="11" r="1.5" fill="#f97316"/><circle cx="15" cy="11" r="1.5" fill="#f97316"/></svg>`,
+		"panda": `<svg viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><circle cx="6" cy="6" r="3" fill="#cbd5e1"/><circle cx="18" cy="6" r="3" fill="#cbd5e1"/><circle cx="9" cy="12" r="1.5" fill="#334155"/><circle cx="15" cy="12" r="1.5" fill="#334155"/></svg>`,
+		"unicorn": `<svg viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round"><path d="M19 3L13 9M5 21c0-4.5 3.5-8 8-8l2-6 4 3-2 5c2.5 1.5 4 4 4 6"/></svg>`,
+		"owl": `<svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="14" r="7"/><circle cx="9" cy="9" r="3"/><circle cx="15" cy="9" r="3"/><circle cx="9" cy="9" r="1" fill="#a855f7"/><circle cx="15" cy="9" r="1" fill="#a855f7"/></svg>`,
+		"tiger": `<svg viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 4v4M8 6l2 3M16 6l-2 3M9 15c1.5 1 4.5 1 6 0"/></svg>`,
+		"dolphin": `<svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round"><path d="M22 12c-4-8-12-6-15 0-3 6-5 6-5 6s4 0 7-3c3-3 7-1 13-3z"/></svg>`,
+		"frog": `<svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round"><ellipse cx="12" cy="14" rx="8" ry="6"/><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="7" cy="7" r="1" fill="#10b981"/><circle cx="17" cy="7" r="1" fill="#10b981"/></svg>`,
+		"trophy": `<svg viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34M14 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>`,
+		"fire": `<svg viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" stroke-linecap="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"/></svg>`,
+		"gift": `<svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>`,
+		"star": `<svg viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+		"rocket": `<svg viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.71 1.26-1.5 1.5-2.5L4.5 16.5z"/><path d="M12 15l-3-3 7.5-7.5c1.38-1.38 3.62-1.38 5 0 1.38 1.38 1.38 3.62 0 5L14 17l-2-2z"/></svg>`,
+		"shield": `<svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+		"user": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`
 	};
 
+	var legacyMap = { "\u{1F981}":"lion", "\u{1F98A}":"fox", "\u{1F43C}":"panda", "\u{1F984}":"unicorn", "\u{1F989}":"owl", "\u{1F42F}":"tiger", "\u{1F42C}":"dolphin", "\u{1F438}":"frog", "\u{1F3C6}":"trophy", "\u{1F525}":"fire", "\u{1F381}":"gift", "\u{2B50}":"star", "\u{2B50}\u{FE0F}":"star", "\u{1F680}":"rocket", "\u{1F64A}":"shield" };
+	if (legacyMap[key]) key = legacyMap[key];
+	if (legacyMap[iconStr]) key = legacyMap[iconStr];
+
 	if (svgMap[key]) {
-		return `<span class="vector-badge" data-raw="${iconStr}">${svgMap[key]}</span>`;
+		return `<span class="vector-badge" data-raw="${key}">${svgMap[key]}</span>`;
 	}
-	if (svgMap[iconStr]) {
-		return `<span class="vector-badge" data-raw="${iconStr}">${svgMap[iconStr]}</span>`;
-	}
-	return `<span class="text-badge" data-raw="${iconStr}">${iconStr}</span>`;
+	return `<span class="vector-badge" data-raw="user">${svgMap["user"]}</span>`;
 }
 
-/* ========================================================
-   WEB AUDIO SOUND ENGINE & SYNTHESIZER
-   ======================================================== */
+function get_dialog_icon(iconType) {
+	if (iconType === "trash") {
+		return `<svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" width="36" height="36"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>`;
+	}
+	if (iconType === "edit") {
+		return `<svg viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" width="36" height="36"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`;
+	}
+	if (iconType === "swap") {
+		return `<svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" width="36" height="36"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>`;
+	}
+	return `<svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" width="36" height="36"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
+}
+
 var AudioEngine = (function() {
 	var ctx = null;
 	var muted = false;
@@ -1887,7 +1975,6 @@ var lb_template = `
 	<div class="person-details">
 		<div class="person-name-row">
 			<span class="person-nickname">{{nickname}}</span>
-			<span class="person-flag" title="Region">{{country}}</span>
 		</div>
 		<span class="person-sub-meta">{{subtitle}}</span>
 	</div>
@@ -2013,35 +2100,50 @@ $(document).ready(function() {
 		}
 	}
 
+	// Sanitize any existing localStorage data removing emojis & country flags
+	if (Array.isArray(lb_data)) {
+		var legacyMap = { "\u{1F981}":"lion", "\u{1F98A}":"fox", "\u{1F43C}":"panda", "\u{1F984}":"unicorn", "\u{1F989}":"owl", "\u{1F42F}":"tiger", "\u{1F42C}":"dolphin", "\u{1F438}":"frog", "\u{1F3C6}":"trophy", "\u{1F525}":"fire", "\u{1F381}":"gift", "\u{2B50}":"star", "\u{2B50}\u{FE0F}":"star", "\u{1F680}":"rocket", "\u{1F64A}":"shield" };
+		lb_data.forEach(function(p) {
+			delete p.country;
+			if (legacyMap[p.icon]) p.icon = legacyMap[p.icon];
+		});
+	}
+	if (Array.isArray(card_data)) {
+		var legacyMap = { "\u{1F981}":"lion", "\u{1F98A}":"fox", "\u{1F43C}":"panda", "\u{1F984}":"unicorn", "\u{1F989}":"owl", "\u{1F42F}":"tiger", "\u{1F42C}":"dolphin", "\u{1F438}":"frog", "\u{1F3C6}":"trophy", "\u{1F525}":"fire", "\u{1F381}":"gift", "\u{2B50}":"star", "\u{2B50}\u{FE0F}":"star", "\u{1F680}":"rocket", "\u{1F64A}":"shield" };
+		card_data.forEach(function(c) {
+			if (legacyMap[c.icon]) c.icon = legacyMap[c.icon];
+		});
+	}
+
 	// Seed data matching reference images if still empty
 	if (!lb_data || lb_data.length === 0) {
 		lb_data = [
-			{icon: "hawk", nickname: "Hawk", score: 420, subtitle: "168 Battles won • 82% Winrate", country: "🇺🇸"},
-			{icon: "abram", nickname: "Abram Mango", score: 415, subtitle: "142 Battles won • 79% Winrate", country: "🇨🇦"},
-			{icon: "bytex", nickname: "ByteX", score: 390, subtitle: "135 Battles won • 76% Winrate", country: "🇬🇧"},
-			{icon: "kianna", nickname: "Kianna Torff", score: 385, subtitle: "128 Battles won • 75% Winrate", country: "🇩🇪"},
-			{icon: "voyager", nickname: "Voyager", score: 360, subtitle: "119 Battles won • 71% Winrate", country: "🇯🇵"},
-			{icon: "alfonso", nickname: "Alfonso Lubin", score: 324, subtitle: "98 Battles won • 68% Winrate", country: "🇫🇷"},
-			{icon: "🦁", nickname: "Maren Gouse", score: 290, subtitle: "84 Battles won • 65% Winrate", country: "🇬🇷"},
-			{icon: "🦊", nickname: "Desirae Herwitz", score: 245, subtitle: "72 Battles won • 61% Winrate", country: "🇪🇸"},
-			{icon: "🐼", nickname: "Max Cooper", score: 210, subtitle: "65 Battles won • 59% Winrate", country: "🇮🇹"},
-			{icon: "🦄", nickname: "Sparkle Hero", score: 180, subtitle: "54 Battles won • 55% Winrate", country: "🇧🇷"}
+			{icon: "hawk", nickname: "Hawk", score: 420, subtitle: "168 Battles won • 82% Winrate"},
+			{icon: "abram", nickname: "Abram Mango", score: 415, subtitle: "142 Battles won • 79% Winrate"},
+			{icon: "bytex", nickname: "ByteX", score: 390, subtitle: "135 Battles won • 76% Winrate"},
+			{icon: "kianna", nickname: "Kianna Torff", score: 385, subtitle: "128 Battles won • 75% Winrate"},
+			{icon: "voyager", nickname: "Voyager", score: 360, subtitle: "119 Battles won • 71% Winrate"},
+			{icon: "alfonso", nickname: "Alfonso Lubin", score: 324, subtitle: "98 Battles won • 68% Winrate"},
+			{icon: "lion", nickname: "Maren Gouse", score: 290, subtitle: "84 Battles won • 65% Winrate"},
+			{icon: "fox", nickname: "Desirae Herwitz", score: 245, subtitle: "72 Battles won • 61% Winrate"},
+			{icon: "panda", nickname: "Max Cooper", score: 210, subtitle: "65 Battles won • 59% Winrate"},
+			{icon: "unicorn", nickname: "Sparkle Hero", score: 180, subtitle: "54 Battles won • 55% Winrate"}
 		];
 		if (local_storage_available) localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
 	}
 
 	if (!card_data || card_data.length === 0) {
 		card_data = [
-			{icon: "🎁", score: "+5",  info: "Lucky Box! +5 Points"},
-			{icon: "🔥", score: "+10", info: "On Fire streak! +10 Points"},
-			{icon: "🙊", score: "-2",  info: "Oops! Lose 2 points"},
-			{icon: "⭐", score: "+3",  info: "Golden Star bonus +3"},
-			{icon: "🚀", score: "+8",  info: "Rocket Boost +8 points"},
-			{icon: "🦁", score: "+4",  info: "Lion's Roar +4 points"},
-			{icon: "🏆", score: "+15", info: "Grand Champion Prize +15!"},
-			{icon: "🦊", score: "-5",  info: "Tricky Fox trap! -5 points"},
-			{icon: "🦄", score: "+6",  info: "Magic Rainbow +6 points"},
-			{icon: "🐼", score: "+2",  info: "Bamboo Snack +2 points"}
+			{icon: "gift", score: "+5",  info: "Lucky Box! +5 Points"},
+			{icon: "fire", score: "+10", info: "On Fire streak! +10 Points"},
+			{icon: "shield", score: "-2",  info: "Penalty -2 points"},
+			{icon: "star", score: "+3",  info: "Golden Star bonus +3"},
+			{icon: "rocket", score: "+8",  info: "Rocket Boost +8 points"},
+			{icon: "lion", score: "+4",  info: "Lion's Roar +4 points"},
+			{icon: "trophy", score: "+15", info: "Grand Champion Prize +15!"},
+			{icon: "fox", score: "-5",  info: "Tricky Fox trap! -5 points"},
+			{icon: "unicorn", score: "+6",  info: "Magic Rainbow +6 points"},
+			{icon: "panda", score: "+2",  info: "Bamboo Snack +2 points"}
 		];
 		if (local_storage_available) localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
 	}
@@ -2055,11 +2157,11 @@ $(document).ready(function() {
 	if (local_storage_available && localStorage.getItem("podium_collapsed") === "1") {
 		$("#podium-stage-container").addClass("podium-collapsed");
 		$(".btn-toggle-podium .podium-toggle-label").text("Εμφάνιση Βάθρου (Top 3)");
-		$(".btn-toggle-podium .podium-toggle-arrow").text("▼");
+		
 	}
 
 	if (data_was_synced) {
-		showToast("🎉 Όλα τα δεδομένα σας συγχρονίστηκαν επιτυχώς!");
+		showToast("Όλα τα δεδομένα σας συγχρονίστηκαν επιτυχώς.");
 		AudioEngine.playMilestone();
 		ConfettiEngine.launch(100);
 	}
@@ -2103,7 +2205,7 @@ function build_leaderboard() {
 			.replace("{{rank}}", rank)
 			.replace("{{avatar_svg}}", render_avatar(person.icon))
 			.replace(/{{nickname}}/g, person.nickname)
-			.replace("{{country}}", person.country || "🌐")
+			
 			.replace("{{subtitle}}", person.subtitle || "Contender")
 			.replace("{{score_display}}", (person.score || 0));
 		$list.append(rowHtml);
@@ -2155,7 +2257,7 @@ function enter_inline_edit_mode() {
 
 	render_inline_edit_rows();
 	AudioEngine.playFlip();
-	showToast("✏️ Λειτουργία Επεξεργασίας: Τροποποιήστε ονόματα, βαθμούς ή διαγράψτε παίκτες απευθείας στον πίνακα!");
+	showToast("Λειτουργία Επεξεργασίας: Τροποποιήστε ονόματα ή βαθμούς απευθείας στον πίνακα.");
 }
 
 function render_inline_edit_rows() {
@@ -2198,7 +2300,7 @@ function render_inline_edit_rows() {
 }
 
 function bind_inline_edit_events() {
-	var avatarCycle = ["hawk", "abram", "kianna", "bytex", "voyager", "alfonso", "🦁", "🦊", "🐼", "🦄", "🦉", "🐯", "🐬", "🐸", "🏆", "🔥", "🎁", "⭐", "🚀"];
+	var avatarCycle = ["hawk", "abram", "kianna", "bytex", "voyager", "alfonso", "lion", "fox", "panda", "unicorn", "owl", "tiger", "dolphin", "frog", "trophy", "fire", "gift", "star", "rocket"];
 
 	$(".inline-avatar-btn").off("click").on("click", function() {
 		var current = $(this).attr("data-icon") || "hawk";
@@ -2215,7 +2317,7 @@ function bind_inline_edit_events() {
 		showConfirmDialog(
 			"Διαγραφή Παίκτη",
 			"Είστε σίγουροι ότι θέλετε να διαγράψετε τον παίκτη <strong>" + escapeHtml(playerName) + "</strong>;",
-			"🗑️",
+			"trash",
 			function() {
 				$row.slideUp(180, function() {
 					$row.remove();
@@ -2268,7 +2370,7 @@ function save_inline_edits() {
 			nickname: nick,
 			score: scr,
 			subtitle: "Contender",
-			country: "🌐"
+			
 		});
 	});
 
@@ -2281,7 +2383,7 @@ function save_inline_edits() {
 	build_leaderboard();
 	AudioEngine.playPositive();
 	ConfettiEngine.launch(80);
-	showToast("💾 Οι αλλαγές αποθηκεύτηκαν επιτυχώς!");
+	showToast("Οι αλλαγές αποθηκεύτηκαν επιτυχώς.");
 }
 
 function cancel_inline_edits() {
@@ -2306,13 +2408,13 @@ function toggle_podium() {
 		$container.removeClass("podium-collapsed");
 		if (local_storage_available) localStorage.setItem("podium_collapsed", "0");
 		$(".btn-toggle-podium .podium-toggle-label").text("Βάθρο Κορυφαίων (Top 3)");
-		$(".btn-toggle-podium .podium-toggle-arrow").text("▲");
+		
 		if (window.AudioEngine) AudioEngine.playPositive();
 	} else {
 		$container.addClass("podium-collapsed");
 		if (local_storage_available) localStorage.setItem("podium_collapsed", "1");
 		$(".btn-toggle-podium .podium-toggle-label").text("Εμφάνιση Βάθρου (Top 3)");
-		$(".btn-toggle-podium .podium-toggle-arrow").text("▼");
+		
 		if (window.AudioEngine) AudioEngine.playFlip();
 	}
 }
@@ -2513,11 +2615,11 @@ function bind_person_events() {
 			showConfirmDialog(
 				"Επιβεβαίωση Αλλαγής Βαθμών",
 				"Θέλετε να αλλάξετε τους βαθμούς του παίκτη <strong>" + escapeHtml(targetPerson.nickname) + "</strong> από <strong>" + currentVal + "</strong> σε <strong style=\"color: var(--accent-primary); font-size: 16px;\">" + newVal + "</strong>;",
-				"✏️",
+				"edit",
 				function() {
 					var delta = newVal - currentVal;
 					apply_score_change(targetPerson, delta, $row);
-					showToast("✓ Οι βαθμοί του παίκτη " + targetPerson.nickname + " ενημερώθηκαν σε " + newVal + "!");
+					showToast("Οι βαθμοί του παίκτη " + targetPerson.nickname + " ενημερώθηκαν σε " + newVal + ".");
 				},
 				function() {
 					$badge.html(`<span>${currentVal}</span>`);
@@ -2580,7 +2682,7 @@ function enter_swap_mode() {
 	swap_selected = [];
 	$("body").addClass("swap-mode-active");
 	AudioEngine.playFlip();
-	showToast("🔄 Επιλέξτε 2 παίκτες για να ανταλλάξετε τα σκορ τους!");
+	showToast("Επιλέξτε 2 παίκτες για να ανταλλάξετε τα σκορ τους.");
 }
 
 function exit_swap_mode() {
@@ -2602,15 +2704,15 @@ function perform_swap() {
 		showConfirmDialog(
 			"Επιβεβαίωση Ανταλλαγής Βαθμών",
 			"Θέλετε να γίνει ανταλλαγή βαθμών ανάμεσα στους παίκτες:<br><br>" +
-			"• <strong>" + escapeHtml(nickA) + "</strong> (" + scoreA + " ➔ <strong style=\"color: var(--accent-primary);\">" + scoreB + "</strong>)<br>" +
-			"• <strong>" + escapeHtml(nickB) + "</strong> (" + scoreB + " ➔ <strong style=\"color: var(--accent-primary);\">" + scoreA + "</strong>);",
-			"🔄",
+			"• <strong>" + escapeHtml(nickA) + "</strong> (" + scoreA + " -> <strong style=\"color: var(--accent-primary);\">" + scoreB + "</strong>)<br>" +
+			"• <strong>" + escapeHtml(nickB) + "</strong> (" + scoreB + " -> <strong style=\"color: var(--accent-primary);\">" + scoreA + "</strong>);",
+			"swap",
 			function() {
 				pA.score = scoreB;
 				pB.score = scoreA;
 				AudioEngine.playMilestone();
 				ConfettiEngine.launch(90);
-				showToast("✨ Έγινε ανταλλαγή σκορ μεταξύ " + nickA + " και " + nickB + "!");
+				showToast("Έγινε ανταλλαγή σκορ μεταξύ " + nickA + " και " + nickB + ".");
 				exit_swap_mode();
 
 				var $rowA = $(".person").filter(function() { return $(this).find(".person-nickname").text().trim() === nickA; });
@@ -2681,7 +2783,7 @@ function build_cards() {
 
 			// Host keyboard cheat shortcuts (+ / - held during click)
 			if (plusPressed) {
-				var randCheat = ["🦁", "🦊", "🐼", "🦄", "🦉", "🐯", "🐬", "🐸", "🏆", "🔥", "🎁", "⭐", "🚀"][getRandomInt(0, 12)];
+				var randCheat = ["lion", "fox", "panda", "unicorn", "owl", "tiger", "dolphin", "frog", "trophy", "fire", "gift", "star", "rocket"][getRandomInt(0, 12)];
 				$content.children(".icon").html(render_avatar(randCheat));
 				$content.children(".score").removeClass("red yellow").addClass("green").text("+10");
 				$content.children(".info").text("Συγχαρητήρια! Κέρδισες 10 βαθμούς!");
@@ -2690,7 +2792,7 @@ function build_cards() {
 				return;
 			}
 			if (minusPressed) {
-				var randCheat = ["🦁", "🦊", "🐼", "🦄", "🦉", "🐯", "🐬", "🐸", "🏆", "🔥", "🎁", "⭐", "🚀"][getRandomInt(0, 12)];
+				var randCheat = ["lion", "fox", "panda", "unicorn", "owl", "tiger", "dolphin", "frog", "trophy", "fire", "gift", "star", "rocket"][getRandomInt(0, 12)];
 				$content.children(".icon").html(render_avatar(randCheat));
 				$content.children(".score").addClass("red").removeClass("yellow green").text("-10");
 				$content.children(".info").text("Ατυχία! Μόλις έχασες 10 βαθμούς.");
@@ -2807,12 +2909,12 @@ function init_event_listeners() {
 	$("#tool-btn-add").on("click", function() {
 		if (current_mode === "leaderboard") {
 			$("body").addClass("show-add-person");
-			$("#rand-person-icon").val(["hawk", "abram", "kianna", "bytex", "voyager", "alfonso", "🦁", "🦊"][getRandomInt(0, 7)]);
+			$("#rand-person-icon").val(["hawk", "abram", "kianna", "bytex", "voyager", "alfonso", "lion", "fox"][getRandomInt(0, 7)]);
 			$("#nickname").val("").focus();
 			$("#score").val("");
 		} else {
 			$("body").addClass("show-add-card");
-			$("#rand-card-icon").val(["🎁", "🔥", "⭐", "🚀"][getRandomInt(0, 3)]);
+			$("#rand-card-icon").val(["gift", "fire", "star", "rocket"][getRandomInt(0, 3)]);
 			$("#card-info").val("").focus();
 			$("#card-score").val("+5");
 		}
@@ -2854,13 +2956,13 @@ function init_event_listeners() {
 		build_cards();
 		if (cards_iso) cards_iso.isotope("shuffle");
 		AudioEngine.playShuffle();
-		showToast("🔀 Οι κάρτες ανακατεύτηκαν!");
+		showToast("Οι κάρτες ανακατεύτηκαν.");
 	});
 
 	$("#btn-refresh-cards").on("click", function() {
 		build_cards();
 		AudioEngine.playFlip();
-		showToast("🔄 Όλες οι κάρτες έκλεισαν!");
+		showToast("Όλες οι κάρτες έκλεισαν.");
 	});
 
 	$("#btn-toggle-grid-list").on("click", function() {
@@ -2878,7 +2980,7 @@ function init_event_listeners() {
 		var icon = $("#rand-person-icon").val() || "hawk";
 		var nick = $("#nickname").val() || "Player " + (lb_data.length + 1);
 		var scr = parseInt($("#score").val(), 10) || 0;
-		lb_data.push({ icon: icon, nickname: nick, score: scr, subtitle: "New Challenger", country: "🌐" });
+		lb_data.push({ icon: icon, nickname: nick, score: scr, subtitle: "New Challenger",  });
 		build_leaderboard();
 		$("body").removeClass("show-add-person");
 		AudioEngine.playFlip();
@@ -2886,7 +2988,7 @@ function init_event_listeners() {
 
 	$(".add-card-popup .cancel").on("click", function() { $("body").removeClass("show-add-card"); });
 	$(".add-card-popup .ok").on("click", function() {
-		var icon = $("#rand-card-icon").val() || "🎁";
+		var icon = $("#rand-card-icon").val() || "gift";
 		var scr = $("#card-score").val() || "+5";
 		var info = $("#card-info").val() || "Mystery Bonus!";
 		card_data.push({ icon: icon, score: scr, info: info });
@@ -2896,6 +2998,11 @@ function init_event_listeners() {
 	});
 
 	$(".link-popup .close").on("click", function() { $("body").removeClass("show-link"); });
+	$(".popup-modal").off("click.backdrop").on("click.backdrop", function(e) {
+		if ($(e.target).hasClass("popup-modal")) {
+			$("body").removeClass("show-add-person show-add-card show-link show-edit show-confirm");
+		}
+	});
 	$(".btn-copy-sync").on("click", copy_sync_link);
 	$(".btn-reset-data").on("click", reset_to_defaults);
 
@@ -2939,7 +3046,7 @@ function apply_display_mode(mode, saveAndNotify) {
 	if (current_display_mode === "leaderboard_only") {
 		$(".category-filter-tabs").hide();
 		$(".single-mode-badge").css("display", "inline-flex");
-		$(".single-mode-badge .sm-label").text("🏆 Μόνο Leaderboard");
+		$(".single-mode-badge .sm-label").text("Μόνο Leaderboard");
 		switch_mode("leaderboard");
 	} else if (current_display_mode === "cards_only") {
 		$(".category-filter-tabs").hide();
@@ -2957,7 +3064,7 @@ function apply_display_mode(mode, saveAndNotify) {
 			localStorage.setItem("app_display_mode", current_display_mode);
 		}
 		var label = current_display_mode === "leaderboard_only" ? "Μόνο Leaderboard" : (current_display_mode === "cards_only" ? "Μόνο Mystery Cards" : "Και τα δύο (Leaderboard & Cards)");
-		showToast("🖥️ Ρύθμιση εμφάνισης: " + label);
+		showToast("Ρύθμιση εμφάνισης: " + label);
 		AudioEngine.playPositive();
 	}
 
@@ -3005,8 +3112,8 @@ function copy_sync_link() {
 
 	if (navigator.clipboard && navigator.clipboard.writeText) {
 		navigator.clipboard.writeText(link).then(function() {
-			$btn.text("Αντιγράφηκε! ✓");
-			showToast("✅ Ο σύνδεσμος συγχρονισμού αντιγράφηκε επιτυχώς!");
+			$btn.text("Αντιγράφηκε!");
+			showToast("Ο σύνδεσμος συγχρονισμού αντιγράφηκε επιτυχώς.");
 			AudioEngine.playPositive();
 			setTimeout(function() { $btn.text("Αντιγραφή Link"); }, 2500);
 		}).catch(function() {
@@ -3021,10 +3128,10 @@ function copy_link_fallback(link, $btn) {
 	$("#tarea-link").val(link).select();
 	document.execCommand("copy");
 	if ($btn) {
-		$btn.text("Αντιγράφηκε! ✓");
+		$btn.text("Αντιγράφηκε!");
 		setTimeout(function() { $btn.text("Αντιγραφή Link"); }, 2500);
 	}
-	showToast("✅ Ο σύνδεσμος αντιγράφηκε επιτυχώς!");
+	showToast("Ο σύνδεσμος αντιγράφηκε επιτυχώς.");
 	AudioEngine.playPositive();
 }
 
@@ -3036,7 +3143,7 @@ function trigger_native_share() {
 			text: "Συνδεθείτε και δείτε τα σκορ και τις κάρτες στο Leaderboard:",
 			url: link
 		}).then(function() {
-			showToast("📤 Κοινοποιήθηκε επιτυχώς!");
+			showToast("Κοινοποιήθηκε επιτυχώς.");
 			AudioEngine.playPositive();
 		}).catch(function(err) {
 			if (err && err.name !== "AbortError") {
@@ -3045,7 +3152,7 @@ function trigger_native_share() {
 		});
 	} else {
 		copy_sync_link();
-		showToast("📋 Ο σύνδεσμος αντιγράφηκε για να τον στείλετε!");
+		showToast("Ο σύνδεσμος αντιγράφηκε.");
 	}
 }
 
@@ -3055,14 +3162,14 @@ function share_via_email() {
 	var bodyText = "Γεια σας!\n\nΜπορείτε να ανοίξετε το Leaderboard με όλα τα τρέχοντα σκορ και τις κάρτες στον παρακάτω σύνδεσμο:\n\n" + link + "\n\n(Δεν χρειάζεται εγκατάσταση - ανοίγει άμεσα σε οποιονδήποτε υπολογιστή ή κινητό)";
 	var body = encodeURIComponent(bodyText);
 	window.open("mailto:?subject=" + subject + "&body=" + body, "_blank");
-	showToast("✉️ Άνοιγμα προγράμματος Email...");
+	showToast("Άνοιγμα προγράμματος Email...");
 }
 
 function share_via_whatsapp() {
 	var link = generate_sync_link();
-	var text = encodeURIComponent("🏆 Leaderboard & Mystery Cards:\n" + link);
+	var text = encodeURIComponent("Leaderboard & Mystery Cards:\n" + link);
 	window.open("https://wa.me/?text=" + text, "_blank");
-	showToast("💬 Άνοιγμα WhatsApp...");
+	showToast("Άνοιγμα WhatsApp...");
 }
 
 function toggle_qr_code() {
@@ -3074,7 +3181,7 @@ function toggle_qr_code() {
 		var qrApiUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=" + encodeURIComponent(link);
 		$("#qr-code-img").attr("src", qrApiUrl);
 		$qrCard.slideDown(220);
-		showToast("📱 Σκανάρετε το QR Code με το κινητό!");
+		showToast("Σκανάρετε το QR Code.");
 		AudioEngine.playFlip();
 	}
 }
@@ -3114,7 +3221,7 @@ try {
 	a.click();
 	document.body.removeChild(a);
 	URL.revokeObjectURL(url);
-	showToast("💾 Η έτοιμη εφαρμογή κατέβηκε! Αντιγράψτε το αρχείο σε USB stick.");
+	showToast("Η εφαρμογή κατέβηκε επιτυχώς.");
 	AudioEngine.playMilestone();
 	ConfettiEngine.launch(90);
 }
@@ -3137,7 +3244,7 @@ function export_backup_json() {
 	a.click();
 	document.body.removeChild(a);
 	URL.revokeObjectURL(url);
-	showToast("💾 Το αρχείο αντιγράφου αποθηκεύτηκε επιτυχώς!");
+	showToast("Το αρχείο αντιγράφου αποθηκεύτηκε επιτυχώς.");
 	AudioEngine.playPositive();
 }
 
@@ -3161,7 +3268,7 @@ function handle_import_backup(file) {
 			build_leaderboard();
 			build_cards();
 			$("body").removeClass("show-link");
-			showToast("🎉 Όλα τα δεδομένα φορτώθηκαν επιτυχώς!");
+			showToast("Όλα τα δεδομένα φορτώθηκαν επιτυχώς.");
 			AudioEngine.playMilestone();
 			ConfettiEngine.launch(100);
 		} catch(err) {
@@ -3175,7 +3282,7 @@ function reset_to_defaults() {
 	showConfirmDialog(
 		"Επαναφορά Προεπιλογών",
 		"Είστε σίγουροι ότι θέλετε να επαναφέρετε τις αρχικές προεπιλογές; Όλες οι τρέχουσες αλλαγές θα χαθούν!",
-		"⚠️",
+		"warning",
 		function() {
 			localStorage.removeItem("leaderboard_data");
 			localStorage.removeItem("leaderboard_card_data");
@@ -3196,7 +3303,7 @@ function read_lb_text(data_str) {
 				nickname: tokens[1].trim(),
 				score: parseInt(tokens[2].trim(), 10) || 0,
 				subtitle: "Contender",
-				country: "🌐"
+				
 			});
 		}
 	});
@@ -3232,7 +3339,17 @@ function escapeHtml(str) {
 function showConfirmDialog(title, message, icon, onConfirm, onCancel) {
 	$("#confirm-title").text(title || "Επιβεβαίωση");
 	$("#confirm-message").html(message || "Είστε σίγουροι;");
-	$("#confirm-icon").text(icon || "⚠️");
+	var iconSvg = "";
+	if (icon === "trash") {
+		iconSvg = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#dc3546" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>';
+	} else if (icon === "swap") {
+		iconSvg = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#17a2b9" stroke-width="2"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>';
+	} else if (icon === "edit") {
+		iconSvg = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fec107" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>';
+	} else {
+		iconSvg = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fec107" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+	}
+	$("#confirm-icon").html(iconSvg);
 
 	$("#btn-confirm-ok").off("click").on("click", function() {
 		$("body").removeClass("show-confirm");
