@@ -539,6 +539,13 @@ body {
 	border-radius: 999px;
 	margin-top: 4px;
 	font-family: var(--font-mono);
+	cursor: pointer;
+	user-select: none;
+	transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.podium-score-pill:hover {
+	background: #b02a37;
+	transform: scale(1.08);
 }
 
 .podium-pedestal {
@@ -866,6 +873,29 @@ body.swap-mode-active::before {
 .podium-column.swap-selected .podium-profile-card {
 	box-shadow: 0 0 0 3px var(--accent-teal), 0 8px 24px rgba(0, 0, 0, 0.5) !important;
 	transform: scale(1.05);
+}
+
+/* Score Badge Active Swap Highlight */
+.person-score-badge.score-swap-selected {
+	background: #17a2b9 !important;
+	color: #ffffff !important;
+	box-shadow: inset 0 0 0 3px #ffffff, 0 0 25px rgba(23, 162, 185, 0.9) !important;
+	animation: pulseSwapBadge 1.2s infinite ease-in-out;
+}
+.podium-score-pill.score-swap-selected {
+	background: #17a2b9 !important;
+	color: #ffffff !important;
+	box-shadow: 0 0 0 3px #ffffff, 0 0 20px rgba(23, 162, 185, 0.9) !important;
+	transform: scale(1.15) !important;
+	animation: pulseSwapBadge 1.2s infinite ease-in-out;
+}
+@keyframes pulseSwapBadge {
+	0%, 100% {
+		box-shadow: 0 0 0 3px #ffffff, 0 0 15px rgba(23, 162, 185, 0.8);
+	}
+	50% {
+		box-shadow: 0 0 0 5px #ffffff, 0 0 28px rgba(23, 162, 185, 1);
+	}
 }
 
 /* Floating Swap Hint */
@@ -1565,8 +1595,8 @@ body.show-modal .modal-backdrop {
 	</div>
 
 	<!-- Floating Swap Mode Hint -->
-	<div class="swap-hint">
-		<span>Λειτουργία Ανταλλαγής: Επιλέξτε 2 παίκτες</span>
+	<div class="swap-hint" id="swap-active-hint">
+		<span class="hint-label">Λειτουργία Ανταλλαγής: Επιλέξτε 2 παίκτες</span>
 		<button type="button" id="btn-cancel-swap-hint" style="background: rgba(255,255,255,0.18); border:none; color:#fff; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight:700; cursor:pointer;">Ακύρωση (Esc)</button>
 	</div>
 
@@ -1990,7 +2020,7 @@ var lb_template = `
 		</div>
 		<span class="person-sub-meta">{{subtitle}}</span>
 	</div>
-	<div class="person-score-badge" title="Click to adjust points">
+	<div class="person-score-badge" title="Πατήστε τους βαθμούς δύο παικτών για εναλλαγή (ή διπλό κλικ για απευθείας επεξεργασία)">
 		<span>{{score_display}}</span>
 	</div>
 	<div class="person-point-btns-tray">
@@ -2608,13 +2638,27 @@ function bind_person_events() {
 		}
 	});
 
-	// Instant inline single-score edit with Confirmation
+	// Single-click on leaderboard score badge: triggers score swap selection directly!
 	$(".person .person-score-badge").off("click").on("click", function(e) {
-		if (swap_mode_active) {
-			// In swap mode, clicking on the score badge selects the player for swap!
-			return; // Let click bubble to .person
-		}
 		e.stopPropagation();
+		if ($(this).find("input").length > 0) return;
+		var $row = $(this).closest(".person");
+		var nick = $row.find(".person-nickname").text().trim();
+		handle_score_swap_click(nick);
+	});
+
+	// Single-click on podium score pill: triggers score swap selection directly!
+	$(".podium-score-pill").off("click").on("click", function(e) {
+		e.stopPropagation();
+		var $col = $(this).closest(".podium-column");
+		var nick = $col.find(".podium-nickname").text().trim();
+		handle_score_swap_click(nick);
+	});
+
+	// Double-click on score badge: direct manual score typing
+	$(".person .person-score-badge").off("dblclick").on("dblclick", function(e) {
+		e.stopPropagation();
+		clear_score_swap_selection();
 		if ($("body").hasClass("inline-edit-active") || $("body").hasClass("show-confirm")) return;
 		var $badge = $(this);
 		if ($badge.find("input").length > 0) return;
@@ -2680,69 +2724,97 @@ function bind_person_events() {
 		});
 	});
 
-	// Swap mode click selection on person rows
+	// Clicking person row when swap mode is active
 	$(".person").off("click").on("click", function() {
 		if (!swap_mode_active) return;
 		var nick = $(this).find(".person-nickname").text().trim();
-		var person = lb_data.find(function(p) { return p.nickname === nick; });
-		if (!person) return;
+		handle_score_swap_click(nick);
+	});
+
+	// Clicking podium column when swap mode is active
+	$(".podium-column").off("click").on("click", function() {
+		if (!swap_mode_active) return;
+		var nick = $(this).find(".podium-nickname").text().trim();
+		handle_score_swap_click(nick);
+	});
+}
+
+/* --- SCORE SWAP ENGINE & MODAL CONFIRMATION --- */
+function highlight_swap_selection() {
+	$(".person").removeClass("swap-selected");
+	$(".person-score-badge").removeClass("score-swap-selected");
+	$(".podium-column").removeClass("swap-selected");
+	$(".podium-score-pill").removeClass("score-swap-selected");
+
+	if (swap_selected.length > 0) {
+		$("body").addClass("swap-mode-active");
+		$("#tool-btn-swap").addClass("active-swap-btn");
+		$("#swap-active-hint").show();
+		$("#swap-active-hint .hint-label").text("1ος Επιλεγμένος: " + swap_selected[0].nickname + " (" + (swap_selected[0].score || 0) + "). Πατήστε τους βαθμούς του 2ου παίκτη.");
+	} else {
+		$("body").removeClass("swap-mode-active");
+		$("#tool-btn-swap").removeClass("active-swap-btn");
+		$("#swap-active-hint").hide();
+	}
+
+	swap_selected.forEach(function(p) {
+		var nick = p.nickname;
+		var $row = $(".person").filter(function() {
+			return $(this).find(".person-nickname").text().trim() === nick;
+		});
+		$row.addClass("swap-selected");
+		$row.find(".person-score-badge").addClass("score-swap-selected");
 
 		var $podiumCol = $(".podium-column").filter(function() {
 			return $(this).find(".podium-nickname").text().trim() === nick;
 		});
-
-		if ($(this).hasClass("swap-selected")) {
-			$(this).removeClass("swap-selected");
-			$podiumCol.removeClass("swap-selected");
-			swap_selected = swap_selected.filter(function(p) { return p.nickname !== person.nickname; });
-			showToast("Αποεπιλέξατε: " + person.nickname);
-		} else {
-			if (swap_selected.indexOf(person) === -1 && swap_selected.length < 2) {
-				$(this).addClass("swap-selected");
-				$podiumCol.addClass("swap-selected");
-				swap_selected.push(person);
-				if (swap_selected.length === 1) {
-					AudioEngine.playPositive();
-					showToast("1ος Παίκτης: " + person.nickname + " (" + (person.score || 0) + "). Επιλέξτε τον 2ο παίκτη.");
-				}
-			}
-		}
-
-		if (swap_selected.length === 2) {
-			perform_swap();
-		}
-	});
-
-	// Podium click selection for swap mode
-	$(".podium-column").off("click").on("click", function() {
-		if (!swap_mode_active) return;
-		var nick = $(this).find(".podium-nickname").text().trim();
-		var $row = $(".person").filter(function() {
-			return $(this).find(".person-nickname").text().trim() === nick;
-		});
-		if ($row.length > 0) {
-			$row.trigger("click");
-		}
+		$podiumCol.addClass("swap-selected");
+		$podiumCol.find(".podium-score-pill").addClass("score-swap-selected");
 	});
 }
 
-/* --- SWAP SCORES MODE --- */
+function clear_score_swap_selection() {
+	swap_selected = [];
+	swap_mode_active = false;
+	highlight_swap_selection();
+}
+
 function enter_swap_mode() {
 	swap_mode_active = true;
 	swap_selected = [];
-	$("body").addClass("swap-mode-active");
-	$("#tool-btn-swap").addClass("active-swap-btn");
+	highlight_swap_selection();
 	AudioEngine.playFlip();
-	showToast("Λειτουργία Ανταλλαγής: Επιλέξτε 2 παίκτες για εναλλαγή των βαθμών τους.");
+	showToast("Λειτουργία Ανταλλαγής: Πατήστε τους βαθμούς 2 παικτών για να ανταλλάξουν βαθμολογία.");
 }
 
 function exit_swap_mode() {
-	swap_mode_active = false;
-	swap_selected = [];
-	$("body").removeClass("swap-mode-active");
-	$("#tool-btn-swap").removeClass("active-swap-btn");
-	$(".person").removeClass("swap-selected");
-	$(".podium-column").removeClass("swap-selected");
+	clear_score_swap_selection();
+}
+
+function handle_score_swap_click(nick) {
+	if ($("body").hasClass("inline-edit-active") || $("body").hasClass("show-confirm")) return;
+	if (!nick) return;
+	var person = lb_data.find(function(p) { return p.nickname === nick; });
+	if (!person) return;
+
+	// Clicking the already selected player cancels selection
+	if (swap_selected.length === 1 && swap_selected[0].nickname === person.nickname) {
+		clear_score_swap_selection();
+		showToast("Αποεπιλέξατε: " + person.nickname);
+		return;
+	}
+
+	if (swap_selected.length === 0) {
+		swap_selected = [person];
+		swap_mode_active = true;
+		highlight_swap_selection();
+		AudioEngine.playPositive();
+		showToast("1ος Παίκτης: " + person.nickname + " (" + (person.score || 0) + "). Πατήστε τους βαθμούς του 2ου παίκτη.");
+	} else if (swap_selected.length === 1) {
+		swap_selected.push(person);
+		highlight_swap_selection();
+		perform_swap();
+	}
 }
 
 function perform_swap() {
@@ -2766,7 +2838,7 @@ function perform_swap() {
 				AudioEngine.playMilestone();
 				ConfettiEngine.launch(90);
 				showToast("Έγινε ανταλλαγή σκορ μεταξύ " + nickA + " και " + nickB + ".");
-				exit_swap_mode();
+				clear_score_swap_selection();
 
 				var $rowA = $(".person").filter(function() { return $(this).find(".person-nickname").text().trim() === nickA; });
 				var $rowB = $(".person").filter(function() { return $(this).find(".person-nickname").text().trim() === nickB; });
@@ -2776,7 +2848,7 @@ function perform_swap() {
 				animate_reorder_ranks([pA, pB]);
 			},
 			function() {
-				exit_swap_mode();
+				clear_score_swap_selection();
 			}
 		);
 	}
