@@ -854,9 +854,8 @@ body.swap-mode-active::before {
 }
 .person.swap-selected {
 	box-shadow: 0 0 0 3px var(--accent-teal), 0 8px 24px rgba(0, 0, 0, 0.5) !important;
-	transform: scale(1.02);
 	z-index: 100 !important;
-	transition: transform 0.15s ease, box-shadow 0.15s ease;
+	transition: box-shadow 0.15s ease;
 }
 .person.swap-selected .person-nickname {
 	background: var(--accent-teal);
@@ -2028,7 +2027,7 @@ $(document).ready(function() {
 	leaderboard_iso = $(".leaderboard").isotope({
 		itemSelector: ".person",
 		layoutMode: "vertical",
-		transitionDuration: "0.65s",
+		transitionDuration: 0,
 		getSortData: {
 			score: function(itemElem) {
 				var text = $(itemElem).find(".person-score-badge").text().trim();
@@ -2228,7 +2227,7 @@ function build_leaderboard() {
 		leaderboard_iso = $(".leaderboard").isotope({
 			itemSelector: ".person",
 			layoutMode: "vertical",
-			transitionDuration: "0.65s",
+			transitionDuration: 0,
 			getSortData: {
 				score: function(itemElem) {
 					var text = $(itemElem).find(".person-score-badge").text().trim();
@@ -2240,11 +2239,17 @@ function build_leaderboard() {
 			}
 		});
 	}
+	leaderboard_iso.isotope({ transitionDuration: 0 });
 	leaderboard_iso.isotope("reloadItems");
 	leaderboard_iso.isotope({
 		sortBy: ['score', 'nickname'],
 		sortAscending: { score: false, nickname: true }
 	});
+	setTimeout(function() {
+		if (leaderboard_iso) {
+			leaderboard_iso.isotope({ transitionDuration: "0.65s" });
+		}
+	}, 60);
 
 	update_podium(sorted);
 	update_ticker_stats(sorted);
@@ -2490,6 +2495,9 @@ function animate_reorder_ranks(changedPersons) {
 		});
 	}
 
+	// Ensure transition duration is active for smooth repositioning
+	leaderboard_iso.isotope({ transitionDuration: "0.65s" });
+
 	// Update Isotope sort data and trigger animated repositioning
 	leaderboard_iso.isotope("updateSortData");
 	leaderboard_iso.isotope({
@@ -2679,13 +2687,19 @@ function bind_person_events() {
 		var person = lb_data.find(function(p) { return p.nickname === nick; });
 		if (!person) return;
 
+		var $podiumCol = $(".podium-column").filter(function() {
+			return $(this).find(".podium-nickname").text().trim() === nick;
+		});
+
 		if ($(this).hasClass("swap-selected")) {
 			$(this).removeClass("swap-selected");
+			$podiumCol.removeClass("swap-selected");
 			swap_selected = swap_selected.filter(function(p) { return p.nickname !== person.nickname; });
 			showToast("Αποεπιλέξατε: " + person.nickname);
 		} else {
 			if (swap_selected.indexOf(person) === -1 && swap_selected.length < 2) {
 				$(this).addClass("swap-selected");
+				$podiumCol.addClass("swap-selected");
 				swap_selected.push(person);
 				if (swap_selected.length === 1) {
 					AudioEngine.playPositive();
@@ -2877,7 +2891,6 @@ function switch_mode(mode) {
 		$("body").removeClass("mode-cards-active").addClass("mode-lb-active");
 		$("#view-leaderboard").show().addClass("active");
 		if (leaderboard_iso) {
-			leaderboard_iso.isotope("reloadItems");
 			leaderboard_iso.isotope("layout");
 		}
 	} else {
@@ -2885,7 +2898,6 @@ function switch_mode(mode) {
 		$("#view-cards").show().addClass("active");
 		build_cards();
 		if (cards_iso) {
-			cards_iso.isotope("reloadItems");
 			cards_iso.isotope("layout");
 		}
 		setTimeout(function() {
