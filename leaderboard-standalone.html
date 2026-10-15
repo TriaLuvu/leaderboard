@@ -2003,6 +2003,8 @@ var lb_data = [];
 var card_data = [];
 var swap_mode_active = false;
 var swap_selected = [];
+var undo_stack = [];
+var redo_stack = [];
 var search_query = "";
 var plusPressed = false;
 var minusPressed = false;
@@ -2570,6 +2572,14 @@ function apply_score_change(targetPerson, delta, $row) {
 	var oldScore = targetPerson.score || 0;
 	var newScore = oldScore + delta;
 
+	undo_stack.push({
+		type: "score_change",
+		nick: targetPerson.nickname,
+		oldScore: oldScore,
+		newScore: newScore
+	});
+	redo_stack = [];
+
 	targetPerson.score = newScore;
 
 	if (!$row || $row.length === 0) {
@@ -2833,6 +2843,17 @@ function perform_swap() {
 			"• <strong>" + escapeHtml(nickB) + "</strong> (" + scoreB + " &rarr; <strong style=\"color: #29a744; font-size: 16px;\">" + scoreA + "</strong>);",
 			"swap",
 			function() {
+				undo_stack.push({
+					type: "swap",
+					nickA: nickA,
+					scoreA_before: scoreA,
+					scoreA_after: scoreB,
+					nickB: nickB,
+					scoreB_before: scoreB,
+					scoreB_after: scoreA
+				});
+				redo_stack = [];
+
 				pA.score = scoreB;
 				pB.score = scoreA;
 				AudioEngine.playMilestone();
@@ -2851,6 +2872,95 @@ function perform_swap() {
 				clear_score_swap_selection();
 			}
 		);
+	}
+}
+
+/* --- UNDO / REDO HISTORY ENGINE --- */
+function perform_undo() {
+	if (undo_stack.length === 0) {
+		showToast("Δεν υπάρχει ενέργεια προς αναίρεση.");
+		AudioEngine.playNegative();
+		return;
+	}
+
+	var action = undo_stack.pop();
+	redo_stack.push(action);
+
+	if (action.type === "swap") {
+		var pA = lb_data.find(function(p) { return p.nickname === action.nickA; });
+		var pB = lb_data.find(function(p) { return p.nickname === action.nickB; });
+		if (pA && pB) {
+			pA.score = action.scoreA_before;
+			pB.score = action.scoreB_before;
+
+			var $rowA = $(".person").filter(function() { return $(this).find(".person-nickname").text().trim() === action.nickA; });
+			var $rowB = $(".person").filter(function() { return $(this).find(".person-nickname").text().trim() === action.nickB; });
+			$rowA.addClass(action.scoreA_before > action.scoreA_after ? "rank-climbing" : "rank-falling");
+			$rowB.addClass(action.scoreB_before > action.scoreB_after ? "rank-climbing" : "rank-falling");
+
+			animate_reorder_ranks([pA, pB]);
+			AudioEngine.playFlip();
+			showToast("Αναίρεση: Αναιρέθηκε η ανταλλαγή μεταξύ " + action.nickA + " και " + action.nickB + ".");
+		}
+	} else if (action.type === "score_change") {
+		var p = lb_data.find(function(item) { return item.nickname === action.nick; });
+		if (p) {
+			p.score = action.oldScore;
+			var $row = $(".person").filter(function() { return $(this).find(".person-nickname").text().trim() === action.nick; });
+			$row.addClass(action.oldScore > action.newScore ? "rank-climbing" : "rank-falling");
+			animate_reorder_ranks([p]);
+			AudioEngine.playFlip();
+			showToast("Αναίρεση: Οι βαθμοί του παίκτη " + action.nick + " επανήλθαν σε " + action.oldScore + ".");
+		}
+	} else if (action.type === "bulk_edit") {
+		lb_data = JSON.parse(JSON.stringify(action.oldData));
+		build_leaderboard();
+		AudioEngine.playFlip();
+		showToast("Αναίρεση: Επαναφέρθηκε η προηγούμενη κατάσταση παικτών.");
+	}
+}
+
+function perform_redo() {
+	if (redo_stack.length === 0) {
+		showToast("Δεν υπάρχει ενέργεια προς επανάληψη.");
+		AudioEngine.playNegative();
+		return;
+	}
+
+	var action = redo_stack.pop();
+	undo_stack.push(action);
+
+	if (action.type === "swap") {
+		var pA = lb_data.find(function(p) { return p.nickname === action.nickA; });
+		var pB = lb_data.find(function(p) { return p.nickname === action.nickB; });
+		if (pA && pB) {
+			pA.score = action.scoreA_after;
+			pB.score = action.scoreB_after;
+
+			var $rowA = $(".person").filter(function() { return $(this).find(".person-nickname").text().trim() === action.nickA; });
+			var $rowB = $(".person").filter(function() { return $(this).find(".person-nickname").text().trim() === action.nickB; });
+			$rowA.addClass(action.scoreA_after > action.scoreA_before ? "rank-climbing" : "rank-falling");
+			$rowB.addClass(action.scoreB_after > action.scoreB_before ? "rank-climbing" : "rank-falling");
+
+			animate_reorder_ranks([pA, pB]);
+			AudioEngine.playMilestone();
+			showToast("Επανάληψη: Έγινε ξανά η ανταλλαγή μεταξύ " + action.nickA + " και " + action.nickB + ".");
+		}
+	} else if (action.type === "score_change") {
+		var p = lb_data.find(function(item) { return item.nickname === action.nick; });
+		if (p) {
+			p.score = action.newScore;
+			var $row = $(".person").filter(function() { return $(this).find(".person-nickname").text().trim() === action.nick; });
+			$row.addClass(action.newScore > action.oldScore ? "rank-climbing" : "rank-falling");
+			animate_reorder_ranks([p]);
+			AudioEngine.playPositive();
+			showToast("Επανάληψη: Οι βαθμοί του παίκτη " + action.nick + " έγιναν ξανά " + action.newScore + ".");
+		}
+	} else if (action.type === "bulk_edit") {
+		lb_data = JSON.parse(JSON.stringify(action.newData));
+		build_leaderboard();
+		AudioEngine.playPositive();
+		showToast("Επανάληψη: Επανήλθαν οι αλλαγές.");
 	}
 }
 
@@ -3014,6 +3124,23 @@ function init_event_listeners() {
 			e.preventDefault();
 			$("#btn-confirm-ok").trigger("click");
 			return;
+		}
+		// Undo: Command+Z (Mac) or Ctrl+Z (Windows)
+		if ((e.metaKey || e.ctrlKey) && !e.shiftKey && (e.key === "z" || e.key === "Z")) {
+			if (!$(e.target).is("input, textarea") && !$("body").hasClass("show-confirm")) {
+				e.preventDefault();
+				perform_undo();
+				return;
+			}
+		}
+		// Redo: Command+Shift+Z (Mac), Ctrl+Shift+Z, or Ctrl+Y (Windows)
+		if (((e.metaKey || e.ctrlKey) && e.shiftKey && (e.key === "z" || e.key === "Z")) ||
+		    (e.ctrlKey && !e.shiftKey && (e.key === "y" || e.key === "Y"))) {
+			if (!$(e.target).is("input, textarea") && !$("body").hasClass("show-confirm")) {
+				e.preventDefault();
+				perform_redo();
+				return;
+			}
 		}
 		if ((e.key === "s" || e.key === "S") && !$(e.target).is("input, textarea") && !$("body").hasClass("show-confirm")) {
 			$("#tool-btn-swap").trigger("click");
