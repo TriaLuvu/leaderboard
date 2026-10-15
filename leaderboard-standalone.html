@@ -775,9 +775,7 @@ body {
 }
 
 .person-sub-meta {
-	font-size: 12px;
-	color: #cbbdae;
-	font-weight: 500;
+	display: none !important;
 }
 
 /* Score Badge (Vibrant Crimson Red) */
@@ -2020,7 +2018,6 @@ var lb_template = `
 		<div class="person-name-row">
 			<span class="person-nickname">{{nickname}}</span>
 		</div>
-		<span class="person-sub-meta">{{subtitle}}</span>
 	</div>
 	<div class="person-score-badge" title="Πατήστε τους βαθμούς δύο παικτών για εναλλαγή (ή διπλό κλικ για απευθείας επεξεργασία)">
 		<span>{{score_display}}</span>
@@ -2162,16 +2159,16 @@ $(document).ready(function() {
 	// Seed data matching reference images if still empty
 	if (!lb_data || lb_data.length === 0) {
 		lb_data = [
-			{icon: "hawk", nickname: "Hawk", score: 420, subtitle: "168 Battles won • 82% Winrate"},
-			{icon: "abram", nickname: "Abram Mango", score: 415, subtitle: "142 Battles won • 79% Winrate"},
-			{icon: "bytex", nickname: "ByteX", score: 390, subtitle: "135 Battles won • 76% Winrate"},
-			{icon: "kianna", nickname: "Kianna Torff", score: 385, subtitle: "128 Battles won • 75% Winrate"},
-			{icon: "voyager", nickname: "Voyager", score: 360, subtitle: "119 Battles won • 71% Winrate"},
-			{icon: "alfonso", nickname: "Alfonso Lubin", score: 324, subtitle: "98 Battles won • 68% Winrate"},
-			{icon: "lion", nickname: "Maren Gouse", score: 290, subtitle: "84 Battles won • 65% Winrate"},
-			{icon: "fox", nickname: "Desirae Herwitz", score: 245, subtitle: "72 Battles won • 61% Winrate"},
-			{icon: "panda", nickname: "Max Cooper", score: 210, subtitle: "65 Battles won • 59% Winrate"},
-			{icon: "unicorn", nickname: "Sparkle Hero", score: 180, subtitle: "54 Battles won • 55% Winrate"}
+			{icon: "hawk", nickname: "Hawk", score: 420},
+			{icon: "abram", nickname: "Abram Mango", score: 415},
+			{icon: "bytex", nickname: "ByteX", score: 390},
+			{icon: "kianna", nickname: "Kianna Torff", score: 385},
+			{icon: "voyager", nickname: "Voyager", score: 360},
+			{icon: "alfonso", nickname: "Alfonso Lubin", score: 324},
+			{icon: "lion", nickname: "Maren Gouse", score: 290},
+			{icon: "fox", nickname: "Desirae Herwitz", score: 245},
+			{icon: "panda", nickname: "Max Cooper", score: 210},
+			{icon: "unicorn", nickname: "Sparkle Hero", score: 180}
 		];
 		if (local_storage_available) localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
 	}
@@ -2249,8 +2246,6 @@ function build_leaderboard() {
 			.replace("{{rank}}", rank)
 			.replace("{{avatar_svg}}", render_avatar(person.icon))
 			.replace(/{{nickname}}/g, person.nickname)
-			
-			.replace("{{subtitle}}", person.subtitle || "Contender")
 			.replace("{{score_display}}", (person.score || 0));
 		$list.append(rowHtml);
 	});
@@ -2418,9 +2413,7 @@ function save_inline_edits() {
 		new_data.push({
 			icon: icon,
 			nickname: nick,
-			score: scr,
-			subtitle: "Contender",
-			
+			score: scr
 		});
 	});
 
@@ -3237,7 +3230,7 @@ function init_event_listeners() {
 		var icon = $("#rand-person-icon").val() || "hawk";
 		var nick = $("#nickname").val() || "Player " + (lb_data.length + 1);
 		var scr = parseInt($("#score").val(), 10) || 0;
-		lb_data.push({ icon: icon, nickname: nick, score: scr, subtitle: "New Challenger",  });
+		lb_data.push({ icon: icon, nickname: nick, score: scr });
 		build_leaderboard();
 		$("body").removeClass("show-add-person");
 		AudioEngine.playFlip();
@@ -3558,9 +3551,7 @@ function read_lb_text(data_str) {
 			lb_data.push({
 				icon: tokens[0].trim(),
 				nickname: tokens[1].trim(),
-				score: parseInt(tokens[2].trim(), 10) || 0,
-				subtitle: "Contender",
-				
+				score: parseInt(tokens[2].trim(), 10) || 0
 			});
 		}
 	});
