@@ -653,11 +653,12 @@ body {
 	height: 15px;
 }
 
-.btn-save-inline {
+.btn-save-inline,
+.btn-save-cards-inline {
 	background: var(--btn-ok) !important;
-	
 }
-.btn-cancel-inline {
+.btn-cancel-inline,
+.btn-cancel-cards-inline {
 	background: var(--btn-cancel) !important;
 }
 
@@ -1127,6 +1128,133 @@ body.swap-mode-active .swap-hint {
 .cards-list .card .score.green  { background: var(--score-green); }
 .cards-list .card .score.yellow { background: var(--score-yellow); color: #735d1a; }
 
+/* Card Inline Edit Mode */
+.cards-list .card.edit-mode-card {
+	height: auto !important;
+	min-height: 290px;
+	padding: 8px;
+}
+.cards-list .card.edit-mode-card .card-box {
+	height: 100%;
+	padding: 0;
+}
+.cards-list .card.edit-mode-card .card-content {
+	background: #25282c !important;
+	border: 2px dashed rgba(255, 255, 255, 0.22);
+	border-radius: 12px;
+	padding: 16px 12px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	height: 100%;
+	box-sizing: border-box;
+}
+.cards-list .card.edit-mode-card .card-cover {
+	display: none !important;
+}
+.cards-list .card.edit-mode-card .inline-card-avatar {
+	width: 68px;
+	height: 68px;
+	border-radius: 50%;
+	background: var(--text-cornsilk);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+	transition: transform 0.15s ease;
+}
+.cards-list .card.edit-mode-card .inline-card-avatar:hover {
+	transform: scale(1.08);
+}
+.cards-list .card.edit-mode-card .inline-card-avatar svg {
+	width: 40px;
+	height: 40px;
+}
+.cards-list .card.edit-mode-card .inline-card-score {
+	width: 100px;
+	text-align: center;
+	font-size: 20px;
+	font-weight: 800;
+	background: #353a40;
+	color: #fff;
+	border: 1px solid var(--card-border);
+	border-radius: 8px;
+	padding: 6px 8px;
+	outline: none;
+	font-family: var(--font-mono);
+}
+.cards-list .card.edit-mode-card .inline-card-score:focus {
+	border-color: var(--accent-primary);
+}
+.cards-list .card.edit-mode-card .inline-card-info {
+	width: 100%;
+	font-size: 13px;
+	background: #353a40;
+	color: #fff;
+	border: 1px solid var(--card-border);
+	border-radius: 8px;
+	padding: 8px 10px;
+	outline: none;
+	resize: none;
+	text-align: center;
+	font-family: inherit;
+	box-sizing: border-box;
+}
+.cards-list .card.edit-mode-card .inline-card-info:focus {
+	border-color: var(--accent-primary);
+}
+.cards-list .card.edit-mode-card .inline-card-del-btn {
+	background: var(--score-red);
+	border: none;
+	border-radius: 8px;
+	color: #fff;
+	width: 36px;
+	height: 36px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: transform 0.15s ease;
+}
+.cards-list .card.edit-mode-card .inline-card-del-btn:hover {
+	transform: scale(1.1);
+}
+.cards-list .card.edit-mode-card .inline-card-del-btn svg {
+	width: 18px;
+	height: 18px;
+}
+.btn-inline-add-card-item {
+	width: 100%;
+	height: 56px;
+	background: #353a40;
+	border: 2px dashed rgba(255,255,255,0.25);
+	border-radius: 10px;
+	color: var(--text-cornsilk);
+	font-family: inherit;
+	font-size: 16px;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	cursor: pointer;
+	margin-top: 14px;
+	margin-bottom: 24px;
+	transition: all 0.2s ease;
+}
+.btn-inline-add-card-item:hover {
+	background: #2d3e50;
+	border-color: var(--accent-primary);
+}
+
+/* Modal Sub-tabs */
+.modal-tab-header .modal-tab-btn.active {
+	background: var(--accent-subtle) !important;
+	color: var(--accent-primary) !important;
+}
+
 /* ========================================================
    MODALS & POPUPS (RETRO MODERN BUNDLE)
    Clean, borderless, fully centered overlays
@@ -1573,6 +1701,19 @@ body.show-modal .modal-backdrop {
 						<h3 class="table-header-title">Mystery Cards Deck</h3>
 					</div>
 					<div class="table-header-right">
+						<button class="btn-panel-action btn-edit-cards-panel" id="btn-edit-cards-panel" title="Επεξεργασία Καρτών">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+							<span>Επεξεργασία</span>
+						</button>
+						<div class="edit-cards-actions" id="edit-cards-actions" style="display: none; align-items: center; gap: 8px;">
+							<button class="btn-panel-action btn-save-cards-inline" id="btn-save-cards-inline" title="Αποθήκευση αλλαγών">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+								<span>Αποθήκευση</span>
+							</button>
+							<button class="btn-panel-action btn-cancel-cards-inline" id="btn-cancel-cards-inline" title="Ακύρωση">
+								<span>Ακύρωση</span>
+							</button>
+						</div>
 						<button class="tool-btn" id="btn-shuffle-cards" style="width: auto; padding: 0 16px; gap: 6px;" title="Shuffle Cards">
 							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
 							<span>Shuffle</span>
@@ -1616,28 +1757,68 @@ body.show-modal .modal-backdrop {
 	     ============================================== -->
 	<!-- Add Player Modal -->
 	<div class="popup-modal add-person-popup">
-		<div class="modal-box">
-			<h2>Add New Player</h2>
-			<input type="text" id="rand-person-icon" class="random-icon" value="lion" title="Click or type an avatar">
-			<input type="text" id="nickname" placeholder="Player Nickname (e.g. Hawk)">
-			<input type="number" id="score" placeholder="Initial Score (e.g. 100)">
+		<div class="modal-box" style="max-width: 500px;">
+			<h2>Προσθήκη Παικτών</h2>
+			<div class="modal-tab-header" style="display: flex; gap: 6px; margin-bottom: 8px; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 10px;">
+				<button type="button" class="modal-tab-btn active" data-tab="single-player" style="flex: 1; padding: 8px; border-radius: 8px; border: none; background: var(--accent-subtle); color: var(--accent-primary); font-size: 13px; font-weight: 700; cursor: pointer;">Ένας Παίκτης</button>
+				<button type="button" class="modal-tab-btn" data-tab="bulk-players" style="flex: 1; padding: 8px; border-radius: 8px; border: none; background: transparent; color: var(--text-secondary); font-size: 13px; font-weight: 700; cursor: pointer;">Μαζικά (Λίστα)</button>
+			</div>
+
+			<div class="modal-tab-pane tab-single-player">
+				<input type="text" id="rand-person-icon" class="random-icon" value="lion" title="Click or type an avatar">
+				<input type="text" id="nickname" placeholder="Όνομα Παίκτη (π.χ. Hawk)">
+				<input type="number" id="score" placeholder="Αρχικό Σκορ (π.χ. 100)">
+			</div>
+
+			<div class="modal-tab-pane tab-bulk-players" style="display: none;">
+				<p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 8px 0; line-height: 1.4;">
+					Γράψτε ή επικολλήστε ονόματα (ένα ανά γραμμή):<br>
+					<code>Όνομα, Σκορ</code> (π.χ. <code>Νίκος, 100</code>) ή απλά <code>Όνομα</code>
+				</p>
+				<textarea id="bulk-players-text" rows="6" placeholder="Νίκος, 150&#10;Μαρία, 120&#10;hawk, Γιώργος, 90" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
+				<label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); margin-top: 6px; cursor: pointer;">
+					<input type="checkbox" id="chk-bulk-replace-players">
+					<span>Αντικατάσταση όλων των υπαρχόντων παικτών</span>
+				</label>
+			</div>
+
 			<div class="modal-actions">
-				<button class="cancel">CANCEL</button>
-				<button class="ok">ADD PLAYER</button>
+				<button class="cancel">ΑΚΥΡΩΣΗ</button>
+				<button class="ok">ΠΡΟΣΘΗΚΗ</button>
 			</div>
 		</div>
 	</div>
 
 	<!-- Add Mystery Card Modal -->
 	<div class="popup-modal add-card-popup">
-		<div class="modal-box">
-			<h2>Add Mystery Card</h2>
-			<input type="text" id="rand-card-icon" class="random-icon" value="gift">
-			<input type="text" id="card-score" placeholder="Score impact (e.g. +5 or -2)">
-			<input type="text" id="card-info" placeholder="Description / Surprise info">
+		<div class="modal-box" style="max-width: 500px;">
+			<h2>Προσθήκη Καρτών Μυστηρίου</h2>
+			<div class="modal-tab-header" style="display: flex; gap: 6px; margin-bottom: 8px; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 10px;">
+				<button type="button" class="modal-tab-btn active" data-tab="single-card" style="flex: 1; padding: 8px; border-radius: 8px; border: none; background: var(--accent-subtle); color: var(--accent-primary); font-size: 13px; font-weight: 700; cursor: pointer;">Μία Κάρτα</button>
+				<button type="button" class="modal-tab-btn" data-tab="bulk-cards" style="flex: 1; padding: 8px; border-radius: 8px; border: none; background: transparent; color: var(--text-secondary); font-size: 13px; font-weight: 700; cursor: pointer;">Μαζικά (Λίστα)</button>
+			</div>
+
+			<div class="modal-tab-pane tab-single-card">
+				<input type="text" id="rand-card-icon" class="random-icon" value="gift" title="Click or type an avatar">
+				<input type="text" id="card-score" placeholder="Επίδραση σκορ (π.χ. +5 ή -2)">
+				<input type="text" id="card-info" placeholder="Περιγραφή / Μήνυμα έκπληξης">
+			</div>
+
+			<div class="modal-tab-pane tab-bulk-cards" style="display: none;">
+				<p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 8px 0; line-height: 1.4;">
+					Γράψτε ή επικολλήστε κάρτες (μία ανά γραμμή):<br>
+					<code>Πόντοι, Περιγραφή</code> (π.χ. <code>+5, Τυχερό Κουτί</code>)
+				</p>
+				<textarea id="bulk-cards-text" rows="6" placeholder="+5, Τυχερό Κουτί!&#10;+10, Σούπερ Μπόνους!&#10;-2, Ποινή -2 πόντοι&#10;trophy, +15, Μεγάλο Έπαθλο!" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
+				<label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); margin-top: 6px; cursor: pointer;">
+					<input type="checkbox" id="chk-bulk-replace-cards">
+					<span>Αντικατάσταση όλων των υπαρχουσών καρτών</span>
+				</label>
+			</div>
+
 			<div class="modal-actions">
-				<button class="cancel">CANCEL</button>
-				<button class="ok">ADD CARD</button>
+				<button class="cancel">ΑΚΥΡΩΣΗ</button>
+				<button class="ok">ΠΡΟΣΘΗΚΗ</button>
 			</div>
 		</div>
 	</div>
@@ -1660,12 +1841,77 @@ body.show-modal .modal-backdrop {
 
 			<div class="sync-options-grid" style="display: flex; flex-direction: column; gap: 18px;">
 
-				<!-- CARD 1: 0 FILES - INSTANT SHARING (AIRDROP, EMAIL, WHATSAPP, QR, LINK) -->
+				<!-- CARD 1: 1-CLICK COPY / PASTE TRANSFER (EASIEST FOR EXISTING SITE) -->
+				<div class="sync-card" style="padding: 20px; background: var(--card-bg); border: 1.5px solid var(--accent-primary); border-radius: 18px; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
+							<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent-primary)" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">1. Εύκολη Μεταφορά σε άλλο PC / Υπάρχον Site</h3>
+						</div>
+						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(99, 102, 241, 0.2); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.4);">ΠΙΟ ΑΠΛΟ & ΑΜΕΣΟ</span>
+					</div>
+					<p class="sync-card-desc" style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+						<b>Βήμα 1:</b> Πατήστε «Αντιγραφή Όλων των Δεδομένων» (παίκτες & κάρτες).<br>
+						<b>Βήμα 2:</b> Στον άλλο υπολογιστή ή στο υπάρχον site, επικολλήστε τα παρακάτω και πατήστε «Εφαρμογή»!
+					</p>
+
+					<div style="display: flex; flex-direction: column; gap: 10px;">
+						<button id="btn-copy-raw-data" type="button" style="width: 100%; height: 42px; border-radius: 10px; border:none; background: var(--accent-gradient); color:#fff; font-size: 13px; font-weight: 800; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px var(--accent-glow);">
+							<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+							<span>📋 Αντιγραφή Όλων των Δεδομένων (Copy Data)</span>
+						</button>
+
+						<div style="background: rgba(0,0,0,0.3); border: 1px solid var(--card-border); border-radius: 12px; padding: 12px;">
+							<label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
+								📥 Επικόλληση Δεδομένων για προσαρμογή στο υπάρχον Site:
+							</label>
+							<div style="display: flex; gap: 8px;">
+								<input type="text" id="input-paste-data" placeholder="Κάντε επικόλληση (Paste) εδώ τα δεδομένα..." style="flex:1; background: rgba(0,0,0,0.5); border: 1px solid var(--card-border); border-radius: 8px; color:#fff; padding: 10px 12px; font-size: 12px; font-family: monospace; outline:none;">
+								<button id="btn-apply-pasted-data" type="button" style="padding: 0 18px; height: 38px; border-radius: 8px; border:none; background: #10b981; color:#fff; font-size: 13px; font-weight: 800; cursor:pointer; white-space: nowrap; box-shadow: 0 2px 8px rgba(16,185,129,0.3);">
+									Εφαρμογή
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- CARD 2: 1 FILE - STANDALONE OFFLINE HTML FOR USB STICK -->
+				<div class="sync-card" style="padding: 20px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px;">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
+							<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#10b981" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">2. Πάρτε σε USB / Offline (Από την αρχή • 1 Μόνο Αρχείο)</h3>
+						</div>
+						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">1 ΑΡΧΕΙΟ • OFFLINE</span>
+					</div>
+					<p class="sync-card-desc" style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+						Κατεβάστε <b>ένα και μοναδικό αρχείο HTML</b> που περιέχει ήδη μέσα όλα τα ονόματα, τα σκορ και τις κάρτες σας. Βάλτε το στο USB stick, κάντε διπλό κλικ σε οποιοδήποτε PC και ανοίγει αμέσως από την αρχή χωρίς internet!
+					</p>
+
+					<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+						<button id="btn-download-app-html" type="button" style="flex: 1.4; min-width: 220px; height: 42px; border-radius: 10px; border:none; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; font-size: 13px; font-weight: 800; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);">
+							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+							<span>Λήψη Έτοιμης Εφαρμογής (.html)</span>
+						</button>
+						<button id="btn-export-backup-json" type="button" style="flex: 1; min-width: 140px; height: 42px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+							<span>Backup (.json)</span>
+						</button>
+						<label style="flex: 1; min-width: 140px; height: 42px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-sizing: border-box;">
+							<span>Επαναφορά (.json)</span>
+							<input type="file" id="backup-file-input" accept=".json" style="display:none;">
+						</label>
+						<button id="btn-load-local-json" type="button" style="flex: 1; min-width: 170px; height: 42px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+							<span>Φόρτωση τοπικού .json</span>
+						</button>
+					</div>
+				</div>
+
+				<!-- CARD 3: 0 FILES - INSTANT SHARING (AIRDROP, EMAIL, WHATSAPP, QR, LINK) -->
 				<div class="sync-card" style="padding: 20px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px;">
 					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
 						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
 							<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#6366f1" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.71 1.26-1.5 1.5-2.5L4.5 16.5z"/><path d="M12 15l-3-3 7.5-7.5c1.38-1.38 3.62-1.38 5 0 1.38 1.38 1.38 3.62 0 5L14 17l-2-2z"/></svg>
-							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">1. Στείλτε σε Άλλον (Χωρίς Αρχεία • 0 Files)</h3>
+							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">3. Στείλτε σε Άλλον (Χωρίς Αρχεία • Link / QR)</h3>
 						</div>
 						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(99, 102, 241, 0.15); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3);">ΑΜΕΣΟ & ONLINE</span>
 					</div>
@@ -1707,41 +1953,15 @@ body.show-modal .modal-backdrop {
 					</div>
 				</div>
 
-				<!-- CARD 2: 1 FILE - STANDALONE OFFLINE HTML FOR USB STICK -->
-				<div class="sync-card" style="padding: 20px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px;">
-					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
-							<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#10b981" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">2. Πάρτε σε USB / Offline (1 Μόνο Αρχείο HTML)</h3>
-						</div>
-						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">1 ΑΡΧΕΙΟ • OFFLINE</span>
-					</div>
-					<p class="sync-card-desc" style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
-						Κατεβάστε <b>ένα και μοναδικό αρχείο HTML</b> που περιέχει ήδη μέσα όλα τα ονόματα, τα σκορ και τις ρυθμίσεις σας. Βάλτε το στο USB stick, κάντε διπλό κλικ σε οποιοδήποτε PC και ανοίγει αμέσως χωρίς internet!
-					</p>
-
-					<div style="display: flex; flex-wrap: wrap; gap: 10px;">
-						<button id="btn-download-app-html" type="button" style="flex: 1.4; min-width: 220px; height: 42px; border-radius: 10px; border:none; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; font-size: 13px; font-weight: 800; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);">
-							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-							<span>Λήψη Έτοιμης Εφαρμογής (.html)</span>
-						</button>
-						<button id="btn-export-backup-json" type="button" style="flex: 1; min-width: 140px; height: 42px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>Backup (.json)</span>
-						</button>
-						<label style="flex: 1; min-width: 140px; height: 42px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-sizing: border-box;">
-							<span>Επαναφορά</span>
-							<input type="file" id="backup-file-input" accept=".json" style="display:none;">
-						</label>
-					</div>
-				</div>
-
-				<!-- CARD 3: DISPLAY MODE PREFERENCE (LEADERBOARD ONLY / CARDS ONLY / BOTH) -->
+				<!-- CARD 4: DISPLAY MODE PREFERENCE (LEADERBOARD ONLY / CARDS ONLY / BOTH) -->
 				<div class="sync-card" style="padding: 20px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px;">
 					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
 						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
 							<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#38bdf8" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">3. Επιλογή Εμφάνισης (Display Mode)</h3>
+							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">4. Επιλογή Εμφάνισης (Display Mode)</h3>
 						</div>
+						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);">ΑΠΟΘΗΚΕΥΕΤΑΙ</span>
+					</div>
 						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);">ΑΠΟΘΗΚΕΥΕΤΑΙ</span>
 					</div>
 					<p class="sync-card-desc" style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px;">
@@ -2193,6 +2413,23 @@ $(document).ready(function() {
 	build_cards();
 	init_event_listeners();
 	apply_display_mode(current_display_mode, false);
+
+	// Optional auto-fetch from leaderboard-data.json if hosted on server with no local changes yet
+	if (!data_was_synced && local_storage_available && !localStorage.getItem("leaderboard_data") && (window.location.protocol === "http:" || window.location.protocol === "https:")) {
+		fetch("./leaderboard-data.json")
+			.then(function(r) { return r.ok ? r.json() : null; })
+			.then(function(d) {
+				if (d) {
+					if (d.leaderboard) lb_data = d.leaderboard;
+					if (d.cards) card_data = d.cards;
+					if (d.theme) apply_theme(d.theme);
+					if (d.display_mode) apply_display_mode(d.display_mode, false);
+					build_leaderboard();
+					build_cards();
+				}
+			})
+			.catch(function() {});
+	}
 
 	// Check saved podium state
 	if (local_storage_available && localStorage.getItem("podium_collapsed") === "1") {
@@ -2973,6 +3210,7 @@ function apply_search_filter() {
 
 /* --- MYSTERY CARDS LOGIC --- */
 function build_cards() {
+	if (inline_cards_edit_active) return;
 	$(".cards-list").empty();
 	if (card_data.length === 0) return;
 
@@ -3040,6 +3278,166 @@ function build_cards() {
 			AudioEngine.playFlip();
 		}
 	});
+
+	if (local_storage_available) {
+		localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
+	}
+}
+
+/* --- INLINE EDIT MODE FOR CARDS --- */
+var inline_cards_edit_active = false;
+
+function enter_cards_inline_edit_mode() {
+	if (inline_cards_edit_active) return;
+	inline_cards_edit_active = true;
+	$("body").addClass("inline-cards-edit-active");
+	$("#btn-edit-cards-panel").hide();
+	$("#btn-shuffle-cards").hide();
+	$("#btn-refresh-cards").hide();
+	$("#edit-cards-actions").css("display", "inline-flex");
+
+	if (cards_iso) {
+		cards_iso.isotope("destroy");
+		cards_iso = null;
+	}
+
+	render_inline_cards_edit_rows();
+	AudioEngine.playFlip();
+	showToast("Λειτουργία Επεξεργασίας Καρτών: Αλλάξτε πόντους, περιγραφές ή εικονίδια.");
+}
+
+function render_inline_cards_edit_rows() {
+	var $list = $(".cards-list");
+	$list.empty();
+
+	card_data.forEach(function(card, index) {
+		var cardHtml = `
+		<li class="card edit-mode-card" data-index="${index}">
+			<div class="card-box">
+				<div class="card-content">
+					<div class="inline-card-avatar" data-icon="${card.icon}" title="Κάντε κλικ για αλλαγή Avatar">
+						${render_avatar(card.icon)}
+					</div>
+					<input type="text" class="inline-card-score" value="${escapeHtml(card.score || '+5')}" placeholder="+5 / -2" title="Πόντοι κάρτας">
+					<textarea class="inline-card-info" rows="2" placeholder="Περιγραφή / Έκπληξη">${escapeHtml(card.info || '')}</textarea>
+					<button type="button" class="inline-card-del-btn" title="Διαγραφή κάρτας">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+					</button>
+				</div>
+			</div>
+		</li>
+		`;
+		$list.append(cardHtml);
+	});
+
+	$list.append(`
+		<li class="inline-add-card-wrapper" style="width: 100%; list-style: none;">
+			<button type="button" class="btn-inline-add-card-item" id="btn-inline-add-card-bottom">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+				<span>Προσθήκη Νέας Κάρτας</span>
+			</button>
+		</li>
+	`);
+
+	bind_cards_inline_edit_events();
+}
+
+function bind_cards_inline_edit_events() {
+	var cardIcons = ["gift", "fire", "star", "rocket", "trophy", "shield", "lion", "fox", "panda", "unicorn", "owl", "tiger", "dolphin", "frog"];
+
+	$(".inline-card-avatar").off("click").on("click", function() {
+		var current = $(this).attr("data-icon") || "gift";
+		var nextIdx = (cardIcons.indexOf(current) + 1) % cardIcons.length;
+		var nextIcon = cardIcons[nextIdx];
+		$(this).attr("data-icon", nextIcon);
+		$(this).html(render_avatar(nextIcon));
+		AudioEngine.playFlip();
+	});
+
+	$(".inline-card-del-btn").off("click").on("click", function() {
+		var $item = $(this).closest(".card");
+		showConfirmDialog(
+			"Διαγραφή Κάρτας",
+			"Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή την κάρτα;",
+			"trash",
+			function() {
+				$item.slideUp(180, function() {
+					$item.remove();
+				});
+				showToast("Η κάρτα αφαιρέθηκε.");
+				AudioEngine.playNegative();
+			}
+		);
+	});
+
+	$("#btn-inline-add-card-bottom").off("click").on("click", function() {
+		var randIcon = cardIcons[getRandomInt(0, cardIcons.length - 1)];
+		var newRowHtml = `
+		<li class="card edit-mode-card">
+			<div class="card-box">
+				<div class="card-content">
+					<div class="inline-card-avatar" data-icon="${randIcon}" title="Κάντε κλικ για αλλαγή Avatar">
+						${render_avatar(randIcon)}
+					</div>
+					<input type="text" class="inline-card-score" value="+5" placeholder="+5 / -2" title="Πόντοι κάρτας">
+					<textarea class="inline-card-info" rows="2" placeholder="Περιγραφή / Έκπληξη">Νέο Μυστικό Μπόνους!</textarea>
+					<button type="button" class="inline-card-del-btn" title="Διαγραφή κάρτας">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+					</button>
+				</div>
+			</div>
+		</li>
+		`;
+		$(newRowHtml).insertBefore(".inline-add-card-wrapper");
+		bind_cards_inline_edit_events();
+		$(".card.edit-mode-card:last .inline-card-score").focus().select();
+		AudioEngine.playFlip();
+	});
+}
+
+function save_cards_inline_edits() {
+	var new_cards = [];
+	$(".card.edit-mode-card").each(function() {
+		var icon = $(this).find(".inline-card-avatar").attr("data-icon") || "gift";
+		var scr = $(this).find(".inline-card-score").val().trim() || "+5";
+		var info = $(this).find(".inline-card-info").val().trim() || "Bonus!";
+		new_cards.push({ icon: icon, score: scr, info: info });
+	});
+
+	card_data = new_cards;
+	if (local_storage_available) {
+		localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
+	}
+
+	exit_cards_inline_edit_mode();
+	build_cards();
+	AudioEngine.playPositive();
+	ConfettiEngine.launch(80);
+	showToast("Οι κάρτες αποθηκεύτηκαν επιτυχώς.");
+}
+
+function cancel_cards_inline_edits() {
+	exit_cards_inline_edit_mode();
+	build_cards();
+	AudioEngine.playFlip();
+	showToast("Ακυρώθηκαν οι αλλαγές καρτών.");
+}
+
+function exit_cards_inline_edit_mode() {
+	inline_cards_edit_active = false;
+	$("body").removeClass("inline-cards-edit-active");
+	$("#edit-cards-actions").hide();
+	$("#btn-edit-cards-panel").show();
+	$("#btn-shuffle-cards").show();
+	$("#btn-refresh-cards").show();
+
+	if (!cards_iso) {
+		cards_iso = $(".cards-list").isotope({
+			itemSelector: ".card",
+			percentPosition: true,
+			layoutMode: "fitRows"
+		});
+	}
 }
 
 /* --- MODE SWITCHING --- */
@@ -3170,16 +3568,17 @@ function init_event_listeners() {
 	$("#btn-save-inline").on("click", save_inline_edits);
 	$("#btn-cancel-inline").on("click", cancel_inline_edits);
 
+	$("#btn-edit-cards-panel").on("click", enter_cards_inline_edit_mode);
+	$("#btn-save-cards-inline").on("click", save_cards_inline_edits);
+	$("#btn-cancel-cards-inline").on("click", cancel_cards_inline_edits);
+
 	$("#tool-btn-edit").on("click", function() {
 		if (current_mode === "leaderboard") {
 			if (!inline_edit_active) enter_inline_edit_mode();
 			else cancel_inline_edits();
 		} else {
-			$("body").addClass("show-edit");
-			$("#edit-title").text("Bulk Edit Cards (icon, score, info)");
-			var str = "";
-			card_data.forEach(function(c) { str += (c.icon + "," + c.score + "," + c.info + "\n"); });
-			$("#tarea").val(str).focus();
+			if (!inline_cards_edit_active) enter_cards_inline_edit_mode();
+			else cancel_cards_inline_edits();
 		}
 	});
 
@@ -3225,26 +3624,103 @@ function init_event_listeners() {
 		}
 	});
 
+	// Sub-tab switcher inside Add Modals
+	$(".modal-tab-btn").on("click", function() {
+		var $modal = $(this).closest(".modal-box");
+		var target = $(this).attr("data-tab");
+		$modal.find(".modal-tab-btn").removeClass("active");
+		$(this).addClass("active");
+		$modal.find(".modal-tab-pane").hide();
+		$modal.find(".tab-" + target).show();
+	});
+
 	$(".add-person-popup .cancel").on("click", function() { $("body").removeClass("show-add-person"); });
 	$(".add-person-popup .ok").on("click", function() {
-		var icon = $("#rand-person-icon").val() || "hawk";
-		var nick = $("#nickname").val() || "Player " + (lb_data.length + 1);
-		var scr = parseInt($("#score").val(), 10) || 0;
-		lb_data.push({ icon: icon, nickname: nick, score: scr });
-		build_leaderboard();
-		$("body").removeClass("show-add-person");
-		AudioEngine.playFlip();
+		var isBulk = $('.add-person-popup .modal-tab-btn[data-tab="bulk-players"]').hasClass("active");
+		if (isBulk) {
+			var bulkText = ($("#bulk-players-text").val() || "").trim();
+			if (!bulkText) {
+				alert("Παρακαλώ εισάγετε τουλάχιστον ένα όνομα.");
+				return;
+			}
+			var lines = bulkText.split("\n").filter(function(l) { return l.trim().length > 0; });
+			if ($("#chk-bulk-replace-players").is(":checked")) {
+				lb_data = [];
+			}
+			var avatarList = ["hawk", "abram", "kianna", "bytex", "voyager", "alfonso", "lion", "fox", "panda", "unicorn", "owl", "tiger", "dolphin", "frog"];
+			lines.forEach(function(line, idx) {
+				var parts = line.split(",").map(function(s) { return s.trim(); });
+				if (parts.length >= 3) {
+					lb_data.push({ icon: parts[0] || avatarList[idx % avatarList.length], nickname: parts[1], score: parseInt(parts[2], 10) || 0 });
+				} else if (parts.length === 2) {
+					var possibleScore = parseInt(parts[1], 10);
+					if (!isNaN(possibleScore)) {
+						lb_data.push({ icon: avatarList[idx % avatarList.length], nickname: parts[0], score: possibleScore });
+					} else {
+						lb_data.push({ icon: parts[0], nickname: parts[1], score: 0 });
+					}
+				} else if (parts.length === 1 && parts[0]) {
+					lb_data.push({ icon: avatarList[idx % avatarList.length], nickname: parts[0], score: 0 });
+				}
+			});
+			build_leaderboard();
+			$("body").removeClass("show-add-person");
+			$("#bulk-players-text").val("");
+			AudioEngine.playMilestone();
+			ConfettiEngine.launch(90);
+			showToast("Οι παίκτες προστέθηκαν επιτυχώς!");
+		} else {
+			var icon = $("#rand-person-icon").val() || "hawk";
+			var nick = $("#nickname").val() || "Player " + (lb_data.length + 1);
+			var scr = parseInt($("#score").val(), 10) || 0;
+			lb_data.push({ icon: icon, nickname: nick, score: scr });
+			build_leaderboard();
+			$("body").removeClass("show-add-person");
+			AudioEngine.playPositive();
+			showToast("Ο παίκτης προστέθηκε επιτυχώς!");
+		}
 	});
 
 	$(".add-card-popup .cancel").on("click", function() { $("body").removeClass("show-add-card"); });
 	$(".add-card-popup .ok").on("click", function() {
-		var icon = $("#rand-card-icon").val() || "gift";
-		var scr = $("#card-score").val() || "+5";
-		var info = $("#card-info").val() || "Mystery Bonus!";
-		card_data.push({ icon: icon, score: scr, info: info });
-		build_cards();
-		$("body").removeClass("show-add-card");
-		AudioEngine.playFlip();
+		var isBulk = $('.add-card-popup .modal-tab-btn[data-tab="bulk-cards"]').hasClass("active");
+		if (isBulk) {
+			var bulkText = ($("#bulk-cards-text").val() || "").trim();
+			if (!bulkText) {
+				alert("Παρακαλώ εισάγετε τουλάχιστον μία κάρτα.");
+				return;
+			}
+			var lines = bulkText.split("\n").filter(function(l) { return l.trim().length > 0; });
+			if ($("#chk-bulk-replace-cards").is(":checked")) {
+				card_data = [];
+			}
+			var cardIcons = ["gift", "fire", "star", "rocket", "trophy", "shield", "lion", "fox", "panda", "unicorn"];
+			lines.forEach(function(line, idx) {
+				var parts = line.split(",").map(function(s) { return s.trim(); });
+				if (parts.length >= 3) {
+					card_data.push({ icon: parts[0] || cardIcons[idx % cardIcons.length], score: parts[1], info: parts[2] });
+				} else if (parts.length === 2) {
+					card_data.push({ icon: cardIcons[idx % cardIcons.length], score: parts[0], info: parts[1] });
+				} else if (parts.length === 1 && parts[0]) {
+					card_data.push({ icon: cardIcons[idx % cardIcons.length], score: parts[0], info: "Mystery Bonus!" });
+				}
+			});
+			build_cards();
+			$("body").removeClass("show-add-card");
+			$("#bulk-cards-text").val("");
+			AudioEngine.playMilestone();
+			ConfettiEngine.launch(90);
+			showToast("Οι κάρτες προστέθηκαν επιτυχώς!");
+		} else {
+			var icon = $("#rand-card-icon").val() || "gift";
+			var scr = $("#card-score").val() || "+5";
+			var info = $("#card-info").val() || "Mystery Bonus!";
+			card_data.push({ icon: icon, score: scr, info: info });
+			build_cards();
+			$("body").removeClass("show-add-card");
+			AudioEngine.playPositive();
+			showToast("Η κάρτα προστέθηκε επιτυχώς!");
+		}
 	});
 
 	$(".link-popup .close").on("click", function() { $("body").removeClass("show-link"); });
@@ -3266,6 +3742,11 @@ function init_event_listeners() {
 	$(".single-mode-badge .sm-change-btn").on("click", function() {
 		open_sync_hub();
 	});
+
+	// Data Transfer & Paste Actions
+	$("#btn-copy-raw-data").on("click", copy_all_raw_data);
+	$("#btn-apply-pasted-data").on("click", apply_pasted_data);
+	$("#btn-load-local-json").on("click", load_local_json_file);
 
 	// Sharing & Export Hub Buttons
 	$("#btn-native-share").on("click", trigger_native_share);
@@ -3526,6 +4007,142 @@ function handle_import_backup(file) {
 		}
 	};
 	reader.readAsText(file);
+}
+
+function copy_all_raw_data() {
+	var payload = {
+		app: "leaderboard-suite",
+		version: "2.0",
+		theme: current_theme,
+		display_mode: current_display_mode,
+		leaderboard: lb_data,
+		cards: card_data
+	};
+	var jsonStr = JSON.stringify(payload, null, 2);
+	if (navigator.clipboard && navigator.clipboard.writeText) {
+		navigator.clipboard.writeText(jsonStr).then(function() {
+			showToast("Αντιγράφηκαν όλα τα δεδομένα! Επικολλήστε τα στο άλλο site.");
+			AudioEngine.playPositive();
+		}).catch(function() {
+			fallback_copy(jsonStr);
+		});
+	} else {
+		fallback_copy(jsonStr);
+	}
+}
+
+function fallback_copy(text) {
+	var $temp = $("<textarea>");
+	$("body").append($temp);
+	$temp.val(text).select();
+	document.execCommand("copy");
+	$temp.remove();
+	showToast("Αντιγράφηκαν όλα τα δεδομένα! Επικολλήστε τα στο άλλο site.");
+	AudioEngine.playPositive();
+}
+
+function apply_pasted_data() {
+	var val = ($("#input-paste-data").val() || "").trim();
+	if (!val) {
+		alert("Παρακαλώ επικολλήστε πρώτα τα δεδομένα στο πεδίο.");
+		return;
+	}
+
+	try {
+		// Case 1: Check if it's a URL with ?sync=... or ?q=...
+		if (val.indexOf("http") === 0 || val.indexOf("?sync=") > -1 || val.indexOf("?q=") > -1) {
+			try {
+				var urlObj = new URL(val);
+				var syncVal = urlObj.searchParams.get("sync") || urlObj.searchParams.get("q");
+				if (syncVal) {
+					var decoded = decodeURIComponent(window.atob(syncVal));
+					var parsedUrl = JSON.parse(decoded);
+					if (parsedUrl.lb) lb_data = parsedUrl.lb;
+					else if (parsedUrl.leaderboard) lb_data = parsedUrl.leaderboard;
+					if (parsedUrl.cards) card_data = parsedUrl.cards;
+					if (parsedUrl.theme) apply_theme(parsedUrl.theme);
+					if (parsedUrl.mode || parsedUrl.display_mode) apply_display_mode(parsedUrl.mode || parsedUrl.display_mode, false);
+
+					save_and_reload_state("Τα δεδομένα από το Link εφαρμόστηκαν επιτυχώς!");
+					return;
+				}
+			} catch(e) {}
+		}
+
+		// Case 2: Standard JSON
+		var parsed = JSON.parse(val);
+		if (parsed.leaderboard && Array.isArray(parsed.leaderboard)) {
+			lb_data = parsed.leaderboard;
+		} else if (parsed.lb && Array.isArray(parsed.lb)) {
+			lb_data = parsed.lb;
+		} else if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].nickname) {
+			lb_data = parsed;
+		}
+
+		if (parsed.cards && Array.isArray(parsed.cards)) {
+			card_data = parsed.cards;
+		}
+		if (parsed.theme) apply_theme(parsed.theme);
+		if (parsed.display_mode || parsed.mode) apply_display_mode(parsed.display_mode || parsed.mode, false);
+
+		save_and_reload_state("Όλα τα δεδομένα εφαρμόστηκαν επιτυχώς στο site!");
+	} catch(err) {
+		// Case 3: Plain text lines fallback
+		var lines = val.split("\n").filter(function(l) { return l.trim().length > 0; });
+		if (lines.length > 0) {
+			var newLb = [];
+			var avatarList = ["hawk", "abram", "kianna", "bytex", "voyager", "alfonso", "lion", "fox", "panda", "unicorn"];
+			lines.forEach(function(line, idx) {
+				var parts = line.split(",").map(function(s) { return s.trim(); });
+				if (parts.length >= 3) {
+					newLb.push({ icon: parts[0], nickname: parts[1], score: parseInt(parts[2], 10) || 0 });
+				} else if (parts.length === 2) {
+					newLb.push({ icon: avatarList[idx % avatarList.length], nickname: parts[0], score: parseInt(parts[1], 10) || 0 });
+				} else if (parts.length === 1 && parts[0]) {
+					newLb.push({ icon: avatarList[idx % avatarList.length], nickname: parts[0], score: 0 });
+				}
+			});
+			if (newLb.length > 0) {
+				lb_data = newLb;
+				save_and_reload_state("Οι παίκτες από το κείμενο εφαρμόστηκαν επιτυχώς!");
+				return;
+			}
+		}
+		alert("Δεν ήταν δυνατή η ανάγνωση των δεδομένων. Ελέγξτε ότι επικολλήσατε σωστά το κείμενο ή το JSON.");
+	}
+}
+
+function save_and_reload_state(successMessage) {
+	if (local_storage_available) {
+		localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+		localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
+		localStorage.setItem("app_display_mode", current_display_mode);
+	}
+	build_leaderboard();
+	build_cards();
+	$("#input-paste-data").val("");
+	$("body").removeClass("show-link");
+	showToast(successMessage || "Τα δεδομένα εφαρμόστηκαν επιτυχώς!");
+	AudioEngine.playMilestone();
+	ConfettiEngine.launch(100);
+}
+
+function load_local_json_file() {
+	fetch("./leaderboard-data.json")
+		.then(function(resp) {
+			if (!resp.ok) throw new Error("HTTP error " + resp.status);
+			return resp.json();
+		})
+		.then(function(data) {
+			if (data.leaderboard) lb_data = data.leaderboard;
+			if (data.cards) card_data = data.cards;
+			if (data.theme) apply_theme(data.theme);
+			if (data.display_mode) apply_display_mode(data.display_mode, false);
+			save_and_reload_state("Τα δεδομένα από το leaderboard-data.json φορτώθηκαν επιτυχώς!");
+		})
+		.catch(function(err) {
+			alert("Δεν βρέθηκε αρχείο leaderboard-data.json στον ίδιο φάκελο, ή ο browser δεν επιτρέπει ανάγνωση χωρίς web server (CORS). Μπορείτε να χρησιμοποιήσετε την 'Επικόλληση Δεδομένων' ή την 'Επαναφορά' αρχείου.");
+		});
 }
 
 function reset_to_defaults() {
