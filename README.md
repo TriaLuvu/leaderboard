@@ -1,81 +1,174 @@
-# leaderboard
+# 🏆 Leaderboard & Mystery Cards Suite
 
- - Made with ❤️ for friends who were trying to motivate their classes 🧑‍🏫 during COVID-19 lockdowns.
- - Use it together with `leaderboard-cards` for more competition & fun!
- - Try them both online at:
-   - [gogos.me/leaderboard/](https://gogos.me/leaderboard/)
-   - [gogos.me/leaderboard-cards/](https://gogos.me/leaderboard-cards/)
-   - alternative codepen links: [leaderboard](https://codepen.io/tgogos/full/qBaEJaa) / [leaderboard-cards](https://codepen.io/tgogos/full/jOMrvmg)
+Μια ολοκληρωμένη, αυτόνομη και διαδραστική εφαρμογή πίνακα κατάταξης (Leaderboard) και καρτών επιβράβευσης/μυστηρίου (Mystery Cards). Λειτουργεί άμεσα σε οποιονδήποτε υπολογιστή, **online ή offline**, χωρίς καμία ανάγκη εγκατάστασης προγραμμάτων.
 
-![overview](/README/overview.gif)
+---
 
-✔️ create a class leaderboard by adding names / scores in a few seconds  
-✔️ change the score by adding or removing points with the appropriate buttons  
-✔️ see the live updates as the players compete and level-up  
-✔️ changes are stored to your browser's `local storage`  
+## 📑 Περιεχόμενα
+1. [Πώς φτιάχνετε & αλλάζετε Παίκτες (Leaderboard)](#1-πώς-φτιάχνετε--αλλάζετε-παίκτες-leaderboard)
+2. [Πώς φτιάχνετε & αλλάζετε Κάρτες (Mystery Cards)](#2-πώς-φτιάχνετε--αλλάζετε-κάρτες-mystery-cards)
+3. [Πώς αποθηκεύονται τα δεδομένα](#3-πώς-αποθηκεύονται-τα-δεδομένα)
+4. [Οδηγίες Μεταφοράς & Εγκατάστασης (Πανεύκολα)](#4-οδηγίες-μεταφοράς--εγκατάστασης)
+   - [Σενάριο Α: Μεταφορά σε άλλο PC που έχει ήδη το site (Χωρίς Αρχεία)](#σενάριο-α-μεταφορά-σε-άλλο-pc-που-έχει-ήδη-το-site-σε-5-δευτερόλεπτα)
+   - [Σενάριο Β: Αντιγραφή ΟΛΟΥ του φακέλου σε νέο PC / USB (Μέσω data.js)](#σενάριο-β-αντιγραφή-όλου-του-φακέλου-σε-νέο-pc--usb-μέσω-datajs)
+   - [Σενάριο Γ: Λήψη 1 μόνου αυτόνομου αρχείου (.html)](#σενάριο-γ-λήψη-1-μόνου-αρχείου-html)
+5. [Χρήσιμες Συντομεύσεις & Κόλπα](#5-χρήσιμες-συντομεύσεις--κόλπα)
 
-# leaderboard-cards
+---
 
-![how to use cards](/README/cards.gif)
+## 1. Πώς φτιάχνετε & αλλάζετε Παίκτες (Leaderboard)
 
-✔️ add lucky cards that give extra points (or the opposite)  
-✔️ they are randomly placed whenever you refresh the page  
-✔️ press the button to shuffle them a little bit  
-✔️ when you think its needed, ask the user to pick one card  
+### Α. Απευθείας Επεξεργασία στον Πίνακα
+1. Πατήστε το κουμπί **«Επεξεργασία»** πάνω δεξιά από τη λίστα των παικτών.
+2. Κάντε κλικ στο όνομα ή στο σκορ οποιουδήποτε παίκτη για να το αλλάξετε.
+3. Κάντε κλικ στο **στρογγυλό εικονίδιο (Avatar)** για να αλλάξετε τη φιγούρα του παίκτη.
+4. Για διαγραφή, πατήστε το κόκκινο κουμπί του κάδου.
+5. Στο τέλος της λίστας υπάρχει κουμπί **«+ Προσθήκη Νέου Παίκτη»**.
+6. Όταν τελειώσετε, πατήστε **«Αποθήκευση»**.
 
-<br>
-<br>
-<br>
+### Β. Προσθήκη ενός Παίκτη
+* Πατήστε το κουμπί **➕** στη δεξιά μπάρα εργαλείων.
+* Στην καρτέλα **«Ένας Παίκτης»**, γράψτε το όνομα και το αρχικό σκορ και πατήστε **ΠΡΟΣΘΗΚΗ**.
 
-# Instructions 
+### Γ. Μαζική Εισαγωγή Πολλών Παικτών μαζί (από Excel / Word / Σημειώσεις)
+1. Πατήστε το κουμπί **➕** και επιλέξτε την καρτέλα **«Μαζικά (Λίστα)»**.
+2. Επικολλήστε τη λίστα των παικτών (ένας ανά γραμμή):
+   ```text
+   Νίκος, 150
+   Μαρία, 120
+   Γιώργος, 90
+   ```
+   *(Προαιρετικά μπορείτε να ορίσετε και εικονίδιο: π.χ. `lion, Νίκος, 150`)*.
+3. Αν θέλετε να σβηστούν οι παλιοί παίκτες και να μείνουν μόνο οι νέοι, τσεκάρετε το κουτάκι *«Αντικατάσταση όλων των υπαρχόντων παικτών»*.
+4. Πατήστε **ΠΡΟΣΘΗΚΗ** και όλοι οι παίκτες μπαίνουν αμέσως!
 
-## ❔ How to add new names
+### Δ. Γρήγορη Εναλλαγή Βαθμών ανάμεσα σε 2 παίκτες (Score Swap)
+* Κάντε κλικ πάνω στους βαθμούς ενός παίκτη και μετά στους βαθμούς ενός δεύτερου παίκτη.
+* Εμφανίζεται παράθυρο επιβεβαίωσης για την εναλλαγή των σκορ τους.
+* **Έγινε λάθος;** Πατήστε <kbd>Cmd</kbd> + <kbd>Z</kbd> (σε Mac) ή <kbd>Ctrl</kbd> + <kbd>Z</kbd> (σε Windows) για άμεση **Αναίρεση**!
 
-Use the <kbd>➕</kbd> button and a random animal emoji will be selected, then type the name / score and hit <kbd>OK</kbd>
+---
 
-![how to add new names](/README/add_names.gif)
+## 2. Πώς φτιάχνετε & αλλάζετε Κάρτες (Mystery Cards)
 
-### 👉 use every emoji you like
+Επιλέξτε την καρτέλα **«Mystery Cards»** από την κορυφή της οθόνης:
 
-There is a predefined list of animals that are randomly chosen whenever you add a new name:
+### Α. Απευθείας Επεξεργασία Καρτών
+1. Πατήστε το κουμπί **«Επεξεργασία»** πάνω δεξιά.
+2. Όλες οι κάρτες ανοίγουν και μπορείτε:
+   * Να αλλάξετε τους πόντους (π.χ. `+5`, `-3`, `+10`).
+   * Να αλλάξετε το μήνυμα/έκπληξη (π.χ. *«Σούπερ Μπόνους!»*).
+   * Να αλλάξετε το εικονίδιο κάνοντας κλικ πάνω του.
+   * Να διαγράψετε κάποια κάρτα.
+   * Να πατήσετε **«+ Προσθήκη Νέας Κάρτας»**.
+3. Πατήστε **«Αποθήκευση»**.
+
+### Β. Μαζική Εισαγωγή Καρτών από Κείμενο
+* Πατήστε το κουμπί **➕** και πηγαίνετε στην καρτέλα **«Μαζικά (Λίστα)»**.
+* Γράψτε ή επικολλήστε γραμμές όπως:
+  ```text
+  +5, Τυχερό Κουτί! +5 πόντοι
+  +10, Σούπερ Μπόνους!
+  -2, Παγίδα! -2 πόντοι
+  trophy, +15, Μεγάλο Έπαθλο!
+  ```
+* Πατήστε **ΠΡΟΣΘΗΚΗ**.
+
+### Γ. Λειτουργία στο Παιχνίδι
+* **Κλικ σε κάρτα:** Η κάρτα ανοίγει και αποκαλύπτει το μπόνους ή την ποινή με ήχο και κομφετί.
+* **Shuffle:** Ανακατεύει τις κλειστές κάρτες.
+* **Reset Covers:** Κλείνει όλες τις κάρτες για νέο γύρο.
+
+---
+
+## 3. Πώς αποθηκεύονται τα δεδομένα
+
+* **Αυτόματη Τοπική Αποθήκευση (Local Storage):**  
+  Ό,τι αλλάζετε (παίκτες, βαθμοί, κάρτες) αποθηκεύεται **αυτόματα** στον browser σας. Αν κλείσετε τη σελίδα ή κάνετε ανανέωση, τίποτα δεν χάνεται.
+* **Μόνιμη Αποθήκευση στον Φάκελο:**  
+  Επειδή ο browser δεν μπορεί να γράψει απευθείας στον σκληρό δίσκο χωρίς την άδειά σας, χρησιμοποιούμε το αρχείο `data.js` μέσα στον φάκελο (δείτε παρακάτω).
+
+---
+
+## 4. Οδηγίες Μεταφοράς & Εγκατάστασης
+
+Όλες οι επιλογές βρίσκονται πατώντας το κουμπί **🔗** (δεξιά στη μπάρα εργαλείων).
 
 ```
-🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐽 🐸 🐵 🙈 🙉 🙊 🐒 🐔 🐧 🐦 🐤 🐣 🐥 🦆 🦅 🦉 🦇 🐺 🐗 🐴 🦄 🐝 🐛
-🦋 🐌 🐞 🐜 🦟 🦗 🕷 🕸 🦂 🐢 🐍 🦎 🦖 🦕 🐙 🦑 🦐 🦞 🦀 🐡 🐠 🐟 🐬 🐳 🐋 🦈 🐊 🐅 🐆 🦓 🦍 🦧 🐘 🦛 🦏 🐪
-🐫 🦒 🦘 🐃 🐂 🐄 🐎 🐖 🐏 🐑 🦙 🐐 🦌 🐕 🐩 🦮 🐕‍🦺 🐈 🐓 🦃 🦚 🦜 🦢 🦩 🐇 🦝 🦨 🦡 🦦 🦥 🐁 🐀 🦔
+┌────────────────────────────────────────────────────────────────────────┐
+│                        ΕΠΙΛΟΓΗ ΜΕΘΟΔΟΥ                                 │
+├───────────────────────────────────┬────────────────────────────────────┤
+│ Έχετε ήδη το site ανοιχτό στο     │ ➡️ Χρησιμοποιήστε το Σενάριο Α     │
+│ άλλο PC και θέλετε τα νέα σκορ;   │   (Αντιγραφή - Επικόλληση)         │
+├───────────────────────────────────┼────────────────────────────────────┤
+│ Θέλετε να πάρετε ΟΛΟ τον φάκελο   │ ➡️ Χρησιμοποιήστε το Σενάριο Β     │
+│ σε USB στικάκι για νέο PC;        │   (Μέσω data.js)                   │
+├───────────────────────────────────┼────────────────────────────────────┤
+│ Θέλετε να στείλετε 1 μόνο αρχείο  │ ➡️ Χρησιμοποιήστε το Σενάριο Γ     │
+│ με email / USB χωρίς φακέλους;    │   (Αυτόνομο HTML)                  │
+└───────────────────────────────────┴────────────────────────────────────┘
 ```
 
-but you can use whatever emoji you prefer by just typing it:
+---
 
-![how to use custom emoji](/README/custom_emoji.gif)
+### Σενάριο Α: Μεταφορά σε άλλο PC που έχει ήδη το site (Σε 5 δευτερόλεπτα)
+*Ιδανικό όταν και οι δύο υπολογιστές έχουν ήδη το αρχείο και θέλετε απλά να περάσετε τα τελευταία δεδομένα χωρίς στικάκια ή αρχεία.*
 
+1. **Στον 1ο Υπολογιστή:**
+   * Πατήστε το κουμπί **🔗**.
+   * Κάντε κλικ στο μωβ κουμπί: **«📋 Αντιγραφή Όλων των Δεδομένων»**.
+2. **Στον 2ο Υπολογιστή:**
+   * Ανοίξτε το site και πατήστε το κουμπί **🔗**.
+   * Κάντε δεξί κλικ **Επικόλληση (Paste)** στο πεδίο *«Επικόλληση Δεδομένων για προσαρμογή στο υπάρχον Site»*.
+   * Πατήστε **«Εφαρμογή»**.
+3. **Τέλος!** Όλοι οι παίκτες, οι πόντοι και οι κάρτες εμφανίζονται και αποθηκεύονται αμέσως.
 
+---
 
-## ❔ How to add many, edit, delete...
+### Σενάριο Β: Αντιγραφή ΟΛΟΥ του φακέλου σε νέο PC / USB (Μέσω `data.js`)
+*Ιδανικό όταν θέλετε να πάρετε ολόκληρο τον φάκελο του project και να τον στήσετε από την αρχή σε άλλον υπολογιστή.*
 
-Use the <kbd>📋</kbd> button and add, edit or delete lines from the text-area that is poped-up. Make sure that that every line has 3 comma-separated entries of the following format `<emoji>,<nickname>,<score>` for example:
+1. **Στον υπολογιστή σας:**
+   * Αφού φτιάξετε τους παίκτες και τις κάρτες, πατήστε το κουμπί **🔗**.
+   * Στην ενότητα **2**, πατήστε το πράσινο κουμπί: **«💾 Λήψη αρχείου data.js»**.
+   * Το αρχείο `data.js` κατεβαίνει στα «Λήψεις» (Downloads). 
+   * **Σύρετε και ρίξτε το αρχείο `data.js` μέσα στον φάκελο του project** (πατήστε «Αντικατάσταση»).
+2. **Στο στικάκι USB:**
+   * Αντιγράψτε **ολόκληρο τον φάκελο** του project στο USB stick.
+3. **Στον νέο υπολογιστή:**
+   * Ανοίξτε τον φάκελο και κάντε διπλό κλικ στο `leaderboard-standalone.html`.
+   * Το site ανοίγει αμέσως διαβάζοντας το `data.js` και έχει έτοιμους όλους τους παίκτες και τις κάρτες σας!
 
-```
-🐒,Green Monkey,14
-🦎,Orange Iguana,13
-🦜,Purple Parrot,12
-🐟,Blue Barracuda,10
-🐆,Red Jaguar,9
-🐍,Silver Snake,8
-```
+*(Αν ποτέ τροποποιήσετε το αρχείο `data.js` χειροκίνητα με έναν κειμενογράφο, πατήστε το κουμπί **«🔄 Επαναφόρτωση από data.js»** στο παράθυρο 🔗 για να διαβαστούν αμέσως οι αλλαγές).*
 
-![how to add many names, edit & delete](/README/add-many_edit_delete.gif)
+---
 
+### Σενάριο Γ: Λήψη 1 μόνου αρχείου (.html)
+*Ιδανικό αν δεν θέλετε να μεταφέρετε φακέλους, αλλά ένα και μοναδικό αρχείο.*
 
-## ❔ How to share
+1. Πατήστε το κουμπί **🔗**.
+2. Πατήστε **«Λήψη Αυτόνομου HTML (.html)»**.
+3. Κατεβαίνει ένα ενιαίο αρχείο που περιέχει τα πάντα μέσα του (κώδικα, παίκτες, κάρτες).
+4. Το στέλνετε με email ή USB και ανοίγει με απλό διπλό κλικ σε οποιοδήποτε PC.
 
-Use the <kbd>🔗</kbd> button, copy the link created and share it. The current state of your leaderboard will be stored in that looooong `url` and at the time a user pastes it to a browser, the data are moved to the local storage and the url becomes short again. Example:
+---
 
-```
-https://gogos.me/leaderboard/?q=JTVCJTdCJTIyaWNvbiUyMiUzQSUyMiVGMCU5RiU5MCU5MiUyMiUyQyUyMm5pY2tuYW1lJTIyJTNBJTIyR3JlZW4lMjBNb25rZXklMjIlMkMlMjJzY29yZSUyMiUzQSUyMjE0JTIyJTdEJTJDJTdCJTIyaWNvbiUyMiUzQSUyMiVGMCU5RiVBNiU4RSUyMiUyQyUyMm5pY2tuYW1lJTIyJTNBJTIyT3JhbmdlJTIwSWd1YW5hJTIyJTJDJTIyc2NvcmUlMjIlM0ElMjIxMyUyMiU3RCUyQyU3QiUyMmljb24lMjIlM0ElMjIlRjAlOUYlQTYlOUMlMjIlMkMlMjJuaWNrbmFtZSUyMiUzQSUyMlB1cnBsZSUyMFBhcnJvdCUyMiUyQyUyMnNjb3JlJTIyJTNBJTIyMTIlMjIlN0QlMkMlN0IlMjJpY29uJTIyJTNBJTIyJUYwJTlGJTkwJTlGJTIyJTJDJTIybmlja25hbWUlMjIlM0ElMjJCbHVlJTIwQmFycmFjdWRhJTIyJTJDJTIyc2NvcmUlMjIlM0ElMjIxMCUyMiU3RCUyQyU3QiUyMmljb24lMjIlM0ElMjIlRjAlOUYlOTAlODYlMjIlMkMlMjJuaWNrbmFtZSUyMiUzQSUyMlJlZCUyMEphZ3VhciUyMiUyQyUyMnNjb3JlJTIyJTNBJTIyOSUyMiU3RCUyQyU3QiUyMmljb24lMjIlM0ElMjIlRjAlOUYlOTAlOEQlMjIlMkMlMjJuaWNrbmFtZSUyMiUzQSUyMlNpbHZlciUyMFNuYWtlJTIyJTJDJTIyc2NvcmUlMjIlM0ElMjI4JTIyJTdEJTVE
-```
+## 5. Χρήσιμες Συντομεύσεις & Κόλπα
 
-# Libraries used
+| Συντόμευση / Ενέργεια | Λειτουργία |
+|---|---|
+| <kbd>/</kbd> | Άμεση εστίαση στην **Αναζήτηση Παίκτη** |
+| <kbd>S</kbd> | Ενεργοποίηση/Ακύρωση **Λειτουργίας Εναλλαγής Βαθμών** (Swap) |
+| <kbd>Cmd</kbd> + <kbd>Z</kbd> ή <kbd>Ctrl</kbd> + <kbd>Z</kbd> | **Αναίρεση (Undo)** εναλλαγής βαθμών |
+| <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd> ή <kbd>Ctrl</kbd> + <kbd>Y</kbd> | **Επανάληψη (Redo)** εναλλαγής βαθμών |
+| <kbd>Esc</kbd> | Κλείσιμο οποιουδήποτε ανοιχτού παραθύρου |
+| Κρατημένο <kbd>+</kbd> κατά το κλικ σε κάρτα | **Μυστικό Host:** Η κάρτα μετατρέπεται σε `+10 πόντους` |
+| Κρατημένο <kbd>-</kbd> κατά το κλικ σε κάρτα | **Μυστικό Host:** Η κάρτα μετατρέπεται σε `-10 πόντους` |
+| Εικονίδιο 🔊 | Σίγαση ή ενεργοποίηση όλων των ηχητικών εφέ |
 
- - jQuery: [jquery.com](https://jquery.com/)
- - isotope.js: [isotope.metafizzy.co](https://isotope.metafizzy.co/)
+---
+
+## 🎨 Διαθέσιμα Avatar & Εικονίδια
+Μπορείτε να χρησιμοποιήσετε οποιοδήποτε από τα παρακάτω ονόματα εικονιδίων:
+* **Χαρακτήρες:** `hawk`, `abram`, `kianna`, `bytex`, `voyager`, `alfonso`
+* **Ζώα & Σύμβολα:** `lion`, `fox`, `panda`, `unicorn`, `owl`, `tiger`, `dolphin`, `frog`, `trophy`, `fire`, `gift`, `star`, `rocket`, `shield`
