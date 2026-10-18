@@ -1392,10 +1392,7 @@ body.swap-mode-active .swap-hint {
 }
 
 /* Modal Sub-tabs */
-.modal-tab-header .modal-tab-btn.active {
-	background: var(--accent-subtle) !important;
-	color: var(--accent-primary) !important;
-}
+
 
 /* ========================================================
    MODALS & POPUPS (RETRO MODERN BUNDLE)
@@ -1443,51 +1440,280 @@ body.show-modal .modal-backdrop {
 	background: #353a40;
 	color: #ffffff;
 	border: none;
-	border-radius: 12px;
-	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-	padding: 28px 24px;
+	border-radius: 16px;
+	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+	padding: 26px 24px;
 	width: 100%;
-	max-width: 460px;
+	max-width: 480px;
 	display: flex;
 	flex-direction: column;
 	gap: 14px;
 	position: relative;
 	margin: auto;
+	box-sizing: border-box;
 }
 
 .modal-box h2 {
 	font-size: 22px;
 	font-weight: 800;
-	color: var(--text-cornsilk);
+	color: var(--text-cornsilk, #fff8dc);
 	text-align: center;
-	margin-bottom: 6px;
+	margin: 0 0 2px 0;
+	letter-spacing: -0.3px;
 }
 
+/* Modal Tab Header & Buttons */
+.modal-tab-header {
+	display: flex;
+	gap: 6px;
+	background: #23272d;
+	padding: 4px;
+	border-radius: 10px;
+	border: none;
+	margin-bottom: 4px;
+}
+.modal-tab-btn {
+	flex: 1;
+	padding: 9px 12px;
+	border-radius: 8px;
+	border: none;
+	background: transparent;
+	color: #9ba3af;
+	font-size: 13px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.18s ease;
+	outline: none;
+}
+.modal-tab-btn:hover {
+	color: #ffffff;
+}
+.modal-tab-btn.active {
+	background: #2d3e50 !important;
+	color: var(--text-cornsilk, #fff8dc) !important;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* Avatar Hero & Picker in Modal */
+.modal-avatar-picker-section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 4px 0 6px 0;
+	gap: 8px;
+}
+.modal-avatar-hero-btn {
+	position: relative;
+	width: 76px;
+	height: 76px;
+	border-radius: 50%;
+	background: #24282e;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	border: none;
+	padding: 0;
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+	outline: none;
+}
+.modal-avatar-hero-btn:hover {
+	transform: scale(1.06);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+}
+.modal-avatar-hero-btn:active {
+	transform: scale(0.96);
+}
+.modal-avatar-hero-btn .add-avatar-circle {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	overflow: hidden;
+}
+.modal-avatar-hero-btn .vector-badge {
+	width: 54px;
+	height: 54px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.modal-avatar-hero-btn .vector-badge svg {
+	width: 100%;
+	height: 100%;
+}
+.modal-avatar-badge-icon {
+	position: absolute;
+	bottom: -1px;
+	right: -1px;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background: #2d3e50;
+	color: var(--text-cornsilk, #fff8dc);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+	border: none;
+	pointer-events: none;
+}
+.modal-avatar-hint {
+	font-size: 12px;
+	color: var(--text-muted, #cbbdae);
+	font-weight: 600;
+	cursor: pointer;
+	transition: color 0.15s ease;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	user-select: none;
+}
+.modal-avatar-hint:hover {
+	color: var(--text-cornsilk, #fff8dc);
+}
+
+/* Quick Avatar Strip */
+.modal-avatar-quick-strip {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 7px;
+	max-width: 380px;
+	margin: 2px auto 2px auto;
+}
+.modal-quick-avatar-item {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: #24282e;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	border: none;
+	padding: 0;
+	transition: transform 0.12s ease, background 0.12s ease;
+	outline: none;
+}
+.modal-quick-avatar-item .vector-badge {
+	width: 22px;
+	height: 22px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.modal-quick-avatar-item .vector-badge svg {
+	width: 100%;
+	height: 100%;
+}
+.modal-quick-avatar-item:hover {
+	transform: scale(1.15);
+	background: #2d3e50;
+}
+.modal-quick-avatar-item.active-avatar {
+	background: #2d3e50;
+	box-shadow: 0 0 0 2px var(--text-cornsilk, #fff8dc);
+}
+
+/* Form Groups & Inputs */
+.modal-form-group {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	text-align: left;
+	width: 100%;
+}
+.modal-form-label {
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.6px;
+	color: var(--text-muted, #cbbdae);
+	padding-left: 2px;
+}
+.modal-input-wrap {
+	position: relative;
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+.modal-input-icon {
+	position: absolute;
+	left: 14px;
+	color: #8c95a0;
+	pointer-events: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 .modal-box input,
 .modal-box textarea {
-	background: #25282c;
+	background: #24282e;
 	color: #ffffff;
-	border: none;
-	border-radius: 8px;
+	border: none !important;
+	outline: none !important;
+	border-radius: 10px;
 	padding: 12px 16px;
 	font-size: 15px;
 	font-family: inherit;
 	width: 100%;
-	outline: none;
 	box-sizing: border-box;
+	transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+.modal-input-wrap input {
+	padding-left: 42px !important;
 }
 .modal-box input:focus,
 .modal-box textarea:focus {
-	box-shadow: 0 0 0 2px var(--accent-teal);
+	background: #2b313a !important;
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+	outline: none !important;
+	border: none !important;
 }
 .modal-box input::placeholder,
 .modal-box textarea::placeholder {
-	color: #a0978c;
+	color: #7d8590;
 }
-.modal-box .random-icon {
-	text-align: center;
+
+/* Remove Stepper Spinners */
+.modal-box input[type=number]::-webkit-inner-spin-button,
+.modal-box input[type=number]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+.modal-box input[type=number] {
+	-moz-appearance: textfield;
+}
+
+/* Quick Score Chips */
+.modal-score-chips {
+	display: flex;
+	gap: 6px;
+	margin-top: 4px;
+}
+.modal-score-chip,
+.modal-card-chip {
+	background: #24282e;
+	color: var(--text-muted, #cbbdae);
+	border: none;
+	border-radius: 6px;
+	padding: 4px 10px;
+	font-size: 12px;
 	font-weight: 700;
-	letter-spacing: 1px;
+	cursor: pointer;
+	transition: all 0.12s ease;
+	outline: none;
+}
+.modal-score-chip:hover,
+.modal-card-chip:hover {
+	background: #2d3e50;
+	color: var(--text-cornsilk, #fff8dc);
 }
 
 .modal-actions {
@@ -1502,8 +1728,9 @@ body.show-modal .modal-backdrop {
 .popup-box button {
 	height: 44px;
 	padding: 0 22px;
-	border: none;
-	border-radius: 8px;
+	border: none !important;
+	outline: none !important;
+	border-radius: 9px;
 	font-size: 14px;
 	font-weight: 800;
 	cursor: pointer;
@@ -1514,18 +1741,25 @@ body.show-modal .modal-backdrop {
 .modal-actions button:hover,
 .modal-btn:hover,
 .popup-box button:hover {
-	opacity: 0.9;
+	opacity: 0.92;
 	transform: translateY(-1px);
+}
+.modal-actions button:active,
+.modal-btn:active,
+.popup-box button:active {
+	transform: translateY(1px);
 }
 .modal-actions .cancel,
 .modal-btn-cancel,
 .popup-box button.cancel {
-	background: var(--btn-cancel);
+	background: var(--btn-cancel, #1b252f);
+	color: var(--text-muted, #cbbdae);
 }
 .modal-actions .ok,
 .modal-btn-confirm,
 .popup-box button.ok {
-	background: var(--btn-ok);
+	background: var(--btn-ok, #29a744);
+	color: #ffffff;
 }
 
 /* Custom Confirmation Dialog Modal */
@@ -1984,68 +2218,141 @@ body.show-modal .modal-backdrop {
 	     ============================================== -->
 	<!-- Add Player Modal -->
 	<div class="popup-modal add-person-popup">
-		<div class="modal-box" style="max-width: 500px;">
+		<div class="modal-box" style="max-width: 480px;">
 			<h2>Προσθήκη Παικτών</h2>
-			<div class="modal-tab-header" style="display: flex; gap: 6px; margin-bottom: 8px; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 10px;">
-				<button type="button" class="modal-tab-btn active" data-tab="single-player" style="flex: 1; padding: 8px; border-radius: 8px; border: none; background: var(--accent-subtle); color: var(--accent-primary); font-size: 13px; font-weight: 700; cursor: pointer;">Ένας Παίκτης</button>
-				<button type="button" class="modal-tab-btn" data-tab="bulk-players" style="flex: 1; padding: 8px; border-radius: 8px; border: none; background: transparent; color: var(--text-secondary); font-size: 13px; font-weight: 700; cursor: pointer;">Μαζικά (Λίστα)</button>
+			<div class="modal-tab-header">
+				<button type="button" class="modal-tab-btn active" data-tab="single-player">Ένας Παίκτης</button>
+				<button type="button" class="modal-tab-btn" data-tab="bulk-players">Μαζικά (Λίστα)</button>
 			</div>
 
 			<div class="modal-tab-pane tab-single-player">
-				<input type="text" id="rand-person-icon" class="random-icon" value="lion" title="Click or type an avatar">
-				<input type="text" id="nickname" placeholder="Όνομα Παίκτη (π.χ. Hawk)">
-				<input type="number" id="score" placeholder="Αρχικό Σκορ (π.χ. 100)">
+				<div class="modal-avatar-picker-section">
+					<button type="button" class="modal-avatar-hero-btn" id="add-player-avatar-btn" data-icon="hawk" title="Κάντε κλικ για αλλαγή Avatar">
+						<div class="add-avatar-circle" id="add-player-avatar-circle"></div>
+						<div class="modal-avatar-badge-icon">
+							<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+						</div>
+					</button>
+					<div class="modal-avatar-hint" id="add-player-avatar-hint">
+						<span>Κάντε κλικ στο avatar για εναλλαγή</span>
+					</div>
+					<div class="modal-avatar-quick-strip" id="add-player-quick-strip"></div>
+					<input type="hidden" id="rand-person-icon" value="hawk">
+				</div>
+
+				<div class="modal-form-group">
+					<label class="modal-form-label" for="nickname">Όνομα Παίκτη</label>
+					<div class="modal-input-wrap">
+						<span class="modal-input-icon">
+							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+						</span>
+						<input type="text" id="nickname" placeholder="π.χ. Hawk, Νίκος..." autocomplete="off">
+					</div>
+				</div>
+
+				<div class="modal-form-group">
+					<label class="modal-form-label" for="score">Αρχικό Σκορ</label>
+					<div class="modal-input-wrap">
+						<span class="modal-input-icon">
+							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M6 12h12"/></svg>
+						</span>
+						<input type="number" id="score" placeholder="0" value="0">
+					</div>
+					<div class="modal-score-chips">
+						<button type="button" class="modal-score-chip" data-score="0">0</button>
+						<button type="button" class="modal-score-chip" data-score="50">+50</button>
+						<button type="button" class="modal-score-chip" data-score="100">+100</button>
+						<button type="button" class="modal-score-chip" data-score="200">+200</button>
+					</div>
+				</div>
 			</div>
 
 			<div class="modal-tab-pane tab-bulk-players" style="display: none;">
-				<p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 8px 0; line-height: 1.4;">
-					Γράψτε ή επικολλήστε ονόματα (ένα ανά γραμμή):<br>
-					<code>Όνομα, Σκορ</code> (π.χ. <code>Νίκος, 100</code>) ή απλά <code>Όνομα</code>
-				</p>
-				<textarea id="bulk-players-text" rows="6" placeholder="Νίκος, 150&#10;Μαρία, 120&#10;hawk, Γιώργος, 90" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
-				<label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); margin-top: 6px; cursor: pointer;">
-					<input type="checkbox" id="chk-bulk-replace-players">
+				<div style="background: rgba(0,0,0,0.22); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
+					<span style="color: var(--text-cornsilk); font-weight: 700;">Μαζική εισαγωγή:</span> Γράψτε ένα όνομα ανά γραμμή.<br>
+					Μορφή: <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">Όνομα, Σκορ</code> (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">Νίκος, 100</code>) ή απλά <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">Όνομα</code>.
+				</div>
+				<textarea id="bulk-players-text" rows="5" placeholder="Νίκος, 150&#10;Μαρία, 120&#10;Γιώργος, 90" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
+				<label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); margin-top: 8px; cursor: pointer;">
+					<input type="checkbox" id="chk-bulk-replace-players" style="width: 16px; height: 16px; accent-color: #29a744; cursor: pointer;">
 					<span>Αντικατάσταση όλων των υπαρχόντων παικτών</span>
 				</label>
 			</div>
 
 			<div class="modal-actions">
-				<button class="cancel">ΑΚΥΡΩΣΗ</button>
-				<button class="ok">ΠΡΟΣΘΗΚΗ</button>
+				<button type="button" class="cancel">ΑΚΥΡΩΣΗ</button>
+				<button type="button" class="ok">ΠΡΟΣΘΗΚΗ</button>
 			</div>
 		</div>
 	</div>
 
 	<!-- Add Mystery Card Modal -->
 	<div class="popup-modal add-card-popup">
-		<div class="modal-box" style="max-width: 500px;">
+		<div class="modal-box" style="max-width: 480px;">
 			<h2>Προσθήκη Καρτών Μυστηρίου</h2>
-			<div class="modal-tab-header" style="display: flex; gap: 6px; margin-bottom: 8px; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 10px;">
-				<button type="button" class="modal-tab-btn active" data-tab="single-card" style="flex: 1; padding: 8px; border-radius: 8px; border: none; background: var(--accent-subtle); color: var(--accent-primary); font-size: 13px; font-weight: 700; cursor: pointer;">Μία Κάρτα</button>
-				<button type="button" class="modal-tab-btn" data-tab="bulk-cards" style="flex: 1; padding: 8px; border-radius: 8px; border: none; background: transparent; color: var(--text-secondary); font-size: 13px; font-weight: 700; cursor: pointer;">Μαζικά (Λίστα)</button>
+			<div class="modal-tab-header">
+				<button type="button" class="modal-tab-btn active" data-tab="single-card">Μία Κάρτα</button>
+				<button type="button" class="modal-tab-btn" data-tab="bulk-cards">Μαζικά (Λίστα)</button>
 			</div>
 
 			<div class="modal-tab-pane tab-single-card">
-				<input type="text" id="rand-card-icon" class="random-icon" value="gift" title="Click or type an avatar">
-				<input type="text" id="card-score" placeholder="Επίδραση σκορ (π.χ. +5 ή -2)">
-				<input type="text" id="card-info" placeholder="Περιγραφή / Μήνυμα έκπληξης">
+				<div class="modal-avatar-picker-section">
+					<button type="button" class="modal-avatar-hero-btn" id="add-card-avatar-btn" data-icon="gift" title="Κάντε κλικ για αλλαγή Εικονιδίου">
+						<div class="add-avatar-circle" id="add-card-avatar-circle"></div>
+						<div class="modal-avatar-badge-icon">
+							<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+						</div>
+					</button>
+					<div class="modal-avatar-hint" id="add-card-avatar-hint">
+						<span>Κάντε κλικ στο εικονίδιο για εναλλαγή</span>
+					</div>
+					<div class="modal-avatar-quick-strip" id="add-card-quick-strip"></div>
+					<input type="hidden" id="rand-card-icon" value="gift">
+				</div>
+
+				<div class="modal-form-group">
+					<label class="modal-form-label" for="card-score">Επίδραση Σκορ</label>
+					<div class="modal-input-wrap">
+						<span class="modal-input-icon">
+							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+						</span>
+						<input type="text" id="card-score" placeholder="π.χ. +5 ή -2" value="+5">
+					</div>
+					<div class="modal-score-chips">
+						<button type="button" class="modal-card-chip" data-val="+5">+5</button>
+						<button type="button" class="modal-card-chip" data-val="+10">+10</button>
+						<button type="button" class="modal-card-chip" data-val="+20">+20</button>
+						<button type="button" class="modal-card-chip" data-val="-5">-5</button>
+						<button type="button" class="modal-card-chip" data-val="-10">-10</button>
+					</div>
+				</div>
+
+				<div class="modal-form-group">
+					<label class="modal-form-label" for="card-info">Περιγραφή / Μήνυμα Έκπληξης</label>
+					<div class="modal-input-wrap">
+						<span class="modal-input-icon">
+							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+						</span>
+						<input type="text" id="card-info" placeholder="π.χ. Τυχερό Κουτί!, Bonus πόντων...">
+					</div>
+				</div>
 			</div>
 
 			<div class="modal-tab-pane tab-bulk-cards" style="display: none;">
-				<p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 8px 0; line-height: 1.4;">
-					Γράψτε ή επικολλήστε κάρτες (μία ανά γραμμή):<br>
-					<code>Πόντοι, Περιγραφή</code> (π.χ. <code>+5, Τυχερό Κουτί</code>)
-				</p>
-				<textarea id="bulk-cards-text" rows="6" placeholder="+5, Τυχερό Κουτί!&#10;+10, Σούπερ Μπόνους!&#10;-2, Ποινή -2 πόντοι&#10;trophy, +15, Μεγάλο Έπαθλο!" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
-				<label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); margin-top: 6px; cursor: pointer;">
-					<input type="checkbox" id="chk-bulk-replace-cards">
+				<div style="background: rgba(0,0,0,0.22); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
+					<span style="color: var(--text-cornsilk); font-weight: 700;">Μαζική εισαγωγή:</span> Γράψτε μία κάρτα ανά γραμμή.<br>
+					Μορφή: <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">Πόντοι, Περιγραφή</code> (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+5, Τυχερό Κουτί</code>).
+				</div>
+				<textarea id="bulk-cards-text" rows="5" placeholder="+5, Τυχερό Κουτί!&#10;+10, Σούπερ Μπόνους!&#10;-2, Ποινή -2 πόντοι" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
+				<label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); margin-top: 8px; cursor: pointer;">
+					<input type="checkbox" id="chk-bulk-replace-cards" style="width: 16px; height: 16px; accent-color: #29a744; cursor: pointer;">
 					<span>Αντικατάσταση όλων των υπαρχουσών καρτών</span>
 				</label>
 			</div>
 
 			<div class="modal-actions">
-				<button class="cancel">ΑΚΥΡΩΣΗ</button>
-				<button class="ok">ΠΡΟΣΘΗΚΗ</button>
+				<button type="button" class="cancel">ΑΚΥΡΩΣΗ</button>
+				<button type="button" class="ok">ΠΡΟΣΘΗΚΗ</button>
 			</div>
 		</div>
 	</div>
@@ -2496,10 +2803,44 @@ var card_template = `
 </li>
 `;
 
+var playerAvatars = ["hawk", "abram", "kianna", "bytex", "voyager", "alfonso", "lion", "fox", "panda", "unicorn", "owl", "tiger", "dolphin", "frog"];
+var cardIcons = ["gift", "fire", "star", "rocket", "trophy", "shield", "lion", "fox", "panda", "unicorn"];
+
+function update_add_player_avatar(iconName) {
+	iconName = iconName || "hawk";
+	$("#rand-person-icon").val(iconName);
+	$("#add-player-avatar-btn").attr("data-icon", iconName);
+	$("#add-player-avatar-circle").html(render_avatar(iconName));
+	$("#add-player-quick-strip .modal-quick-avatar-item").removeClass("active-avatar");
+	$('#add-player-quick-strip .modal-quick-avatar-item[data-icon="' + iconName + '"]').addClass("active-avatar");
+}
+
+function update_add_card_avatar(iconName) {
+	iconName = iconName || "gift";
+	$("#rand-card-icon").val(iconName);
+	$("#add-card-avatar-btn").attr("data-icon", iconName);
+	$("#add-card-avatar-circle").html(render_avatar(iconName));
+	$("#add-card-quick-strip .modal-quick-avatar-item").removeClass("active-avatar");
+	$('#add-card-quick-strip .modal-quick-avatar-item[data-icon="' + iconName + '"]').addClass("active-avatar");
+}
+
+function init_add_modal_strips() {
+	var pStrip = playerAvatars.map(function(ic) {
+		return '<button type="button" class="modal-quick-avatar-item" data-icon="' + ic + '" title="' + ic + '">' + render_avatar(ic) + '</button>';
+	}).join("");
+	$("#add-player-quick-strip").html(pStrip);
+
+	var cStrip = cardIcons.map(function(ic) {
+		return '<button type="button" class="modal-quick-avatar-item" data-icon="' + ic + '" title="' + ic + '">' + render_avatar(ic) + '</button>';
+	}).join("");
+	$("#add-card-quick-strip").html(cStrip);
+}
+
 $(document).ready(function() {
 	test_local_storage();
 	apply_theme(current_theme);
 	update_sound_icon();
+	init_add_modal_strips();
 
 	// Initialize Isotope for Leaderboard
 	leaderboard_iso = $(".leaderboard").isotope({
@@ -3878,14 +4219,70 @@ function init_event_listeners() {
 	$("#tool-btn-add").on("click", function() {
 		if (current_mode === "leaderboard") {
 			$("body").addClass("show-add-person");
-			$("#rand-person-icon").val(["hawk", "abram", "kianna", "bytex", "voyager", "alfonso", "lion", "fox"][getRandomInt(0, 7)]);
+			var initialIcon = playerAvatars[getRandomInt(0, 7)];
+			update_add_player_avatar(initialIcon);
+			$('.add-person-popup .modal-tab-btn[data-tab="single-player"]').trigger("click");
 			$("#nickname").val("").focus();
-			$("#score").val("");
+			$("#score").val("0");
 		} else {
 			$("body").addClass("show-add-card");
-			$("#rand-card-icon").val(["gift", "fire", "star", "rocket"][getRandomInt(0, 3)]);
+			var initialIcon = cardIcons[getRandomInt(0, 3)];
+			update_add_card_avatar(initialIcon);
+			$('.add-card-popup .modal-tab-btn[data-tab="single-card"]').trigger("click");
 			$("#card-info").val("").focus();
 			$("#card-score").val("+5");
+		}
+	});
+
+	$("#add-player-avatar-btn, #add-player-avatar-hint").on("click", function() {
+		var cur = $("#rand-person-icon").val() || "hawk";
+		var idx = playerAvatars.indexOf(cur);
+		var next = playerAvatars[(idx + 1) % playerAvatars.length];
+		update_add_player_avatar(next);
+		AudioEngine.playFlip();
+	});
+
+	$(document).on("click", "#add-player-quick-strip .modal-quick-avatar-item", function() {
+		var icon = $(this).attr("data-icon");
+		update_add_player_avatar(icon);
+		AudioEngine.playFlip();
+	});
+
+	$(document).on("click", ".modal-score-chip", function() {
+		var val = $(this).attr("data-score");
+		$("#score").val(val).focus();
+	});
+
+	$("#add-card-avatar-btn, #add-card-avatar-hint").on("click", function() {
+		var cur = $("#rand-card-icon").val() || "gift";
+		var idx = cardIcons.indexOf(cur);
+		var next = cardIcons[(idx + 1) % cardIcons.length];
+		update_add_card_avatar(next);
+		AudioEngine.playFlip();
+	});
+
+	$(document).on("click", "#add-card-quick-strip .modal-quick-avatar-item", function() {
+		var icon = $(this).attr("data-icon");
+		update_add_card_avatar(icon);
+		AudioEngine.playFlip();
+	});
+
+	$(document).on("click", ".modal-card-chip", function() {
+		var val = $(this).attr("data-val");
+		$("#card-score").val(val).focus();
+	});
+
+	$(document).on("keydown", "#nickname, #score", function(e) {
+		if (e.key === "Enter") {
+			e.preventDefault();
+			$(".add-person-popup .ok").trigger("click");
+		}
+	});
+
+	$(document).on("keydown", "#card-score, #card-info", function(e) {
+		if (e.key === "Enter") {
+			e.preventDefault();
+			$(".add-card-popup .ok").trigger("click");
 		}
 	});
 
