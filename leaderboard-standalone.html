@@ -267,6 +267,136 @@ body {
 	color: #2d3e50;
 	font-weight: 800;
 }
+.cat-tab-mode-btn {
+	color: #cbbdae;
+	margin-left: 2px;
+	padding: 6px 12px;
+	font-size: 13px;
+}
+.cat-tab-mode-btn:hover {
+	color: #ffffff;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+/* Single Mode Badge (Leaderboard Only / Cards Only) */
+.single-mode-badge {
+	display: none;
+	align-items: center;
+	gap: 10px;
+	background: #353a40;
+	border: none;
+	padding: 5px 14px;
+	border-radius: 999px;
+}
+.single-mode-badge .sm-label {
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--text-cornsilk);
+}
+.single-mode-badge .sm-change-btn {
+	background: #2d3e50;
+	border: none;
+	color: #ffffff;
+	border-radius: 999px;
+	padding: 4px 12px;
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background 0.15s ease;
+}
+.single-mode-badge .sm-change-btn:hover {
+	background: #3c546e;
+}
+
+/* Display Mode Selection Cards in Modal */
+.viewmode-choice-card {
+	background: #2d3e50;
+	border: none;
+	border-radius: 12px;
+	padding: 16px 18px;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	cursor: pointer;
+	user-select: none;
+	transition: background 0.18s ease, transform 0.15s ease;
+}
+.viewmode-choice-card:hover {
+	background: #394f66;
+	transform: translateY(-2px);
+}
+.viewmode-choice-card.active {
+	background: #354e66;
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+.vm-card-radio {
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.15);
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.2s ease;
+}
+.viewmode-choice-card.active .vm-card-radio {
+	background: #29a744;
+}
+.viewmode-choice-card.active .vm-card-radio::after {
+	content: "";
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #ffffff;
+}
+.vm-card-icon {
+	width: 44px;
+	height: 44px;
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.08);
+	color: var(--text-cornsilk);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+.viewmode-choice-card.active .vm-card-icon {
+	background: var(--text-cornsilk);
+	color: #2d3e50;
+}
+.vm-card-content {
+	flex: 1;
+}
+.vm-card-title-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+.vm-card-title {
+	font-size: 15px;
+	font-weight: 700;
+	color: #ffffff;
+}
+.vm-card-badge {
+	font-size: 11px;
+	font-weight: 800;
+	padding: 2px 9px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.1);
+	color: #cbbdae;
+}
+.viewmode-choice-card.active .vm-card-badge {
+	background: rgba(41, 167, 68, 0.25);
+	color: #8ce19e;
+}
+.vm-card-desc {
+	font-size: 12px;
+	color: #cbbdae;
+	margin: 4px 0 0 0;
+	line-height: 1.4;
+}
 
 /* Right Navigation Tools */
 .top-nav-right {
@@ -1279,6 +1409,7 @@ body.swap-mode-active .swap-hint {
 .add-card-popup,
 .link-popup,
 .sync-modal,
+.viewmode-popup,
 .edit-popup {
 	display: none;
 	position: fixed;
@@ -1302,6 +1433,7 @@ body.show-add-person .add-person-popup,
 body.show-add-card .add-card-popup,
 body.show-link .link-popup,
 body.show-link .sync-modal,
+body.show-viewmode .viewmode-popup,
 body.show-edit .edit-popup,
 body.show-modal .modal-backdrop {
 	display: flex !important;
@@ -1469,17 +1601,17 @@ body.show-modal .modal-backdrop {
 .toast-notification,
 .toast-msg {
 	position: fixed;
-	top: 24px;
+	bottom: 30px;
 	left: 50%;
-	transform: translateX(-50%) translateY(-20px);
+	transform: translateX(-50%) translateY(20px);
 	background: #353a40;
 	border: none;
 	color: var(--text-cornsilk);
 	padding: 12px 24px;
 	border-radius: 999px;
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: 700;
-	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 	opacity: 0;
 	pointer-events: none;
 	transition: all 0.25s ease;
@@ -1533,12 +1665,16 @@ body.show-modal .modal-backdrop {
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg>
 					<span>Mystery Cards</span>
 				</button>
+				<button type="button" class="cat-tab-btn cat-tab-mode-btn" id="btn-header-viewmode" title="Επιλογή Προβολής (Και τα δύο ή ένα από τα δύο)">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+					<span>Προβολή</span>
+				</button>
 			</div>
 
 			<!-- Single Mode Badge when locked to 1 mode -->
-			<div class="single-mode-badge" style="display:none; align-items: center; gap: 8px; background: rgba(255,255,255,0.06); border: 1px solid var(--card-border); padding: 6px 14px; border-radius: 999px;">
-				<span class="sm-label" style="font-size: 13px; font-weight: 700; color: var(--text-primary);">Μόνο Leaderboard</span>
-				<button type="button" class="sm-change-btn" title="Αλλαγή λειτουργίας προβολής" style="background: var(--accent-subtle); border: 1px solid var(--accent-primary); color: var(--accent-primary); border-radius: 999px; padding: 2px 8px; font-size: 11px; font-weight: 800; cursor: pointer;">Αλλαγή</button>
+			<div class="single-mode-badge" style="display:none;">
+				<span class="sm-label">Μόνο Leaderboard</span>
+				<button type="button" class="sm-change-btn" title="Αλλαγή λειτουργίας προβολής">Αλλαγή</button>
 			</div>
 
 			<!-- Top Nav Right: Search, Quick Actions, Theme -->
@@ -1552,6 +1688,9 @@ body.show-modal .modal-backdrop {
 
 				<!-- Quick Action Tools Row -->
 				<div class="quick-tools-row">
+					<button class="tool-btn" id="tool-btn-viewmode" title="Επιλογή Προβολής (Και τα δύο, Μόνο Leaderboard ή Μόνο Mystery Cards)">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+					</button>
 					<button class="tool-btn btn-add" id="tool-btn-add" title="Προσθήκη Παίκτη / Κάρτας">
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
 					</button>
@@ -1760,6 +1899,82 @@ body.show-modal .modal-backdrop {
 			<div class="confirm-actions">
 				<button type="button" class="btn-confirm-cancel" id="btn-confirm-cancel">ΑΚΥΡΩΣΗ</button>
 				<button type="button" class="btn-confirm-ok" id="btn-confirm-ok">ΕΠΙΒΕΒΑΙΩΣΗ</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Display Mode Selection Modal -->
+	<div class="popup-modal viewmode-popup" id="viewmode-modal">
+		<div class="modal-box" style="max-width: 560px; text-align: left; padding: 26px 28px;">
+			<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+				<div style="display: flex; align-items: center; gap: 12px;">
+					<div style="width: 44px; height: 44px; border-radius: 12px; background: #2d3e50; color: var(--text-cornsilk); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+						<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+							<rect x="3" y="3" width="7" height="7"></rect>
+							<rect x="14" y="3" width="7" height="7"></rect>
+							<rect x="14" y="14" width="7" height="7"></rect>
+							<rect x="3" y="14" width="7" height="7"></rect>
+						</svg>
+					</div>
+					<div>
+						<h2 style="font-size: 20px; font-weight: 800; margin: 0; color: #ffffff;">Επιλογή Προβολής</h2>
+						<p style="font-size: 13px; color: #cbbdae; margin: 3px 0 0 0;">Επιλέξτε αν θέλετε και τα δύο τμήματα ή μόνο ένα από τα δύο</p>
+					</div>
+				</div>
+				<button type="button" class="viewmode-close-btn" style="background: transparent; border: none; color: #cbbdae; cursor: pointer; padding: 6px;" title="Κλείσιμο">
+					<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+				</button>
+			</div>
+
+			<div class="viewmode-cards-grid" style="display: flex; flex-direction: column; gap: 12px;">
+				<!-- Option 1: ALL -->
+				<div class="viewmode-choice-card" data-mode="all">
+					<div class="vm-card-radio"></div>
+					<div class="vm-card-icon">
+						<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+					</div>
+					<div class="vm-card-content">
+						<div class="vm-card-title-row">
+							<span class="vm-card-title">Και τα δύο (Leaderboard & Mystery Cards)</span>
+							<span class="vm-card-badge">Πλήρης Προβολή</span>
+						</div>
+						<p class="vm-card-desc">Εμφανίζονται και τα δύο τμήματα με καρτέλες στην κορυφή για άμεση εναλλαγή ανάμεσα στον πίνακα κατάταξης και στις κάρτες.</p>
+					</div>
+				</div>
+
+				<!-- Option 2: LEADERBOARD ONLY -->
+				<div class="viewmode-choice-card" data-mode="leaderboard_only">
+					<div class="vm-card-radio"></div>
+					<div class="vm-card-icon">
+						<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"/><path d="M14 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+					</div>
+					<div class="vm-card-content">
+						<div class="vm-card-title-row">
+							<span class="vm-card-title">Μόνο Leaderboard</span>
+							<span class="vm-card-badge">Πίνακας & Βάθρο</span>
+						</div>
+						<p class="vm-card-desc">Εμφανίζει αποκλειστικά τον πίνακα βαθμολογίας και το βάθρο κορυφαίων (Top 3). Οι Mystery Cards αποκρύπτονται πλήρως.</p>
+					</div>
+				</div>
+
+				<!-- Option 3: CARDS ONLY -->
+				<div class="viewmode-choice-card" data-mode="cards_only">
+					<div class="vm-card-radio"></div>
+					<div class="vm-card-icon">
+						<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg>
+					</div>
+					<div class="vm-card-content">
+						<div class="vm-card-title-row">
+							<span class="vm-card-title">Μόνο Mystery Cards</span>
+							<span class="vm-card-badge">Τράπουλα Καρτών</span>
+						</div>
+						<p class="vm-card-desc">Εμφανίζει αποκλειστικά την τράπουλα μυστηρίου με τις επιβραβεύσεις και τα bonus. Ο πίνακας κατάταξης αποκρύπτεται πλήρως.</p>
+					</div>
+				</div>
+			</div>
+
+			<div style="display: flex; justify-content: flex-end; margin-top: 22px;">
+				<button type="button" class="viewmode-close-btn-footer" style="background: rgba(255,255,255,0.08); border: none; color: #fff; padding: 10px 22px; border-radius: 999px; font-weight: 700; cursor: pointer; font-size: 14px;">Κλείσιμο</button>
 			</div>
 		</div>
 	</div>
@@ -3652,7 +3867,7 @@ function init_event_listeners() {
 				return;
 			}
 			if (swap_mode_active) exit_swap_mode();
-			$("body").removeClass("show-add-person show-add-card show-edit show-link");
+			$("body").removeClass("show-add-person show-add-card show-edit show-link show-viewmode");
 			$("#live-search-input").blur();
 		}
 	}).on("keyup", function(e) {
@@ -3836,21 +4051,36 @@ function init_event_listeners() {
 	$(".link-popup .close").on("click", function() { $("body").removeClass("show-link"); });
 	$(".popup-modal").off("click.backdrop").on("click.backdrop", function(e) {
 		if ($(e.target).hasClass("popup-modal")) {
-			$("body").removeClass("show-add-person show-add-card show-link show-edit show-confirm");
+			$("body").removeClass("show-add-person show-add-card show-link show-edit show-confirm show-viewmode");
 		}
 	});
 	$(".btn-copy-sync").on("click", copy_sync_link);
 	$(".btn-reset-data").on("click", reset_to_defaults);
 
-	// Display mode switcher buttons
+	// Display mode modal triggers
+	$("#tool-btn-viewmode, #btn-header-viewmode, .single-mode-badge .sm-change-btn").on("click", function(e) {
+		e.preventDefault();
+		open_viewmode_modal();
+	});
+
+	$(".viewmode-close-btn, .viewmode-close-btn-footer").on("click", function() {
+		close_viewmode_modal();
+	});
+
+	$(document).on("click", ".viewmode-choice-card", function() {
+		var targetMode = $(this).attr("data-mode");
+		if (targetMode) {
+			apply_display_mode(targetMode, true);
+			setTimeout(function() {
+				close_viewmode_modal();
+			}, 180);
+		}
+	});
+
+	// Display mode switcher buttons (in sync hub)
 	$(".viewmode-btn").on("click", function() {
 		var targetMode = $(this).attr("data-viewmode") || "all";
 		apply_display_mode(targetMode, true);
-	});
-
-	// Change mode from single mode badge in top navbar
-	$(".single-mode-badge .sm-change-btn").on("click", function() {
-		open_sync_hub();
 	});
 
 	// Data Transfer & Paste Actions
@@ -3878,13 +4108,27 @@ function init_event_listeners() {
 	});
 }
 
-/* --- DISPLAY MODE FUNCTION --- */
-function apply_display_mode(mode, saveAndNotify) {
-	current_display_mode = mode || "all";
+/* --- DISPLAY MODE MODAL & ENGINE --- */
+function open_viewmode_modal() {
+	$("body").addClass("show-viewmode");
+	update_viewmode_cards_state();
+	AudioEngine.playFlip();
+}
 
-	// Update active button state in the modal
+function close_viewmode_modal() {
+	$("body").removeClass("show-viewmode");
+}
+
+function update_viewmode_cards_state() {
+	$(".viewmode-choice-card").removeClass("active");
+	$('.viewmode-choice-card[data-mode="' + current_display_mode + '"]').addClass("active");
 	$(".viewmode-btn").removeClass("active");
 	$('.viewmode-btn[data-viewmode="' + current_display_mode + '"]').addClass("active");
+}
+
+function apply_display_mode(mode, saveAndNotify) {
+	current_display_mode = mode || "all";
+	update_viewmode_cards_state();
 
 	if (current_display_mode === "leaderboard_only") {
 		$(".category-filter-tabs").hide();
@@ -3894,7 +4138,7 @@ function apply_display_mode(mode, saveAndNotify) {
 	} else if (current_display_mode === "cards_only") {
 		$(".category-filter-tabs").hide();
 		$(".single-mode-badge").css("display", "inline-flex");
-		$(".single-mode-badge .sm-label").text("🃏 Μόνο Mystery Cards");
+		$(".single-mode-badge .sm-label").text("Μόνο Mystery Cards");
 		switch_mode("cards");
 	} else {
 		$(".category-filter-tabs").show();
@@ -3906,8 +4150,10 @@ function apply_display_mode(mode, saveAndNotify) {
 		if (local_storage_available) {
 			localStorage.setItem("app_display_mode", current_display_mode);
 		}
-		var label = current_display_mode === "leaderboard_only" ? "Μόνο Leaderboard" : (current_display_mode === "cards_only" ? "Μόνο Mystery Cards" : "Και τα δύο (Leaderboard & Cards)");
-		showToast("Ρύθμιση εμφάνισης: " + label);
+		var label = current_display_mode === "leaderboard_only" 
+			? "Μόνο Leaderboard" 
+			: (current_display_mode === "cards_only" ? "Μόνο Mystery Cards" : "Και τα δύο (Leaderboard & Mystery Cards)");
+		showToast("Ρύθμιση προβολής: " + label);
 		AudioEngine.playPositive();
 	}
 
