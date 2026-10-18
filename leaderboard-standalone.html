@@ -810,6 +810,15 @@ body {
 	background: #b02a37;
 }
 
+@keyframes scoreBump {
+	0% { transform: scale(1); }
+	35% { transform: scale(1.12); }
+	100% { transform: scale(1); }
+}
+.person-score-badge.score-bump {
+	animation: scoreBump 0.25s ease-out;
+}
+
 /* Sliding Point Buttons Tray */
 .person-point-btns-tray {
 	position: absolute;
@@ -2227,6 +2236,11 @@ var search_query = "";
 var plusPressed = false;
 var minusPressed = false;
 
+// Smart Delay State (keeps rows stable while clicking points, reorders after 2s idle or mouse leave)
+var smart_reorder_timer = null;
+var mouse_leave_reorder_timer = null;
+var pending_smart_reorder_persons = [];
+
 // Template for leaderboard person row
 var lb_template = `
 <li class="person {{top_class}}" data-id="{{idx}}" data-nickname="{{nickname}}">
@@ -2541,6 +2555,9 @@ function build_leaderboard() {
 /* --- INLINE EDIT MODE METHODS --- */
 function enter_inline_edit_mode() {
 	if (inline_edit_active) return;
+	if (pending_smart_reorder_persons.length > 0) {
+		execute_smart_reorder();
+	}
 	inline_edit_active = true;
 	$("body").addClass("inline-edit-active");
 	$("#btn-edit-panel").hide();
@@ -2809,7 +2826,64 @@ function animate_reorder_ranks(changedPersons) {
 	}, 700);
 }
 
-function apply_score_change(targetPerson, delta, $row) {
+function cancel_smart_reorder_timers() {
+	if (smart_reorder_timer) {
+		clearTimeout(smart_reorder_timer);
+		smart_reorder_timer = null;
+	}
+	if (mouse_leave_reorder_timer) {
+		clearTimeout(mouse_leave_reorder_timer);
+		mouse_leave_reorder_timer = null;
+	}
+}
+
+function schedule_smart_reorder(targetPerson) {
+	if (targetPerson && pending_smart_reorder_persons.indexOf(targetPerson) === -1) {
+		pending_smart_reorder_persons.push(targetPerson);
+	}
+
+	// Reset 2-second idle timer
+	if (smart_reorder_timer) {
+		clearTimeout(smart_reorder_timer);
+	}
+	smart_reorder_timer = setTimeout(function() {
+		execute_smart_reorder();
+	}, 2000);
+}
+
+function execute_smart_reorder() {
+	cancel_smart_reorder_timers();
+	if (pending_smart_reorder_persons.length === 0) return;
+
+	var personsToAnimate = pending_smart_reorder_persons.slice();
+	pending_smart_reorder_persons = [];
+
+	var newSorted = get_sorted_lb_data();
+
+	// Calculate which cards are climbing or falling compared to their current rendered DOM order
+	$(".person").each(function() {
+		var $el = $(this);
+		var nick = $el.find(".person-nickname").text().trim();
+		var currentDomRank = parseInt($el.find(".person-rank-badge").text().trim(), 10);
+		var pObj = newSorted.find(function(p) { return p.nickname === nick; });
+		if (pObj) {
+			var newRank = newSorted.indexOf(pObj) + 1;
+			if (newRank < currentDomRank) {
+				$el.addClass("rank-climbing");
+				if (newRank === 1 && currentDomRank > 1) {
+					AudioEngine.playMilestone();
+					ConfettiEngine.launch(100);
+				}
+			} else if (newRank > currentDomRank) {
+				$el.addClass("rank-falling");
+			}
+		}
+	});
+
+	animate_reorder_ranks(personsToAnimate);
+}
+
+function apply_score_change(targetPerson, delta, $row, immediate) {
 	if (!targetPerson) return;
 	var oldSorted = get_sorted_lb_data();
 	var oldRank = oldSorted.indexOf(targetPerson) + 1;
@@ -2831,51 +2905,41 @@ function apply_score_change(targetPerson, delta, $row) {
 			return $(this).find(".person-nickname").text().trim() === targetPerson.nickname;
 		});
 	}
-	$row.find(".person-score-badge").html("<span>" + newScore + "</span>");
-
-	var newSorted = get_sorted_lb_data();
-	var newRank = newSorted.indexOf(targetPerson) + 1;
-
-	// Visual overtake classes: climbing card elevates above, overtaken cards slide below
-	if (newRank < oldRank) {
-		$row.addClass("rank-climbing");
-		for (var i = newRank - 1; i < oldRank - 1; i++) {
-			var passed = newSorted[i + 1];
-			if (passed && passed !== targetPerson) {
-				$(".person").filter(function() {
-					return $(this).find(".person-nickname").text().trim() === passed.nickname;
-				}).addClass("rank-falling");
-			}
-		}
-	} else if (newRank > oldRank) {
-		$row.addClass("rank-falling");
-		for (var i = oldRank - 1; i < newRank - 1; i++) {
-			var climber = newSorted[i];
-			if (climber && climber !== targetPerson) {
-				$(".person").filter(function() {
-					return $(this).find(".person-nickname").text().trim() === climber.nickname;
-				}).addClass("rank-climbing");
-			}
-		}
+	var $badge = $row.find(".person-score-badge");
+	$badge.html("<span>" + newScore + "</span>");
+	$badge.removeClass("score-bump");
+	if ($badge.length > 0) {
+		void $badge[0].offsetWidth;
+		$badge.addClass("score-bump");
 	}
 
-	// Audio & Confetti feedback
-	if (newRank === 1 && oldRank > 1) {
-		AudioEngine.playMilestone();
-		ConfettiEngine.launch(100);
-	} else if (delta > 0) {
+	// Audio & Confetti feedback immediately on click
+	if (delta > 0) {
 		AudioEngine.playPositive();
-		if (delta >= 5) ConfettiEngine.launch(60);
+		if (delta >= 5) ConfettiEngine.launch(50);
 	} else if (delta < 0) {
 		AudioEngine.playNegative();
 	}
 
-	animate_reorder_ranks([targetPerson]);
+	// Immediate ticker update & persistence
+	update_ticker_stats(get_sorted_lb_data());
+	if (local_storage_available) {
+		localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+	}
+
+	if (immediate) {
+		cancel_smart_reorder_timers();
+		pending_smart_reorder_persons = [targetPerson];
+		execute_smart_reorder();
+	} else {
+		// Smart Delay: keep cards stationary while clicking points, reorder after 2s idle or mouse leave
+		schedule_smart_reorder(targetPerson);
+	}
 }
 
 /* --- PERSON EVENTS & SCORE ADJUSTMENTS --- */
 function bind_person_events() {
-	// Point buttons (+1, +2, +5, -1, -2, -5) with smooth overtake animation
+	// Point buttons (+1, +2, +5, -1, -2, -5) with smart delay reordering
 	$(".person .pt-btn").off("click").on("click", function(e) {
 		if (swap_mode_active) {
 			// When swap mode is active, clicking anywhere on the card selects it for swap
@@ -2888,9 +2952,26 @@ function bind_person_events() {
 		var targetPerson = lb_data.find(function(p) { return p.nickname === nick; });
 
 		if (targetPerson) {
-			apply_score_change(targetPerson, delta, $row);
+			apply_score_change(targetPerson, delta, $row, false);
 		}
 	});
+
+	// Leaderboard container mouseleave and mouseenter for Smart Delay reordering
+	$(".leaderboard").off("mouseleave.smartReorder mouseenter.smartReorder")
+		.on("mouseleave.smartReorder", function() {
+			if (pending_smart_reorder_persons.length > 0) {
+				if (mouse_leave_reorder_timer) clearTimeout(mouse_leave_reorder_timer);
+				mouse_leave_reorder_timer = setTimeout(function() {
+					execute_smart_reorder();
+				}, 400);
+			}
+		})
+		.on("mouseenter.smartReorder", function() {
+			if (mouse_leave_reorder_timer) {
+				clearTimeout(mouse_leave_reorder_timer);
+				mouse_leave_reorder_timer = null;
+			}
+		});
 
 	// Single-click on leaderboard score badge: triggers score swap selection directly!
 	$(".person .person-score-badge").off("click").on("click", function(e) {
@@ -2912,6 +2993,9 @@ function bind_person_events() {
 	// Double-click on score badge: direct manual score typing
 	$(".person .person-score-badge").off("dblclick").on("dblclick", function(e) {
 		e.stopPropagation();
+		if (pending_smart_reorder_persons.length > 0) {
+			execute_smart_reorder();
+		}
 		clear_score_swap_selection();
 		if ($("body").hasClass("inline-edit-active") || $("body").hasClass("show-confirm")) return;
 		var $badge = $(this);
@@ -2943,7 +3027,7 @@ function bind_person_events() {
 				"edit",
 				function() {
 					var delta = newVal - currentVal;
-					apply_score_change(targetPerson, delta, $row);
+					apply_score_change(targetPerson, delta, $row, true);
 					showToast("Οι βαθμοί του παίκτη " + targetPerson.nickname + " ενημερώθηκαν σε " + newVal + ".");
 				},
 				function() {
@@ -3048,6 +3132,9 @@ function exit_swap_mode() {
 function handle_score_swap_click(nick) {
 	if ($("body").hasClass("inline-edit-active") || $("body").hasClass("show-confirm")) return;
 	if (!nick) return;
+	if (pending_smart_reorder_persons.length > 0) {
+		execute_smart_reorder();
+	}
 	var person = lb_data.find(function(p) { return p.nickname === nick; });
 	if (!person) return;
 
@@ -3121,6 +3208,9 @@ function perform_swap() {
 
 /* --- UNDO / REDO HISTORY ENGINE --- */
 function perform_undo() {
+	cancel_smart_reorder_timers();
+	pending_smart_reorder_persons = [];
+
 	if (undo_stack.length === 0) {
 		showToast("Δεν υπάρχει ενέργεια προς αναίρεση.");
 		AudioEngine.playNegative();
@@ -3165,6 +3255,9 @@ function perform_undo() {
 }
 
 function perform_redo() {
+	cancel_smart_reorder_timers();
+	pending_smart_reorder_persons = [];
+
 	if (redo_stack.length === 0) {
 		showToast("Δεν υπάρχει ενέργεια προς επανάληψη.");
 		AudioEngine.playNegative();
@@ -3514,6 +3607,9 @@ function init_event_listeners() {
 	});
 
 	$("#live-search-input").on("input", function() {
+		if (pending_smart_reorder_persons.length > 0) {
+			execute_smart_reorder();
+		}
 		search_query = $(this).val();
 		apply_search_filter();
 	});
