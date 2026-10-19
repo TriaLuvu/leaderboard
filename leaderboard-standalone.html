@@ -1242,12 +1242,22 @@ body.swap-mode-active .swap-hint {
 	width: 120px;
 	height: 120px;
 	text-align: center;
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	margin: 35px 0 25px 0;
 }
 .cards-list .card .card-box .icon svg {
 	width: 70px;
 	height: 70px;
+}
+.cards-list .card .card-box .icon .vector-badge.emoji-avatar {
+	font-size: 68px;
+	line-height: 1;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	user-select: none;
 }
 
 .cards-list .card .card-box .info {
@@ -1662,6 +1672,181 @@ body.show-modal .modal-backdrop {
 .modal-quick-avatar-item.active-avatar {
 	background: #2d3e50;
 	box-shadow: 0 0 0 2px var(--text-cornsilk, #fff8dc);
+}
+
+.vector-badge.emoji-avatar {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 24px;
+	line-height: 1;
+	width: 100%;
+	height: 100%;
+	user-select: none;
+}
+.modal-card-emoji-hero .vector-badge.emoji-avatar {
+	font-size: 32px;
+}
+.modal-card-quick-emoji-item .vector-badge.emoji-avatar {
+	font-size: 19px;
+}
+.cards-list .card .card-box .icon .vector-badge.emoji-avatar {
+	font-size: 68px;
+}
+.inline-card-avatar .vector-badge.emoji-avatar {
+	font-size: 24px;
+}
+
+/* Card Emoji Picker Section (Single Card Modal) */
+.modal-card-emoji-section {
+	margin-bottom: 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	text-align: left;
+}
+.modal-card-emoji-bar {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+.modal-card-emoji-hero {
+	width: 50px;
+	height: 50px;
+	border-radius: 12px;
+	background: #24282e;
+	border: 2px solid rgba(255, 255, 255, 0.12) !important;
+	outline: none !important;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	flex-shrink: 0;
+	transition: all 0.15s ease;
+}
+.modal-card-emoji-hero:hover {
+	background: #2d3e50;
+	border-color: #29a744 !important;
+	transform: scale(1.05);
+}
+.modal-card-emoji-hero .hero-emoji-circle {
+	font-size: 30px;
+	line-height: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.modal-card-quick-emojis {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	flex-wrap: wrap;
+	flex: 1;
+}
+.modal-card-quick-emoji-item {
+	width: 35px;
+	height: 35px;
+	border-radius: 8px;
+	background: #24282e;
+	border: 1px solid transparent !important;
+	outline: none !important;
+	font-size: 19px;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+}
+.modal-card-quick-emoji-item:hover {
+	background: #353b45;
+	transform: scale(1.15);
+}
+.modal-card-quick-emoji-item.active-avatar {
+	background: #2d3e50;
+	border-color: #29a744 !important;
+	box-shadow: 0 0 0 2px #29a744;
+	transform: scale(1.08);
+}
+.modal-card-more-emoji-btn {
+	position: static !important;
+	transform: none !important;
+	width: 35px;
+	height: 35px;
+	flex-shrink: 0;
+}
+.modal-card-more-emoji-btn:hover {
+	transform: scale(1.08) !important;
+}
+
+/* Bulk Cards Clean Panel */
+.bulk-cards-guide {
+	background: rgba(255, 255, 255, 0.04);
+	border-radius: 10px;
+	padding: 10px 14px;
+	margin-bottom: 12px;
+	border: none !important;
+}
+.bulk-guide-row {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+	margin-bottom: 6px;
+}
+.bulk-guide-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 11px;
+	color: var(--text-cornsilk, #fff8dc);
+	background: rgba(255, 255, 255, 0.07);
+	padding: 3px 8px;
+	border-radius: 6px;
+}
+.bulk-guide-hint {
+	font-size: 11px;
+	color: var(--text-muted, #cbbdae);
+	line-height: 1.4;
+}
+.bulk-cards-input-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 6px;
+}
+.bulk-emoji-btn {
+	position: static !important;
+	transform: none !important;
+	width: 30px;
+	height: 30px;
+	font-size: 16px;
+	flex-shrink: 0;
+}
+.bulk-emoji-btn:hover {
+	transform: scale(1.08) !important;
+}
+.tab-bulk-cards {
+	text-align: left;
+}
+.bulk-replace-label {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	text-align: left;
+	gap: 8px;
+	font-size: 12px;
+	color: var(--text-muted, #cbbdae);
+	margin-top: 10px;
+	cursor: pointer;
+	user-select: none;
+	width: 100%;
+}
+.bulk-replace-label input {
+	width: 16px;
+	height: 16px;
+	accent-color: #29a744;
+	cursor: pointer;
+	flex-shrink: 0;
 }
 
 /* Form Groups & Inputs */
@@ -2658,18 +2843,40 @@ body.show-modal .modal-backdrop {
 					<button type="button" class="card-type-toggle-btn" data-type="action">Κάρτα Ενέργειας / Οδηγίας</button>
 				</div>
 
-				<div class="modal-avatar-picker-section">
-					<button type="button" class="modal-avatar-hero-btn" id="add-card-avatar-btn" data-icon="gift" title="Κάντε κλικ για αλλαγή Εικονιδίου">
-						<div class="add-avatar-circle" id="add-card-avatar-circle"></div>
-						<div class="modal-avatar-badge-icon">
-							<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-						</div>
-					</button>
-					<div class="modal-avatar-hint" id="add-card-avatar-hint">
-						<span>Κάντε κλικ στο εικονίδιο για εναλλαγή</span>
+				<div class="modal-card-emoji-section">
+					<label class="modal-form-label">Emoji Κάρτας</label>
+					<div class="modal-card-emoji-bar">
+						<button type="button" class="modal-card-emoji-hero" id="add-card-avatar-btn" data-icon="🎁" title="Κάντε κλικ για επιλογή Emoji">
+							<span class="hero-emoji-circle" id="add-card-avatar-circle">🎁</span>
+						</button>
+						<div class="modal-card-quick-emojis" id="add-card-quick-strip"></div>
+						<button type="button" class="btn-emoji-toggle modal-card-more-emoji-btn" id="btn-card-emoji-picker-toggle" title="Άνοιγμα πλήρους λίστας Emoji">
+							<span>😊</span>
+						</button>
 					</div>
-					<div class="modal-avatar-quick-strip" id="add-card-quick-strip"></div>
-					<input type="hidden" id="rand-card-icon" value="gift">
+
+					<!-- Card Avatar Emoji Picker Panel -->
+					<div id="card-avatar-emoji-picker" class="emoji-picker-panel" style="display: none; margin-top: 10px;">
+						<div class="emoji-picker-header">
+							<div class="emoji-search-wrap">
+								<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+								<input type="text" class="emoji-search-input" placeholder="Αναζήτηση emoji (π.χ. φωτιά, δώρο, trophy...)">
+							</div>
+							<button type="button" class="emoji-picker-close-btn" title="Κλείσιμο">&times;</button>
+						</div>
+						<div class="emoji-picker-categories">
+							<button type="button" class="emoji-cat-btn active" data-cat="all">Όλα</button>
+							<button type="button" class="emoji-cat-btn" data-cat="game">🏆 Παιχνίδι</button>
+							<button type="button" class="emoji-cat-btn" data-cat="energy">⚡ Δράση</button>
+							<button type="button" class="emoji-cat-btn" data-cat="faces">🥳 Έκφραση</button>
+							<button type="button" class="emoji-cat-btn" data-cat="animals">🦁 Ζώα</button>
+							<button type="button" class="emoji-cat-btn" data-cat="symbols">❓ Σύμβολα</button>
+						</div>
+						<div class="emoji-picker-grid">
+							<!-- Injected dynamically by JS -->
+						</div>
+					</div>
+					<input type="hidden" id="rand-card-icon" value="🎁">
 				</div>
 
 				<!-- 1. Form for Points Card -->
@@ -2756,17 +2963,24 @@ body.show-modal .modal-backdrop {
 			</div>
 
 			<div class="modal-tab-pane tab-bulk-cards" style="display: none;">
-				<div style="background: rgba(0,0,0,0.22); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
-					<span style="color: var(--text-cornsilk); font-weight: 700;">Απλή μαζική εισαγωγή:</span> Γράψτε μία κάρτα σε κάθε γραμμή.<br>
-					• <strong>Για πόντους:</strong> γράψτε τον αριθμό (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+5</code> ή <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+10, Σούπερ Μπόνους</code>)<br>
-					• <strong>Για ενέργεια / οδηγία:</strong> γράψτε κατευθείαν το κείμενο (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">Αντάλλαξε το σκορ σου</code>) ή με δική σας ετικέτα & emoji (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">🔥 ΠΡΟΚΛΗΣΗ, Πες ένα τραγούδι!</code>)
+				<div class="bulk-cards-guide">
+					<div class="bulk-guide-row">
+						<span class="bulk-guide-pill">🔢 <strong>+10</strong> ή <strong>-5</strong></span>
+						<span class="bulk-guide-pill">🎁 <strong>+10, Μπόνους</strong></span>
+						<span class="bulk-guide-pill">⚡ <strong>Οδηγία / Ενέργεια</strong></span>
+					</div>
+					<div class="bulk-guide-hint">
+						Γράψτε μία κάρτα σε κάθε γραμμή. Το σύστημα αναγνωρίζει αυτόματα πόντους, οδηγίες και emoji!
+					</div>
 				</div>
-				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
-					<span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px;">Λίστα Καρτών</span>
-					<button type="button" class="btn-emoji-trigger-pill" id="btn-toggle-bulk-emoji" title="Άνοιγμα πλήρους λίστας Emoji">
-						<span>😊 Επιλογή Emoji</span>
+
+				<div class="bulk-cards-input-header">
+					<label class="modal-form-label" for="bulk-cards-text" style="margin: 0;">Λίστα Καρτών</label>
+					<button type="button" class="btn-emoji-toggle bulk-emoji-btn" id="btn-toggle-bulk-emoji" title="Εισαγωγή Emoji">
+						<span>😊</span>
 					</button>
 				</div>
+
 				<!-- Bulk Emoji Picker Panel -->
 				<div id="bulk-cards-emoji-picker" class="emoji-picker-panel" style="display: none; margin-bottom: 10px;">
 					<div class="emoji-picker-header">
@@ -2788,9 +3002,11 @@ body.show-modal .modal-backdrop {
 						<!-- Injected dynamically by JS -->
 					</div>
 				</div>
-				<textarea id="bulk-cards-text" rows="6" placeholder="+5&#10;+10, Σούπερ Μπόνους!&#10;Αντάλλαξε το σκορ σου με όποιον παίκτη θες!&#10;🔥 ΠΡΟΚΛΗΣΗ, Πες ένα τραγούδι δυνατά!&#10;-5, Ποινή 5 πόντων&#10;🎁 ΔΩΡΟ, Διπλασίασε τους πόντους στην επόμενη ερώτηση" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
-				<label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); margin-top: 8px; cursor: pointer;">
-					<input type="checkbox" id="chk-bulk-replace-cards" style="width: 16px; height: 16px; accent-color: #29a744; cursor: pointer;">
+
+				<textarea id="bulk-cards-text" rows="5" placeholder="+10&#10;-5&#10;+20, Σούπερ Μπόνους!&#10;Αντάλλαξε το σκορ σου με όποιον παίκτη θες&#10;🔥 ΠΡΟΚΛΗΣΗ, Πες ένα τραγούδι δυνατά!" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
+
+				<label class="bulk-replace-label">
+					<input type="checkbox" id="chk-bulk-replace-cards">
 					<span>Αντικατάσταση όλων των υπαρχουσών καρτών</span>
 				</label>
 			</div>
@@ -3025,7 +3241,19 @@ function render_avatar(iconStr) {
 	if (svgMap[key]) {
 		return `<span class="vector-badge" data-raw="${key}">${svgMap[key]}</span>`;
 	}
-	return `<span class="vector-badge" data-raw="user">${svgMap["user"]}</span>`;
+	return `<span class="vector-badge emoji-avatar" data-raw="${escapeHtml(iconStr)}">${iconStr}</span>`;
+}
+
+function render_card_avatar(iconStr) {
+	if (!iconStr) return '<span class="vector-badge emoji-avatar" data-raw="🎁">🎁</span>';
+	iconStr = String(iconStr).trim();
+	var legacyMap = {
+		"gift": "🎁", "fire": "🔥", "star": "⭐", "rocket": "🚀", "trophy": "🏆",
+		"shield": "🛡️", "lion": "🦁", "fox": "🦊", "panda": "🐼", "unicorn": "🦄",
+		"owl": "🦉", "tiger": "🐯", "dolphin": "🐬", "frog": "🐸", "user": "🎁"
+	};
+	var emoji = legacyMap[iconStr.toLowerCase()] || iconStr;
+	return `<span class="vector-badge emoji-avatar" data-raw="${escapeHtml(emoji)}">${emoji}</span>`;
 }
 
 function get_dialog_icon(iconType) {
@@ -3249,7 +3477,13 @@ var card_template = `
 `;
 
 var playerAvatars = ["hawk", "abram", "kianna", "bytex", "voyager", "alfonso", "lion", "fox", "panda", "unicorn", "owl", "tiger", "dolphin", "frog"];
-var cardIcons = ["gift", "fire", "star", "rocket", "trophy", "shield", "lion", "fox", "panda", "unicorn"];
+var cardIcons = ["🎁", "⭐", "🔥", "🏆", "⚡", "🎯", "💎", "👑", "🚀", "🎲", "❤️", "💣"];
+
+function extractLeadingEmoji(text) {
+	if (!text) return null;
+	var match = text.match(/^(\p{Extended_Pictographic}(?:\uFE0F|\u200D\p{Extended_Pictographic})*)/u);
+	return match && match[1] ? match[1] : null;
+}
 
 function update_add_player_avatar(iconName) {
 	iconName = iconName || "hawk";
@@ -3261,12 +3495,12 @@ function update_add_player_avatar(iconName) {
 }
 
 function update_add_card_avatar(iconName) {
-	iconName = iconName || "gift";
+	iconName = iconName || "🎁";
 	$("#rand-card-icon").val(iconName);
 	$("#add-card-avatar-btn").attr("data-icon", iconName);
-	$("#add-card-avatar-circle").html(render_avatar(iconName));
-	$("#add-card-quick-strip .modal-quick-avatar-item").removeClass("active-avatar");
-	$('#add-card-quick-strip .modal-quick-avatar-item[data-icon="' + iconName + '"]').addClass("active-avatar");
+	$("#add-card-avatar-circle").html(render_card_avatar(iconName));
+	$("#add-card-quick-strip .modal-card-quick-emoji-item").removeClass("active-avatar");
+	$('#add-card-quick-strip .modal-card-quick-emoji-item[data-icon="' + iconName + '"]').addClass("active-avatar");
 }
 
 function init_add_modal_strips() {
@@ -3276,7 +3510,7 @@ function init_add_modal_strips() {
 	$("#add-player-quick-strip").html(pStrip);
 
 	var cStrip = cardIcons.map(function(ic) {
-		return '<button type="button" class="modal-quick-avatar-item" data-icon="' + ic + '" title="' + ic + '">' + render_avatar(ic) + '</button>';
+		return '<button type="button" class="modal-card-quick-emoji-item" data-icon="' + ic + '" title="' + ic + '">' + ic + '</button>';
 	}).join("");
 	$("#add-card-quick-strip").html(cStrip);
 }
@@ -3467,6 +3701,7 @@ var EmojiPicker = {
 	activePicker: null,
 
 	init: function() {
+		this.renderGrid($("#card-avatar-emoji-picker .emoji-picker-grid"), "all", "");
 		this.renderGrid($("#card-action-emoji-picker .emoji-picker-grid"), "all", "");
 		this.renderGrid($("#bulk-cards-emoji-picker .emoji-picker-grid"), "all", "");
 		this.bindEvents();
@@ -3528,6 +3763,23 @@ var EmojiPicker = {
 	bindEvents: function() {
 		var self = this;
 
+		// Toggle card avatar emoji picker
+		$("#btn-card-emoji-picker-toggle, #add-card-avatar-btn").off("click").on("click", function(e) {
+			e.stopPropagation();
+			var $panel = $("#card-avatar-emoji-picker");
+			var isOpen = $panel.is(":visible");
+			$(".emoji-picker-panel").slideUp(140);
+			$(".btn-emoji-toggle").removeClass("active");
+
+			if (!isOpen) {
+				$panel.slideDown(180, function() {
+					$panel.find(".emoji-search-input").focus();
+				});
+				$("#btn-card-emoji-picker-toggle").addClass("active");
+				self.activePicker = "#card-avatar-emoji-picker";
+			}
+		});
+
 		// Toggle action emoji picker
 		$("#btn-toggle-action-emoji, #btn-action-label-emoji-btn, #btn-action-more-emojis").off("click").on("click", function(e) {
 			e.stopPropagation();
@@ -3552,11 +3804,13 @@ var EmojiPicker = {
 			var $panel = $("#bulk-cards-emoji-picker");
 			var isOpen = $panel.is(":visible");
 			$(".emoji-picker-panel").slideUp(140);
+			$(".btn-emoji-toggle").removeClass("active");
 
 			if (!isOpen) {
 				$panel.slideDown(180, function() {
 					$panel.find(".emoji-search-input").focus();
 				});
+				$("#btn-toggle-bulk-emoji").addClass("active");
 				self.activeTarget = "#bulk-cards-text";
 				self.activePicker = "#bulk-cards-emoji-picker";
 			}
@@ -3600,13 +3854,22 @@ var EmojiPicker = {
 			e.stopPropagation();
 			var emoji = $(this).attr("data-emoji");
 			var $panel = $(this).closest(".emoji-picker-panel");
+
+			if ($panel.attr("id") === "card-avatar-emoji-picker") {
+				update_add_card_avatar(emoji);
+				$panel.slideUp(140);
+				$("#btn-card-emoji-picker-toggle").removeClass("active");
+				AudioEngine.playPositive();
+				return;
+			}
+
 			var target = $panel.attr("id") === "bulk-cards-emoji-picker" ? "#bulk-cards-text" : "#card-action-label";
 			self.insertEmojiIntoTarget(emoji, target);
 		});
 
 		// Global click to close popovers when clicking outside
 		$(document).on("click", function(e) {
-			if (!$(e.target).closest(".emoji-picker-panel, .btn-emoji-toggle, .btn-emoji-trigger-pill, .emoji-quick-all-btn, .emoji-quick-chip").length) {
+			if (!$(e.target).closest(".emoji-picker-panel, .btn-emoji-toggle, .btn-emoji-trigger-pill, .modal-card-emoji-hero, .modal-card-quick-emoji-item, .emoji-quick-all-btn, .emoji-quick-chip").length) {
 				$(".emoji-picker-panel").slideUp(140);
 				$(".btn-emoji-toggle").removeClass("active");
 			}
@@ -3758,16 +4021,16 @@ $(document).ready(function() {
 
 	if (!card_data || card_data.length === 0) {
 		card_data = [
-			{icon: "gift", score: "+5",  info: "Lucky Box! +5 Points"},
-			{icon: "fire", score: "+10", info: "On Fire streak! +10 Points"},
-			{icon: "shield", score: "-2",  info: "Penalty -2 points"},
-			{icon: "star", score: "+3",  info: "Golden Star bonus +3"},
-			{icon: "rocket", score: "+8",  info: "Rocket Boost +8 points"},
-			{icon: "lion", score: "+4",  info: "Lion's Roar +4 points"},
-			{icon: "trophy", score: "+15", info: "Grand Champion Prize +15!"},
-			{icon: "fox", score: "-5",  info: "Tricky Fox trap! -5 points"},
-			{icon: "unicorn", score: "+6",  info: "Magic Rainbow +6 points"},
-			{icon: "panda", score: "+2",  info: "Bamboo Snack +2 points"}
+			{icon: "🎁", score: "+5",  info: "Lucky Box! +5 Points"},
+			{icon: "🔥", score: "+10", info: "On Fire streak! +10 Points"},
+			{icon: "🛡️", score: "-2",  info: "Penalty -2 points"},
+			{icon: "⭐", score: "+3",  info: "Golden Star bonus +3"},
+			{icon: "🚀", score: "+8",  info: "Rocket Boost +8 points"},
+			{icon: "🦁", score: "+4",  info: "Lion's Roar +4 points"},
+			{icon: "🏆", score: "+15", info: "Grand Champion Prize +15!"},
+			{icon: "🦊", score: "-5",  info: "Tricky Fox trap! -5 points"},
+			{icon: "🦄", score: "+6",  info: "Magic Rainbow +6 points"},
+			{icon: "🐼", score: "+2",  info: "Bamboo Snack +2 points"}
 		];
 		if (local_storage_available) localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
 	}
@@ -4658,7 +4921,7 @@ function build_cards() {
 
 	card_data.forEach(function(card, idx) {
 		var cardHtml = card_template
-			.replace("{{icon_rendered}}", render_avatar(card.icon))
+			.replace("{{icon_rendered}}", render_card_avatar(card.icon))
 			.replace("{{score}}", card.score !== undefined && card.score !== null ? card.score : "")
 			.replace("{{info}}", card.info !== undefined && card.info !== null ? card.info : "");
 		$(".cards-list").append(cardHtml);
@@ -4707,8 +4970,8 @@ function build_cards() {
 
 			// Host keyboard cheat shortcuts (+ / - held during click)
 			if (plusPressed) {
-				var randCheat = ["lion", "fox", "panda", "unicorn", "owl", "tiger", "dolphin", "frog", "trophy", "fire", "gift", "star", "rocket"][getRandomInt(0, 12)];
-				$content.children(".icon").html(render_avatar(randCheat));
+				var randCheat = ["🎁", "⭐", "🔥", "🏆", "⚡", "🎯", "💎", "👑", "🚀", "🎲", "❤️", "💣"][getRandomInt(0, 11)];
+				$content.children(".icon").html(render_card_avatar(randCheat));
 				$content.children(".score").removeClass("red yellow").addClass("green").text("+10");
 				$content.children(".info").text("Συγχαρητήρια! Κέρδισες 10 βαθμούς!");
 				AudioEngine.playMilestone();
@@ -4716,8 +4979,8 @@ function build_cards() {
 				return;
 			}
 			if (minusPressed) {
-				var randCheat = ["lion", "fox", "panda", "unicorn", "owl", "tiger", "dolphin", "frog", "trophy", "fire", "gift", "star", "rocket"][getRandomInt(0, 12)];
-				$content.children(".icon").html(render_avatar(randCheat));
+				var randCheat = ["🎁", "⭐", "🔥", "🏆", "⚡", "🎯", "💎", "👑", "🚀", "🎲", "❤️", "💣"][getRandomInt(0, 11)];
+				$content.children(".icon").html(render_card_avatar(randCheat));
 				$content.children(".score").addClass("red").removeClass("yellow green").text("-10");
 				$content.children(".info").text("Ατυχία! Μόλις έχασες 10 βαθμούς.");
 				AudioEngine.playNegative();
@@ -4780,7 +5043,7 @@ function render_inline_cards_edit_rows() {
 			<div class="card-box">
 				<div class="card-content">
 					<div class="inline-card-avatar" data-icon="${card.icon}" title="Κάντε κλικ για αλλαγή Avatar">
-						${render_avatar(card.icon)}
+						${render_card_avatar(card.icon)}
 					</div>
 					<input type="text" class="inline-card-score" value="${escapeHtml(card.score !== undefined && card.score !== null ? card.score : '+5')}" placeholder="+5 / ΕΝΕΡΓΕΙΑ / ΠΡΟΚΛΗΣΗ" title="Ένδειξη / Πόντοι κάρτας">
 					<textarea class="inline-card-info" rows="2" placeholder="Οδηγίες / Περιγραφή">${escapeHtml(card.info || '')}</textarea>
@@ -4807,14 +5070,14 @@ function render_inline_cards_edit_rows() {
 }
 
 function bind_cards_inline_edit_events() {
-	var cardIcons = ["gift", "fire", "star", "rocket", "trophy", "shield", "lion", "fox", "panda", "unicorn", "owl", "tiger", "dolphin", "frog"];
+	var cardIcons = ["🎁", "⭐", "🔥", "🏆", "⚡", "🎯", "💎", "👑", "🚀", "🎲", "❤️", "💣"];
 
 	$(".inline-card-avatar").off("click").on("click", function() {
-		var current = $(this).attr("data-icon") || "gift";
+		var current = $(this).attr("data-icon") || "🎁";
 		var nextIdx = (cardIcons.indexOf(current) + 1) % cardIcons.length;
 		var nextIcon = cardIcons[nextIdx];
 		$(this).attr("data-icon", nextIcon);
-		$(this).html(render_avatar(nextIcon));
+		$(this).html(render_card_avatar(nextIcon));
 		AudioEngine.playFlip();
 	});
 
@@ -4841,7 +5104,7 @@ function bind_cards_inline_edit_events() {
 			<div class="card-box">
 				<div class="card-content">
 					<div class="inline-card-avatar" data-icon="${randIcon}" title="Κάντε κλικ για αλλαγή Avatar">
-						${render_avatar(randIcon)}
+						${render_card_avatar(randIcon)}
 					</div>
 					<input type="text" class="inline-card-score" value="+5" placeholder="+5 / ΕΝΕΡΓΕΙΑ / ΠΡΟΚΛΗΣΗ" title="Ένδειξη / Πόντοι κάρτας">
 					<textarea class="inline-card-info" rows="2" placeholder="Οδηγίες / Περιγραφή">Νέα Οδηγία / Μπόνους!</textarea>
@@ -5061,18 +5324,12 @@ function init_event_listeners() {
 		$("#score").val(val).focus();
 	});
 
-	$("#add-card-avatar-btn, #add-card-avatar-hint").on("click", function() {
-		var cur = $("#rand-card-icon").val() || "gift";
-		var idx = cardIcons.indexOf(cur);
-		var next = cardIcons[(idx + 1) % cardIcons.length];
-		update_add_card_avatar(next);
-		AudioEngine.playFlip();
-	});
-
-	$(document).on("click", "#add-card-quick-strip .modal-quick-avatar-item", function() {
+	$(document).on("click", "#add-card-quick-strip .modal-card-quick-emoji-item", function() {
 		var icon = $(this).attr("data-icon");
-		update_add_card_avatar(icon);
-		AudioEngine.playFlip();
+		if (icon) {
+			update_add_card_avatar(icon);
+			AudioEngine.playFlip();
+		}
 	});
 
 	var current_card_modal_type = "points";
@@ -5280,11 +5537,11 @@ function init_event_listeners() {
 				if (isReplace) {
 					card_data = [];
 				}
-				var cardIcons = ["gift", "fire", "star", "rocket", "trophy", "shield", "lion", "fox", "panda", "unicorn"];
+				var defaultBulkEmojis = ["🎁", "⭐", "🔥", "🏆", "⚡", "🎯", "💎", "👑", "🚀", "🎲", "❤️", "💣"];
 				lines.forEach(function(line, idx) {
 					line = line.trim();
 					if (!line) return;
-					var icon = cardIcons[idx % cardIcons.length];
+					var fallbackIcon = defaultBulkEmojis[idx % defaultBulkEmojis.length];
 
 					if (line.indexOf(",") > -1) {
 						var parts = line.split(",").map(function(s) { return s.trim(); });
@@ -5293,18 +5550,24 @@ function init_event_listeners() {
 						if (/^[+-]?\d+$/.test(first)) {
 							var num = parseInt(first, 10);
 							var scr = (num > 0 && first.indexOf("+") !== 0) ? "+" + first : first;
-							card_data.push({ icon: icon, score: scr, info: rest || "Μπόνους πόντων" });
+							card_data.push({ icon: fallbackIcon, score: scr, info: rest || "Μπόνους πόντων" });
 						} else {
-							card_data.push({ icon: icon, score: first, info: rest });
+							var lead = extractLeadingEmoji(first);
+							card_data.push({ icon: lead || fallbackIcon, score: first, info: rest });
 						}
 					} else {
 						if (/^[+-]?\d+$/.test(line)) {
 							var num = parseInt(line, 10);
 							var scr = (num > 0 && line.indexOf("+") !== 0) ? "+" + line : line;
 							var defaultMsg = num > 0 ? "Μπόνους " + scr + " πόντων!" : "Ποινή " + scr + " πόντων!";
-							card_data.push({ icon: icon, score: scr, info: defaultMsg });
+							card_data.push({ icon: fallbackIcon, score: scr, info: defaultMsg });
 						} else {
-							card_data.push({ icon: icon, score: "ΕΝΕΡΓΕΙΑ", info: line });
+							var lead = extractLeadingEmoji(line);
+							if (lead) {
+								card_data.push({ icon: lead, score: lead, info: line });
+							} else {
+								card_data.push({ icon: fallbackIcon, score: "ΕΝΕΡΓΕΙΑ", info: line });
+							}
 						}
 					}
 				});
@@ -5330,7 +5593,7 @@ function init_event_listeners() {
 				applyBulkCards();
 			}
 		} else {
-			var icon = $("#rand-card-icon").val() || "gift";
+			var icon = $("#rand-card-icon").val() || "🎁";
 			if (current_card_modal_type === "action") {
 				var actionLabel = ($("#card-action-label").val() || "").trim() || "ΕΝΕΡΓΕΙΑ";
 				var actionText = ($("#card-action-text").val() || "").trim();
