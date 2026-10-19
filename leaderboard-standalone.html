@@ -1763,6 +1763,10 @@ body.show-modal .modal-backdrop {
 }
 
 /* Custom Confirmation Dialog Modal */
+.confirm-modal,
+#confirm-modal {
+	z-index: 20000 !important;
+}
 .confirm-modal .confirm-box {
 	max-width: 440px;
 	text-align: center;
@@ -4362,35 +4366,57 @@ function init_event_listeners() {
 		if (isBulk) {
 			var bulkText = ($("#bulk-players-text").val() || "").trim();
 			if (!bulkText) {
-				alert("Παρακαλώ εισάγετε τουλάχιστον ένα όνομα.");
+				showToast("Παρακαλώ εισάγετε τουλάχιστον ένα όνομα.");
 				return;
 			}
 			var lines = bulkText.split("\n").filter(function(l) { return l.trim().length > 0; });
-			if ($("#chk-bulk-replace-players").is(":checked")) {
-				lb_data = [];
+			if (lines.length === 0) {
+				showToast("Παρακαλώ εισάγετε τουλάχιστον ένα όνομα.");
+				return;
 			}
-			var avatarList = ["hawk", "abram", "kianna", "bytex", "voyager", "alfonso", "lion", "fox", "panda", "unicorn", "owl", "tiger", "dolphin", "frog"];
-			lines.forEach(function(line, idx) {
-				var parts = line.split(",").map(function(s) { return s.trim(); });
-				if (parts.length >= 3) {
-					lb_data.push({ icon: parts[0] || avatarList[idx % avatarList.length], nickname: parts[1], score: parseInt(parts[2], 10) || 0 });
-				} else if (parts.length === 2) {
-					var possibleScore = parseInt(parts[1], 10);
-					if (!isNaN(possibleScore)) {
-						lb_data.push({ icon: avatarList[idx % avatarList.length], nickname: parts[0], score: possibleScore });
-					} else {
-						lb_data.push({ icon: parts[0], nickname: parts[1], score: 0 });
-					}
-				} else if (parts.length === 1 && parts[0]) {
-					lb_data.push({ icon: avatarList[idx % avatarList.length], nickname: parts[0], score: 0 });
+			var isReplace = $("#chk-bulk-replace-players").is(":checked");
+
+			var applyBulkAdd = function() {
+				if (isReplace) {
+					lb_data = [];
 				}
-			});
-			build_leaderboard();
-			$("body").removeClass("show-add-person");
-			$("#bulk-players-text").val("");
-			AudioEngine.playMilestone();
-			ConfettiEngine.launch(90);
-			showToast("Οι παίκτες προστέθηκαν επιτυχώς!");
+				var avatarList = ["hawk", "abram", "kianna", "bytex", "voyager", "alfonso", "lion", "fox", "panda", "unicorn", "owl", "tiger", "dolphin", "frog"];
+				lines.forEach(function(line, idx) {
+					var parts = line.split(",").map(function(s) { return s.trim(); });
+					if (parts.length >= 3) {
+						lb_data.push({ icon: parts[0] || avatarList[idx % avatarList.length], nickname: parts[1], score: parseInt(parts[2], 10) || 0 });
+					} else if (parts.length === 2) {
+						var possibleScore = parseInt(parts[1], 10);
+						if (!isNaN(possibleScore)) {
+							lb_data.push({ icon: avatarList[idx % avatarList.length], nickname: parts[0], score: possibleScore });
+						} else {
+							lb_data.push({ icon: parts[0], nickname: parts[1], score: 0 });
+						}
+					} else if (parts.length === 1 && parts[0]) {
+						lb_data.push({ icon: avatarList[idx % avatarList.length], nickname: parts[0], score: 0 });
+					}
+				});
+				build_leaderboard();
+				$("body").removeClass("show-add-person show-confirm");
+				$("#bulk-players-text").val("");
+				$("#chk-bulk-replace-players").prop("checked", false);
+				AudioEngine.playMilestone();
+				ConfettiEngine.launch(90);
+				showToast(isReplace ? "Όλοι οι παίκτες αντικαταστάθηκαν επιτυχώς!" : "Οι παίκτες προστέθηκαν επιτυχώς!");
+			};
+
+			if (isReplace) {
+				var countExisting = lb_data.length;
+				var confirmMsg = "Είστε σίγουροι ότι θέλετε να <strong>αντικαταστήσετε όλους τους υπάρχοντες παίκτες</strong> (" + countExisting + ") με τους " + lines.length + " νέους παίκτες;<br><br><span style='color: #dc3546; font-size: 13px; font-weight: 600;'>Προσοχή: Όλοι οι προηγούμενοι παίκτες και οι βαθμολογίες τους θα διαγραφούν οριστικά.</span>";
+				showConfirmDialog(
+					"Μαζική Αντικατάσταση Παικτών",
+					confirmMsg,
+					"trash",
+					applyBulkAdd
+				);
+			} else {
+				applyBulkAdd();
+			}
 		} else {
 			var icon = $("#rand-person-icon").val() || "hawk";
 			var nick = $("#nickname").val() || "Player " + (lb_data.length + 1);
@@ -4409,30 +4435,52 @@ function init_event_listeners() {
 		if (isBulk) {
 			var bulkText = ($("#bulk-cards-text").val() || "").trim();
 			if (!bulkText) {
-				alert("Παρακαλώ εισάγετε τουλάχιστον μία κάρτα.");
+				showToast("Παρακαλώ εισάγετε τουλάχιστον μία κάρτα.");
 				return;
 			}
 			var lines = bulkText.split("\n").filter(function(l) { return l.trim().length > 0; });
-			if ($("#chk-bulk-replace-cards").is(":checked")) {
-				card_data = [];
+			if (lines.length === 0) {
+				showToast("Παρακαλώ εισάγετε τουλάχιστον μία κάρτα.");
+				return;
 			}
-			var cardIcons = ["gift", "fire", "star", "rocket", "trophy", "shield", "lion", "fox", "panda", "unicorn"];
-			lines.forEach(function(line, idx) {
-				var parts = line.split(",").map(function(s) { return s.trim(); });
-				if (parts.length >= 3) {
-					card_data.push({ icon: parts[0] || cardIcons[idx % cardIcons.length], score: parts[1], info: parts[2] });
-				} else if (parts.length === 2) {
-					card_data.push({ icon: cardIcons[idx % cardIcons.length], score: parts[0], info: parts[1] });
-				} else if (parts.length === 1 && parts[0]) {
-					card_data.push({ icon: cardIcons[idx % cardIcons.length], score: parts[0], info: "Mystery Bonus!" });
+			var isReplace = $("#chk-bulk-replace-cards").is(":checked");
+
+			var applyBulkCards = function() {
+				if (isReplace) {
+					card_data = [];
 				}
-			});
-			build_cards();
-			$("body").removeClass("show-add-card");
-			$("#bulk-cards-text").val("");
-			AudioEngine.playMilestone();
-			ConfettiEngine.launch(90);
-			showToast("Οι κάρτες προστέθηκαν επιτυχώς!");
+				var cardIcons = ["gift", "fire", "star", "rocket", "trophy", "shield", "lion", "fox", "panda", "unicorn"];
+				lines.forEach(function(line, idx) {
+					var parts = line.split(",").map(function(s) { return s.trim(); });
+					if (parts.length >= 3) {
+						card_data.push({ icon: parts[0] || cardIcons[idx % cardIcons.length], score: parts[1], info: parts[2] });
+					} else if (parts.length === 2) {
+						card_data.push({ icon: cardIcons[idx % cardIcons.length], score: parts[0], info: parts[1] });
+					} else if (parts.length === 1 && parts[0]) {
+						card_data.push({ icon: cardIcons[idx % cardIcons.length], score: parts[0], info: "Mystery Bonus!" });
+					}
+				});
+				build_cards();
+				$("body").removeClass("show-add-card show-confirm");
+				$("#bulk-cards-text").val("");
+				$("#chk-bulk-replace-cards").prop("checked", false);
+				AudioEngine.playMilestone();
+				ConfettiEngine.launch(90);
+				showToast(isReplace ? "Όλες οι κάρτες αντικαταστάθηκαν επιτυχώς!" : "Οι κάρτες προστέθηκαν επιτυχώς!");
+			};
+
+			if (isReplace) {
+				var countExistingCards = card_data.length;
+				var confirmMsg = "Είστε σίγουροι ότι θέλετε να <strong>αντικαταστήσετε όλες τις υπάρχουσες κάρτες</strong> (" + countExistingCards + ") με τις " + lines.length + " νέες κάρτες;<br><br><span style='color: #dc3546; font-size: 13px; font-weight: 600;'>Προσοχή: Όλες οι προηγούμενες κάρτες μυστηρίου θα διαγραφούν οριστικά.</span>";
+				showConfirmDialog(
+					"Μαζική Αντικατάσταση Καρτών",
+					confirmMsg,
+					"trash",
+					applyBulkCards
+				);
+			} else {
+				applyBulkCards();
+			}
 		} else {
 			var icon = $("#rand-card-icon").val() || "gift";
 			var scr = $("#card-score").val() || "+5";
@@ -4448,7 +4496,11 @@ function init_event_listeners() {
 	$(".link-popup .close").on("click", function() { $("body").removeClass("show-link"); });
 	$(".popup-modal").off("click.backdrop").on("click.backdrop", function(e) {
 		if ($(e.target).hasClass("popup-modal")) {
-			$("body").removeClass("show-add-person show-add-card show-link show-edit show-confirm show-viewmode");
+			if ($(e.target).is("#confirm-modal") || $(e.target).hasClass("confirm-modal")) {
+				$("#btn-confirm-cancel").trigger("click");
+				return;
+			}
+			$("body").removeClass("show-add-person show-add-card show-link show-edit show-viewmode");
 		}
 	});
 	$(".btn-copy-sync").on("click", copy_sync_link);
@@ -4999,12 +5051,20 @@ function showConfirmDialog(title, message, icon, onConfirm, onCancel) {
 	var iconSvg = "";
 	if (icon === "trash") {
 		iconSvg = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#dc3546" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>';
+		$("#confirm-icon").css("background", "rgba(220, 53, 69, 0.15)");
+		$("#btn-confirm-ok").css("background", "#dc3546");
 	} else if (icon === "swap") {
 		iconSvg = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#17a2b9" stroke-width="2"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>';
+		$("#confirm-icon").css("background", "rgba(23, 162, 185, 0.15)");
+		$("#btn-confirm-ok").css("background", "var(--btn-ok, #29a744)");
 	} else if (icon === "edit") {
 		iconSvg = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fec107" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>';
+		$("#confirm-icon").css("background", "rgba(254, 193, 7, 0.15)");
+		$("#btn-confirm-ok").css("background", "var(--btn-ok, #29a744)");
 	} else {
 		iconSvg = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fec107" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+		$("#confirm-icon").css("background", "rgba(254, 193, 7, 0.15)");
+		$("#btn-confirm-ok").css("background", "var(--btn-ok, #29a744)");
 	}
 	$("#confirm-icon").html(iconSvg);
 
