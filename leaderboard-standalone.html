@@ -2432,6 +2432,16 @@ body.show-modal .modal-backdrop {
 				<!-- 2. Form for Action / Instruction Card -->
 				<div id="card-fields-action" class="card-type-fields" style="display: none;">
 					<div class="modal-form-group">
+						<label class="modal-form-label" for="card-action-label">Ετικέτα Κάρτας (προαιρετικό)</label>
+						<div class="modal-input-wrap">
+							<span class="modal-input-icon">
+								<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+							</span>
+							<input type="text" id="card-action-label" placeholder="π.χ. ΕΝΕΡΓΕΙΑ, ΠΡΟΚΛΗΣΗ, ΔΩΡΟ... (προεπιλογή: ΕΝΕΡΓΕΙΑ)">
+						</div>
+					</div>
+
+					<div class="modal-form-group" style="margin-top: 10px;">
 						<label class="modal-form-label" for="card-action-text">Οδηγία / Ενέργεια</label>
 						<div class="modal-input-wrap has-textarea">
 							<span class="modal-input-icon">
@@ -2449,10 +2459,10 @@ body.show-modal .modal-backdrop {
 			<div class="modal-tab-pane tab-bulk-cards" style="display: none;">
 				<div style="background: rgba(0,0,0,0.22); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
 					<span style="color: var(--text-cornsilk); font-weight: 700;">Απλή μαζική εισαγωγή:</span> Γράψτε μία κάρτα σε κάθε γραμμή.<br>
-					• <strong>Για πόντους:</strong> γράψτε απλά τον αριθμό (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+5</code> ή <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">-2</code> ή <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+10, Σούπερ Μπόνους</code>)<br>
-					• <strong>Για ενέργεια / οδηγία:</strong> γράψτε απλά το κείμενο (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">Αντάλλαξε το σκορ σου με όποιον παίκτη θες!</code>)
+					• <strong>Για πόντους:</strong> γράψτε τον αριθμό (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+5</code> ή <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+10, Σούπερ Μπόνους</code>)<br>
+					• <strong>Για ενέργεια / οδηγία:</strong> γράψτε κατευθείαν το κείμενο (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">Αντάλλαξε το σκορ σου</code>) ή με δική σας ετικέτα (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">ΠΡΟΚΛΗΣΗ, Πες ένα τραγούδι!</code>)
 				</div>
-				<textarea id="bulk-cards-text" rows="6" placeholder="+5&#10;+10, Σούπερ Μπόνους!&#10;Αντάλλαξε το σκορ σου με όποιον παίκτη θες!&#10;Ο επόμενος παίκτης χάνει τη σειρά του&#10;-5, Ποινή 5 πόντων&#10;Διπλασίασε τους πόντους στην επόμενη ερώτηση" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
+				<textarea id="bulk-cards-text" rows="6" placeholder="+5&#10;+10, Σούπερ Μπόνους!&#10;Αντάλλαξε το σκορ σου με όποιον παίκτη θες!&#10;ΠΡΟΚΛΗΣΗ, Πες ένα τραγούδι δυνατά!&#10;-5, Ποινή 5 πόντων&#10;ΔΩΡΟ, Διπλασίασε τους πόντους στην επόμενη ερώτηση" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
 				<label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); margin-top: 8px; cursor: pointer;">
 					<input type="checkbox" id="chk-bulk-replace-cards" style="width: 16px; height: 16px; accent-color: #29a744; cursor: pointer;">
 					<span>Αντικατάσταση όλων των υπαρχουσών καρτών</span>
@@ -4106,7 +4116,7 @@ function render_inline_cards_edit_rows() {
 					<div class="inline-card-avatar" data-icon="${card.icon}" title="Κάντε κλικ για αλλαγή Avatar">
 						${render_avatar(card.icon)}
 					</div>
-					<input type="text" class="inline-card-score" value="${escapeHtml(card.score !== undefined && card.score !== null ? card.score : '+5')}" placeholder="+5 / SWAP / SKIP" title="Ένδειξη / Πόντοι κάρτας">
+					<input type="text" class="inline-card-score" value="${escapeHtml(card.score !== undefined && card.score !== null ? card.score : '+5')}" placeholder="+5 / ΕΝΕΡΓΕΙΑ / ΠΡΟΚΛΗΣΗ" title="Ένδειξη / Πόντοι κάρτας">
 					<textarea class="inline-card-info" rows="2" placeholder="Οδηγίες / Περιγραφή">${escapeHtml(card.info || '')}</textarea>
 					<button type="button" class="inline-card-del-btn" title="Διαγραφή κάρτας">
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
@@ -4167,7 +4177,7 @@ function bind_cards_inline_edit_events() {
 					<div class="inline-card-avatar" data-icon="${randIcon}" title="Κάντε κλικ για αλλαγή Avatar">
 						${render_avatar(randIcon)}
 					</div>
-					<input type="text" class="inline-card-score" value="+5" placeholder="+5 / SWAP / SKIP" title="Ένδειξη / Πόντοι κάρτας">
+					<input type="text" class="inline-card-score" value="+5" placeholder="+5 / ΕΝΕΡΓΕΙΑ / ΠΡΟΚΛΗΣΗ" title="Ένδειξη / Πόντοι κάρτας">
 					<textarea class="inline-card-info" rows="2" placeholder="Οδηγίες / Περιγραφή">Νέα Οδηγία / Μπόνους!</textarea>
 					<button type="button" class="inline-card-del-btn" title="Διαγραφή κάρτας">
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
@@ -4359,6 +4369,7 @@ function init_event_listeners() {
 			$('.card-type-toggle-btn[data-type="points"]').trigger("click");
 			$("#card-score").val("+5");
 			$("#card-info-points").val("");
+			$("#card-action-label").val("");
 			$("#card-action-text").val("");
 		}
 	});
@@ -4428,7 +4439,7 @@ function init_event_listeners() {
 		}
 	});
 
-	$(document).on("keydown", "#card-score, #card-info-points", function(e) {
+	$(document).on("keydown", "#card-score, #card-info-points, #card-action-label", function(e) {
 		if (e.key === "Enter") {
 			e.preventDefault();
 			$(".add-card-popup .ok").trigger("click");
@@ -4653,13 +4664,14 @@ function init_event_listeners() {
 		} else {
 			var icon = $("#rand-card-icon").val() || "gift";
 			if (current_card_modal_type === "action") {
+				var actionLabel = ($("#card-action-label").val() || "").trim() || "ΕΝΕΡΓΕΙΑ";
 				var actionText = ($("#card-action-text").val() || "").trim();
 				if (!actionText) {
 					showToast("Παρακαλώ γράψτε την οδηγία ή ενέργεια της κάρτας.");
 					$("#card-action-text").focus();
 					return;
 				}
-				card_data.push({ icon: icon, score: "ΕΝΕΡΓΕΙΑ", info: actionText });
+				card_data.push({ icon: icon, score: actionLabel, info: actionText });
 			} else {
 				var scr = ($("#card-score").val() || "").trim() || "+5";
 				var num = parseInt(scr, 10);
