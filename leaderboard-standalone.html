@@ -1761,23 +1761,37 @@ body.show-modal .modal-backdrop {
 	color: var(--text-cornsilk, #fff8dc);
 }
 
-.modal-action-chip {
-	background: #242c38;
-	color: #f0c674;
-	border: none;
-	border-radius: 6px;
-	padding: 4px 10px;
-	font-size: 11px;
-	font-weight: 800;
-	cursor: pointer;
-	transition: all 0.12s ease;
-	outline: none;
-	letter-spacing: 0.4px;
+/* Card Type Switcher (Points vs Action) */
+.card-type-toggle {
+	display: flex;
+	gap: 6px;
+	background: #23272d;
+	padding: 4px;
+	border-radius: 10px;
+	margin-bottom: 12px;
 }
-.modal-action-chip:hover {
-	background: #344254;
-	color: #fff4d1;
-	transform: translateY(-1px);
+.card-type-toggle-btn {
+	flex: 1;
+	padding: 9px 12px;
+	border-radius: 8px;
+	border: none !important;
+	background: transparent;
+	color: #9ba3af;
+	font-size: 13px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	outline: none !important;
+	text-align: center;
+	font-family: inherit;
+}
+.card-type-toggle-btn:hover {
+	color: #ffffff;
+}
+.card-type-toggle-btn.active {
+	background: #2d3e50 !important;
+	color: var(--text-cornsilk, #fff8dc) !important;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
 .modal-actions {
@@ -2364,6 +2378,12 @@ body.show-modal .modal-backdrop {
 			</div>
 
 			<div class="modal-tab-pane tab-single-card">
+				<!-- Clear 2-Way Choice: Points or Action -->
+				<div class="card-type-toggle">
+					<button type="button" class="card-type-toggle-btn active" data-type="points">Κάρτα Πόντων (+ / -)</button>
+					<button type="button" class="card-type-toggle-btn" data-type="action">Κάρτα Ενέργειας / Οδηγίας</button>
+				</div>
+
 				<div class="modal-avatar-picker-section">
 					<button type="button" class="modal-avatar-hero-btn" id="add-card-avatar-btn" data-icon="gift" title="Κάντε κλικ για αλλαγή Εικονιδίου">
 						<div class="add-avatar-circle" id="add-card-avatar-circle"></div>
@@ -2378,61 +2398,61 @@ body.show-modal .modal-backdrop {
 					<input type="hidden" id="rand-card-icon" value="gift">
 				</div>
 
-				<div class="modal-form-group">
-					<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
-						<label class="modal-form-label" for="card-score" style="margin-bottom: 0;">Τύπος / Ένδειξη Κάρτας</label>
-						<span style="font-size: 11px; color: var(--text-muted);">Βαθμοί ή Ενέργεια / Οδηγία</span>
-					</div>
-					<div class="modal-input-wrap">
-						<span class="modal-input-icon">
-							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-						</span>
-						<input type="text" id="card-score" placeholder="π.χ. +5, -2, SWAP, x2, SKIP, ΟΔΗΓΙΑ..." value="+5">
-					</div>
-					<div class="modal-chips-container" style="display: flex; flex-direction: column; gap: 6px; margin-top: 6px;">
-						<div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-							<span style="font-size: 11px; color: #8c95a0; font-weight: 700; min-width: 52px;">Βαθμοί:</span>
-							<div class="modal-score-chips" style="margin-top: 0; flex-wrap: wrap;">
-								<button type="button" class="modal-card-chip" data-val="+5">+5</button>
-								<button type="button" class="modal-card-chip" data-val="+10">+10</button>
-								<button type="button" class="modal-card-chip" data-val="+20">+20</button>
-								<button type="button" class="modal-card-chip" data-val="-2">-2</button>
-								<button type="button" class="modal-card-chip" data-val="-5">-5</button>
-								<button type="button" class="modal-card-chip" data-val="-10">-10</button>
-							</div>
+				<!-- 1. Form for Points Card -->
+				<div id="card-fields-points" class="card-type-fields">
+					<div class="modal-form-group">
+						<label class="modal-form-label" for="card-score">Πόντοι Κάρτας</label>
+						<div class="modal-input-wrap">
+							<span class="modal-input-icon">
+								<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+							</span>
+							<input type="text" id="card-score" placeholder="π.χ. +5 ή -2" value="+5">
 						</div>
-						<div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-							<span style="font-size: 11px; color: #f0c674; font-weight: 700; min-width: 52px;">Οδηγίες:</span>
-							<div class="modal-score-chips modal-action-chips" style="margin-top: 0; flex-wrap: wrap;">
-								<button type="button" class="modal-action-chip" data-val="SWAP" data-icon="trophy" data-preset="Αντάλλαξε το σκορ σου με όποιον παίκτη επιλέξεις!">SWAP</button>
-								<button type="button" class="modal-action-chip" data-val="x2" data-icon="rocket" data-preset="Διπλασίασε τους πόντους της επόμενης σωστής απάντησης!">x2</button>
-								<button type="button" class="modal-action-chip" data-val="SKIP" data-icon="shield" data-preset="Ο επόμενος παίκτης χάνει τη σειρά του!">SKIP</button>
-								<button type="button" class="modal-action-chip" data-val="ΟΔΗΓΙΑ" data-icon="star" data-preset="Ακολούθησε την ειδική εντολή του παιχνιδιού!">ΟΔΗΓΙΑ</button>
-								<button type="button" class="modal-action-chip" data-val="ΠΡΟΚΛΗΣΗ" data-icon="fire" data-preset="Εκτέλεσε τη δοκιμασία για να κερδίσεις πόντους!">ΠΡΟΚΛΗΣΗ</button>
-								<button type="button" class="modal-action-chip" data-val="ΜΥΣΤΗΡΙΟ" data-icon="gift" data-preset="Μυστική έκπληξη για τον παίκτη!">ΜΥΣΤΗΡΙΟ</button>
-								<button type="button" class="modal-action-chip" data-val="-" data-icon="star" data-preset="Οδηγία χωρίς βαθμολογία">ΧΩΡΙΣ ΒΑΘΜΟΥΣ</button>
-							</div>
+						<div class="modal-score-chips">
+							<button type="button" class="modal-card-chip" data-val="+5">+5</button>
+							<button type="button" class="modal-card-chip" data-val="+10">+10</button>
+							<button type="button" class="modal-card-chip" data-val="+20">+20</button>
+							<button type="button" class="modal-card-chip" data-val="-2">-2</button>
+							<button type="button" class="modal-card-chip" data-val="-5">-5</button>
+							<button type="button" class="modal-card-chip" data-val="-10">-10</button>
+						</div>
+					</div>
+
+					<div class="modal-form-group" style="margin-top: 10px;">
+						<label class="modal-form-label" for="card-info-points">Περιγραφή (προαιρετικό)</label>
+						<div class="modal-input-wrap">
+							<span class="modal-input-icon">
+								<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+							</span>
+							<input type="text" id="card-info-points" placeholder="π.χ. Μπόνους, Τυχερό Κουτί...">
 						</div>
 					</div>
 				</div>
 
-				<div class="modal-form-group">
-					<label class="modal-form-label" for="card-info">Οδηγίες / Περιγραφή Κάρτας</label>
-					<div class="modal-input-wrap has-textarea">
-						<span class="modal-input-icon">
-							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-						</span>
-						<textarea id="card-info" rows="2" placeholder="π.χ. Τυχερό Κουτί! ή Αντάλλαξε το σκορ σου με όποιον παίκτη θες..."></textarea>
+				<!-- 2. Form for Action / Instruction Card -->
+				<div id="card-fields-action" class="card-type-fields" style="display: none;">
+					<div class="modal-form-group">
+						<label class="modal-form-label" for="card-action-text">Οδηγία / Ενέργεια</label>
+						<div class="modal-input-wrap has-textarea">
+							<span class="modal-input-icon">
+								<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+							</span>
+							<textarea id="card-action-text" rows="3" placeholder="π.χ. Αντάλλαξε το σκορ σου με όποιον παίκτη θες! ή Ο επόμενος παίκτης χάνει τη σειρά του..."></textarea>
+						</div>
+						<div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+							Γράψτε απλά ό,τι θέλετε να κάνει ο παίκτης όταν ανοίξει αυτή την κάρτα.
+						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="modal-tab-pane tab-bulk-cards" style="display: none;">
 				<div style="background: rgba(0,0,0,0.22); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
-					<span style="color: var(--text-cornsilk); font-weight: 700;">Μαζική εισαγωγή:</span> Γράψτε μία κάρτα ανά γραμμή (βαθμοί ή ενέργεια/οδηγία).<br>
-					Μορφή: <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">Ένδειξη, Οδηγίες / Περιγραφή</code> (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">SWAP, Αντάλλαξε το σκορ σου!</code> ή <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+5, Τυχερό Κουτί</code>).
+					<span style="color: var(--text-cornsilk); font-weight: 700;">Απλή μαζική εισαγωγή:</span> Γράψτε μία κάρτα σε κάθε γραμμή.<br>
+					• <strong>Για πόντους:</strong> γράψτε απλά τον αριθμό (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+5</code> ή <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">-2</code> ή <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+10, Σούπερ Μπόνους</code>)<br>
+					• <strong>Για ενέργεια / οδηγία:</strong> γράψτε απλά το κείμενο (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">Αντάλλαξε το σκορ σου με όποιον παίκτη θες!</code>)
 				</div>
-				<textarea id="bulk-cards-text" rows="6" placeholder="+5, Τυχερό Κουτί! Κερδίζεις 5 πόντους&#10;SWAP, Αντάλλαξε το σκορ σου με όποιον παίκτη θες!&#10;+10, Σούπερ Μπόνους!&#10;SKIP, Ο επόμενος παίκτης χάνει τη σειρά του&#10;x2, Διπλασίασε τους πόντους της επόμενης απάντησης&#10;ΟΔΗΓΙΑ, Επίλεξε αντίπαλο να απαντήσει στην ερώτηση&#10;-5, Ποινή 5 πόντων" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
+				<textarea id="bulk-cards-text" rows="6" placeholder="+5&#10;+10, Σούπερ Μπόνους!&#10;Αντάλλαξε το σκορ σου με όποιον παίκτη θες!&#10;Ο επόμενος παίκτης χάνει τη σειρά του&#10;-5, Ποινή 5 πόντων&#10;Διπλασίασε τους πόντους στην επόμενη ερώτηση" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
 				<label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); margin-top: 8px; cursor: pointer;">
 					<input type="checkbox" id="chk-bulk-replace-cards" style="width: 16px; height: 16px; accent-color: #29a744; cursor: pointer;">
 					<span>Αντικατάσταση όλων των υπαρχουσών καρτών</span>
@@ -4323,6 +4343,7 @@ function init_event_listeners() {
 	});
 
 	$("#tool-btn-add").on("click", function() {
+		$("body").removeClass("show-add-person show-add-card show-edit show-link show-viewmode");
 		if (current_mode === "leaderboard") {
 			$("body").addClass("show-add-person");
 			var initialIcon = playerAvatars[getRandomInt(0, 7)];
@@ -4335,8 +4356,10 @@ function init_event_listeners() {
 			var initialIcon = cardIcons[getRandomInt(0, 3)];
 			update_add_card_avatar(initialIcon);
 			$('.add-card-popup .modal-tab-btn[data-tab="single-card"]').trigger("click");
-			$("#card-info").val("").focus();
+			$('.card-type-toggle-btn[data-type="points"]').trigger("click");
 			$("#card-score").val("+5");
+			$("#card-info-points").val("");
+			$("#card-action-text").val("");
 		}
 	});
 
@@ -4373,34 +4396,28 @@ function init_event_listeners() {
 		AudioEngine.playFlip();
 	});
 
-	$(document).on("click", ".modal-card-chip", function() {
-		var val = $(this).attr("data-val");
-		$("#card-score").val(val).focus();
-		var curInfo = ($("#card-info").val() || "").trim();
-		if (!curInfo || curInfo === "Mystery Bonus!" || curInfo === "Bonus!" || curInfo.indexOf("Μπόνους") === 0 || curInfo.indexOf("Ποινή") === 0) {
-			var num = parseInt(val, 10);
-			if (!isNaN(num)) {
-				if (num > 0) $("#card-info").val("Μπόνους " + val + " πόντων!");
-				else $("#card-info").val("Ποινή " + val + " πόντων!");
-			}
+	var current_card_modal_type = "points";
+
+	$(document).on("click", ".card-type-toggle-btn", function() {
+		var type = $(this).attr("data-type");
+		current_card_modal_type = type;
+		$(".card-type-toggle-btn").removeClass("active");
+		$(this).addClass("active");
+		if (type === "points") {
+			$("#card-fields-points").show();
+			$("#card-fields-action").hide();
+			$("#card-score").focus();
+		} else {
+			$("#card-fields-points").hide();
+			$("#card-fields-action").show();
+			$("#card-action-text").focus();
 		}
 		AudioEngine.playFlip();
 	});
 
-	$(document).on("click", ".modal-action-chip", function() {
+	$(document).on("click", ".modal-card-chip", function() {
 		var val = $(this).attr("data-val");
-		var preset = $(this).attr("data-preset");
-		var icon = $(this).attr("data-icon");
 		$("#card-score").val(val).focus();
-		if (preset) {
-			var curInfo = ($("#card-info").val() || "").trim();
-			if (!curInfo || curInfo === "Mystery Bonus!" || curInfo === "Bonus!" || curInfo.indexOf("Μπόνους") === 0 || curInfo.indexOf("Ποινή") === 0 || curInfo.indexOf("Τυχερό Κουτί") > -1) {
-				$("#card-info").val(preset);
-			}
-		}
-		if (icon) {
-			update_add_card_avatar(icon);
-		}
 		AudioEngine.playFlip();
 	});
 
@@ -4411,14 +4428,14 @@ function init_event_listeners() {
 		}
 	});
 
-	$(document).on("keydown", "#card-score", function(e) {
+	$(document).on("keydown", "#card-score, #card-info-points", function(e) {
 		if (e.key === "Enter") {
 			e.preventDefault();
 			$(".add-card-popup .ok").trigger("click");
 		}
 	});
 
-	$(document).on("keydown", "#card-info", function(e) {
+	$(document).on("keydown", "#card-action-text", function(e) {
 		if (e.key === "Enter" && !e.shiftKey) {
 			e.preventDefault();
 			$(".add-card-popup .ok").trigger("click");
@@ -4586,17 +4603,29 @@ function init_event_listeners() {
 				}
 				var cardIcons = ["gift", "fire", "star", "rocket", "trophy", "shield", "lion", "fox", "panda", "unicorn"];
 				lines.forEach(function(line, idx) {
-					var parts = line.split(",").map(function(s) { return s.trim(); });
-					if (parts.length >= 3) {
-						card_data.push({ icon: parts[0] || cardIcons[idx % cardIcons.length], score: parts[1], info: parts[2] });
-					} else if (parts.length === 2) {
-						card_data.push({ icon: cardIcons[idx % cardIcons.length], score: parts[0], info: parts[1] });
-					} else if (parts.length === 1 && parts[0]) {
-						var single = parts[0];
-						if (/^[+-]?\d+$/.test(single)) {
-							card_data.push({ icon: cardIcons[idx % cardIcons.length], score: single, info: "Μπόνους " + single + " πόντων" });
+					line = line.trim();
+					if (!line) return;
+					var icon = cardIcons[idx % cardIcons.length];
+
+					if (line.indexOf(",") > -1) {
+						var parts = line.split(",").map(function(s) { return s.trim(); });
+						var first = parts[0];
+						var rest = parts.slice(1).join(",").trim();
+						if (/^[+-]?\d+$/.test(first)) {
+							var num = parseInt(first, 10);
+							var scr = (num > 0 && first.indexOf("+") !== 0) ? "+" + first : first;
+							card_data.push({ icon: icon, score: scr, info: rest || "Μπόνους πόντων" });
 						} else {
-							card_data.push({ icon: cardIcons[idx % cardIcons.length], score: "-", info: single });
+							card_data.push({ icon: icon, score: first, info: rest });
+						}
+					} else {
+						if (/^[+-]?\d+$/.test(line)) {
+							var num = parseInt(line, 10);
+							var scr = (num > 0 && line.indexOf("+") !== 0) ? "+" + line : line;
+							var defaultMsg = num > 0 ? "Μπόνους " + scr + " πόντων!" : "Ποινή " + scr + " πόντων!";
+							card_data.push({ icon: icon, score: scr, info: defaultMsg });
+						} else {
+							card_data.push({ icon: icon, score: "ΕΝΕΡΓΕΙΑ", info: line });
 						}
 					}
 				});
@@ -4623,11 +4652,24 @@ function init_event_listeners() {
 			}
 		} else {
 			var icon = $("#rand-card-icon").val() || "gift";
-			var scr = ($("#card-score").val() || "").trim();
-			if (!scr) scr = "-";
-			var info = ($("#card-info").val() || "").trim();
-			if (!info) info = "Οδηγία / Έκπληξη!";
-			card_data.push({ icon: icon, score: scr, info: info });
+			if (current_card_modal_type === "action") {
+				var actionText = ($("#card-action-text").val() || "").trim();
+				if (!actionText) {
+					showToast("Παρακαλώ γράψτε την οδηγία ή ενέργεια της κάρτας.");
+					$("#card-action-text").focus();
+					return;
+				}
+				card_data.push({ icon: icon, score: "ΕΝΕΡΓΕΙΑ", info: actionText });
+			} else {
+				var scr = ($("#card-score").val() || "").trim() || "+5";
+				var num = parseInt(scr, 10);
+				if (!isNaN(num) && num > 0 && scr.indexOf("+") !== 0) scr = "+" + scr;
+				var info = ($("#card-info-points").val() || "").trim();
+				if (!info) {
+					info = !isNaN(num) && num > 0 ? "Μπόνους " + scr + " πόντων!" : (!isNaN(num) ? "Ποινή " + scr + " πόντων!" : "Μυστική Κάρτα!");
+				}
+				card_data.push({ icon: icon, score: scr, info: info });
+			}
 			build_cards();
 			$("body").removeClass("show-add-card");
 			AudioEngine.playPositive();
