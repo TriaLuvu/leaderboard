@@ -1253,8 +1253,21 @@ body.swap-mode-active .swap-hint {
 .cards-list .card .card-box .info {
 	color: #cccccc;
 	font-size: 15px;
-	padding: 16px;
+	padding: 14px 16px;
 	font-weight: 700;
+	line-height: 1.45;
+	word-break: break-word;
+	overflow: hidden;
+	max-height: 115px;
+}
+.cards-list .card .card-content.has-empty-score .icon {
+	margin: 42px 0 20px 0;
+}
+.cards-list .card .card-content.has-empty-score .info {
+	font-size: 16px;
+	padding: 22px 18px;
+	max-height: 180px;
+	color: #e8e8e8;
 }
 
 .cards-list .card .score {
@@ -1269,6 +1282,26 @@ body.swap-mode-active .swap-hint {
 .cards-list .card .score.red    { background: var(--score-red); }
 .cards-list .card .score.green  { background: var(--score-green); }
 .cards-list .card .score.yellow { background: var(--score-yellow); color: #735d1a; }
+.cards-list .card .score.action-badge {
+	font-family: inherit;
+	font-size: 26px;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+	line-height: 60px;
+	padding: 0 10px;
+	box-sizing: border-box;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.cards-list .card .score.action-badge-long {
+	font-size: 19px;
+	letter-spacing: 0.5px;
+	line-height: 60px;
+}
+.cards-list .card .score.empty-score {
+	display: none;
+}
 
 /* Card Inline Edit Mode */
 .cards-list .card.edit-mode-card {
@@ -1669,6 +1702,18 @@ body.show-modal .modal-backdrop {
 .modal-input-wrap input {
 	padding-left: 42px !important;
 }
+.modal-input-wrap.has-textarea {
+	align-items: flex-start;
+}
+.modal-input-wrap.has-textarea .modal-input-icon {
+	top: 13px;
+}
+.modal-input-wrap textarea {
+	padding-left: 42px !important;
+	resize: vertical;
+	min-height: 62px;
+	line-height: 1.45;
+}
 .modal-box input:focus,
 .modal-box textarea:focus {
 	background: #2b313a !important;
@@ -1714,6 +1759,25 @@ body.show-modal .modal-backdrop {
 .modal-card-chip:hover {
 	background: #2d3e50;
 	color: var(--text-cornsilk, #fff8dc);
+}
+
+.modal-action-chip {
+	background: #242c38;
+	color: #f0c674;
+	border: none;
+	border-radius: 6px;
+	padding: 4px 10px;
+	font-size: 11px;
+	font-weight: 800;
+	cursor: pointer;
+	transition: all 0.12s ease;
+	outline: none;
+	letter-spacing: 0.4px;
+}
+.modal-action-chip:hover {
+	background: #344254;
+	color: #fff4d1;
+	transform: translateY(-1px);
 }
 
 .modal-actions {
@@ -2315,39 +2379,60 @@ body.show-modal .modal-backdrop {
 				</div>
 
 				<div class="modal-form-group">
-					<label class="modal-form-label" for="card-score">Επίδραση Σκορ</label>
+					<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
+						<label class="modal-form-label" for="card-score" style="margin-bottom: 0;">Τύπος / Ένδειξη Κάρτας</label>
+						<span style="font-size: 11px; color: var(--text-muted);">Βαθμοί ή Ενέργεια / Οδηγία</span>
+					</div>
 					<div class="modal-input-wrap">
 						<span class="modal-input-icon">
-							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
 						</span>
-						<input type="text" id="card-score" placeholder="π.χ. +5 ή -2" value="+5">
+						<input type="text" id="card-score" placeholder="π.χ. +5, -2, SWAP, x2, SKIP, ΟΔΗΓΙΑ..." value="+5">
 					</div>
-					<div class="modal-score-chips">
-						<button type="button" class="modal-card-chip" data-val="+5">+5</button>
-						<button type="button" class="modal-card-chip" data-val="+10">+10</button>
-						<button type="button" class="modal-card-chip" data-val="+20">+20</button>
-						<button type="button" class="modal-card-chip" data-val="-5">-5</button>
-						<button type="button" class="modal-card-chip" data-val="-10">-10</button>
+					<div class="modal-chips-container" style="display: flex; flex-direction: column; gap: 6px; margin-top: 6px;">
+						<div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+							<span style="font-size: 11px; color: #8c95a0; font-weight: 700; min-width: 52px;">Βαθμοί:</span>
+							<div class="modal-score-chips" style="margin-top: 0; flex-wrap: wrap;">
+								<button type="button" class="modal-card-chip" data-val="+5">+5</button>
+								<button type="button" class="modal-card-chip" data-val="+10">+10</button>
+								<button type="button" class="modal-card-chip" data-val="+20">+20</button>
+								<button type="button" class="modal-card-chip" data-val="-2">-2</button>
+								<button type="button" class="modal-card-chip" data-val="-5">-5</button>
+								<button type="button" class="modal-card-chip" data-val="-10">-10</button>
+							</div>
+						</div>
+						<div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+							<span style="font-size: 11px; color: #f0c674; font-weight: 700; min-width: 52px;">Οδηγίες:</span>
+							<div class="modal-score-chips modal-action-chips" style="margin-top: 0; flex-wrap: wrap;">
+								<button type="button" class="modal-action-chip" data-val="SWAP" data-icon="trophy" data-preset="Αντάλλαξε το σκορ σου με όποιον παίκτη επιλέξεις!">SWAP</button>
+								<button type="button" class="modal-action-chip" data-val="x2" data-icon="rocket" data-preset="Διπλασίασε τους πόντους της επόμενης σωστής απάντησης!">x2</button>
+								<button type="button" class="modal-action-chip" data-val="SKIP" data-icon="shield" data-preset="Ο επόμενος παίκτης χάνει τη σειρά του!">SKIP</button>
+								<button type="button" class="modal-action-chip" data-val="ΟΔΗΓΙΑ" data-icon="star" data-preset="Ακολούθησε την ειδική εντολή του παιχνιδιού!">ΟΔΗΓΙΑ</button>
+								<button type="button" class="modal-action-chip" data-val="ΠΡΟΚΛΗΣΗ" data-icon="fire" data-preset="Εκτέλεσε τη δοκιμασία για να κερδίσεις πόντους!">ΠΡΟΚΛΗΣΗ</button>
+								<button type="button" class="modal-action-chip" data-val="ΜΥΣΤΗΡΙΟ" data-icon="gift" data-preset="Μυστική έκπληξη για τον παίκτη!">ΜΥΣΤΗΡΙΟ</button>
+								<button type="button" class="modal-action-chip" data-val="-" data-icon="star" data-preset="Οδηγία χωρίς βαθμολογία">ΧΩΡΙΣ ΒΑΘΜΟΥΣ</button>
+							</div>
+						</div>
 					</div>
 				</div>
 
 				<div class="modal-form-group">
-					<label class="modal-form-label" for="card-info">Περιγραφή / Μήνυμα Έκπληξης</label>
-					<div class="modal-input-wrap">
+					<label class="modal-form-label" for="card-info">Οδηγίες / Περιγραφή Κάρτας</label>
+					<div class="modal-input-wrap has-textarea">
 						<span class="modal-input-icon">
 							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
 						</span>
-						<input type="text" id="card-info" placeholder="π.χ. Τυχερό Κουτί!, Bonus πόντων...">
+						<textarea id="card-info" rows="2" placeholder="π.χ. Τυχερό Κουτί! ή Αντάλλαξε το σκορ σου με όποιον παίκτη θες..."></textarea>
 					</div>
 				</div>
 			</div>
 
 			<div class="modal-tab-pane tab-bulk-cards" style="display: none;">
 				<div style="background: rgba(0,0,0,0.22); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
-					<span style="color: var(--text-cornsilk); font-weight: 700;">Μαζική εισαγωγή:</span> Γράψτε μία κάρτα ανά γραμμή.<br>
-					Μορφή: <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">Πόντοι, Περιγραφή</code> (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+5, Τυχερό Κουτί</code>).
+					<span style="color: var(--text-cornsilk); font-weight: 700;">Μαζική εισαγωγή:</span> Γράψτε μία κάρτα ανά γραμμή (βαθμοί ή ενέργεια/οδηγία).<br>
+					Μορφή: <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">Ένδειξη, Οδηγίες / Περιγραφή</code> (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">SWAP, Αντάλλαξε το σκορ σου!</code> ή <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+5, Τυχερό Κουτί</code>).
 				</div>
-				<textarea id="bulk-cards-text" rows="5" placeholder="+5, Τυχερό Κουτί!&#10;+10, Σούπερ Μπόνους!&#10;-2, Ποινή -2 πόντοι" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
+				<textarea id="bulk-cards-text" rows="6" placeholder="+5, Τυχερό Κουτί! Κερδίζεις 5 πόντους&#10;SWAP, Αντάλλαξε το σκορ σου με όποιον παίκτη θες!&#10;+10, Σούπερ Μπόνους!&#10;SKIP, Ο επόμενος παίκτης χάνει τη σειρά του&#10;x2, Διπλασίασε τους πόντους της επόμενης απάντησης&#10;ΟΔΗΓΙΑ, Επίλεξε αντίπαλο να απαντήσει στην ερώτηση&#10;-5, Ποινή 5 πόντων" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
 				<label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); margin-top: 8px; cursor: pointer;">
 					<input type="checkbox" id="chk-bulk-replace-cards" style="width: 16px; height: 16px; accent-color: #29a744; cursor: pointer;">
 					<span>Αντικατάσταση όλων των υπαρχουσών καρτών</span>
@@ -3884,8 +3969,8 @@ function build_cards() {
 	card_data.forEach(function(card, idx) {
 		var cardHtml = card_template
 			.replace("{{icon_rendered}}", render_avatar(card.icon))
-			.replace("{{score}}", card.score)
-			.replace("{{info}}", card.info);
+			.replace("{{score}}", card.score !== undefined && card.score !== null ? card.score : "")
+			.replace("{{info}}", card.info !== undefined && card.info !== null ? card.info : "");
 		$(".cards-list").append(cardHtml);
 	});
 
@@ -3894,10 +3979,23 @@ function build_cards() {
 	});
 
 	$(".cards-list .card-content .score").each(function() {
-		var parsed = parseInt($(this).text(), 10);
-		if (isNaN(parsed)) $(this).addClass("yellow");
-		else if (parsed > 0) $(this).addClass("green");
-		else $(this).addClass("red");
+		var raw = ($(this).text() || "").trim();
+		if (!raw || raw === "-") {
+			$(this).addClass("empty-score");
+			$(this).closest(".card-content").addClass("has-empty-score");
+			return;
+		}
+		var parsed = parseInt(raw, 10);
+		if (isNaN(parsed)) {
+			$(this).addClass("yellow action-badge");
+			if (raw.length > 5) {
+				$(this).addClass("action-badge-long");
+			}
+		} else if (parsed > 0) {
+			$(this).addClass("green");
+		} else {
+			$(this).addClass("red");
+		}
 	});
 
 	if (cards_iso) {
@@ -3933,9 +4031,12 @@ function build_cards() {
 				return;
 			}
 
-			var scoreText = $content.children(".score").text();
+			var scoreText = $content.children(".score").text().trim();
 			var parsed = parseInt(scoreText, 10);
-			if (parsed > 0) {
+			if (isNaN(parsed) || !scoreText || scoreText === "-") {
+				AudioEngine.playMilestone();
+				ConfettiEngine.launch(60);
+			} else if (parsed > 0) {
 				AudioEngine.playPositive();
 				ConfettiEngine.launch(70);
 			} else if (parsed < 0) {
@@ -3970,7 +4071,7 @@ function enter_cards_inline_edit_mode() {
 
 	render_inline_cards_edit_rows();
 	AudioEngine.playFlip();
-	showToast("Λειτουργία Επεξεργασίας Καρτών: Αλλάξτε πόντους, περιγραφές ή εικονίδια.");
+	showToast("Λειτουργία Επεξεργασίας Καρτών: Αλλάξτε πόντους, οδηγίες ή εικονίδια.");
 }
 
 function render_inline_cards_edit_rows() {
@@ -3985,8 +4086,8 @@ function render_inline_cards_edit_rows() {
 					<div class="inline-card-avatar" data-icon="${card.icon}" title="Κάντε κλικ για αλλαγή Avatar">
 						${render_avatar(card.icon)}
 					</div>
-					<input type="text" class="inline-card-score" value="${escapeHtml(card.score || '+5')}" placeholder="+5 / -2" title="Πόντοι κάρτας">
-					<textarea class="inline-card-info" rows="2" placeholder="Περιγραφή / Έκπληξη">${escapeHtml(card.info || '')}</textarea>
+					<input type="text" class="inline-card-score" value="${escapeHtml(card.score !== undefined && card.score !== null ? card.score : '+5')}" placeholder="+5 / SWAP / SKIP" title="Ένδειξη / Πόντοι κάρτας">
+					<textarea class="inline-card-info" rows="2" placeholder="Οδηγίες / Περιγραφή">${escapeHtml(card.info || '')}</textarea>
 					<button type="button" class="inline-card-del-btn" title="Διαγραφή κάρτας">
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
 					</button>
@@ -4046,8 +4147,8 @@ function bind_cards_inline_edit_events() {
 					<div class="inline-card-avatar" data-icon="${randIcon}" title="Κάντε κλικ για αλλαγή Avatar">
 						${render_avatar(randIcon)}
 					</div>
-					<input type="text" class="inline-card-score" value="+5" placeholder="+5 / -2" title="Πόντοι κάρτας">
-					<textarea class="inline-card-info" rows="2" placeholder="Περιγραφή / Έκπληξη">Νέο Μυστικό Μπόνους!</textarea>
+					<input type="text" class="inline-card-score" value="+5" placeholder="+5 / SWAP / SKIP" title="Ένδειξη / Πόντοι κάρτας">
+					<textarea class="inline-card-info" rows="2" placeholder="Οδηγίες / Περιγραφή">Νέα Οδηγία / Μπόνους!</textarea>
 					<button type="button" class="inline-card-del-btn" title="Διαγραφή κάρτας">
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
 					</button>
@@ -4066,8 +4167,9 @@ function save_cards_inline_edits() {
 	var new_cards = [];
 	$(".card.edit-mode-card").each(function() {
 		var icon = $(this).find(".inline-card-avatar").attr("data-icon") || "gift";
-		var scr = $(this).find(".inline-card-score").val().trim() || "+5";
-		var info = $(this).find(".inline-card-info").val().trim() || "Bonus!";
+		var scr = $(this).find(".inline-card-score").val().trim();
+		if (!scr) scr = "-";
+		var info = $(this).find(".inline-card-info").val().trim() || "Οδηγία / Έκπληξη!";
 		new_cards.push({ icon: icon, score: scr, info: info });
 	});
 
@@ -4274,6 +4376,32 @@ function init_event_listeners() {
 	$(document).on("click", ".modal-card-chip", function() {
 		var val = $(this).attr("data-val");
 		$("#card-score").val(val).focus();
+		var curInfo = ($("#card-info").val() || "").trim();
+		if (!curInfo || curInfo === "Mystery Bonus!" || curInfo === "Bonus!" || curInfo.indexOf("Μπόνους") === 0 || curInfo.indexOf("Ποινή") === 0) {
+			var num = parseInt(val, 10);
+			if (!isNaN(num)) {
+				if (num > 0) $("#card-info").val("Μπόνους " + val + " πόντων!");
+				else $("#card-info").val("Ποινή " + val + " πόντων!");
+			}
+		}
+		AudioEngine.playFlip();
+	});
+
+	$(document).on("click", ".modal-action-chip", function() {
+		var val = $(this).attr("data-val");
+		var preset = $(this).attr("data-preset");
+		var icon = $(this).attr("data-icon");
+		$("#card-score").val(val).focus();
+		if (preset) {
+			var curInfo = ($("#card-info").val() || "").trim();
+			if (!curInfo || curInfo === "Mystery Bonus!" || curInfo === "Bonus!" || curInfo.indexOf("Μπόνους") === 0 || curInfo.indexOf("Ποινή") === 0 || curInfo.indexOf("Τυχερό Κουτί") > -1) {
+				$("#card-info").val(preset);
+			}
+		}
+		if (icon) {
+			update_add_card_avatar(icon);
+		}
+		AudioEngine.playFlip();
 	});
 
 	$(document).on("keydown", "#nickname, #score", function(e) {
@@ -4283,8 +4411,15 @@ function init_event_listeners() {
 		}
 	});
 
-	$(document).on("keydown", "#card-score, #card-info", function(e) {
+	$(document).on("keydown", "#card-score", function(e) {
 		if (e.key === "Enter") {
+			e.preventDefault();
+			$(".add-card-popup .ok").trigger("click");
+		}
+	});
+
+	$(document).on("keydown", "#card-info", function(e) {
+		if (e.key === "Enter" && !e.shiftKey) {
 			e.preventDefault();
 			$(".add-card-popup .ok").trigger("click");
 		}
@@ -4457,7 +4592,12 @@ function init_event_listeners() {
 					} else if (parts.length === 2) {
 						card_data.push({ icon: cardIcons[idx % cardIcons.length], score: parts[0], info: parts[1] });
 					} else if (parts.length === 1 && parts[0]) {
-						card_data.push({ icon: cardIcons[idx % cardIcons.length], score: parts[0], info: "Mystery Bonus!" });
+						var single = parts[0];
+						if (/^[+-]?\d+$/.test(single)) {
+							card_data.push({ icon: cardIcons[idx % cardIcons.length], score: single, info: "Μπόνους " + single + " πόντων" });
+						} else {
+							card_data.push({ icon: cardIcons[idx % cardIcons.length], score: "-", info: single });
+						}
 					}
 				});
 				build_cards();
@@ -4483,8 +4623,10 @@ function init_event_listeners() {
 			}
 		} else {
 			var icon = $("#rand-card-icon").val() || "gift";
-			var scr = $("#card-score").val() || "+5";
-			var info = $("#card-info").val() || "Mystery Bonus!";
+			var scr = ($("#card-score").val() || "").trim();
+			if (!scr) scr = "-";
+			var info = ($("#card-info").val() || "").trim();
+			if (!info) info = "Οδηγία / Έκπληξη!";
 			card_data.push({ icon: icon, score: scr, info: info });
 			build_cards();
 			$("body").removeClass("show-add-card");
