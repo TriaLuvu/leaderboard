@@ -1272,70 +1272,45 @@ body.swap-mode-active .swap-hint {
 
 .cards-list .card .score {
 	font-size: 46px;
+	height: 70px;
 	line-height: 70px;
 	background: #4a5f75;
 	color: #ffffff;
 	width: 100%;
 	font-weight: 800;
 	font-family: var(--font-mono);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	box-sizing: border-box;
 }
 .cards-list .card .score.red    { background: var(--score-red); }
 .cards-list .card .score.green  { background: var(--score-green); }
 .cards-list .card .score.yellow { background: var(--score-yellow); color: #735d1a; }
 .cards-list .card .score.action-badge {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji";
+	font-family: inherit;
 	font-size: 24px;
-	letter-spacing: 1px;
+	letter-spacing: 1.5px;
 	text-transform: uppercase;
-	line-height: 60px;
+	height: 60px;
+	line-height: 1.2;
 	padding: 0 10px;
 	box-sizing: border-box;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
 }
 .cards-list .card .score.action-badge-long {
 	font-size: 18px;
 	letter-spacing: 0.5px;
-	line-height: 60px;
-}
-.cards-list .card .score.action-badge-emoji-only {
-	font-size: 32px;
-	letter-spacing: 0;
-	line-height: 60px;
 }
 .cards-list .card .score.empty-score {
 	display: none;
-}
-
-/* Modal Emoji Quick Chips */
-.modal-emoji-chips {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 6px;
-	margin-top: 8px;
-}
-.modal-emoji-chip {
-	width: 32px;
-	height: 32px;
-	border-radius: 8px;
-	background: #252a30;
-	border: none;
-	font-size: 16px;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-	transition: all 0.15s ease;
-	line-height: 1;
-	padding: 0;
-}
-.modal-emoji-chip:hover {
-	background: #3c444d;
-	transform: scale(1.15);
-}
-.modal-emoji-chip:active {
-	transform: scale(0.95);
 }
 
 /* Card Inline Edit Mode */
@@ -1827,6 +1802,270 @@ body.show-modal .modal-backdrop {
 	background: #2d3e50 !important;
 	color: var(--text-cornsilk, #fff8dc) !important;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* ========================================================
+   EMOJI PICKER SYSTEM (RETRO MODERN BUNDLE)
+   Borderless, high-contrast, fully responsive
+   ======================================================== */
+.modal-input-wrap.has-action-btn input {
+	padding-right: 46px !important;
+}
+
+.btn-emoji-toggle {
+	position: absolute;
+	right: 6px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 34px;
+	height: 34px;
+	border-radius: 8px;
+	background: #2b3038;
+	color: #ffffff;
+	border: none !important;
+	outline: none !important;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+	line-height: 1;
+	transition: all 0.15s ease;
+	z-index: 2;
+}
+.btn-emoji-toggle:hover {
+	background: #3c4450;
+	transform: translateY(-50%) scale(1.08);
+}
+.btn-emoji-toggle.active {
+	background: #4a596c;
+	box-shadow: 0 0 0 2px var(--accent-primary, #17a2b9);
+}
+
+.btn-emoji-trigger-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	background: #282d35;
+	color: var(--text-cornsilk, #fff8dc);
+	border: none !important;
+	border-radius: 6px;
+	padding: 3px 9px;
+	font-size: 11px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	outline: none !important;
+}
+.btn-emoji-trigger-pill:hover {
+	background: #3a424d;
+	color: #ffffff;
+}
+
+/* Quick emoji chips strip */
+.emoji-quick-strip {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 6px;
+	flex-wrap: wrap;
+}
+.emoji-quick-chip {
+	width: 32px;
+	height: 32px;
+	border-radius: 7px;
+	background: #24282e;
+	border: none !important;
+	outline: none !important;
+	font-size: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: transform 0.12s ease, background 0.12s ease;
+	user-select: none;
+}
+.emoji-quick-chip:hover {
+	background: #353b45;
+	transform: scale(1.15);
+}
+.emoji-quick-all-btn {
+	background: #2a313a;
+	color: var(--text-cornsilk, #fff8dc);
+	border: none !important;
+	outline: none !important;
+	border-radius: 7px;
+	padding: 0 10px;
+	height: 32px;
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	transition: background 0.15s ease;
+}
+.emoji-quick-all-btn:hover {
+	background: #374352;
+}
+
+/* Complete Emoji Picker Panel */
+.emoji-picker-panel {
+	background: #20242a;
+	border-radius: 12px;
+	border: none !important;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+	padding: 12px;
+	margin-top: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	position: relative;
+	box-sizing: border-box;
+	animation: emojiPickerFadeIn 0.18s ease-out;
+}
+
+@keyframes emojiPickerFadeIn {
+	from { opacity: 0; transform: translateY(-6px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+
+.emoji-picker-header {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.emoji-search-wrap {
+	flex: 1;
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+.emoji-search-wrap svg {
+	position: absolute;
+	left: 10px;
+	color: #7b8592;
+	pointer-events: none;
+}
+.emoji-search-input {
+	background: #181b20 !important;
+	color: #ffffff !important;
+	border: none !important;
+	outline: none !important;
+	border-radius: 8px !important;
+	padding: 8px 10px 8px 32px !important;
+	font-size: 13px !important;
+	width: 100% !important;
+	box-sizing: border-box !important;
+}
+.emoji-search-input:focus {
+	background: #242930 !important;
+}
+.emoji-picker-close-btn {
+	background: transparent;
+	color: #8a94a2;
+	border: none !important;
+	outline: none !important;
+	font-size: 20px;
+	line-height: 1;
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.12s ease;
+}
+.emoji-picker-close-btn:hover {
+	background: #2f3540;
+	color: #ffffff;
+}
+
+.emoji-picker-categories {
+	display: flex;
+	gap: 5px;
+	overflow-x: auto;
+	padding-bottom: 2px;
+	scrollbar-width: none;
+}
+.emoji-picker-categories::-webkit-scrollbar {
+	display: none;
+}
+.emoji-cat-btn {
+	background: #181b20;
+	color: #8c96a4;
+	border: none !important;
+	outline: none !important;
+	border-radius: 6px;
+	padding: 5px 9px;
+	font-size: 11px;
+	font-weight: 700;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: all 0.15s ease;
+}
+.emoji-cat-btn:hover {
+	color: #ffffff;
+	background: #272d36;
+}
+.emoji-cat-btn.active {
+	background: #2d3e50 !important;
+	color: var(--text-cornsilk, #fff8dc) !important;
+}
+
+.emoji-picker-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+	gap: 6px;
+	max-height: 190px;
+	overflow-y: auto;
+	padding-right: 4px;
+	scrollbar-width: thin;
+	scrollbar-color: #3d4552 #181b20;
+}
+.emoji-picker-grid::-webkit-scrollbar {
+	width: 6px;
+}
+.emoji-picker-grid::-webkit-scrollbar-track {
+	background: #181b20;
+	border-radius: 4px;
+}
+.emoji-picker-grid::-webkit-scrollbar-thumb {
+	background: #3d4552;
+	border-radius: 4px;
+}
+
+.emoji-grid-item {
+	width: 36px;
+	height: 36px;
+	border-radius: 8px;
+	background: transparent;
+	border: none !important;
+	outline: none !important;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 21px;
+	line-height: 1;
+	cursor: pointer;
+	transition: transform 0.1s ease, background 0.12s ease;
+	user-select: none;
+}
+.emoji-grid-item:hover {
+	background: #2f3642;
+	transform: scale(1.22);
+}
+.emoji-grid-item:active {
+	transform: scale(0.95);
+}
+
+.emoji-no-results {
+	grid-column: 1 / -1;
+	text-align: center;
+	padding: 20px 10px;
+	font-size: 12px;
+	color: var(--text-muted, #cbbdae);
 }
 
 .modal-actions {
@@ -2467,26 +2706,57 @@ body.show-modal .modal-backdrop {
 				<!-- 2. Form for Action / Instruction Card -->
 				<div id="card-fields-action" class="card-type-fields" style="display: none;">
 					<div class="modal-form-group">
-						<label class="modal-form-label" for="card-action-label">Ετικέτα Κάρτας (προαιρετικό)</label>
-						<div class="modal-input-wrap">
+						<div style="display: flex; align-items: center; justify-content: space-between;">
+							<label class="modal-form-label" for="card-action-label" style="margin: 0;">Ετικέτα Κάρτας (προαιρετικό)</label>
+							<button type="button" class="btn-emoji-trigger-pill" id="btn-toggle-action-emoji" title="Άνοιγμα πλήρους λίστας Emoji">
+								<span>😊 Επιλογή Emoji</span>
+							</button>
+						</div>
+						<div class="modal-input-wrap has-action-btn">
 							<span class="modal-input-icon">
 								<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
 							</span>
-							<input type="text" id="card-action-label" placeholder="π.χ. ⚡ ΕΝΕΡΓΕΙΑ, 🎯 ΠΡΟΚΛΗΣΗ, 🎁 ΔΩΡΟ... (ή σκέτο emoji)">
+							<input type="text" id="card-action-label" placeholder="π.χ. ⚡ ΕΝΕΡΓΕΙΑ, 🔥 ΠΡΟΚΛΗΣΗ, 🎁 ΔΩΡΟ... (προεπιλογή: ΕΝΕΡΓΕΙΑ)">
+							<button type="button" class="btn-emoji-toggle" id="btn-action-label-emoji-btn" title="Επιλογή Emoji" aria-label="Επιλογή Emoji">
+								<span>😊</span>
+							</button>
 						</div>
-						<div class="modal-emoji-chips">
-							<button type="button" class="modal-emoji-chip" data-emoji="⚡" title="Ενέργεια">⚡</button>
-							<button type="button" class="modal-emoji-chip" data-emoji="🎯" title="Πρόκληση">🎯</button>
-							<button type="button" class="modal-emoji-chip" data-emoji="🎁" title="Δώρο">🎁</button>
-							<button type="button" class="modal-emoji-chip" data-emoji="🔄" title="Ανταλλαγή">🔄</button>
-							<button type="button" class="modal-emoji-chip" data-emoji="🔥" title="Φωτιά / Bonus">🔥</button>
-							<button type="button" class="modal-emoji-chip" data-emoji="⭐" title="Αστέρι">⭐</button>
-							<button type="button" class="modal-emoji-chip" data-emoji="🚫" title="Χάνει σειρά">🚫</button>
-							<button type="button" class="modal-emoji-chip" data-emoji="💣" title="Παγίδα">💣</button>
-							<button type="button" class="modal-emoji-chip" data-emoji="👑" title="Βασιλιάς">👑</button>
-							<button type="button" class="modal-emoji-chip" data-emoji="🏆" title="Κύπελλο">🏆</button>
-							<button type="button" class="modal-emoji-chip" data-emoji="🎲" title="Ζάρι">🎲</button>
-							<button type="button" class="modal-emoji-chip" data-emoji="🚀" title="Boost">🚀</button>
+
+						<!-- Quick popular emoji strip -->
+						<div class="emoji-quick-strip" id="action-quick-emojis">
+							<button type="button" class="emoji-quick-chip" data-emoji="⚡" title="Ενέργεια">⚡</button>
+							<button type="button" class="emoji-quick-chip" data-emoji="🔥" title="Φωτιά / Πρόκληση">🔥</button>
+							<button type="button" class="emoji-quick-chip" data-emoji="🎁" title="Δώρο">🎁</button>
+							<button type="button" class="emoji-quick-chip" data-emoji="🏆" title="Κύπελλο / Swap">🏆</button>
+							<button type="button" class="emoji-quick-chip" data-emoji="⭐" title="Αστέρι">⭐</button>
+							<button type="button" class="emoji-quick-chip" data-emoji="🚀" title="Πύραυλος / x2">🚀</button>
+							<button type="button" class="emoji-quick-chip" data-emoji="🛑" title="Stop / Skip">🛑</button>
+							<button type="button" class="emoji-quick-chip" data-emoji="🎯" title="Στόχος">🎯</button>
+							<button type="button" class="emoji-quick-all-btn" id="btn-action-more-emojis">
+								<span>Όλα τα Emoji...</span>
+							</button>
+						</div>
+
+						<!-- Complete Emoji Picker Panel -->
+						<div id="card-action-emoji-picker" class="emoji-picker-panel" style="display: none;">
+							<div class="emoji-picker-header">
+								<div class="emoji-search-wrap">
+									<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+									<input type="text" class="emoji-search-input" placeholder="Αναζήτηση emoji (π.χ. φωτιά, δώρο, trophy...)">
+								</div>
+								<button type="button" class="emoji-picker-close-btn" title="Κλείσιμο">&times;</button>
+							</div>
+							<div class="emoji-picker-categories">
+								<button type="button" class="emoji-cat-btn active" data-cat="all">Όλα</button>
+								<button type="button" class="emoji-cat-btn" data-cat="game">🏆 Παιχνίδι</button>
+								<button type="button" class="emoji-cat-btn" data-cat="energy">⚡ Δράση</button>
+								<button type="button" class="emoji-cat-btn" data-cat="faces">🥳 Έκφραση</button>
+								<button type="button" class="emoji-cat-btn" data-cat="animals">🦁 Ζώα</button>
+								<button type="button" class="emoji-cat-btn" data-cat="symbols">❓ Σύμβολα</button>
+							</div>
+							<div class="emoji-picker-grid">
+								<!-- Injected dynamically by JS -->
+							</div>
 						</div>
 					</div>
 
@@ -2509,9 +2779,36 @@ body.show-modal .modal-backdrop {
 				<div style="background: rgba(0,0,0,0.22); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
 					<span style="color: var(--text-cornsilk); font-weight: 700;">Απλή μαζική εισαγωγή:</span> Γράψτε μία κάρτα σε κάθε γραμμή.<br>
 					• <strong>Για πόντους:</strong> γράψτε τον αριθμό (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+5</code> ή <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+10, Σούπερ Μπόνους</code>)<br>
-					• <strong>Για ενέργεια / οδηγία:</strong> γράψτε κατευθείαν το κείμενο ή με ετικέτα/emoji (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">🎯 ΠΡΟΚΛΗΣΗ, Πες ένα τραγούδι!</code> ή <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">🎁 ΔΩΡΟ, Διπλασίασε τους πόντους!</code>)
+					• <strong>Για ενέργεια / οδηγία:</strong> γράψτε κατευθείαν το κείμενο (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">Αντάλλαξε το σκορ σου</code>) ή με δική σας ετικέτα & emoji (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">🔥 ΠΡΟΚΛΗΣΗ, Πες ένα τραγούδι!</code>)
 				</div>
-				<textarea id="bulk-cards-text" rows="6" placeholder="+10, Σούπερ Μπόνους!&#10;🎯 ΠΡΟΚΛΗΣΗ, Πες ένα ποίημα δυνατά!&#10;🎁 ΔΩΡΟ, Διπλασίασε τους πόντους στην επόμενη ερώτηση!&#10;🔄 SWAP, Αντάλλαξε το σκορ σου με όποιον παίκτη θες!&#10;⚡ ΕΝΕΡΓΕΙΑ, Ο επόμενος παίκτης χάνει τη σειρά του&#10;-5, Ποινή 5 πόντων" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+					<span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px;">Λίστα Καρτών</span>
+					<button type="button" class="btn-emoji-trigger-pill" id="btn-toggle-bulk-emoji" title="Άνοιγμα πλήρους λίστας Emoji">
+						<span>😊 Επιλογή Emoji</span>
+					</button>
+				</div>
+				<!-- Bulk Emoji Picker Panel -->
+				<div id="bulk-cards-emoji-picker" class="emoji-picker-panel" style="display: none; margin-bottom: 10px;">
+					<div class="emoji-picker-header">
+						<div class="emoji-search-wrap">
+							<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+							<input type="text" class="emoji-search-input" placeholder="Αναζήτηση emoji (π.χ. φωτιά, δώρο, trophy...)">
+						</div>
+						<button type="button" class="emoji-picker-close-btn" title="Κλείσιμο">&times;</button>
+					</div>
+					<div class="emoji-picker-categories">
+						<button type="button" class="emoji-cat-btn active" data-cat="all">Όλα</button>
+						<button type="button" class="emoji-cat-btn" data-cat="game">🏆 Παιχνίδι</button>
+						<button type="button" class="emoji-cat-btn" data-cat="energy">⚡ Δράση</button>
+						<button type="button" class="emoji-cat-btn" data-cat="faces">🥳 Έκφραση</button>
+						<button type="button" class="emoji-cat-btn" data-cat="animals">🦁 Ζώα</button>
+						<button type="button" class="emoji-cat-btn" data-cat="symbols">❓ Σύμβολα</button>
+					</div>
+					<div class="emoji-picker-grid">
+						<!-- Injected dynamically by JS -->
+					</div>
+				</div>
+				<textarea id="bulk-cards-text" rows="6" placeholder="+5&#10;+10, Σούπερ Μπόνους!&#10;Αντάλλαξε το σκορ σου με όποιον παίκτη θες!&#10;🔥 ΠΡΟΚΛΗΣΗ, Πες ένα τραγούδι δυνατά!&#10;-5, Ποινή 5 πόντων&#10;🎁 ΔΩΡΟ, Διπλασίασε τους πόντους στην επόμενη ερώτηση" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
 				<label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); margin-top: 8px; cursor: pointer;">
 					<input type="checkbox" id="chk-bulk-replace-cards" style="width: 16px; height: 16px; accent-color: #29a744; cursor: pointer;">
 					<span>Αντικατάσταση όλων των υπαρχουσών καρτών</span>
@@ -3004,11 +3301,345 @@ function init_add_modal_strips() {
 	$("#add-card-quick-strip").html(cStrip);
 }
 
+/* ========================================================
+   EMOJI PICKER DATA & CONTROLLER
+   Categorized, searchable, responsive picker system
+   ======================================================== */
+var ALL_EMOJIS = [
+	{
+		id: "game",
+		title: "Παιχνίδι & Βραβεία",
+		emojis: [
+			{ e: "🏆", k: "τροπαιo κυπελλο νικη trophy win cup swap" },
+			{ e: "🥇", k: "πρωτος χρυσο gold first 1st" },
+			{ e: "🥈", k: "δευτερος ασημι silver second 2nd" },
+			{ e: "🥉", k: "τριτος χαλκινο bronze third 3rd" },
+			{ e: "🏅", k: "μεταλλιο medal award" },
+			{ e: "🎖️", k: "παρασημο badge military" },
+			{ e: "👑", k: "στεμμα βασιλιας crown king queen" },
+			{ e: "🎁", k: "δωρο gift present box surprise" },
+			{ e: "💎", k: "διαμαντι diamond gem precious" },
+			{ e: "🎯", k: "στοχος bullseye target goal quest" },
+			{ e: "🎲", k: "ζαρι dice game play roll" },
+			{ e: "🎰", k: "κουλοχερης slot casino jackpot" },
+			{ e: "🎮", k: "παιχνιδι video game controller" },
+			{ e: "🎪", k: "τσιρκο circus" },
+			{ e: "🎨", k: "τεχνη ζωγραφικη art palette" },
+			{ e: "🎭", k: "θεατρο μασκες theater masks" },
+			{ e: "🪄", k: "μαγικο ραβδι magic wand spell" },
+			{ e: "🔮", k: "κρυσταλλινη σφαιρα crystal ball oracle" },
+			{ e: "🎟️", k: "εισιτηριο ticket pass golden" },
+			{ e: "⭐", k: "αστερι star bonus points" },
+			{ e: "🌟", k: "λαμπερο αστερι glowing star super" },
+			{ e: "✨", k: "λαμψη sparkles glitter magic" },
+			{ e: "🪙", k: "νομισμα coin money score" },
+			{ e: "💰", k: "σακος χρηματα money bag gold prize" },
+			{ e: "📦", k: "κουτι πακετο box package mystery" },
+			{ e: "🗝️", k: "παλιο κλειδι antique key mystery secret" },
+			{ e: "🔑", k: "κλειδι key unlock password secret" },
+			{ e: "🔔", k: "καμπανα bell alert notice ding" },
+			{ e: "📢", k: "ντουντουκα ανακοινωση megaphone loudspeaker shout" }
+		]
+	},
+	{
+		id: "energy",
+		title: "Ενέργεια & Δράση",
+		emojis: [
+			{ e: "⚡", k: "κεραυνος ενεργεια lightning bolt zap power" },
+			{ e: "🔥", k: "φωτια πυρ fire flame hot challenge" },
+			{ e: "💥", k: "εκρηξη boom explosion clash" },
+			{ e: "🚀", k: "πυραυλος rocket speed boost launch x2" },
+			{ e: "💣", k: "βομβα bomb danger penalty trap" },
+			{ e: "⚔️", k: "σπαθια μαχη battle swords duel versus duel" },
+			{ e: "🛡️", k: "ασπιδα προστασια shield defense safe block skip" },
+			{ e: "🏹", k: "τοξο βελος bow arrow archer shoot" },
+			{ e: "🛑", k: "στοπ παυση stop sign skip halt block" },
+			{ e: "⛔", k: "απαγορευεται no entry skip forbidden" },
+			{ e: "⚠️", k: "προσοχη προειδοποιηση warning alert danger caution" },
+			{ e: "⏳", k: "κλεψυδρα χρονος hourglass time timer wait delay" },
+			{ e: "⏰", k: "ξυπνητηρι alarm clock timer tick alarm" },
+			{ e: "⏱️", k: "χρονομετρο stopwatch timer speed countdown" },
+			{ e: "🔄", k: "ανανεωση γυρισμα counterclockwise rotate reload swap" },
+			{ e: "🔀", k: "ανακατεμα shuffle swap mix alternate exchange" },
+			{ e: "🔁", k: "επαναληψη repeat loop again replay" },
+			{ e: "🏃", k: "τρεξιμο run speed race fast run" },
+			{ e: "💨", k: "αερας φυσημα fast wind dash puff quick" },
+			{ e: "🌪️", k: "τυφωνας tornado whirlwind storm" },
+			{ e: "🌋", k: "ηφαιστειο volcano lava hot eruption" },
+			{ e: "🥊", k: "γαντι μποξ boxing glove punch fight knockout" },
+			{ e: "🏎️", k: "αγωνιστικο αυτοκινητο racecar speed fast drive" },
+			{ e: "🔋", k: "μπαταρια ενεργεια battery power full charge recharge" },
+			{ e: "💡", k: "λαμπα ιδεα lightbulb idea smart solution clue" },
+			{ e: "🧲", k: "μαγνητης magnet attract pull draw" },
+			{ e: "🚩", k: "σημαια flag mission challenge goal check" }
+		]
+	},
+	{
+		id: "faces",
+		title: "Πρόσωπα & Έκφραση",
+		emojis: [
+			{ e: "🥳", k: "παρτι γιορτη party celebrate hat horn happy" },
+			{ e: "😎", k: "cool γυαλια ηλιου cool shades smart pro" },
+			{ e: "🤔", k: "σκεψη απορια thinking question wonder riddle" },
+			{ e: "🤫", k: "μυστικο σιωπη quiet shh silence secret silent" },
+			{ e: "😱", k: "σοκ εκπληξη scream shock fear surprise omg" },
+			{ e: "🤩", k: "αστερια στα ματια starstruck excited amazing" },
+			{ e: "😈", k: "διαβολακι πονηρο devil naughty tricky evil trap" },
+			{ e: "😇", k: "αγγελος innocent angel good halo pure" },
+			{ e: "🤠", k: "καουμποϊ cowboy hat sheriff wild west" },
+			{ e: "🤖", k: "ρομποτ robot bot tech ai" },
+			{ e: "🤡", k: "κλοουν clown joke funny silly" },
+			{ e: "👻", k: "φαντασμα ghost mystery spook boo" },
+			{ e: "💀", k: "νεκροκεφαλη skull dead penalty danger rip" },
+			{ e: "👽", k: "εξωγηινος alien ufo mystery space" },
+			{ e: "🧐", k: "μονοκλ ερευνα examine inspect monocle clue" },
+			{ e: "🤓", k: "nerd διαβαστερος smart glasses geek book" },
+			{ e: "😜", k: "γλωσσα πλακα winking tongue joke silly fun" },
+			{ e: "🤪", k: "τρελος παλαβος goofy crazy zany wacky wild" },
+			{ e: "🤭", k: "γελακι giggling oops sneaky chuckle" },
+			{ e: "🤐", k: "φερμουαρ σιωπη zipper mouth secret silent quiet" },
+			{ e: "👏", k: "χειροκροτημα clap bravo applause well done" },
+			{ e: "🙌", k: "ζητω hooray celebrate hands cheers" },
+			{ e: "💪", k: "δυναμη μπρατσο muscle strong power bicep fitness" },
+			{ e: "🧠", k: "μυαλο εγκεφαλος brain smart think memory quiz" },
+			{ e: "🤝", k: "χειραψια συμφωνια handshake agreement deal swap" },
+			{ e: "✌️", k: "νικη ειρηνη peace victory v sign" },
+			{ e: "👍", k: "μπραβο καλα thumbs up like ok yes good" },
+			{ e: "👎", k: "οχι λαθος thumbs down dislike bad no fail" },
+			{ e: "💖", k: "καρδια αγαπη sparkling heart love life extra life" }
+		]
+	},
+	{
+		id: "animals",
+		title: "Ζώα & Φύση",
+		emojis: [
+			{ e: "🦁", k: "λιονταρι lion king wild roar" },
+			{ e: "🦊", k: "αλεπου fox clever smart cunning sly" },
+			{ e: "🐼", k: "παντα panda bear cute bamboo" },
+			{ e: "🦄", k: "μονοκερος unicorn magic fantasy rainbow" },
+			{ e: "🦉", k: "κουκουβαγια owl wisdom smart night wise" },
+			{ e: "🐯", k: "τιγρης tiger fierce power stripes" },
+			{ e: "🐬", k: "δελφινι dolphin sea jump ocean water" },
+			{ e: "🐸", k: "βατραχος frog hop jump toad" },
+			{ e: "🐵", k: "μαιμου monkey play fun cheeky jungle" },
+			{ e: "🦅", k: "αετος eagle hawk flying bird sharp" },
+			{ e: "🐺", k: "λυκος wolf lone pack howl night" },
+			{ e: "🐻", k: "αρκουδα bear forest strong grizzly" },
+			{ e: "🐨", k: "κοαλα koala cute tree eucalyptus" },
+			{ e: "🐰", k: "κουνελι rabbit bunny fast quick jump" },
+			{ e: "🐉", k: "δρακος dragon myth monster beast fire" },
+			{ e: "🦖", k: "δεινοσαυρος trex dinosaur rex jurassic" },
+			{ e: "🦈", k: "καρχαριας shark predator danger attack ocean" },
+			{ e: "🐙", k: "χταποδι octopus tentacles marine sea" },
+			{ e: "🐝", k: "μελισσα bee honey work fly buzz" },
+			{ e: "🦋", k: "πεταλουδα butterfly change beauty fly spring" },
+			{ e: "🍀", k: "τετραφυλλο τριφυλλι 4 leaf clover luck fortunate lucky" },
+			{ e: "🌈", k: "ουρανιο τοξο rainbow colors sky magic" },
+			{ e: "☀️", k: "ηλιος sun bright day sunny light" },
+			{ e: "🌙", k: "φεγγαρι moon crescent night dark dream" },
+			{ e: "🐾", k: "πατημασιες paws tracks animal pet track" },
+			{ e: "🌸", k: "λουλουδι flower blossom pink spring sakura" },
+			{ e: "🌴", k: "φοινικας palm tree island tropical beach" },
+			{ e: "🍄", k: "μανιταρι mushroom 1up boost toadstool" },
+			{ e: "🍎", k: "μηλο apple food health knowledge red" },
+			{ e: "🍕", k: "πιτσα pizza food party snack slice" }
+		]
+	},
+	{
+		id: "symbols",
+		title: "Σύμβολα & Σκορ",
+		emojis: [
+			{ e: "❓", k: "ερωτηματικο question mark ask riddle mystery" },
+			{ e: "❗", k: "θαυμαστικο exclamation mark warning alert important" },
+			{ e: "‼️", k: "διπλο θαυμαστικο double exclamation alert urgent" },
+			{ e: "⁉️", k: "απορια θαυμασμος interrobang mystery surprise" },
+			{ e: "❌", k: "χ λαθος κοκκινο red x cross wrong fail error" },
+			{ e: "⭕", k: "κυκλος κοκκινος circle round target o" },
+			{ e: "🚫", k: "απαγορευση no entry prohibited ban forbidden" },
+			{ e: "⛔", k: "απαγορευεται no entrance block stop" },
+			{ e: "💯", k: "εκατο 100 perfect full score bonus max score" },
+			{ e: "✔️", k: "τσεκ σωστο check mark correct done pass ok" },
+			{ e: "➕", k: "συν plus add bonus positive score" },
+			{ e: "➖", k: "πλην minus penalty subtract negative deduction" },
+			{ e: "✖️", k: "επι multiply times double x multi" },
+			{ e: "➗", k: "δια division divide half split" },
+			{ e: "⬆️", k: "πανω up arrow ascend rise top climb" },
+			{ e: "⬇️", k: "κατω down arrow fall drop lower decrease" },
+			{ e: "🔟", k: "δεκα 10 ten score points keycap" },
+			{ e: "1️⃣", k: "ενα 1 one 1st" },
+			{ e: "2️⃣", k: "δυο 2 two 2nd" },
+			{ e: "3️⃣", k: "τρια 3 three 3rd" },
+			{ e: "4️⃣", k: "τεσσερα 4 four 4th" },
+			{ e: "5️⃣", k: "πεντε 5 five 5th" },
+			{ e: "6️⃣", k: "εξι 6 six 6th" },
+			{ e: "7️⃣", k: "επτα 7 seven lucky 7" },
+			{ e: "8️⃣", k: "οκτω 8 eight 8th" },
+			{ e: "9️⃣", k: "εννια 9 nine 9th" },
+			{ e: "0️⃣", k: "μηδεν 0 zero null zero" },
+			{ e: "🏁", k: "σημαια τερματισμου chequered flag finish end win winner" },
+			{ e: "🔱", k: "τραινα trident weapon poseidon power emblem" }
+		]
+	}
+];
+
+var EmojiPicker = {
+	activeTarget: null,
+	activePicker: null,
+
+	init: function() {
+		this.renderGrid($("#card-action-emoji-picker .emoji-picker-grid"), "all", "");
+		this.renderGrid($("#bulk-cards-emoji-picker .emoji-picker-grid"), "all", "");
+		this.bindEvents();
+	},
+
+	renderGrid: function($grid, category, query) {
+		$grid.empty();
+		query = (query || "").toLowerCase().trim();
+		var count = 0;
+
+		ALL_EMOJIS.forEach(function(catObj) {
+			if (category !== "all" && catObj.id !== category) return;
+			catObj.emojis.forEach(function(item) {
+				if (query) {
+					var match = item.e.indexOf(query) > -1 || item.k.toLowerCase().indexOf(query) > -1;
+					if (!match) return;
+				}
+				count++;
+				var $btn = $('<button type="button" class="emoji-grid-item" data-emoji="' + item.e + '" title="' + item.k + '">' + item.e + '</button>');
+				$grid.append($btn);
+			});
+		});
+
+		if (count === 0) {
+			$grid.append('<div class="emoji-no-results">Δεν βρέθηκαν σχετικά emoji.</div>');
+		}
+	},
+
+	insertEmojiIntoTarget: function(emoji, targetSelector) {
+		var $target = $(targetSelector);
+		if (!$target.length) return;
+		var el = $target[0];
+
+		var start = el.selectionStart || 0;
+		var end = el.selectionEnd || 0;
+		var val = $target.val() || "";
+
+		var insertVal = emoji;
+		if (val.length === 0) {
+			insertVal = emoji + " ";
+		} else if (start === 0 && val.charAt(0) !== " ") {
+			insertVal = emoji + " ";
+		} else if (start > 0 && val.charAt(start - 1) !== " ") {
+			insertVal = " " + emoji + (start < val.length && val.charAt(start) !== " " ? " " : "");
+		}
+
+		var newVal = val.substring(0, start) + insertVal + val.substring(end);
+		$target.val(newVal);
+
+		var newPos = start + insertVal.length;
+		el.selectionStart = newPos;
+		el.selectionEnd = newPos;
+		el.focus();
+
+		AudioEngine.playFlip();
+		$target.trigger("input");
+	},
+
+	bindEvents: function() {
+		var self = this;
+
+		// Toggle action emoji picker
+		$("#btn-toggle-action-emoji, #btn-action-label-emoji-btn, #btn-action-more-emojis").off("click").on("click", function(e) {
+			e.stopPropagation();
+			var $panel = $("#card-action-emoji-picker");
+			var isOpen = $panel.is(":visible");
+			$(".emoji-picker-panel").slideUp(140);
+			$(".btn-emoji-toggle").removeClass("active");
+
+			if (!isOpen) {
+				$panel.slideDown(180, function() {
+					$panel.find(".emoji-search-input").focus();
+				});
+				$("#btn-action-label-emoji-btn").addClass("active");
+				self.activeTarget = "#card-action-label";
+				self.activePicker = "#card-action-emoji-picker";
+			}
+		});
+
+		// Toggle bulk emoji picker
+		$("#btn-toggle-bulk-emoji").off("click").on("click", function(e) {
+			e.stopPropagation();
+			var $panel = $("#bulk-cards-emoji-picker");
+			var isOpen = $panel.is(":visible");
+			$(".emoji-picker-panel").slideUp(140);
+
+			if (!isOpen) {
+				$panel.slideDown(180, function() {
+					$panel.find(".emoji-search-input").focus();
+				});
+				self.activeTarget = "#bulk-cards-text";
+				self.activePicker = "#bulk-cards-emoji-picker";
+			}
+		});
+
+		// Quick emoji chips click
+		$(".emoji-quick-chip").off("click").on("click", function(e) {
+			e.preventDefault();
+			var emoji = $(this).attr("data-emoji");
+			self.insertEmojiIntoTarget(emoji, "#card-action-label");
+		});
+
+		// Close buttons
+		$(".emoji-picker-close-btn").off("click").on("click", function(e) {
+			e.stopPropagation();
+			$(this).closest(".emoji-picker-panel").slideUp(140);
+			$(".btn-emoji-toggle").removeClass("active");
+		});
+
+		// Category filter buttons
+		$(document).on("click", ".emoji-cat-btn", function(e) {
+			e.stopPropagation();
+			var $panel = $(this).closest(".emoji-picker-panel");
+			$panel.find(".emoji-cat-btn").removeClass("active");
+			$(this).addClass("active");
+			var cat = $(this).attr("data-cat");
+			var query = $panel.find(".emoji-search-input").val();
+			self.renderGrid($panel.find(".emoji-picker-grid"), cat, query);
+		});
+
+		// Search input
+		$(document).on("input", ".emoji-search-input", function() {
+			var $panel = $(this).closest(".emoji-picker-panel");
+			var query = $(this).val();
+			var cat = $panel.find(".emoji-cat-btn.active").attr("data-cat") || "all";
+			self.renderGrid($panel.find(".emoji-picker-grid"), cat, query);
+		});
+
+		// Grid item click
+		$(document).on("click", ".emoji-grid-item", function(e) {
+			e.stopPropagation();
+			var emoji = $(this).attr("data-emoji");
+			var $panel = $(this).closest(".emoji-picker-panel");
+			var target = $panel.attr("id") === "bulk-cards-emoji-picker" ? "#bulk-cards-text" : "#card-action-label";
+			self.insertEmojiIntoTarget(emoji, target);
+		});
+
+		// Global click to close popovers when clicking outside
+		$(document).on("click", function(e) {
+			if (!$(e.target).closest(".emoji-picker-panel, .btn-emoji-toggle, .btn-emoji-trigger-pill, .emoji-quick-all-btn, .emoji-quick-chip").length) {
+				$(".emoji-picker-panel").slideUp(140);
+				$(".btn-emoji-toggle").removeClass("active");
+			}
+		});
+	}
+};
+
 $(document).ready(function() {
 	test_local_storage();
 	apply_theme(current_theme);
 	update_sound_icon();
 	init_add_modal_strips();
+	EmojiPicker.init();
 
 	// Initialize Isotope for Leaderboard
 	leaderboard_iso = $(".leaderboard").isotope({
@@ -4064,25 +4695,19 @@ function build_cards() {
 			$(this).closest(".card-content").addClass("has-empty-score");
 			return;
 		}
+		var cleanNumber = raw.replace(/[^\d+-]/g, "");
+		var parsed = parseInt(cleanNumber, 10);
+		var hasWords = /[a-zA-Z\u0370-\u03FF]/.test(raw);
 
-		// Check for signed number (supports emojis around numbers like "+10 ⭐" or "⭐ +10")
-		var numMatch = raw.match(/^[^\d+-]*([+-]?\d+)[^\d]*$/);
-		if (numMatch && !/[a-zA-Z\u0370-\u03FF]/.test(raw)) {
-			var parsed = parseInt(numMatch[1], 10);
-			if (!isNaN(parsed)) {
-				if (parsed > 0) $(this).addClass("green");
-				else $(this).addClass("red");
-				return;
+		if (hasWords || isNaN(parsed) || cleanNumber === "" || cleanNumber === "+" || cleanNumber === "-") {
+			$(this).addClass("yellow action-badge");
+			if (raw.length > 5) {
+				$(this).addClass("action-badge-long");
 			}
-		}
-
-		// Otherwise it is an action / instruction badge
-		$(this).addClass("yellow action-badge");
-		var charCount = Array.from(raw).length;
-		if (charCount > 6) {
-			$(this).addClass("action-badge-long");
-		} else if (charCount <= 2 && /\p{Extended_Pictographic}/u.test(raw)) {
-			$(this).addClass("action-badge-emoji-only");
+		} else if (parsed > 0) {
+			$(this).addClass("green");
+		} else {
+			$(this).addClass("red");
 		}
 	});
 
@@ -4120,8 +4745,11 @@ function build_cards() {
 			}
 
 			var scoreText = $content.children(".score").text().trim();
-			var parsed = parseInt(scoreText, 10);
-			if (isNaN(parsed) || !scoreText || scoreText === "-") {
+			var cleanNum = scoreText.replace(/[^\d+-]/g, "");
+			var parsed = parseInt(cleanNum, 10);
+			var hasWords = /[a-zA-Z\u0370-\u03FF]/.test(scoreText);
+
+			if (hasWords || isNaN(parsed) || !scoreText || scoreText === "-" || cleanNum === "" || cleanNum === "+" || cleanNum === "-") {
 				AudioEngine.playMilestone();
 				ConfettiEngine.launch(60);
 			} else if (parsed > 0) {
@@ -4429,6 +5057,8 @@ function init_event_listeners() {
 			$("#card-info-points").val("");
 			$("#card-action-label").val("");
 			$("#card-action-text").val("");
+			$(".emoji-picker-panel").hide();
+			$(".btn-emoji-toggle").removeClass("active");
 		}
 	});
 
@@ -4487,29 +5117,6 @@ function init_event_listeners() {
 	$(document).on("click", ".modal-card-chip", function() {
 		var val = $(this).attr("data-val");
 		$("#card-score").val(val).focus();
-		AudioEngine.playFlip();
-	});
-
-	$(document).on("click", ".modal-emoji-chip", function() {
-		var emoji = $(this).attr("data-emoji");
-		var $input = $("#card-action-label");
-		var curVal = ($input.val() || "").trim();
-
-		var emojiRegex = /^\p{Extended_Pictographic}(\uFE0F)?\s*/u;
-		if (emojiRegex.test(curVal)) {
-			var match = curVal.match(emojiRegex);
-			var existing = match ? match[0].trim() : "";
-			if (existing === emoji) {
-				$input.val(curVal.replace(emojiRegex, ""));
-			} else {
-				$input.val(emoji + " " + curVal.replace(emojiRegex, ""));
-			}
-		} else if (curVal) {
-			$input.val(emoji + " " + curVal);
-		} else {
-			$input.val(emoji + " ");
-		}
-		$input.focus();
 		AudioEngine.playFlip();
 	});
 
