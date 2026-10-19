@@ -1283,9 +1283,9 @@ body.swap-mode-active .swap-hint {
 .cards-list .card .score.green  { background: var(--score-green); }
 .cards-list .card .score.yellow { background: var(--score-yellow); color: #735d1a; }
 .cards-list .card .score.action-badge {
-	font-family: inherit;
-	font-size: 26px;
-	letter-spacing: 1.5px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji";
+	font-size: 24px;
+	letter-spacing: 1px;
 	text-transform: uppercase;
 	line-height: 60px;
 	padding: 0 10px;
@@ -1295,12 +1295,47 @@ body.swap-mode-active .swap-hint {
 	text-overflow: ellipsis;
 }
 .cards-list .card .score.action-badge-long {
-	font-size: 19px;
+	font-size: 18px;
 	letter-spacing: 0.5px;
+	line-height: 60px;
+}
+.cards-list .card .score.action-badge-emoji-only {
+	font-size: 32px;
+	letter-spacing: 0;
 	line-height: 60px;
 }
 .cards-list .card .score.empty-score {
 	display: none;
+}
+
+/* Modal Emoji Quick Chips */
+.modal-emoji-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: 8px;
+}
+.modal-emoji-chip {
+	width: 32px;
+	height: 32px;
+	border-radius: 8px;
+	background: #252a30;
+	border: none;
+	font-size: 16px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	line-height: 1;
+	padding: 0;
+}
+.modal-emoji-chip:hover {
+	background: #3c444d;
+	transform: scale(1.15);
+}
+.modal-emoji-chip:active {
+	transform: scale(0.95);
 }
 
 /* Card Inline Edit Mode */
@@ -2437,7 +2472,21 @@ body.show-modal .modal-backdrop {
 							<span class="modal-input-icon">
 								<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
 							</span>
-							<input type="text" id="card-action-label" placeholder="π.χ. ΕΝΕΡΓΕΙΑ, ΠΡΟΚΛΗΣΗ, ΔΩΡΟ... (προεπιλογή: ΕΝΕΡΓΕΙΑ)">
+							<input type="text" id="card-action-label" placeholder="π.χ. ⚡ ΕΝΕΡΓΕΙΑ, 🎯 ΠΡΟΚΛΗΣΗ, 🎁 ΔΩΡΟ... (ή σκέτο emoji)">
+						</div>
+						<div class="modal-emoji-chips">
+							<button type="button" class="modal-emoji-chip" data-emoji="⚡" title="Ενέργεια">⚡</button>
+							<button type="button" class="modal-emoji-chip" data-emoji="🎯" title="Πρόκληση">🎯</button>
+							<button type="button" class="modal-emoji-chip" data-emoji="🎁" title="Δώρο">🎁</button>
+							<button type="button" class="modal-emoji-chip" data-emoji="🔄" title="Ανταλλαγή">🔄</button>
+							<button type="button" class="modal-emoji-chip" data-emoji="🔥" title="Φωτιά / Bonus">🔥</button>
+							<button type="button" class="modal-emoji-chip" data-emoji="⭐" title="Αστέρι">⭐</button>
+							<button type="button" class="modal-emoji-chip" data-emoji="🚫" title="Χάνει σειρά">🚫</button>
+							<button type="button" class="modal-emoji-chip" data-emoji="💣" title="Παγίδα">💣</button>
+							<button type="button" class="modal-emoji-chip" data-emoji="👑" title="Βασιλιάς">👑</button>
+							<button type="button" class="modal-emoji-chip" data-emoji="🏆" title="Κύπελλο">🏆</button>
+							<button type="button" class="modal-emoji-chip" data-emoji="🎲" title="Ζάρι">🎲</button>
+							<button type="button" class="modal-emoji-chip" data-emoji="🚀" title="Boost">🚀</button>
 						</div>
 					</div>
 
@@ -2460,9 +2509,9 @@ body.show-modal .modal-backdrop {
 				<div style="background: rgba(0,0,0,0.22); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
 					<span style="color: var(--text-cornsilk); font-weight: 700;">Απλή μαζική εισαγωγή:</span> Γράψτε μία κάρτα σε κάθε γραμμή.<br>
 					• <strong>Για πόντους:</strong> γράψτε τον αριθμό (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+5</code> ή <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">+10, Σούπερ Μπόνους</code>)<br>
-					• <strong>Για ενέργεια / οδηγία:</strong> γράψτε κατευθείαν το κείμενο (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">Αντάλλαξε το σκορ σου</code>) ή με δική σας ετικέτα (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">ΠΡΟΚΛΗΣΗ, Πες ένα τραγούδι!</code>)
+					• <strong>Για ενέργεια / οδηγία:</strong> γράψτε κατευθείαν το κείμενο ή με ετικέτα/emoji (π.χ. <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">🎯 ΠΡΟΚΛΗΣΗ, Πες ένα τραγούδι!</code> ή <code style="background: #202328; padding: 2px 6px; border-radius: 4px; color: #fff;">🎁 ΔΩΡΟ, Διπλασίασε τους πόντους!</code>)
 				</div>
-				<textarea id="bulk-cards-text" rows="6" placeholder="+5&#10;+10, Σούπερ Μπόνους!&#10;Αντάλλαξε το σκορ σου με όποιον παίκτη θες!&#10;ΠΡΟΚΛΗΣΗ, Πες ένα τραγούδι δυνατά!&#10;-5, Ποινή 5 πόντων&#10;ΔΩΡΟ, Διπλασίασε τους πόντους στην επόμενη ερώτηση" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
+				<textarea id="bulk-cards-text" rows="6" placeholder="+10, Σούπερ Μπόνους!&#10;🎯 ΠΡΟΚΛΗΣΗ, Πες ένα ποίημα δυνατά!&#10;🎁 ΔΩΡΟ, Διπλασίασε τους πόντους στην επόμενη ερώτηση!&#10;🔄 SWAP, Αντάλλαξε το σκορ σου με όποιον παίκτη θες!&#10;⚡ ΕΝΕΡΓΕΙΑ, Ο επόμενος παίκτης χάνει τη σειρά του&#10;-5, Ποινή 5 πόντων" style="resize: vertical; font-family: inherit; font-size: 13px;"></textarea>
 				<label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); margin-top: 8px; cursor: pointer;">
 					<input type="checkbox" id="chk-bulk-replace-cards" style="width: 16px; height: 16px; accent-color: #29a744; cursor: pointer;">
 					<span>Αντικατάσταση όλων των υπαρχουσών καρτών</span>
@@ -4015,16 +4064,25 @@ function build_cards() {
 			$(this).closest(".card-content").addClass("has-empty-score");
 			return;
 		}
-		var parsed = parseInt(raw, 10);
-		if (isNaN(parsed)) {
-			$(this).addClass("yellow action-badge");
-			if (raw.length > 5) {
-				$(this).addClass("action-badge-long");
+
+		// Check for signed number (supports emojis around numbers like "+10 ⭐" or "⭐ +10")
+		var numMatch = raw.match(/^[^\d+-]*([+-]?\d+)[^\d]*$/);
+		if (numMatch && !/[a-zA-Z\u0370-\u03FF]/.test(raw)) {
+			var parsed = parseInt(numMatch[1], 10);
+			if (!isNaN(parsed)) {
+				if (parsed > 0) $(this).addClass("green");
+				else $(this).addClass("red");
+				return;
 			}
-		} else if (parsed > 0) {
-			$(this).addClass("green");
-		} else {
-			$(this).addClass("red");
+		}
+
+		// Otherwise it is an action / instruction badge
+		$(this).addClass("yellow action-badge");
+		var charCount = Array.from(raw).length;
+		if (charCount > 6) {
+			$(this).addClass("action-badge-long");
+		} else if (charCount <= 2 && /\p{Extended_Pictographic}/u.test(raw)) {
+			$(this).addClass("action-badge-emoji-only");
 		}
 	});
 
@@ -4429,6 +4487,29 @@ function init_event_listeners() {
 	$(document).on("click", ".modal-card-chip", function() {
 		var val = $(this).attr("data-val");
 		$("#card-score").val(val).focus();
+		AudioEngine.playFlip();
+	});
+
+	$(document).on("click", ".modal-emoji-chip", function() {
+		var emoji = $(this).attr("data-emoji");
+		var $input = $("#card-action-label");
+		var curVal = ($input.val() || "").trim();
+
+		var emojiRegex = /^\p{Extended_Pictographic}(\uFE0F)?\s*/u;
+		if (emojiRegex.test(curVal)) {
+			var match = curVal.match(emojiRegex);
+			var existing = match ? match[0].trim() : "";
+			if (existing === emoji) {
+				$input.val(curVal.replace(emojiRegex, ""));
+			} else {
+				$input.val(emoji + " " + curVal.replace(emojiRegex, ""));
+			}
+		} else if (curVal) {
+			$input.val(emoji + " " + curVal);
+		} else {
+			$input.val(emoji + " ");
+		}
+		$input.focus();
 		AudioEngine.playFlip();
 	});
 
