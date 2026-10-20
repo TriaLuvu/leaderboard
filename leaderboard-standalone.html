@@ -1703,18 +1703,20 @@ body.show-modal .modal-backdrop {
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
-	text-align: left;
+	text-align: center;
+	align-items: center;
+	width: 100%;
 }
-.modal-card-emoji-bar {
+.modal-card-emoji-center {
 	display: flex;
 	align-items: center;
-	gap: 8px;
-	flex-wrap: wrap;
+	justify-content: center;
+	width: 100%;
 }
 .modal-card-emoji-hero {
-	width: 50px;
-	height: 50px;
-	border-radius: 12px;
+	width: 52px;
+	height: 52px;
+	border-radius: 14px;
 	background: #24282e;
 	border: 2px solid rgba(255, 255, 255, 0.12) !important;
 	outline: none !important;
@@ -1728,55 +1730,20 @@ body.show-modal .modal-backdrop {
 .modal-card-emoji-hero:hover {
 	background: #2d3e50;
 	border-color: #29a744 !important;
-	transform: scale(1.05);
+	transform: scale(1.06);
+}
+.modal-card-emoji-hero.active {
+	background: #2d3e50;
+	border-color: #29a744 !important;
+	box-shadow: 0 0 0 2px rgba(41, 167, 68, 0.4);
 }
 .modal-card-emoji-hero .hero-emoji-circle {
-	font-size: 30px;
+	font-size: 32px;
 	line-height: 1;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-.modal-card-quick-emojis {
-	display: flex;
-	align-items: center;
-	gap: 5px;
-	flex-wrap: wrap;
-	flex: 1;
-}
-.modal-card-quick-emoji-item {
-	width: 35px;
-	height: 35px;
-	border-radius: 8px;
-	background: #24282e;
-	border: 1px solid transparent !important;
-	outline: none !important;
-	font-size: 19px;
-	cursor: pointer;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
-}
-.modal-card-quick-emoji-item:hover {
-	background: #353b45;
-	transform: scale(1.15);
-}
-.modal-card-quick-emoji-item.active-avatar {
-	background: #2d3e50;
-	border-color: #29a744 !important;
-	box-shadow: 0 0 0 2px #29a744;
-	transform: scale(1.08);
-}
-.modal-card-more-emoji-btn {
-	position: static !important;
-	transform: none !important;
-	width: 35px;
-	height: 35px;
-	flex-shrink: 0;
-}
-.modal-card-more-emoji-btn:hover {
-	transform: scale(1.08) !important;
+	user-select: none;
 }
 
 /* Bulk Cards Clean Panel */
@@ -2845,13 +2812,9 @@ body.show-modal .modal-backdrop {
 
 				<div class="modal-card-emoji-section">
 					<label class="modal-form-label">Emoji Κάρτας</label>
-					<div class="modal-card-emoji-bar">
+					<div class="modal-card-emoji-center">
 						<button type="button" class="modal-card-emoji-hero" id="add-card-avatar-btn" data-icon="🎁" title="Κάντε κλικ για επιλογή Emoji">
 							<span class="hero-emoji-circle" id="add-card-avatar-circle">🎁</span>
-						</button>
-						<div class="modal-card-quick-emojis" id="add-card-quick-strip"></div>
-						<button type="button" class="btn-emoji-toggle modal-card-more-emoji-btn" id="btn-card-emoji-picker-toggle" title="Άνοιγμα πλήρους λίστας Emoji">
-							<span>😊</span>
 						</button>
 					</div>
 
@@ -3499,8 +3462,6 @@ function update_add_card_avatar(iconName) {
 	$("#rand-card-icon").val(iconName);
 	$("#add-card-avatar-btn").attr("data-icon", iconName);
 	$("#add-card-avatar-circle").html(render_card_avatar(iconName));
-	$("#add-card-quick-strip .modal-card-quick-emoji-item").removeClass("active-avatar");
-	$('#add-card-quick-strip .modal-card-quick-emoji-item[data-icon="' + iconName + '"]').addClass("active-avatar");
 }
 
 function init_add_modal_strips() {
@@ -3508,11 +3469,6 @@ function init_add_modal_strips() {
 		return '<button type="button" class="modal-quick-avatar-item" data-icon="' + ic + '" title="' + ic + '">' + render_avatar(ic) + '</button>';
 	}).join("");
 	$("#add-player-quick-strip").html(pStrip);
-
-	var cStrip = cardIcons.map(function(ic) {
-		return '<button type="button" class="modal-card-quick-emoji-item" data-icon="' + ic + '" title="' + ic + '">' + ic + '</button>';
-	}).join("");
-	$("#add-card-quick-strip").html(cStrip);
 }
 
 /* ========================================================
@@ -3764,18 +3720,19 @@ var EmojiPicker = {
 		var self = this;
 
 		// Toggle card avatar emoji picker
-		$("#btn-card-emoji-picker-toggle, #add-card-avatar-btn").off("click").on("click", function(e) {
+		$("#add-card-avatar-btn").off("click").on("click", function(e) {
 			e.stopPropagation();
 			var $panel = $("#card-avatar-emoji-picker");
 			var isOpen = $panel.is(":visible");
 			$(".emoji-picker-panel").slideUp(140);
 			$(".btn-emoji-toggle").removeClass("active");
+			$("#add-card-avatar-btn").removeClass("active");
 
 			if (!isOpen) {
 				$panel.slideDown(180, function() {
 					$panel.find(".emoji-search-input").focus();
 				});
-				$("#btn-card-emoji-picker-toggle").addClass("active");
+				$("#add-card-avatar-btn").addClass("active");
 				self.activePicker = "#card-avatar-emoji-picker";
 			}
 		});
@@ -3858,7 +3815,7 @@ var EmojiPicker = {
 			if ($panel.attr("id") === "card-avatar-emoji-picker") {
 				update_add_card_avatar(emoji);
 				$panel.slideUp(140);
-				$("#btn-card-emoji-picker-toggle").removeClass("active");
+				$("#add-card-avatar-btn").removeClass("active");
 				AudioEngine.playPositive();
 				return;
 			}
@@ -3869,9 +3826,10 @@ var EmojiPicker = {
 
 		// Global click to close popovers when clicking outside
 		$(document).on("click", function(e) {
-			if (!$(e.target).closest(".emoji-picker-panel, .btn-emoji-toggle, .btn-emoji-trigger-pill, .modal-card-emoji-hero, .modal-card-quick-emoji-item, .emoji-quick-all-btn, .emoji-quick-chip").length) {
+			if (!$(e.target).closest(".emoji-picker-panel, .btn-emoji-toggle, .btn-emoji-trigger-pill, .modal-card-emoji-hero, .emoji-quick-all-btn, .emoji-quick-chip").length) {
 				$(".emoji-picker-panel").slideUp(140);
 				$(".btn-emoji-toggle").removeClass("active");
+				$("#add-card-avatar-btn").removeClass("active");
 			}
 		});
 	}
@@ -5322,14 +5280,6 @@ function init_event_listeners() {
 	$(document).on("click", ".modal-score-chip", function() {
 		var val = $(this).attr("data-score");
 		$("#score").val(val).focus();
-	});
-
-	$(document).on("click", "#add-card-quick-strip .modal-card-quick-emoji-item", function() {
-		var icon = $(this).attr("data-icon");
-		if (icon) {
-			update_add_card_avatar(icon);
-			AudioEngine.playFlip();
-		}
 	});
 
 	var current_card_modal_type = "points";
