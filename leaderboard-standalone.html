@@ -1460,7 +1460,8 @@ body.swap-mode-active .swap-hint {
 .link-popup,
 .sync-modal,
 .viewmode-popup,
-.edit-popup {
+.edit-popup,
+.migrate-modal {
 	display: none;
 	position: fixed;
 	top: 0;
@@ -1485,8 +1486,49 @@ body.show-link .link-popup,
 body.show-link .sync-modal,
 body.show-viewmode .viewmode-popup,
 body.show-edit .edit-popup,
+body.show-migrate .migrate-modal,
 body.show-modal .modal-backdrop {
 	display: flex !important;
+}
+
+/* Migration Modal & Tool Button Styles */
+.tool-btn.btn-migrate-tool {
+	background: #4f46e5;
+	box-shadow: 0 4px 10px rgba(79, 70, 229, 0.35);
+}
+.tool-btn.btn-migrate-tool:hover {
+	background: #4338ca;
+}
+.migrate-dropzone {
+	border: 2px dashed rgba(139, 92, 246, 0.5);
+	background: rgba(139, 92, 246, 0.05);
+	border-radius: 14px;
+	padding: 28px 18px;
+	text-align: center;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+.migrate-dropzone:hover, .migrate-dropzone.dragover {
+	border-color: #a855f7;
+	background: rgba(139, 92, 246, 0.12);
+	transform: scale(1.01);
+}
+.migrate-tab-pane {
+	display: none;
+}
+.migrate-tab-pane.active {
+	display: block;
+}
+.migrate-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 5px 12px;
+	border-radius: 999px;
+	font-size: 13px;
+	font-weight: 700;
+	background: rgba(255, 255, 255, 0.08);
+	color: #ffffff;
 }
 
 .modal-box {
@@ -2445,6 +2487,9 @@ body.show-modal .modal-backdrop {
 					<button class="tool-btn" id="tool-btn-sync" title="Συγχρονισμός & Αντίγραφο Ασφαλείας">
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
 					</button>
+					<button class="tool-btn btn-migrate-tool" id="tool-btn-migrate" title="Μετάβαση από το Παλιό Σύστημα">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+					</button>
 				</div>
 
 				
@@ -2999,6 +3044,30 @@ body.show-modal .modal-backdrop {
 
 			<div class="sync-options-grid" style="display: flex; flex-direction: column; gap: 18px;">
 
+				<!-- CARD 0: 1-CLICK MIGRATION FROM OLD SYSTEM -->
+				<div class="sync-card sync-card-migrate" style="padding: 20px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.14) 0%, rgba(139, 92, 246, 0.14) 100%); border: 1.5px solid #8b5cf6; border-radius: 18px; box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15);">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
+							<span style="font-size: 20px;">🔄</span>
+							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">Μετάβαση από το Παλιό Σύστημα</h3>
+						</div>
+						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(139, 92, 246, 0.25); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.45);">ΑΝΑΒΑΘΜΙΣΗ 1-CLICK</span>
+					</div>
+					<p class="sync-card-desc" style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+						Χρησιμοποιούσατε την προηγούμενη έκδοση του Leaderboard ή του Mystery Cards; Μεταφέρετε αυτόματα όλους τους παίκτες, τα σκορ και τις κάρτες σας σε 2 δευτερόλεπτα χωρίς να χαθεί τίποτα!
+					</p>
+
+					<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+						<button id="btn-open-migrate-wizard" type="button" style="flex: 1.2; min-width: 200px; height: 42px; border-radius: 10px; border:none; background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%); color:#fff; font-size: 13px; font-weight: 800; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35);">
+							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+							<span>🚀 Οδηγός Μετάβασης (Αρχείο / Link / Κείμενο)</span>
+						</button>
+						<button id="btn-quick-browser-migrate" type="button" style="flex: 1; min-width: 170px; height: 42px; border-radius: 10px; border: 1px solid rgba(139, 92, 246, 0.4); background: rgba(139, 92, 246, 0.1); color: #c084fc; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+							<span>⚡ Άμεση Ανάκτηση από Browser</span>
+						</button>
+					</div>
+				</div>
+
 				<!-- CARD 1: 1-CLICK COPY / PASTE TRANSFER (EASIEST FOR EXISTING SITE) -->
 				<div class="sync-card" style="padding: 20px; background: var(--card-bg); border: 1.5px solid var(--accent-primary); border-radius: 18px; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);">
 					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
@@ -3147,6 +3216,96 @@ body.show-modal .modal-backdrop {
 			<div class="sync-footer-actions" style="display: flex; align-items: center; justify-content: space-between; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--card-border);">
 				<button class="btn-reset-data" type="button" style="background: transparent; border:none; color: #ef4444; font-size: 13px; font-weight: 700; cursor: pointer;">Επαναφορά Προεπιλογών</button>
 				<button class="modal-actions-btn close" type="button" style="padding: 10px 24px; border-radius: 10px; background: rgba(255,255,255,0.12); border:none; color:#fff; font-weight:700; cursor:pointer;">ΚΛΕΙΣΙΜΟ</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Migration from Old System Modal -->
+	<div class="popup-modal migrate-modal" id="migrate-modal">
+		<div class="modal-box migrate-box" style="max-width: 620px; max-height: 90vh; overflow-y: auto; text-align: left; padding: 26px 28px;">
+			<div class="sync-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 16px; margin-bottom: 18px;">
+				<div style="display: flex; align-items: center; gap: 14px;">
+					<div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(139, 92, 246, 0.2); color: #c084fc; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;">
+						🚀
+					</div>
+					<div>
+						<h2 style="font-size: 20px; font-weight: 800; margin: 0 0 3px 0; color: var(--text-primary); text-align: left;">Μετάβαση από το Παλιό Σύστημα</h2>
+						<p style="font-size: 13px; color: var(--text-secondary); margin: 0;">Μεταφέρετε εύκολα παίκτες, σκορ &amp; κάρτες από παλιά αρχεία ή links</p>
+					</div>
+				</div>
+				<button class="modal-actions-btn close-migrate" type="button" style="background: rgba(255,255,255,0.08); border:none; color: var(--text-secondary); border-radius: 10px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px;">&times;</button>
+			</div>
+
+			<!-- Migration Navigation Tabs -->
+			<div class="modal-tab-header" style="margin-bottom: 16px;">
+				<button type="button" class="modal-tab-btn active" data-migratetab="file">📁 Επιλογή Παλιού Αρχείου</button>
+				<button type="button" class="modal-tab-btn" data-migratetab="link">🔗 Σύνδεσμος ή Κείμενο</button>
+				<button type="button" class="modal-tab-btn" data-migratetab="browser">⚡ Ανάκτηση Browser</button>
+			</div>
+
+			<!-- TAB 1: FILE DROP & SELECT -->
+			<div class="migrate-tab-pane active" id="pane-migrate-file">
+				<div class="migrate-dropzone" id="migrate-dropzone">
+					<div style="font-size: 32px; margin-bottom: 8px;">📂</div>
+					<p style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">
+						Σύρετε εδώ το παλιό αρχείο ή <span style="color: #a855f7; text-decoration: underline;">κάντε κλικ για επιλογή</span>
+					</p>
+					<p style="font-size: 12px; color: var(--text-secondary); margin: 0;">
+						Υποστηρίζονται: παλιά <b>leaderboard.html</b>, <b>leaderboard-cards.html</b>, αντίγραφα <b>.json</b> ή <b>.txt</b>
+					</p>
+					<input type="file" id="migrate-file-input" accept=".html,.htm,.json,.txt,.csv" style="display:none;">
+				</div>
+			</div>
+
+			<!-- TAB 2: LINK OR RAW TEXT PASTE -->
+			<div class="migrate-tab-pane" id="pane-migrate-link">
+				<p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px;">
+					Επικολλήστε παρακάτω ένα παλιό σύνδεσμο (π.χ. <code>...leaderboard.html?q=...</code>), κείμενο εξαγωγής ή λίστα:
+				</p>
+				<textarea id="migrate-paste-input" rows="4" placeholder="Επικολλήστε εδώ το link ή το κείμενο από το παλιό σύστημα..." style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.45); border: 1px solid var(--card-border); border-radius: 10px; color:#fff; padding: 10px 12px; font-size: 12px; font-family: monospace; outline:none; resize: vertical; margin-bottom: 10px;"></textarea>
+				<button type="button" id="btn-test-migrate-paste" style="width: 100%; height: 38px; border-radius: 10px; border:none; background: #6366f1; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer;">
+					🔍 Έλεγχος &amp; Ανάγνωση Δεδομένων
+				</button>
+			</div>
+
+			<!-- TAB 3: BROWSER STORAGE SCANNER -->
+			<div class="migrate-tab-pane" id="pane-migrate-browser">
+				<p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+					Αν χρησιμοποιούσατε προηγουμένως το σύστημα σε αυτόν τον περιηγητή (browser), τα δεδομένα σας βρίσκονται αποθηκευμένα στην τοπική μνήμη.
+				</p>
+				<div style="background: rgba(0,0,0,0.35); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; margin-bottom: 14px;">
+					<div id="browser-scan-status" style="font-size: 13px; color: var(--text-secondary);">
+						Πατήστε το κουμπί για να γίνει σάρωση της μνήμης του browser...
+					</div>
+				</div>
+				<button type="button" id="btn-scan-browser-data" style="width: 100%; height: 40px; border-radius: 10px; border:none; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; font-size: 13px; font-weight: 800; cursor:pointer;">
+					⚡ Σάρωση &amp; Εύρεση Δεδομένων Browser
+				</button>
+			</div>
+
+			<!-- DYNAMIC PREVIEW & CONFIRMATION BOX -->
+			<div id="migrate-preview-wrap" style="display:none; margin-top: 16px; background: rgba(16, 185, 129, 0.1); border: 1.5px solid #10b981; border-radius: 14px; padding: 16px;">
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+					<div style="display: flex; align-items: center; gap: 8px;">
+						<span style="font-size: 18px;">✅</span>
+						<h4 style="font-size: 15px; font-weight: 800; color: #34d399; margin: 0;">Δεδομένα Έτοιμα για Μεταφορά!</h4>
+					</div>
+					<span id="migrate-source-tag" style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(255,255,255,0.1); color: var(--text-secondary);">Πηγή</span>
+				</div>
+				<div id="migrate-preview-stats" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+					<!-- Populated by JS -->
+				</div>
+				<label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-primary); cursor: pointer; margin-bottom: 14px;">
+					<input type="checkbox" id="chk-migrate-replace" checked>
+					<span>Αντικατάσταση των υπαρχόντων παικτών &amp; καρτών (προτείνεται)</span>
+				</label>
+				<button type="button" id="btn-apply-migration-now" style="width: 100%; height: 44px; border-radius: 10px; border:none; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; font-size: 14px; font-weight: 800; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);">
+					<span>🚀 Εφαρμογή &amp; Ολοκλήρωση Μεταφοράς στο Νέο Σύστημα</span>
+				</button>
+			</div>
+
+			<div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--card-border);">
+				<button class="modal-actions-btn close-migrate" type="button" style="padding: 10px 22px; border-radius: 10px; background: rgba(255,255,255,0.12); border:none; color:#fff; font-weight:700; cursor:pointer;">ΚΛΕΙΣΙΜΟ</button>
 			</div>
 		</div>
 	</div>
@@ -3871,9 +4030,10 @@ $(document).ready(function() {
 	if (typeof window.__SEEDED_MODE__ !== "undefined") current_display_mode = window.__SEEDED_MODE__;
 	if (typeof window.__SEEDED_THEME__ !== "undefined") apply_theme(window.__SEEDED_THEME__);
 
-	// Check URL Parameters
+	// Check URL Parameters (including old ?q= and new ?sync=)
 	var url = new URL(window.location.href);
 	var sync_param = url.searchParams.get("sync");
+	var q_param = url.searchParams.get("q");
 	var theme_param = url.searchParams.get("theme");
 	var view_param = url.searchParams.get("view") || url.searchParams.get("mode") || url.searchParams.get("display_mode");
 
@@ -3881,25 +4041,65 @@ $(document).ready(function() {
 	if (theme_param === "dripit" || theme_param === "theme-dripit") apply_theme("theme-dripit");
 
 	var data_was_synced = false;
+	var sync_success_msg = "Όλα τα δεδομένα σας συγχρονίστηκαν επιτυχώς.";
 
-	if (sync_param != null) {
+	if (sync_param != null || q_param != null) {
+		var rawParam = sync_param != null ? sync_param : q_param;
 		try {
-			var decoded_str = decodeURIComponent(window.atob(sync_param));
+			var decoded_str = "";
+			try {
+				decoded_str = decodeURIComponent(window.atob(rawParam));
+			} catch(e1) {
+				try {
+					decoded_str = window.atob(rawParam);
+				} catch(e2) {
+					decoded_str = decodeURIComponent(rawParam);
+				}
+			}
 			var parsed = JSON.parse(decoded_str);
-			if (parsed.lb && Array.isArray(parsed.lb)) {
-				lb_data = parsed.lb;
-				if (local_storage_available) localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
-				data_was_synced = true;
+
+			if (Array.isArray(parsed)) {
+				// Old system share link format: array of players or cards
+				if (parsed.length > 0 && parsed[0].nickname !== undefined) {
+					lb_data = parsed;
+					if (local_storage_available) localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+					data_was_synced = true;
+					sync_success_msg = "🎉 Τα δεδομένα παικτών από το παλιό σύστημα μεταφέρθηκαν επιτυχώς!";
+				} else if (parsed.length > 0 && (parsed[0].info !== undefined || parsed[0].score !== undefined)) {
+					card_data = parsed;
+					if (local_storage_available) localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
+					data_was_synced = true;
+					sync_success_msg = "🎉 Οι κάρτες από το παλιό σύστημα μεταφέρθηκαν επιτυχώς!";
+				}
+			} else if (parsed && typeof parsed === "object") {
+				if (parsed.lb && Array.isArray(parsed.lb)) {
+					lb_data = parsed.lb;
+					if (local_storage_available) localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+					data_was_synced = true;
+				} else if (parsed.leaderboard && Array.isArray(parsed.leaderboard)) {
+					lb_data = parsed.leaderboard;
+					if (local_storage_available) localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+					data_was_synced = true;
+				}
+				if (parsed.cards && Array.isArray(parsed.cards)) {
+					card_data = parsed.cards;
+					if (local_storage_available) localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
+					data_was_synced = true;
+				}
+				if (parsed.theme) apply_theme(parsed.theme);
+				if (parsed.mode || parsed.display_mode) {
+					current_display_mode = parsed.mode || parsed.display_mode;
+					if (local_storage_available) localStorage.setItem("app_display_mode", current_display_mode);
+				}
+				if (q_param != null) {
+					sync_success_msg = "🎉 Τα δεδομένα από το παλιό σύστημα μεταφέρθηκαν επιτυχώς!";
+				}
 			}
-			if (parsed.cards && Array.isArray(parsed.cards)) {
-				card_data = parsed.cards;
-				if (local_storage_available) localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
-				data_was_synced = true;
-			}
-			if (parsed.theme) apply_theme(parsed.theme);
-			if (parsed.mode || parsed.display_mode) {
-				current_display_mode = parsed.mode || parsed.display_mode;
-				if (local_storage_available) localStorage.setItem("app_display_mode", current_display_mode);
+
+			// Clean up query string from browser URL bar after successful import
+			if (data_was_synced && window.history && window.history.replaceState) {
+				var cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+				window.history.replaceState({}, document.title, cleanUrl);
 			}
 		} catch(e) {
 			console.error("Sync error:", e);
@@ -4023,7 +4223,7 @@ $(document).ready(function() {
 	}
 
 	if (data_was_synced) {
-		showToast("Όλα τα δεδομένα σας συγχρονίστηκαν επιτυχώς.");
+		showToast(sync_success_msg || "Όλα τα δεδομένα σας συγχρονίστηκαν επιτυχώς.");
 		AudioEngine.playMilestone();
 		ConfettiEngine.launch(100);
 	}
@@ -5231,7 +5431,7 @@ function init_event_listeners() {
 				return;
 			}
 			if (swap_mode_active) exit_swap_mode();
-			$("body").removeClass("show-add-person show-add-card show-edit show-link show-viewmode");
+			$("body").removeClass("show-add-person show-add-card show-edit show-link show-viewmode show-migrate");
 			$("#live-search-input").blur();
 		}
 	}).on("keyup", function(e) {
@@ -5240,7 +5440,7 @@ function init_event_listeners() {
 	});
 
 	$("#tool-btn-add").on("click", function() {
-		$("body").removeClass("show-add-person show-add-card show-edit show-link show-viewmode");
+		$("body").removeClass("show-add-person show-add-card show-edit show-link show-viewmode show-migrate");
 		if (current_mode === "leaderboard") {
 			$("body").addClass("show-add-person");
 			var initialIcon = playerAvatars[getRandomInt(0, 7)];
@@ -5577,11 +5777,90 @@ function init_event_listeners() {
 				$("#btn-confirm-cancel").trigger("click");
 				return;
 			}
-			$("body").removeClass("show-add-person show-add-card show-link show-edit show-viewmode");
+			$("body").removeClass("show-add-person show-add-card show-link show-edit show-viewmode show-migrate");
 		}
 	});
 	$(".btn-copy-sync").on("click", copy_sync_link);
 	$(".btn-reset-data").on("click", reset_to_defaults);
+
+	// Migration modal triggers & bindings
+	$("#tool-btn-migrate, #btn-open-migrate-wizard").on("click", function() {
+		$("body").removeClass("show-link");
+		open_migrate_modal();
+	});
+	$("#btn-quick-browser-migrate").on("click", quick_browser_migrate);
+	$(".close-migrate").on("click", close_migrate_modal);
+
+	$(document).on("click", ".migrate-modal .modal-tab-btn", function() {
+		var targetTab = $(this).attr("data-migratetab");
+		$(".migrate-modal .modal-tab-btn").removeClass("active");
+		$(this).addClass("active");
+		$(".migrate-tab-pane").removeClass("active");
+		$("#pane-migrate-" + targetTab).addClass("active");
+	});
+
+	// Drag and drop for migration file
+	var $dropzone = $("#migrate-dropzone");
+	$dropzone.on("click", function() {
+		$("#migrate-file-input").trigger("click");
+	});
+	$dropzone.on("dragover dragenter", function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$(this).addClass("dragover");
+	});
+	$dropzone.on("dragleave drop", function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$(this).removeClass("dragover");
+	});
+	$dropzone.on("drop", function(e) {
+		var files = e.originalEvent && e.originalEvent.dataTransfer ? e.originalEvent.dataTransfer.files : null;
+		if (files && files.length > 0) {
+			handle_migration_file(files[0]);
+		}
+	});
+	$("#migrate-file-input").on("change", function(e) {
+		if (e.target.files && e.target.files[0]) {
+			handle_migration_file(e.target.files[0]);
+			$(this).val("");
+		}
+	});
+
+	$("#btn-test-migrate-paste").on("click", function() {
+		var text = $("#migrate-paste-input").val();
+		if (!text || !text.trim()) {
+			alert("Παρακαλώ επικολλήστε πρώτα το παλιό link ή κείμενο στο πλαίσιο.");
+			return;
+		}
+		var parsed = parse_migration_content(text);
+		if (parsed.success) {
+			show_migration_preview(parsed);
+		} else {
+			alert("Δεν ήταν δυνατή η ανάγνωση των δεδομένων. Ελέγξτε ότι το link ή το κείμενο είναι σωστό.");
+		}
+	});
+
+	$("#btn-scan-browser-data").on("click", function() {
+		var scan = scan_browser_legacy_data();
+		if (!scan.hasData) {
+			$("#browser-scan-status").html('<span style="color:#ef4444;">❌ Δεν βρέθηκαν παλιά δεδομένα σε αυτόν τον περιηγητή.</span>');
+			return;
+		}
+		var statusMsg = '<span style="color:#34d399;">✅ <b>Εντοπίστηκαν δεδομένα:</b> ';
+		if (scan.lb.length > 0) statusMsg += scan.lb.length + ' παίκτες ';
+		if (scan.cards.length > 0) statusMsg += (scan.lb.length > 0 ? 'και ' : '') + scan.cards.length + ' κάρτες';
+		statusMsg += '</span>';
+		$("#browser-scan-status").html(statusMsg);
+		show_migration_preview({
+			success: true,
+			leaderboard: scan.lb,
+			cards: scan.cards,
+			detectedType: "Τοπική Μνήμη Browser (localStorage)"
+		});
+	});
+
+	$("#btn-apply-migration-now").on("click", execute_migration);
 
 	// Display mode modal triggers
 	$("#tool-btn-viewmode, #btn-header-viewmode, .single-mode-badge .sm-change-btn").on("click", function(e) {
@@ -5808,7 +6087,8 @@ function download_ready_app_html() {
 	fullHtml = fullHtml.replace(/show-link/g, "")
 	                   .replace(/show-confirm/g, "")
 	                   .replace(/show-add-person/g, "")
-	                   .replace(/show-add-card/g, "");
+	                   .replace(/show-add-card/g, "")
+	                   .replace(/show-migrate/g, "");
 
 	// Pre-seed script injection before $(document).ready
 	var seedScript = `
@@ -6078,6 +6358,364 @@ function reset_to_defaults() {
 			window.location.reload();
 		}
 	);
+}
+
+/* ========================================================
+   MIGRATION FROM OLD SYSTEM (PARSER, WIZARD & SCANNER)
+   ======================================================== */
+var pending_migration_data = null;
+
+function open_migrate_modal() {
+	$("body").removeClass("show-add-person show-add-card show-link show-edit show-viewmode").addClass("show-migrate");
+	reset_migrate_modal_state();
+}
+
+function close_migrate_modal() {
+	$("body").removeClass("show-migrate");
+	reset_migrate_modal_state();
+}
+
+function reset_migrate_modal_state() {
+	pending_migration_data = null;
+	$("#migrate-preview-wrap").hide();
+	$("#migrate-paste-input").val("");
+	$("#migrate-dropzone").removeClass("dragover");
+	$("#browser-scan-status").html("Πατήστε το κουμπί για να γίνει σάρωση της μνήμης του browser...");
+	$('.migrate-modal .modal-tab-btn[data-migratetab="file"]').trigger("click");
+}
+
+function handle_migration_file(file) {
+	if (!file) return;
+	var reader = new FileReader();
+	reader.onload = function(evt) {
+		var content = evt.target.result;
+		var parsed = parse_migration_content(content);
+		if (parsed.success) {
+			parsed.detectedType = file.name + " (" + parsed.detectedType + ")";
+			show_migration_preview(parsed);
+		} else {
+			alert("Δεν βρέθηκαν έγκυρα δεδομένα παικτών ή καρτών μέσα στο αρχείο '" + file.name + "'.");
+		}
+	};
+	reader.readAsText(file);
+}
+
+function parse_migration_content(content) {
+	var result = {
+		success: false,
+		leaderboard: [],
+		cards: [],
+		theme: null,
+		display_mode: null,
+		detectedType: ""
+	};
+	if (!content || typeof content !== "string") return result;
+	var trimmed = content.trim();
+
+	// 1. URL with ?q= or ?sync=
+	if (trimmed.indexOf("http") === 0 || trimmed.indexOf("?q=") > -1 || trimmed.indexOf("?sync=") > -1) {
+		try {
+			var urlObj = new URL(trimmed.indexOf("http") === 0 ? trimmed : "http://dummy.com/" + trimmed);
+			var q = urlObj.searchParams.get("q");
+			var sync = urlObj.searchParams.get("sync");
+			var targetParam = q || sync;
+			if (targetParam) {
+				var decoded = "";
+				try { decoded = decodeURIComponent(window.atob(targetParam)); } catch(e) { decoded = window.atob(targetParam); }
+				var parsedUrl = JSON.parse(decoded);
+				result.detectedType = q ? "Παλιός Σύνδεσμος (?q=)" : "Σύνδεσμος Συγχρονισμού (?sync=)";
+				if (Array.isArray(parsedUrl)) {
+					if (parsedUrl.length > 0 && parsedUrl[0].nickname !== undefined) result.leaderboard = parsedUrl;
+					else result.cards = parsedUrl;
+				} else if (parsedUrl && typeof parsedUrl === "object") {
+					if (parsedUrl.lb) result.leaderboard = parsedUrl.lb;
+					if (parsedUrl.leaderboard) result.leaderboard = parsedUrl.leaderboard;
+					if (parsedUrl.cards) result.cards = parsedUrl.cards;
+					if (parsedUrl.theme) result.theme = parsedUrl.theme;
+					if (parsedUrl.display_mode || parsedUrl.mode) result.display_mode = parsedUrl.display_mode || parsedUrl.mode;
+				}
+				if (result.leaderboard.length > 0 || result.cards.length > 0) {
+					result.success = true;
+					return result;
+				}
+			}
+		} catch(e) {}
+	}
+
+	// 2. Base64 JSON
+	if (/^[A-Za-z0-9+/=]+$/.test(trimmed) && trimmed.length > 20) {
+		try {
+			var b64Decoded = "";
+			try { b64Decoded = decodeURIComponent(window.atob(trimmed)); } catch(e) { b64Decoded = window.atob(trimmed); }
+			var b64Obj = JSON.parse(b64Decoded);
+			result.detectedType = "Κωδικοποιημένα Δεδομένα (Base64)";
+			if (Array.isArray(b64Obj)) {
+				if (b64Obj.length > 0 && b64Obj[0].nickname !== undefined) result.leaderboard = b64Obj;
+				else result.cards = b64Obj;
+			} else if (b64Obj && typeof b64Obj === "object") {
+				if (b64Obj.lb) result.leaderboard = b64Obj.lb;
+				if (b64Obj.leaderboard) result.leaderboard = b64Obj.leaderboard;
+				if (b64Obj.cards) result.cards = b64Obj.cards;
+				if (b64Obj.theme) result.theme = b64Obj.theme;
+				if (b64Obj.display_mode || b64Obj.mode) result.display_mode = b64Obj.display_mode || b64Obj.mode;
+			}
+			if (result.leaderboard.length > 0 || result.cards.length > 0) {
+				result.success = true;
+				return result;
+			}
+		} catch(e) {}
+	}
+
+	// 3. Raw JSON
+	if (trimmed.startsWith("{") || trimmed.startsWith("[")) {
+		try {
+			var jsonObj = JSON.parse(trimmed);
+			result.detectedType = "Αρχείο JSON Backup";
+			if (Array.isArray(jsonObj)) {
+				if (jsonObj.length > 0 && jsonObj[0].nickname !== undefined) result.leaderboard = jsonObj;
+				else result.cards = jsonObj;
+			} else if (jsonObj && typeof jsonObj === "object") {
+				if (jsonObj.leaderboard) result.leaderboard = jsonObj.leaderboard;
+				if (jsonObj.lb) result.leaderboard = jsonObj.lb;
+				if (jsonObj.cards) result.cards = jsonObj.cards;
+				if (jsonObj.theme) result.theme = jsonObj.theme;
+				if (jsonObj.display_mode || jsonObj.mode) result.display_mode = jsonObj.display_mode || jsonObj.mode;
+			}
+			if (result.leaderboard.length > 0 || result.cards.length > 0) {
+				result.success = true;
+				return result;
+			}
+		} catch(e) {}
+	}
+
+	// 4. HTML document (DOM parsing of legacy files)
+	if (trimmed.indexOf("<html") > -1 || trimmed.indexOf("<!DOCTYPE") > -1 || trimmed.indexOf("person") > -1 || trimmed.indexOf("leaderboard") > -1) {
+		result.detectedType = "Παλιό Αρχείο HTML";
+		try {
+			var parser = new DOMParser();
+			var doc = parser.parseFromString(trimmed, "text/html");
+
+			var personNodes = doc.querySelectorAll(".person, .leaderboard li");
+			if (personNodes.length > 0) {
+				var extractedPersons = [];
+				personNodes.forEach(function(el) {
+					var icon = $(el).find(".icon").text().trim() || "lion";
+					var nickname = $(el).find(".nickname, .name").text().trim();
+					var scoreText = $(el).find(".score").text().trim();
+					var score = parseInt(scoreText, 10);
+					if (nickname) {
+						extractedPersons.push({ icon: icon, nickname: nickname, score: isNaN(score) ? 0 : score });
+					}
+				});
+				if (extractedPersons.length > 0) result.leaderboard = extractedPersons;
+			}
+
+			var cardNodes = doc.querySelectorAll(".card, .cards-grid li, .leaderboard-cards li");
+			if (cardNodes.length > 0) {
+				var extractedCards = [];
+				cardNodes.forEach(function(el) {
+					var icon = $(el).find(".icon").text().trim() || "🎁";
+					var score = $(el).find(".score").text().trim() || "";
+					var info = $(el).find(".info, .desc, .text").text().trim() || "";
+					if (info || score) {
+						extractedCards.push({ icon: icon, score: score, info: info });
+					}
+				});
+				if (extractedCards.length > 0) result.cards = extractedCards;
+			}
+
+			var scripts = doc.querySelectorAll("script");
+			scripts.forEach(function(scr) {
+				var code = scr.textContent || "";
+				var matchInit = code.match(/window\.LEADERBOARD_INITIAL_DATA\s*=\s*(\{[\s\S]*?\});/);
+				if (matchInit && matchInit[1]) {
+					try {
+						var parsedInit = JSON.parse(matchInit[1]);
+						if (parsedInit.leaderboard && result.leaderboard.length === 0) result.leaderboard = parsedInit.leaderboard;
+						if (parsedInit.cards && result.cards.length === 0) result.cards = parsedInit.cards;
+					} catch(e) {}
+				}
+				var matchData = code.match(/data\s*=\s*(\[[\s\S]*?\]);/);
+				if (matchData && matchData[1]) {
+					try {
+						var parsedData = JSON.parse(matchData[1]);
+						if (Array.isArray(parsedData) && parsedData.length > 0) {
+							if (parsedData[0].nickname && result.leaderboard.length === 0) result.leaderboard = parsedData;
+							else if (parsedData[0].info && result.cards.length === 0) result.cards = parsedData;
+						}
+					} catch(e) {}
+				}
+			});
+
+			if (result.leaderboard.length > 0 || result.cards.length > 0) {
+				result.success = true;
+				return result;
+			}
+		} catch(e) {}
+	}
+
+	// 5. Fallback CSV / Plain text
+	var lines = trimmed.split("\n").map(function(l) { return l.trim(); }).filter(function(l) { return l.length > 0; });
+	if (lines.length > 0) {
+		var parsedLb = [];
+		var parsedCards = [];
+		var avatarList = ["hawk", "abram", "kianna", "bytex", "voyager", "alfonso", "lion", "fox", "panda", "unicorn"];
+
+		lines.forEach(function(line, idx) {
+			var parts = line.split(",").map(function(s) { return s.trim(); });
+			var isCardLine = (parts[0] && (parts[0].startsWith("+") || parts[0].startsWith("-"))) || 
+			                 (parts.length >= 2 && (parts[1].startsWith("+") || parts[1].startsWith("-")));
+			if (isCardLine) {
+				if (parts.length >= 3) {
+					parsedCards.push({ icon: parts[0], score: parts[1], info: parts[2] });
+				} else if (parts.length === 2) {
+					if (parts[0].startsWith("+") || parts[0].startsWith("-")) {
+						parsedCards.push({ icon: "🎁", score: parts[0], info: parts[1] });
+					} else {
+						parsedCards.push({ icon: parts[0], score: parts[1], info: "" });
+					}
+				} else {
+					parsedCards.push({ icon: "🎁", score: parts[0], info: "" });
+				}
+			} else {
+				if (parts.length >= 3) {
+					parsedLb.push({ icon: parts[0], nickname: parts[1], score: parseInt(parts[2], 10) || 0 });
+				} else if (parts.length === 2) {
+					parsedLb.push({ icon: avatarList[idx % avatarList.length], nickname: parts[0], score: parseInt(parts[1], 10) || 0 });
+				} else if (parts.length === 1 && parts[0]) {
+					parsedLb.push({ icon: avatarList[idx % avatarList.length], nickname: parts[0], score: 0 });
+				}
+			}
+		});
+
+		if (parsedLb.length > 0 || parsedCards.length > 0) {
+			result.detectedType = "Λίστα Κειμένου / CSV";
+			result.leaderboard = parsedLb;
+			result.cards = parsedCards;
+			result.success = true;
+			return result;
+		}
+	}
+
+	return result;
+}
+
+function show_migration_preview(data) {
+	if (!data || (!data.leaderboard.length && !data.cards.length)) {
+		alert("Δεν βρέθηκαν έγκυρα δεδομένα παικτών ή καρτών.");
+		return;
+	}
+	pending_migration_data = data;
+	$("#migrate-source-tag").text(data.detectedType || "Εισαγωγή");
+
+	var statsHtml = "";
+	if (data.leaderboard.length > 0) {
+		statsHtml += '<div class="migrate-pill" style="border: 1px solid rgba(59, 130, 246, 0.4); background: rgba(59, 130, 246, 0.15); color: #60a5fa;">' +
+			'👥 ' + data.leaderboard.length + ' Παίκτες' +
+		'</div>';
+	}
+	if (data.cards.length > 0) {
+		statsHtml += '<div class="migrate-pill" style="border: 1px solid rgba(168, 85, 247, 0.4); background: rgba(168, 85, 247, 0.15); color: #c084fc;">' +
+			'🎴 ' + data.cards.length + ' Κάρτες' +
+		'</div>';
+	}
+	$("#migrate-preview-stats").html(statsHtml);
+	$("#migrate-preview-wrap").slideDown(200);
+}
+
+function execute_migration() {
+	if (!pending_migration_data) return;
+	var isReplace = $("#chk-migrate-replace").is(":checked");
+
+	if (pending_migration_data.leaderboard && pending_migration_data.leaderboard.length > 0) {
+		if (isReplace) {
+			lb_data = pending_migration_data.leaderboard;
+		} else {
+			// Merge avoiding duplicates by nickname
+			pending_migration_data.leaderboard.forEach(function(newP) {
+				var existing = lb_data.find(function(p) { return p.nickname.toLowerCase() === newP.nickname.toLowerCase(); });
+				if (existing) {
+					existing.score = newP.score;
+					if (newP.icon) existing.icon = newP.icon;
+				} else {
+					lb_data.push(newP);
+				}
+			});
+		}
+		if (local_storage_available) localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+	}
+
+	if (pending_migration_data.cards && pending_migration_data.cards.length > 0) {
+		if (isReplace) {
+			card_data = pending_migration_data.cards;
+		} else {
+			card_data = card_data.concat(pending_migration_data.cards);
+		}
+		if (local_storage_available) localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
+	}
+
+	if (pending_migration_data.theme) apply_theme(pending_migration_data.theme);
+	if (pending_migration_data.display_mode) apply_display_mode(pending_migration_data.display_mode, false);
+
+	if (local_storage_available) {
+		localStorage.setItem("leaderboard_migrated_v2", "true");
+	}
+
+	build_leaderboard();
+	build_cards();
+	close_migrate_modal();
+	showToast("🎉 Η μεταφορά ολοκληρώθηκε επιτυχώς! Καλώς ήρθατε στο νέο σύστημα.");
+	AudioEngine.playMilestone();
+	ConfettiEngine.launch(150);
+}
+
+function quick_browser_migrate() {
+	var scan = scan_browser_legacy_data();
+	if (!scan.hasData) {
+		alert("Δεν βρέθηκαν παλιά δεδομένα αποθηκευμένα στον συγκεκριμένο περιηγητή.");
+		return;
+	}
+	open_migrate_modal();
+	$('.migrate-modal .modal-tab-btn[data-migratetab="browser"]').trigger("click");
+	var statusMsg = '<span style="color:#34d399;">✅ <b>Εντοπίστηκαν στον Browser:</b> ';
+	if (scan.lb.length > 0) statusMsg += scan.lb.length + " παίκτες ";
+	if (scan.cards.length > 0) statusMsg += (scan.lb.length > 0 ? "και " : "") + scan.cards.length + " κάρτες";
+	statusMsg += '</span>';
+	$("#browser-scan-status").html(statusMsg);
+	show_migration_preview({
+		success: true,
+		leaderboard: scan.lb,
+		cards: scan.cards,
+		detectedType: "Τοπική Μνήμη Browser (localStorage)"
+	});
+}
+
+function scan_browser_legacy_data() {
+	var result = {
+		hasData: false,
+		lb: [],
+		cards: []
+	};
+	if (!local_storage_available) return result;
+	try {
+		var rawLb = localStorage.getItem("leaderboard_data");
+		if (rawLb) {
+			var parsed = JSON.parse(rawLb);
+			if (Array.isArray(parsed) && parsed.length > 0) {
+				result.lb = parsed;
+				result.hasData = true;
+			}
+		}
+		var rawCards = localStorage.getItem("leaderboard_card_data");
+		if (rawCards) {
+			var parsedCards = JSON.parse(rawCards);
+			if (Array.isArray(parsedCards) && parsedCards.length > 0) {
+				result.cards = parsedCards;
+				result.hasData = true;
+			}
+		}
+	} catch(e) {}
+	return result;
 }
 
 function read_lb_text(data_str) {

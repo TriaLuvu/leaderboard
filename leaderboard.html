@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Μετάβαση στο Νέο Σύστημα Leaderboard...</title>
+	<style>
+		* { box-sizing: border-box; margin: 0; padding: 0; }
+		body {
+			background: #060813;
+			color: #f8fafc;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 100vh;
+			padding: 20px;
+		}
+		.bridge-card {
+			background: #121a30;
+			border: 1.5px solid #3b82f6;
+			padding: 40px 32px;
+			border-radius: 24px;
+			text-align: center;
+			max-width: 480px;
+			width: 100%;
+			box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(59, 130, 246, 0.2);
+		}
+		.icon-badge {
+			width: 68px;
+			height: 68px;
+			border-radius: 20px;
+			background: rgba(59, 130, 246, 0.2);
+			color: #60a5fa;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 32px;
+			margin-bottom: 20px;
+		}
+		h2 {
+			font-size: 24px;
+			font-weight: 800;
+			margin-bottom: 10px;
+			letter-spacing: -0.5px;
+		}
+		.status-text {
+			font-size: 14px;
+			color: #94a3b8;
+			line-height: 1.6;
+			margin-bottom: 24px;
+		}
+		.badge-found {
+			display: inline-block;
+			background: rgba(16, 185, 129, 0.2);
+			color: #34d399;
+			border: 1px solid rgba(16, 185, 129, 0.4);
+			padding: 6px 16px;
+			border-radius: 999px;
+			font-size: 13px;
+			font-weight: 700;
+			margin-bottom: 20px;
+		}
+		.spinner {
+			width: 36px;
+			height: 36px;
+			border: 3.5px solid rgba(255, 255, 255, 0.1);
+			border-top-color: #3b82f6;
+			border-radius: 50%;
+			animation: spin 0.7s linear infinite;
+			margin: 0 auto 20px auto;
+		}
+		@keyframes spin {
+			to { transform: rotate(360deg); }
+		}
+		a.btn-proceed {
+			display: inline-block;
+			background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+			color: #ffffff;
+			text-decoration: none;
+			padding: 13px 28px;
+			border-radius: 12px;
+			font-weight: 800;
+			font-size: 14px;
+			box-shadow: 0 6px 18px rgba(59, 130, 246, 0.45);
+			transition: transform 0.15s ease;
+		}
+		a.btn-proceed:hover {
+			transform: scale(1.03);
+		}
+	</style>
+</head>
+<body>
+	<div class="bridge-card">
+		<div class="icon-badge">🚀</div>
+		<h2>Αναβάθμιση στο Νέο Σύστημα</h2>
+		<div class="spinner"></div>
+		<div id="found-badge-wrap"></div>
+		<p class="status-text" id="status-msg">
+			Εντοπίστηκε το παλιό αρχείο <b>leaderboard.html</b>.<br>
+			Τα δεδομένα και τα σκορ σας μεταφέρονται αυτόματα στη νέα αυτόνομη έκδοση...
+		</p>
+		<a class="btn-proceed" id="btn-target" href="leaderboard-standalone.html">Μετάβαση Τώρα</a>
+	</div>
+
+	<script>
+		(function() {
+			var url = new URL(window.location.href);
+			var qParam = url.searchParams.get("q");
+			var syncParam = url.searchParams.get("sync");
+			
+			var targetUrl = "leaderboard-standalone.html";
+			var foundItems = 0;
+
+			// If URL already had a query param
+			if (qParam) {
+				targetUrl += "?q=" + encodeURIComponent(qParam);
+			} else if (syncParam) {
+				targetUrl += "?sync=" + encodeURIComponent(syncParam);
+			} else {
+				// Check local storage for old leaderboard and card data
+				var lbData = null;
+				var cardData = null;
+				try {
+					var rawLb = localStorage.getItem("leaderboard_data");
+					if (rawLb) lbData = JSON.parse(rawLb);
+				} catch(e) {}
+				try {
+					var rawCards = localStorage.getItem("leaderboard_card_data");
+					if (rawCards) cardData = JSON.parse(rawCards);
+				} catch(e) {}
+
+				if (Array.isArray(lbData) && lbData.length > 0) {
+					foundItems = lbData.length;
+					var payload = { lb: lbData, v: 2 };
+					if (Array.isArray(cardData) && cardData.length > 0) {
+						payload.cards = cardData;
+					}
+					var b64 = btoa(encodeURIComponent(JSON.stringify(payload)));
+					targetUrl += "?sync=" + b64;
+				}
+			}
+
+			if (foundItems > 0) {
+				document.getElementById("found-badge-wrap").innerHTML = 
+					'<div class="badge-found">✨ Βρέθηκαν ' + foundItems + ' παίκτες από την παλιά έκδοση!</div>';
+			}
+
+			document.getElementById("btn-target").href = targetUrl;
+
+			// Smooth auto-redirect in 600ms
+			setTimeout(function() {
+				window.location.replace(targetUrl);
+			}, 600);
+		})();
+	</script>
+</body>
+</html>
