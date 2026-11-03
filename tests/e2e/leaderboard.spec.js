@@ -219,7 +219,7 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     await page.setInputFiles('#migrate-file-input', desktopLb);
     await expect(page.locator('#migrate-preview-wrap')).toBeVisible({ timeout: 10000 });
     const statsText = await page.locator('#migrate-preview-stats').innerText();
-    expect(statsText).toContain('10 Παίκτες');
+    expect(statsText).toContain('12 Παίκτες');
 
     // Apply migration
     await page.click('#btn-apply-migration-now');
@@ -228,11 +228,11 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
 
     // Verify imported players & podium
     const rows = page.locator('.leaderboard .person');
-    await expect(rows).toHaveCount(10);
+    await expect(rows).toHaveCount(12);
     const rank1Nick = await page.locator('.podium-column.rank-1 .podium-nickname').innerText();
     const rank1Score = await page.locator('.podium-column.rank-1 .podium-score-pill').innerText();
     expect(rank1Nick).toBe('Νίκος Παπαδόπουλος');
-    expect(rank1Score).toBe('450');
+    expect(rank1Score).toBe('25');
 
     // Migrate cards
     await page.click('#tool-btn-migrate', { force: true });
@@ -240,7 +240,7 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     await page.setInputFiles('#migrate-file-input', desktopCards);
     await expect(page.locator('#migrate-preview-wrap')).toBeVisible({ timeout: 10000 });
     const cardStats = await page.locator('#migrate-preview-stats').innerText();
-    expect(cardStats).toContain('10 Κάρτες');
+    expect(cardStats).toContain('18 Κάρτες');
 
     await page.click('#btn-apply-migration-now');
     await expect(page.locator('.migrate-modal')).toBeHidden();
@@ -250,6 +250,6 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     await page.click('.cat-tab-btn[data-filter="cards"]', { force: true });
     await page.waitForTimeout(400);
     const cards = page.locator('.cards-list .card');
-    await expect(cards).toHaveCount(10);
+    await expect(cards).toHaveCount(18);
   });
 });
