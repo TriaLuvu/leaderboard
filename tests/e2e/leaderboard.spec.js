@@ -291,8 +291,7 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     await page.click('#tool-btn-migrate', { force: true });
     await expect(page.locator('.migrate-modal')).toBeVisible();
 
-    // Switch to Link/Text paste tab
-    await page.click('.migrate-modal .modal-tab-btn[data-migratetab="link"]');
+    // Unified migration screen: direct paste is immediately visible and active
     await expect(page.locator('#pane-migrate-link')).toHaveClass(/active/);
 
     // Raw legacy JSON containing English icon names and un-normalized numbers from old system
@@ -339,5 +338,47 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     // Verify the second card rendered shield 🛡️
     const secondCardIcon = await cards.nth(1).locator('.icon').innerText();
     expect(secondCardIcon).toBe('🛡️');
+  });
+
+  test('Single unified workflow verified for Display Mode and Migration (No duplicates)', async ({ page }) => {
+    await page.goto(fileUrl);
+    await page.waitForTimeout(300);
+
+    // 1. Check Display Mode: Exactly 1 clean way
+    // Category tabs should only contain 2 tabs: Leaderboard & Mystery Cards
+    const catTabs = page.locator('.category-filter-tabs .cat-tab-btn');
+    await expect(catTabs).toHaveCount(2);
+    await expect(page.locator('#btn-header-viewmode')).toHaveCount(0);
+
+    // Toolbar button #tool-btn-viewmode is the single entry point
+    await page.click('#tool-btn-viewmode', { force: true });
+    await expect(page.locator('#viewmode-modal')).toBeVisible();
+    await page.click('.viewmode-close-btn');
+    await expect(page.locator('#viewmode-modal')).toBeHidden();
+
+    // 2. Check Sync Modal: Purely for Transfer & Share / Backups (No duplicate viewmode or migration)
+    await page.click('#tool-btn-sync', { force: true });
+    await expect(page.locator('.sync-modal')).toBeVisible();
+    await expect(page.locator('.sync-modal .sync-card-migrate')).toHaveCount(0);
+    await expect(page.locator('.sync-modal .viewmode-selector')).toHaveCount(0);
+    const syncCards = page.locator('.sync-modal .sync-card');
+    await expect(syncCards).toHaveCount(3);
+
+    // Close sync modal
+    await page.locator('.sync-modal .close').first().click();
+    await expect(page.locator('.sync-modal')).toBeHidden();
+
+    // 3. Check Migration: Single entry point (#tool-btn-migrate) and unified single screen
+    await page.click('#tool-btn-migrate', { force: true });
+    await expect(page.locator('#migrate-modal')).toBeVisible();
+    await expect(page.locator('#migrate-modal .modal-tab-header')).toHaveCount(0);
+    await expect(page.locator('#migrate-dropzone')).toBeVisible();
+    await expect(page.locator('#migrate-paste-input')).toBeVisible();
+    await expect(page.locator('#btn-apply-migration-now')).toBeAttached();
+    await expect(page.locator('#migrate-preview-wrap')).toBeHidden();
+
+    // Close migrate modal
+    await page.click('#migrate-modal .close-migrate');
+    await expect(page.locator('#migrate-modal')).toBeHidden();
   });
 });

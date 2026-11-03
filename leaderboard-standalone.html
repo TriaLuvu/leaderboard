@@ -1493,35 +1493,37 @@ body.show-modal .modal-backdrop {
 
 /* Migration Modal & Tool Button Styles */
 .tool-btn.btn-migrate-tool {
-	background: #4f46e5;
-	box-shadow: 0 4px 10px rgba(79, 70, 229, 0.35);
+	background: #353a40;
+	border: none;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 .tool-btn.btn-migrate-tool:hover {
-	background: #4338ca;
+	background: #2d3e50;
+	color: var(--text-cornsilk);
 }
 .migrate-dropzone {
 	position: relative;
 	display: block;
-	border: 2px dashed rgba(139, 92, 246, 0.6);
-	background: rgba(139, 92, 246, 0.06);
-	border-radius: 16px;
-	padding: 30px 20px;
+	border: 2px dashed rgba(255, 248, 220, 0.35);
+	background: #2d3e50;
+	border-radius: 14px;
+	padding: 24px 20px;
 	text-align: center;
 	cursor: pointer;
-	transition: all 0.22s ease;
+	transition: all 0.2s ease;
 	overflow: hidden;
 	user-select: none;
 }
 .migrate-dropzone:hover {
-	border-color: #a855f7;
-	background: rgba(139, 92, 246, 0.12);
-	box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);
+	border-color: var(--accent-teal);
+	background: #283747;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 .migrate-dropzone.dragover {
-	border-color: #38bdf8 !important;
-	background: rgba(56, 189, 248, 0.18) !important;
-	transform: scale(1.02);
-	box-shadow: 0 8px 30px rgba(56, 189, 248, 0.35) !important;
+	border-color: var(--score-green) !important;
+	background: rgba(41, 167, 68, 0.15) !important;
+	transform: scale(1.01);
+	box-shadow: 0 6px 20px rgba(41, 167, 68, 0.3) !important;
 }
 .migrate-dropzone input[type="file"] {
 	position: absolute;
@@ -1543,22 +1545,22 @@ body.show-modal .modal-backdrop {
 	align-items: center;
 	justify-content: center;
 	gap: 8px;
-	margin-top: 14px;
-	padding: 10px 22px;
-	background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+	margin-top: 12px;
+	padding: 9px 20px;
+	background: var(--accent-teal);
 	color: #ffffff;
 	font-size: 13px;
-	font-weight: 800;
-	border-radius: 10px;
+	font-weight: 700;
+	border-radius: 8px;
 	border: none;
-	box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
-	transition: transform 0.15s ease, box-shadow 0.15s ease;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+	transition: background 0.15s ease, transform 0.15s ease;
 	pointer-events: auto;
 	cursor: pointer;
 }
 .btn-dropzone-browse:hover {
+	background: #138496;
 	transform: translateY(-1px);
-	box-shadow: 0 6px 18px rgba(139, 92, 246, 0.55);
 }
 .migrate-tab-pane {
 	display: none;
@@ -2738,10 +2740,6 @@ body.show-modal .modal-backdrop {
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg>
 					<span>Mystery Cards</span>
 				</button>
-				<button type="button" class="cat-tab-btn cat-tab-mode-btn" id="btn-header-viewmode" title="Επιλογή Προβολής (Και τα δύο ή ένα από τα δύο)">
-					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-					<span>Προβολή</span>
-				</button>
 			</div>
 
 			<!-- Single Mode Badge when locked to 1 mode -->
@@ -3318,75 +3316,125 @@ body.show-modal .modal-backdrop {
 		</div>
 	</div>
 
-	<!-- Sync & Backup Hub Modal -->
+	<!-- Sync & Backup Hub Modal (Transfer & Share) -->
 	<div class="popup-modal link-popup sync-modal">
-		<div class="modal-box sync-box" style="max-width: 680px; max-height: 90vh; overflow-y: auto; text-align: left; padding: 26px 28px;">
-			<div class="sync-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 16px; margin-bottom: 20px;">
+		<div class="modal-box sync-box" style="max-width: 660px; max-height: 90vh; overflow-y: auto; text-align: left; padding: 26px 28px;">
+			<div class="sync-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,248,220,0.12); padding-bottom: 16px; margin-bottom: 18px;">
 				<div style="display: flex; align-items: center; gap: 14px;">
-					<div class="sync-icon-badge" style="width: 48px; height: 48px; border-radius: 14px; background: var(--accent-subtle); color: var(--accent-primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-						<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+					<div class="sync-icon-badge" style="width: 46px; height: 46px; border-radius: 12px; background: #2d3e50; color: #fff8dc; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid rgba(255,248,220,0.15);">
+						<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
 					</div>
 					<div>
-						<h2 style="font-size: 20px; font-weight: 800; margin: 0 0 3px 0; color: var(--text-primary);">Μεταφορά & Κοινοποίηση</h2>
-						<p class="sync-subtitle" style="font-size: 13px; color: var(--text-secondary); margin: 0;">Στείλτε σε συναδέλφους ή πάρτε το Leaderboard σε άλλο PC πανεύκολα</p>
+						<h2 style="font-size: 20px; font-weight: 800; margin: 0 0 3px 0; color: #fff8dc;">Μεταφορά &amp; Κοινοποίηση</h2>
+						<p class="sync-subtitle" style="font-size: 13px; color: #cbbdae; margin: 0;">Μοιραστείτε το Leaderboard με συναδέλφους ή μεταφέρετέ το σε άλλο υπολογιστή</p>
 					</div>
 				</div>
-				<button class="modal-actions-btn close" type="button" style="background: rgba(255,255,255,0.08); border:none; color: var(--text-secondary); border-radius: 10px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px;">&times;</button>
+				<button class="modal-actions-btn close" type="button" style="background: rgba(255,255,255,0.08); border:none; color: #fff8dc; border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px;" title="Κλείσιμο">&times;</button>
 			</div>
 
-			<div class="sync-options-grid" style="display: flex; flex-direction: column; gap: 18px;">
+			<div class="sync-options-grid" style="display: flex; flex-direction: column; gap: 16px;">
 
-				<!-- CARD 0: 1-CLICK MIGRATION FROM OLD SYSTEM -->
-				<div class="sync-card sync-card-migrate" style="padding: 20px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.14) 0%, rgba(139, 92, 246, 0.14) 100%); border: 1.5px solid #8b5cf6; border-radius: 18px; box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15);">
+				<!-- CARD 1: INSTANT SHARING (LINK / AIRDROP / EMAIL / WHATSAPP / QR) -->
+				<div class="sync-card" style="padding: 18px; background: #2d3e50; border: 1px solid rgba(255,248,220,0.12); border-radius: 14px;">
 					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
 						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
-							<span style="font-size: 20px;">🔄</span>
-							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">Μετάβαση από το Παλιό Σύστημα</h3>
+							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#17a2b9" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.71 1.26-1.5 1.5-2.5L4.5 16.5z"/><path d="M12 15l-3-3 7.5-7.5c1.38-1.38 3.62-1.38 5 0 1.38 1.38 1.38 3.62 0 5L14 17l-2-2z"/></svg>
+							<h3 style="font-size: 15px; font-weight: 700; color: #fff8dc; margin:0;">1. Άμεση Κοινοποίηση (Σύνδεσμος / QR Code / AirDrop)</h3>
 						</div>
-						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(139, 92, 246, 0.25); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.45);">ΑΝΑΒΑΘΜΙΣΗ 1-CLICK</span>
+						<span style="font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: rgba(23, 162, 185, 0.15); color: #17a2b9; border: 1px solid rgba(23, 162, 185, 0.3);">ΧΩΡΙΣ ΑΡΧΕΙΑ</span>
 					</div>
-					<p class="sync-card-desc" style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
-						Χρησιμοποιούσατε την προηγούμενη έκδοση του Leaderboard ή του Mystery Cards; Μεταφέρετε αυτόματα όλους τους παίκτες, τα σκορ και τις κάρτες σας σε 2 δευτερόλεπτα χωρίς να χαθεί τίποτα!
+					<p class="sync-card-desc" style="font-size: 13px; color: #cbbdae; line-height: 1.5; margin: 0 0 12px 0;">
+						Ο παραλήπτης ανοίγει απλά τον σύνδεσμο στον περιηγητή του (σε υπολογιστή, tablet ή κινητό) με όλα τα σκορ και τις κάρτες έτοιμα.
 					</p>
 
-					<div style="display: flex; flex-wrap: wrap; gap: 10px;">
-						<button id="btn-open-migrate-wizard" type="button" style="flex: 1.2; min-width: 200px; height: 42px; border-radius: 10px; border:none; background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%); color:#fff; font-size: 13px; font-weight: 800; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35);">
-							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-							<span>🚀 Οδηγός Μετάβασης (Αρχείο / Link / Κείμενο)</span>
+					<!-- Action Buttons Row -->
+					<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 10px;">
+						<button class="btn-copy-sync" type="button" style="height: 38px; border-radius: 8px; border:none; background: #17a2b9; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+							<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+							<span>Αντιγραφή Link</span>
 						</button>
-						<button id="btn-quick-browser-migrate" type="button" style="flex: 1; min-width: 170px; height: 42px; border-radius: 10px; border: 1px solid rgba(139, 92, 246, 0.4); background: rgba(139, 92, 246, 0.1); color: #c084fc; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>⚡ Άμεση Ανάκτηση από Browser</span>
+						<button id="btn-native-share" type="button" style="height: 38px; border-radius: 8px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+							<span>AirDrop / Share</span>
+						</button>
+						<button id="btn-share-email" type="button" style="height: 38px; border-radius: 8px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+							<span>Email</span>
+						</button>
+						<button id="btn-share-whatsapp" type="button" style="height: 38px; border-radius: 8px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+							<span>WhatsApp</span>
+						</button>
+						<button id="btn-toggle-qr" type="button" style="height: 38px; border-radius: 8px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+							<span>QR Code</span>
+						</button>
+					</div>
+
+					<!-- QR Code Dropdown Card -->
+					<div id="qr-container-card" style="display:none; text-align: center; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,248,220,0.12); border-radius: 10px; padding: 14px; margin-bottom: 10px;">
+						<p style="font-size: 13px; color: #fff8dc; font-weight: 700; margin: 0 0 8px 0;">Σκανάρετε με την κάμερα του κινητού ή του tablet:</p>
+						<div id="qr-code-image-wrap" style="display: inline-block; background: #fff; padding: 10px; border-radius: 10px;">
+							<img id="qr-code-img" src="" alt="QR Code" style="width: 160px; height: 160px; display: block;">
+						</div>
+						<p style="font-size: 11px; color: #cbbdae; margin: 8px 0 0 0;">Ανοίγει άμεσα τη σελίδα με όλα τα σκορ στον browser!</p>
+					</div>
+
+					<div class="sync-url-preview-wrapper">
+						<input type="text" id="tarea-link" readonly spellcheck="false" title="Κάντε κλικ για αντιγραφή" style="background: rgba(0,0,0,0.4); font-size: 12px; font-family: monospace; color: #cbbdae; padding: 9px 12px; width: 100%; box-sizing: border-box; border: 1px solid rgba(255,248,220,0.12); border-radius: 8px;">
+					</div>
+				</div>
+
+				<!-- CARD 2: FILE STORAGE IN PROJECT FOLDER (DATA.JS & STANDALONE HTML) -->
+				<div class="sync-card" style="padding: 18px; background: #2d3e50; border: 1px solid rgba(255,248,220,0.12); border-radius: 14px;">
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
+							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#29a744" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+							<h3 style="font-size: 15px; font-weight: 700; color: #fff8dc; margin:0;">2. Αποθήκευση στον Φάκελο του Έργου (USB Stick / Νέο PC)</h3>
+						</div>
+						<span style="font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: rgba(41, 167, 68, 0.15); color: #29a744; border: 1px solid rgba(41, 167, 68, 0.3);">ΜΟΝΙΜΗ ΑΠΟΘΗΚΕΥΣΗ</span>
+					</div>
+					<p class="sync-card-desc" style="font-size: 13px; color: #cbbdae; line-height: 1.5; margin: 0 0 12px 0;">
+						Κατεβάστε το αρχείο <code>data.js</code> και αντικαταστήστε το στον τοπικό σας φάκελο. Έτσι, όταν παίρνετε τον φάκελο σε στικάκι USB, ανοίγει σε οποιοδήποτε υπολογιστή με τα δικά σας ονόματα και κάρτες!
+					</p>
+
+					<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+						<button id="btn-export-data-js" type="button" style="flex: 1.3; min-width: 180px; height: 38px; border-radius: 8px; border:none; background: #29a744; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+							<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+							<span>💾 Λήψη data.js</span>
+						</button>
+						<button id="btn-reload-data-js" type="button" style="flex: 1; min-width: 160px; height: 38px; border-radius: 8px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+							<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+							<span>🔄 Επαναφόρτωση data.js</span>
+						</button>
+						<button id="btn-download-app-html" type="button" style="flex: 1; min-width: 160px; height: 38px; border-radius: 8px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+							<span>Λήψη Αυτόνομου .html</span>
 						</button>
 					</div>
 				</div>
 
-				<!-- CARD 1: 1-CLICK COPY / PASTE TRANSFER (EASIEST FOR EXISTING SITE) -->
-				<div class="sync-card" style="padding: 20px; background: var(--card-bg); border: 1.5px solid var(--accent-primary); border-radius: 18px; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);">
+				<!-- CARD 3: RAW DATA COPY / PASTE -->
+				<div class="sync-card" style="padding: 18px; background: #2d3e50; border: 1px solid rgba(255,248,220,0.12); border-radius: 14px;">
 					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
 						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
-							<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent-primary)" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
-							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">1. Εύκολη Μεταφορά σε άλλο PC / Υπάρχον Site</h3>
+							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff8dc" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+							<h3 style="font-size: 15px; font-weight: 700; color: #fff8dc; margin:0;">3. Χειροκίνητη Αντιγραφή &amp; Επικόλληση Δεδομένων</h3>
 						</div>
-						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(99, 102, 241, 0.2); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.4);">ΠΙΟ ΑΠΛΟ & ΑΜΕΣΟ</span>
+						<span style="font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: rgba(255,248,220,0.1); color: #fff8dc; border: 1px solid rgba(255,248,220,0.2);">ΑΜΕΣΟ JSON</span>
 					</div>
-					<p class="sync-card-desc" style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
-						<b>Βήμα 1:</b> Πατήστε «Αντιγραφή Όλων των Δεδομένων» (παίκτες & κάρτες).<br>
-						<b>Βήμα 2:</b> Στον άλλο υπολογιστή ή στο υπάρχον site, επικολλήστε τα παρακάτω και πατήστε «Εφαρμογή»!
+					<p class="sync-card-desc" style="font-size: 13px; color: #cbbdae; line-height: 1.5; margin: 0 0 12px 0;">
+						Αντιγράψτε όλα τα δεδομένα για φύλαξη ή επικολλήστε δεδομένα που έχετε αντιγράψει από άλλον υπολογιστή.
 					</p>
 
 					<div style="display: flex; flex-direction: column; gap: 10px;">
-						<button id="btn-copy-raw-data" type="button" style="width: 100%; height: 42px; border-radius: 10px; border:none; background: var(--accent-gradient); color:#fff; font-size: 13px; font-weight: 800; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px var(--accent-glow);">
-							<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-							<span>📋 Αντιγραφή Όλων των Δεδομένων (Copy Data)</span>
+						<button id="btn-copy-raw-data" type="button" style="width: 100%; height: 38px; border-radius: 8px; border:none; background: #17a2b9; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+							<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+							<span>📋 Αντιγραφή Όλων των Δεδομένων (Copy)</span>
 						</button>
 
-						<div style="background: rgba(0,0,0,0.3); border: 1px solid var(--card-border); border-radius: 12px; padding: 12px;">
-							<label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
-								📥 Επικόλληση Δεδομένων για προσαρμογή στο υπάρχον Site:
+						<div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,248,220,0.12); border-radius: 10px; padding: 10px;">
+							<label style="display: block; font-size: 12px; font-weight: 700; color: #fff8dc; margin-bottom: 6px;">
+								📥 Επικόλληση Δεδομένων για άμεση ενημέρωση:
 							</label>
 							<div style="display: flex; gap: 8px;">
-								<input type="text" id="input-paste-data" placeholder="Κάντε επικόλληση (Paste) εδώ τα δεδομένα..." style="flex:1; background: rgba(0,0,0,0.5); border: 1px solid var(--card-border); border-radius: 8px; color:#fff; padding: 10px 12px; font-size: 12px; font-family: monospace; outline:none;">
-								<button id="btn-apply-pasted-data" type="button" style="padding: 0 18px; height: 38px; border-radius: 8px; border:none; background: #10b981; color:#fff; font-size: 13px; font-weight: 800; cursor:pointer; white-space: nowrap; box-shadow: 0 2px 8px rgba(16,185,129,0.3);">
+								<input type="text" id="input-paste-data" placeholder="Επικολλήστε εδώ τα δεδομένα..." style="flex:1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,248,220,0.12); border-radius: 6px; color:#fff; padding: 8px 10px; font-size: 12px; font-family: monospace; outline:none;">
+								<button id="btn-apply-pasted-data" type="button" style="padding: 0 16px; height: 34px; border-radius: 6px; border:none; background: #29a744; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; white-space: nowrap;">
 									Εφαρμογή
 								</button>
 							</div>
@@ -3394,120 +3442,11 @@ body.show-modal .modal-backdrop {
 					</div>
 				</div>
 
-				<!-- CARD 2: FILE STORAGE IN PROJECT FOLDER (DATA.JS & STANDALONE HTML) -->
-				<div class="sync-card" style="padding: 20px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px;">
-					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
-							<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#10b981" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">2. Αποθήκευση στον Φάκελο του Project (για USB / Νέο PC)</h3>
-						</div>
-						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">ΑΠΟΘΗΚΕΥΣΗ ΣΤΟΝ ΦΑΚΕΛΟ</span>
-					</div>
-					<p class="sync-card-desc" style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
-						Πατήστε <b>«Λήψη αρχείου data.js»</b> και αντικαταστήστε το αρχείο <code>data.js</code> στον φάκελό σας. Έτσι, όταν παίρνετε όλο τον φάκελο σε στικάκι USB, ανοίγει σε οποιοδήποτε νέο PC με τα δικά σας ονόματα και κάρτες!
-					</p>
-
-					<div style="display: flex; flex-wrap: wrap; gap: 10px;">
-						<button id="btn-export-data-js" type="button" style="flex: 1.4; min-width: 200px; height: 42px; border-radius: 10px; border:none; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; font-size: 13px; font-weight: 800; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);">
-							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-							<span>💾 Λήψη αρχείου data.js</span>
-						</button>
-						<button id="btn-reload-data-js" type="button" style="flex: 1; min-width: 170px; height: 42px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-							<span>🔄 Επαναφόρτωση από data.js</span>
-						</button>
-						<button id="btn-download-app-html" type="button" style="flex: 1; min-width: 170px; height: 42px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>Λήψη Αυτόνομου HTML (.html)</span>
-						</button>
-					</div>
-				</div>
-
-				<!-- CARD 3: 0 FILES - INSTANT SHARING (AIRDROP, EMAIL, WHATSAPP, QR, LINK) -->
-				<div class="sync-card" style="padding: 20px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px;">
-					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
-							<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#6366f1" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.71 1.26-1.5 1.5-2.5L4.5 16.5z"/><path d="M12 15l-3-3 7.5-7.5c1.38-1.38 3.62-1.38 5 0 1.38 1.38 1.38 3.62 0 5L14 17l-2-2z"/></svg>
-							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">3. Στείλτε σε Άλλον (Χωρίς Αρχεία • Link / QR)</h3>
-						</div>
-						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(99, 102, 241, 0.15); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3);">ΑΜΕΣΟ & ONLINE</span>
-					</div>
-					<p class="sync-card-desc" style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
-						Ο παραλήπτης κάνει απλά <b>κλικ στον σύνδεσμο</b> και ανοίγει αμέσως στον browser του (PC, κινητό ή τάμπλετ) με όλους τους παίκτες και τα σκορ έτοιμα!
-					</p>
-
-					<!-- Action Buttons Row -->
-					<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 12px;">
-						<button class="btn-copy-sync" type="button" style="height: 40px; border-radius: 10px; border:none; background: var(--accent-gradient); color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 12px var(--accent-glow);">
-							<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-							<span>Αντιγραφή Link</span>
-						</button>
-						<button id="btn-native-share" type="button" style="height: 40px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>AirDrop / Κοινοποίηση</span>
-						</button>
-						<button id="btn-share-email" type="button" style="height: 40px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>Email</span>
-						</button>
-						<button id="btn-share-whatsapp" type="button" style="height: 40px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>WhatsApp</span>
-						</button>
-						<button id="btn-toggle-qr" type="button" style="height: 40px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text-primary); font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>QR Code</span>
-						</button>
-					</div>
-
-					<!-- QR Code Dropdown Card -->
-					<div id="qr-container-card" style="display:none; text-align: center; background: rgba(0,0,0,0.45); border: 1px solid var(--card-border); border-radius: 14px; padding: 16px; margin-bottom: 12px;">
-						<p style="font-size: 13px; color: var(--text-primary); font-weight: 700; margin-bottom: 10px;">Σκανάρετε με την κάμερα του κινητού ή του τάμπλετ:</p>
-						<div id="qr-code-image-wrap" style="display: inline-block; background: #fff; padding: 12px; border-radius: 14px; box-shadow: 0 8px 25px rgba(0,0,0,0.5);">
-							<img id="qr-code-img" src="" alt="QR Code" style="width: 170px; height: 170px; display: block;">
-						</div>
-						<p style="font-size: 11px; color: var(--text-secondary); margin-top: 8px;">Ανοίγει άμεσα τη σελίδα με όλα τα σκορ στον browser του κινητού!</p>
-					</div>
-
-					<div class="sync-url-preview-wrapper" style="margin-top: 6px;">
-						<input type="text" id="tarea-link" readonly spellcheck="false" title="Κάντε κλικ για αντιγραφή" style="background: rgba(0,0,0,0.5); font-size: 12px; font-family: monospace; color: var(--text-secondary); padding: 10px 14px; width: 100%; border: 1px solid var(--card-border); border-radius: 10px;">
-					</div>
-				</div>
-
-				<!-- CARD 4: DISPLAY MODE PREFERENCE (LEADERBOARD ONLY / CARDS ONLY / BOTH) -->
-				<div class="sync-card" style="padding: 20px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px;">
-					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
-							<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#38bdf8" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-							<h3 style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin:0;">4. Επιλογή Εμφάνισης (Display Mode)</h3>
-						</div>
-						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);">ΑΠΟΘΗΚΕΥΕΤΑΙ</span>
-					</div>
-						<span style="font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);">ΑΠΟΘΗΚΕΥΕΤΑΙ</span>
-					</div>
-					<p class="sync-card-desc" style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px;">
-						Επιλέξτε αν θέλετε να προβάλλεται <b>Μόνο Leaderboard</b>, <b>Μόνο Mystery Cards</b> ή <b>Και τα δύο</b>:
-					</p>
-
-					<div class="viewmode-selector" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
-						<button type="button" class="viewmode-btn active" data-viewmode="all" style="padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.04); color: var(--text-secondary); cursor: pointer; text-align: center; transition: all 0.2s;">
-							<div style="font-size: 14px; margin-bottom: 4px; font-weight: bold;">ALL</div>
-							<div style="font-size: 13px; font-weight: 800; color: var(--text-primary);">Και τα δύο</div>
-							<div style="font-size: 11px; color: var(--text-secondary);">Εναλλαγή με καρτέλες</div>
-						</button>
-						<button type="button" class="viewmode-btn" data-viewmode="leaderboard_only" style="padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.04); color: var(--text-secondary); cursor: pointer; text-align: center; transition: all 0.2s;">
-							<div style="font-size: 14px; margin-bottom: 4px; font-weight: bold;">LB</div>
-							<div style="font-size: 13px; font-weight: 800; color: var(--text-primary);">Μόνο Leaderboard</div>
-							<div style="font-size: 11px; color: var(--text-secondary);">Πίνακας κατάταξης</div>
-						</button>
-						<button type="button" class="viewmode-btn" data-viewmode="cards_only" style="padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.04); color: var(--text-secondary); cursor: pointer; text-align: center; transition: all 0.2s;">
-							<div style="font-size: 14px; margin-bottom: 4px; font-weight: bold;">CARD</div>
-							<div style="font-size: 13px; font-weight: 800; color: var(--text-primary);">Μόνο Mystery Cards</div>
-							<div style="font-size: 11px; color: var(--text-secondary);">Κάρτες μυστηρίου</div>
-						</button>
-					</div>
-				</div>
-
 			</div>
 
-			<div class="sync-footer-actions" style="display: flex; align-items: center; justify-content: space-between; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--card-border);">
-				<button class="btn-reset-data" type="button" style="background: transparent; border:none; color: #ef4444; font-size: 13px; font-weight: 700; cursor: pointer;">Επαναφορά Προεπιλογών</button>
-				<button class="modal-actions-btn close" type="button" style="padding: 10px 24px; border-radius: 10px; background: rgba(255,255,255,0.12); border:none; color:#fff; font-weight:700; cursor:pointer;">ΚΛΕΙΣΙΜΟ</button>
+			<div class="sync-footer-actions" style="display: flex; align-items: center; justify-content: space-between; margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255,248,220,0.12);">
+				<button class="btn-reset-data" type="button" style="background: transparent; border:none; color: #dc3546; font-size: 13px; font-weight: 700; cursor: pointer;">Επαναφορά Προεπιλογών</button>
+				<button class="modal-actions-btn close" type="button" style="padding: 9px 22px; border-radius: 8px; background: rgba(255,255,255,0.12); border:none; color:#fff; font-weight:700; cursor:pointer;">ΚΛΕΙΣΙΜΟ</button>
 			</div>
 		</div>
 	</div>
@@ -3515,41 +3454,48 @@ body.show-modal .modal-backdrop {
 	<!-- Migration from Old System Modal -->
 	<div class="popup-modal migrate-modal" id="migrate-modal">
 		<div class="modal-box migrate-box" style="max-width: 620px; max-height: 90vh; overflow-y: auto; text-align: left; padding: 26px 28px;">
-			<div class="sync-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 16px; margin-bottom: 18px;">
+			<div class="sync-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,248,220,0.12); padding-bottom: 16px; margin-bottom: 18px;">
 				<div style="display: flex; align-items: center; gap: 14px;">
-					<div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(139, 92, 246, 0.2); color: #c084fc; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;">
-						🚀
+					<div style="width: 46px; height: 46px; border-radius: 12px; background: #2d3e50; color: #fff8dc; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid rgba(255,248,220,0.15);">
+						<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
 					</div>
 					<div>
-						<h2 style="font-size: 20px; font-weight: 800; margin: 0 0 3px 0; color: var(--text-primary); text-align: left;">Μετάβαση από το Παλιό Σύστημα</h2>
-						<p style="font-size: 13px; color: var(--text-secondary); margin: 0;">Μεταφέρετε εύκολα παίκτες, σκορ &amp; κάρτες από παλιά αρχεία ή links</p>
+						<h2 style="font-size: 20px; font-weight: 800; margin: 0 0 3px 0; color: #fff8dc;">Μετάβαση από το Παλιό Σύστημα</h2>
+						<p style="font-size: 13px; color: #cbbdae; margin: 0;">Ενιαία εισαγωγή παικτών, σκορ &amp; καρτών από παλιό αρχείο, link ή browser</p>
 					</div>
 				</div>
-				<button class="modal-actions-btn close-migrate" type="button" style="background: rgba(255,255,255,0.08); border:none; color: var(--text-secondary); border-radius: 10px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px;">&times;</button>
+				<button class="modal-actions-btn close-migrate" type="button" style="background: rgba(255,255,255,0.08); border:none; color: #fff8dc; border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px;" title="Κλείσιμο">&times;</button>
 			</div>
 
-			<!-- Migration Navigation Tabs -->
-			<div class="modal-tab-header" style="margin-bottom: 16px;">
-				<button type="button" class="modal-tab-btn active" data-migratetab="file">📁 Επιλογή Παλιού Αρχείου</button>
-				<button type="button" class="modal-tab-btn" data-migratetab="link">🔗 Σύνδεσμος ή Κείμενο</button>
-				<button type="button" class="modal-tab-btn" data-migratetab="browser">⚡ Ανάκτηση Browser</button>
+			<!-- AUTO-DETECTED BROWSER DATA BANNER (Appears if old data is found in browser localStorage) -->
+			<div id="migrate-browser-notice" style="display:none; margin-bottom: 16px; padding: 14px 16px; background: rgba(41,167,68,0.15); border: 1px solid rgba(41,167,68,0.35); border-radius: 12px; align-items: center; justify-content: space-between; gap: 12px;">
+				<div style="display: flex; align-items: center; gap: 10px;">
+					<span style="font-size: 20px;">💡</span>
+					<div>
+						<div id="migrate-browser-text" style="font-size: 13px; font-weight: 700; color: #fff8dc;">Βρέθηκαν παλιά δεδομένα στον περιηγητή σας!</div>
+						<div id="browser-scan-status" style="font-size: 11px; color: #cbbdae;">Μπορείτε να τα ανακτήσετε άμεσα με 1 κλικ χωρίς αρχεία.</div>
+					</div>
+				</div>
+				<button type="button" id="btn-scan-browser-data" style="padding: 8px 16px; border-radius: 8px; border:none; background: #29a744; color:#fff; font-size: 12px; font-weight: 700; cursor:pointer; white-space: nowrap; flex-shrink: 0;">
+					⚡ Άμεση Ανάκτηση
+				</button>
 			</div>
 
-			<!-- TAB 1: FILE DROP & SELECT -->
-			<div class="migrate-tab-pane active" id="pane-migrate-file">
+			<!-- UNIFIED FILE DROPZONE & SELECTOR -->
+			<div style="margin-bottom: 16px;">
 				<label class="migrate-dropzone" id="migrate-dropzone" for="migrate-file-input">
 					<input type="file" id="migrate-file-input" accept=".html,.htm,.json,.txt,.csv" title="Κάντε κλικ ή σύρετε αρχείο">
 					<div class="dropzone-content">
-						<div style="font-size: 38px; margin-bottom: 8px;" id="dropzone-icon">📂</div>
-						<p style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin-bottom: 6px;" id="dropzone-text-main">
-							Σύρετε εδώ το παλιό αρχείο ή <span style="color: #c084fc; text-decoration: underline;">κάντε κλικ για επιλογή</span>
+						<div style="font-size: 34px; margin-bottom: 6px;" id="dropzone-icon">📂</div>
+						<p style="font-size: 14px; font-weight: 700; color: #fff8dc; margin-bottom: 4px;" id="dropzone-text-main">
+							Σύρετε εδώ το παλιό αρχείο ή <span style="color: #17a2b9; text-decoration: underline;">κάντε κλικ για επιλογή</span>
 						</p>
-						<p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 6px 0;">
-							Υποστηρίζονται: παλιά <b>leaderboard.html</b>, <b>leaderboard-cards.html</b>, αντίγραφα <b>.json</b> ή <b>.txt / .csv</b>
+						<p style="font-size: 12px; color: #cbbdae; margin: 0 0 4px 0;">
+							Υποστηρίζονται παλιά <b>leaderboard.html</b>, <b>leaderboard-cards.html</b>, <b>data.js</b>, αρχεία <b>.json</b> ή <b>.csv / .txt</b>
 						</p>
 						<div>
 							<button type="button" class="btn-dropzone-browse" id="btn-browse-file-action">
-								<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+								<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
 								<span>Επιλογή Αρχείου από τον Υπολογιστή</span>
 							</button>
 						</div>
@@ -3557,55 +3503,42 @@ body.show-modal .modal-backdrop {
 				</label>
 			</div>
 
-			<!-- TAB 2: LINK OR RAW TEXT PASTE -->
-			<div class="migrate-tab-pane" id="pane-migrate-link">
-				<p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px;">
-					Επικολλήστε παρακάτω ένα παλιό σύνδεσμο (π.χ. <code>...leaderboard.html?q=...</code>), κείμενο εξαγωγής ή λίστα:
-				</p>
-				<textarea id="migrate-paste-input" rows="4" placeholder="Επικολλήστε εδώ το link ή το κείμενο από το παλιό σύστημα..." style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.45); border: 1px solid var(--card-border); border-radius: 10px; color:#fff; padding: 10px 12px; font-size: 12px; font-family: monospace; outline:none; resize: vertical; margin-bottom: 10px;"></textarea>
-				<button type="button" id="btn-test-migrate-paste" style="width: 100%; height: 38px; border-radius: 10px; border:none; background: #6366f1; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer;">
+			<!-- DIRECT PASTE / LINK SECTION -->
+			<div class="migrate-section active" id="pane-migrate-link" style="background: #2d3e50; border: 1px solid rgba(255,248,220,0.12); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;">
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+					<label for="migrate-paste-input" style="font-size: 13px; font-weight: 700; color: #fff8dc; display: flex; align-items: center; gap: 6px;">
+						<span>🔗</span> Ή επικολλήστε παλιό σύνδεσμο (?q=), κείμενο εξαγωγής ή JSON:
+					</label>
+				</div>
+				<textarea id="migrate-paste-input" rows="3" placeholder="Επικολλήστε εδώ το link ή το κείμενο από το παλιό σύστημα..." style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,248,220,0.15); border-radius: 8px; color:#fff; padding: 8px 10px; font-size: 12px; font-family: monospace; outline:none; resize: vertical; margin-bottom: 8px;"></textarea>
+				<button type="button" id="btn-test-migrate-paste" style="width: 100%; height: 36px; border-radius: 8px; border:none; background: #17a2b9; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer;">
 					🔍 Έλεγχος &amp; Ανάγνωση Δεδομένων
 				</button>
 			</div>
 
-			<!-- TAB 3: BROWSER STORAGE SCANNER -->
-			<div class="migrate-tab-pane" id="pane-migrate-browser">
-				<p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
-					Αν χρησιμοποιούσατε προηγουμένως το σύστημα σε αυτόν τον περιηγητή (browser), τα δεδομένα σας βρίσκονται αποθηκευμένα στην τοπική μνήμη.
-				</p>
-				<div style="background: rgba(0,0,0,0.35); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; margin-bottom: 14px;">
-					<div id="browser-scan-status" style="font-size: 13px; color: var(--text-secondary);">
-						Πατήστε το κουμπί για να γίνει σάρωση της μνήμης του browser...
-					</div>
-				</div>
-				<button type="button" id="btn-scan-browser-data" style="width: 100%; height: 40px; border-radius: 10px; border:none; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; font-size: 13px; font-weight: 800; cursor:pointer;">
-					⚡ Σάρωση &amp; Εύρεση Δεδομένων Browser
-				</button>
-			</div>
-
 			<!-- DYNAMIC PREVIEW & CONFIRMATION BOX -->
-			<div id="migrate-preview-wrap" style="display:none; margin-top: 16px; background: rgba(16, 185, 129, 0.1); border: 1.5px solid #10b981; border-radius: 14px; padding: 16px;">
+			<div id="migrate-preview-wrap" style="display:none; margin-bottom: 16px; background: rgba(41,167,68,0.12); border: 1.5px solid #29a744; border-radius: 12px; padding: 14px 16px;">
 				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
 					<div style="display: flex; align-items: center; gap: 8px;">
 						<span style="font-size: 18px;">✅</span>
-						<h4 style="font-size: 15px; font-weight: 800; color: #34d399; margin: 0;">Δεδομένα Έτοιμα για Μεταφορά!</h4>
+						<h4 style="font-size: 14px; font-weight: 800; color: #29a744; margin: 0;">Δεδομένα Έτοιμα για Μεταφορά!</h4>
 					</div>
-					<span id="migrate-source-tag" style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(255,255,255,0.1); color: var(--text-secondary);">Πηγή</span>
+					<span id="migrate-source-tag" style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(255,255,255,0.1); color: #fff8dc;">Πηγή</span>
 				</div>
 				<div id="migrate-preview-stats" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
 					<!-- Populated by JS -->
 				</div>
-				<label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-primary); cursor: pointer; margin-bottom: 14px;">
+				<label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #fff8dc; cursor: pointer; margin-bottom: 12px;">
 					<input type="checkbox" id="chk-migrate-replace" checked>
 					<span>Αντικατάσταση των υπαρχόντων παικτών &amp; καρτών (προτείνεται)</span>
 				</label>
-				<button type="button" id="btn-apply-migration-now" style="width: 100%; height: 44px; border-radius: 10px; border:none; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff; font-size: 14px; font-weight: 800; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);">
-					<span>🚀 Εφαρμογή &amp; Ολοκλήρωση Μεταφοράς στο Νέο Σύστημα</span>
+				<button type="button" id="btn-apply-migration-now" style="width: 100%; height: 42px; border-radius: 8px; border:none; background: #29a744; color:#fff; font-size: 14px; font-weight: 800; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+					<span>🚀 Εφαρμογή &amp; Ολοκλήρωση Μετάβασης</span>
 				</button>
 			</div>
 
-			<div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--card-border);">
-				<button class="modal-actions-btn close-migrate" type="button" style="padding: 10px 22px; border-radius: 10px; background: rgba(255,255,255,0.12); border:none; color:#fff; font-weight:700; cursor:pointer;">ΚΛΕΙΣΙΜΟ</button>
+			<div style="display: flex; align-items: center; justify-content: flex-end; padding-top: 12px; border-top: 1px solid rgba(255,248,220,0.12);">
+				<button class="modal-actions-btn close-migrate" type="button" style="padding: 9px 22px; border-radius: 8px; background: rgba(255,255,255,0.12); border:none; color:#fff; font-weight:700; cursor:pointer;">ΚΛΕΙΣΙΜΟ</button>
 			</div>
 		</div>
 	</div>
@@ -6239,14 +6172,14 @@ function init_event_listeners() {
 		$("body").removeClass("show-link");
 		open_migrate_modal();
 	});
-	$("#btn-quick-browser-migrate").on("click", quick_browser_migrate);
+	$("#btn-quick-browser-migrate, #btn-scan-browser-data").on("click", quick_browser_migrate);
 	$(".close-migrate").on("click", close_migrate_modal);
 
 	$(document).on("click", ".migrate-modal .modal-tab-btn", function() {
 		var targetTab = $(this).attr("data-migratetab");
 		$(".migrate-modal .modal-tab-btn").removeClass("active");
 		$(this).addClass("active");
-		$(".migrate-tab-pane").removeClass("active");
+		$(".migrate-tab-pane, .migrate-section").removeClass("active");
 		$("#pane-migrate-" + targetTab).addClass("active");
 	});
 
@@ -6276,21 +6209,21 @@ function init_event_listeners() {
 		e.preventDefault();
 		e.stopPropagation();
 		$dropzone.addClass("dragover");
-		$("#dropzone-text-main").html('<span style="color:#38bdf8;">📥 Αφήστε το αρχείο εδώ για αυτόματη ανάγνωση!</span>');
+		$("#dropzone-text-main").html('<span style="color:#17a2b9;">📥 Αφήστε το αρχείο εδώ για αυτόματη ανάγνωση!</span>');
 	});
 
 	$dropzone.add($fileInput).on("dragleave", function(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		$dropzone.removeClass("dragover");
-		$("#dropzone-text-main").html('Σύρετε εδώ το παλιό αρχείο ή <span style="color: #c084fc; text-decoration: underline;">κάντε κλικ για επιλογή</span>');
+		$("#dropzone-text-main").html('Σύρετε εδώ το παλιό αρχείο ή <span style="color: #17a2b9; text-decoration: underline;">κάντε κλικ για επιλογή</span>');
 	});
 
 	$dropzone.add($fileInput).on("drop", function(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		$dropzone.removeClass("dragover");
-		$("#dropzone-text-main").html('Σύρετε εδώ το παλιό αρχείο ή <span style="color: #c084fc; text-decoration: underline;">κάντε κλικ για επιλογή</span>');
+		$("#dropzone-text-main").html('Σύρετε εδώ το παλιό αρχείο ή <span style="color: #17a2b9; text-decoration: underline;">κάντε κλικ για επιλογή</span>');
 		var dt = e.originalEvent && e.originalEvent.dataTransfer ? e.originalEvent.dataTransfer : null;
 		var files = dt ? dt.files : null;
 		if (files && files.length > 0) {
@@ -6329,29 +6262,10 @@ function init_event_listeners() {
 		}
 	});
 
-	$("#btn-scan-browser-data").on("click", function() {
-		var scan = scan_browser_legacy_data();
-		if (!scan.hasData) {
-			$("#browser-scan-status").html('<span style="color:#ef4444;">❌ Δεν βρέθηκαν παλιά δεδομένα σε αυτόν τον περιηγητή.</span>');
-			return;
-		}
-		var statusMsg = '<span style="color:#34d399;">✅ <b>Εντοπίστηκαν δεδομένα:</b> ';
-		if (scan.lb.length > 0) statusMsg += scan.lb.length + ' παίκτες ';
-		if (scan.cards.length > 0) statusMsg += (scan.lb.length > 0 ? 'και ' : '') + scan.cards.length + ' κάρτες';
-		statusMsg += '</span>';
-		$("#browser-scan-status").html(statusMsg);
-		show_migration_preview({
-			success: true,
-			leaderboard: scan.lb,
-			cards: scan.cards,
-			detectedType: "Τοπική Μνήμη Browser (localStorage)"
-		});
-	});
-
 	$("#btn-apply-migration-now").on("click", execute_migration);
 
-	// Display mode modal triggers
-	$("#tool-btn-viewmode, #btn-header-viewmode, .single-mode-badge .sm-change-btn").on("click", function(e) {
+	// Display mode modal triggers (Single entry point: #tool-btn-viewmode)
+	$("#tool-btn-viewmode, .single-mode-badge .sm-change-btn").on("click", function(e) {
 		e.preventDefault();
 		open_viewmode_modal();
 	});
@@ -6460,8 +6374,6 @@ function open_sync_hub() {
 	$("body").addClass("show-link");
 	var link = generate_sync_link();
 	$("#tarea-link").val(link);
-	$(".viewmode-btn").removeClass("active");
-	$('.viewmode-btn[data-viewmode="' + current_display_mode + '"]').addClass("active");
 }
 
 function generate_sync_link() {
@@ -6891,6 +6803,20 @@ var pending_migration_data = null;
 function open_migrate_modal() {
 	$("body").removeClass("show-add-person show-add-card show-link show-edit show-viewmode").addClass("show-migrate");
 	reset_migrate_modal_state();
+	check_and_show_browser_data_banner();
+}
+
+function check_and_show_browser_data_banner() {
+	var scan = scan_browser_legacy_data();
+	if (scan && scan.hasData) {
+		var parts = [];
+		if (scan.lb.length > 0) parts.push(scan.lb.length + " παίκτες");
+		if (scan.cards.length > 0) parts.push(scan.cards.length + " κάρτες");
+		$("#migrate-browser-text").html('Βρέθηκαν παλιά δεδομένα στον περιηγητή: <b>' + parts.join(" & ") + '</b>');
+		$("#migrate-browser-notice").css("display", "flex");
+	} else {
+		$("#migrate-browser-notice").hide();
+	}
 }
 
 function close_migrate_modal() {
@@ -6905,8 +6831,7 @@ function reset_migrate_modal_state() {
 	$("#migrate-file-input").val("");
 	last_handled_file_stamp = 0;
 	$("#migrate-dropzone").removeClass("dragover");
-	$("#browser-scan-status").html("Πατήστε το κουμπί για να γίνει σάρωση της μνήμης του browser...");
-	$('.migrate-modal .modal-tab-btn[data-migratetab="file"]').trigger("click");
+	$("#browser-scan-status").html("Μπορείτε να τα ανακτήσετε άμεσα με 1 κλικ χωρίς αρχεία.");
 }
 
 var last_handled_file_stamp = 0;
@@ -7169,12 +7094,12 @@ function show_migration_preview(data) {
 
 	var statsHtml = "";
 	if (data.leaderboard.length > 0) {
-		statsHtml += '<div class="migrate-pill" style="border: 1px solid rgba(59, 130, 246, 0.4); background: rgba(59, 130, 246, 0.15); color: #60a5fa;">' +
+		statsHtml += '<div class="migrate-pill" style="border: 1px solid rgba(23, 162, 185, 0.4); background: rgba(23, 162, 185, 0.15); color: #17a2b9;">' +
 			'👥 ' + data.leaderboard.length + ' Παίκτες' +
 		'</div>';
 	}
 	if (data.cards.length > 0) {
-		statsHtml += '<div class="migrate-pill" style="border: 1px solid rgba(168, 85, 247, 0.4); background: rgba(168, 85, 247, 0.15); color: #c084fc;">' +
+		statsHtml += '<div class="migrate-pill" style="border: 1px solid rgba(41, 167, 68, 0.4); background: rgba(41, 167, 68, 0.15); color: #29a744;">' +
 			'🎴 ' + data.cards.length + ' Κάρτες' +
 		'</div>';
 	}
@@ -7250,8 +7175,7 @@ function quick_browser_migrate() {
 		return;
 	}
 	open_migrate_modal();
-	$('.migrate-modal .modal-tab-btn[data-migratetab="browser"]').trigger("click");
-	var statusMsg = '<span style="color:#34d399;">✅ <b>Εντοπίστηκαν στον Browser:</b> ';
+	var statusMsg = '<span style="color:#29a744;">✅ <b>Εντοπίστηκαν στον Browser:</b> ';
 	if (scan.lb.length > 0) statusMsg += scan.lb.length + " παίκτες ";
 	if (scan.cards.length > 0) statusMsg += (scan.lb.length > 0 ? "και " : "") + scan.cards.length + " κάρτες";
 	statusMsg += '</span>';
