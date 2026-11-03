@@ -1526,17 +1526,9 @@ body.show-modal .modal-backdrop {
 	box-shadow: 0 6px 20px rgba(41, 167, 68, 0.3) !important;
 }
 .migrate-dropzone input[type="file"] {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	opacity: 0;
-	cursor: pointer;
-	z-index: 10;
+	display: none !important;
 }
 .migrate-dropzone .dropzone-content {
-	pointer-events: none;
 	position: relative;
 	z-index: 1;
 }
@@ -2423,11 +2415,25 @@ body.show-modal .modal-backdrop {
 
 /* Sync & Backup Hub Modal Adjustments */
 .sync-modal .modal-box {
-	max-width: 680px;
+	max-width: 720px;
 }
 .sync-card {
 	border: none !important;
 	border-radius: 12px !important;
+}
+#sync-file-dropzone:hover {
+	border-color: #17a2b9 !important;
+	background: rgba(23, 162, 185, 0.1) !important;
+}
+#sync-file-dropzone.dragover {
+	border-color: #29a744 !important;
+	background: rgba(41, 167, 68, 0.2) !important;
+	transform: scale(1.02);
+}
+.sync-two-col {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: 12px;
 }
 
 /* Toast Notifications */
@@ -3318,15 +3324,15 @@ body.show-modal .modal-backdrop {
 
 	<!-- Sync & Backup Hub Modal (Transfer & Share) -->
 	<div class="popup-modal link-popup sync-modal">
-		<div class="modal-box sync-box" style="max-width: 660px; max-height: 90vh; overflow-y: auto; text-align: left; padding: 26px 28px;">
+		<div class="modal-box sync-box" style="max-width: 720px; max-height: 90vh; overflow-y: auto; text-align: left; padding: 24px 26px;">
 			<div class="sync-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,248,220,0.12); padding-bottom: 16px; margin-bottom: 18px;">
 				<div style="display: flex; align-items: center; gap: 14px;">
 					<div class="sync-icon-badge" style="width: 46px; height: 46px; border-radius: 12px; background: #2d3e50; color: #fff8dc; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid rgba(255,248,220,0.15);">
 						<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
 					</div>
 					<div>
-						<h2 style="font-size: 20px; font-weight: 800; margin: 0 0 3px 0; color: #fff8dc;">Μεταφορά &amp; Κοινοποίηση</h2>
-						<p class="sync-subtitle" style="font-size: 13px; color: #cbbdae; margin: 0;">Μοιραστείτε το Leaderboard με συναδέλφους ή μεταφέρετέ το σε άλλο υπολογιστή</p>
+						<h2 style="font-size: 20px; font-weight: 800; margin: 0 0 3px 0; color: #fff8dc;">Μεταφορά σε άλλο Υπολογιστή</h2>
+						<p class="sync-subtitle" style="font-size: 13px; color: #cbbdae; margin: 0;">Μεταφέρετε εύκολα όλα τα δεδομένα (βαθμολογίες &amp; κάρτες) ασύρματα ή με USB</p>
 					</div>
 				</div>
 				<button class="modal-actions-btn close" type="button" style="background: rgba(255,255,255,0.08); border:none; color: #fff8dc; border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px;" title="Κλείσιμο">&times;</button>
@@ -3334,78 +3340,183 @@ body.show-modal .modal-backdrop {
 
 			<div class="sync-options-grid" style="display: flex; flex-direction: column; gap: 16px;">
 
-				<!-- CARD 1: INSTANT SHARING (LINK / AIRDROP / EMAIL / WHATSAPP / QR) -->
+				<!-- CARD 1: WIRELESS PIN SYNC & INSTANT SHARING -->
 				<div class="sync-card" style="padding: 18px; background: #2d3e50; border: 1px solid rgba(255,248,220,0.12); border-radius: 14px;">
 					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
 						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
-							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#17a2b9" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.71 1.26-1.5 1.5-2.5L4.5 16.5z"/><path d="M12 15l-3-3 7.5-7.5c1.38-1.38 3.62-1.38 5 0 1.38 1.38 1.38 3.62 0 5L14 17l-2-2z"/></svg>
-							<h3 style="font-size: 15px; font-weight: 700; color: #fff8dc; margin:0;">1. Άμεση Κοινοποίηση (Σύνδεσμος / QR Code / AirDrop)</h3>
+							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#17a2b9" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+							<h3 style="font-size: 15px; font-weight: 700; color: #fff8dc; margin:0;">1. Ασύρματη Μεταφορά (Online με 6-ψήφιο Κωδικό)</h3>
 						</div>
-						<span style="font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: rgba(23, 162, 185, 0.15); color: #17a2b9; border: 1px solid rgba(23, 162, 185, 0.3);">ΧΩΡΙΣ ΑΡΧΕΙΑ</span>
+						<span style="font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: rgba(23, 162, 185, 0.15); color: #17a2b9; border: 1px solid rgba(23, 162, 185, 0.3);">ΤΑΧΥΤΑΤΟ • ΧΩΡΙΣ ΑΡΧΕΙΑ</span>
 					</div>
 					<p class="sync-card-desc" style="font-size: 13px; color: #cbbdae; line-height: 1.5; margin: 0 0 12px 0;">
-						Ο παραλήπτης ανοίγει απλά τον σύνδεσμο στον περιηγητή του (σε υπολογιστή, tablet ή κινητό) με όλα τα σκορ και τις κάρτες έτοιμα.
+						Ο πιο απλός τρόπος! Πατήστε <strong>«Δημιουργία Κωδικού»</strong> στο 1ο PC και πληκτρολογήστε τον στο 2ο PC για άμεσο συγχρονισμό.
 					</p>
 
-					<!-- Action Buttons Row -->
-					<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 10px;">
-						<button class="btn-copy-sync" type="button" style="height: 38px; border-radius: 8px; border:none; background: #17a2b9; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+					<!-- Two-Column Interactive PIN Transfer Grid -->
+					<div class="sync-two-col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 12px;">
+						<!-- SENDER BOX (PC 1) -->
+						<div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,248,220,0.1); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;">
+							<div>
+								<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+									<span style="font-size: 14px;">📤</span>
+									<span style="font-size: 13px; font-weight: 700; color: #fff8dc;">Αποστολή (από αυτό το PC)</span>
+								</div>
+								<p style="font-size: 12px; color: #cbbdae; margin: 0 0 10px 0;">Δημιουργήστε έναν μοναδικό κωδικό για να στείλετε τους παίκτες και τις κάρτες.</p>
+							</div>
+
+							<div>
+								<button id="btn-generate-sync-pin" type="button" style="width: 100%; height: 38px; border-radius: 8px; border:none; background: #17a2b9; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 8px rgba(23,162,185,0.3);">
+									<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+									<span>✨ Δημιουργία Κωδικού</span>
+								</button>
+
+								<!-- PIN Result Display -->
+								<div id="sync-pin-display-box" style="display: none; margin-top: 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(23,162,185,0.4); border-radius: 8px; padding: 10px; text-align: center;">
+									<div style="font-size: 11px; color: #cbbdae; margin-bottom: 4px;">Κωδικός Μεταφοράς:</div>
+									<div id="sync-pin-value" style="font-size: 26px; font-weight: 800; letter-spacing: 5px; font-family: var(--font-mono); color: #fff8dc; user-select: all;">--- ---</div>
+									<div style="display: flex; gap: 6px; justify-content: center; margin-top: 8px;">
+										<button id="btn-copy-sync-pin" type="button" style="padding: 4px 10px; font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,248,220,0.2); color: #fff8dc; border-radius: 6px; cursor: pointer;">📋 Αντιγραφή</button>
+										<button id="btn-toggle-qr-pin" type="button" style="padding: 4px 10px; font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,248,220,0.2); color: #fff8dc; border-radius: 6px; cursor: pointer;">📱 QR Code</button>
+									</div>
+									<div id="sync-pin-status" style="font-size: 11px; color: #5ace72; margin-top: 6px;">🟢 Έτοιμο! Πληκτρολογήστε τον στο άλλο PC</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- RECEIVER BOX (PC 2) -->
+						<div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,248,220,0.1); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;">
+							<div>
+								<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+									<span style="font-size: 14px;">📥</span>
+									<span style="font-size: 13px; font-weight: 700; color: #fff8dc;">Λήψη (σε αυτό το PC)</span>
+								</div>
+								<p style="font-size: 12px; color: #cbbdae; margin: 0 0 10px 0;">Εισάγετε τον 6-ψήφιο κωδικό που βλέπετε στον άλλο υπολογιστή.</p>
+							</div>
+
+							<div>
+								<div style="display: flex; gap: 8px;">
+									<input type="text" id="input-receive-pin" placeholder="π.χ. 482 195" maxlength="7" style="flex: 1; height: 38px; text-align: center; font-size: 16px; font-weight: 700; letter-spacing: 2px; font-family: var(--font-mono); border-radius: 8px; border: 1px solid rgba(255,248,220,0.2); background: rgba(0,0,0,0.4); color: #fff; outline:none;">
+									<button id="btn-receive-sync-pin" type="button" style="padding: 0 14px; height: 38px; border-radius: 8px; border:none; background: #29a744; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap;">
+										<span>📥 Λήψη</span>
+									</button>
+								</div>
+
+								<!-- Receive Result / Preview Container -->
+								<div id="sync-receive-preview" style="display: none; margin-top: 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(41,167,68,0.5); border-radius: 8px; padding: 10px; text-align: center;">
+									<div id="sync-receive-summary" style="font-size: 12px; color: #fff8dc; font-weight: 700;"></div>
+									<button id="btn-apply-received-pin-data" type="button" style="margin-top: 8px; width: 100%; height: 32px; border-radius: 6px; border:none; background: #29a744; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer;">
+										✅ Εφαρμογή στον Πίνακα
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Secondary Quick Sharing Actions Row -->
+					<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; padding-top: 8px; border-top: 1px dashed rgba(255,248,220,0.1);">
+						<button class="btn-copy-sync" type="button" style="flex: 1; min-width: 120px; height: 32px; border-radius: 6px; border:none; background: rgba(23, 162, 185, 0.25); border: 1px solid rgba(23,162,185,0.4); color:#fff; font-size: 12px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+							<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
 							<span>Αντιγραφή Link</span>
 						</button>
-						<button id="btn-native-share" type="button" style="height: 38px; border-radius: 8px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>AirDrop / Share</span>
+						<button id="btn-native-share" type="button" style="height: 32px; padding: 0 10px; border-radius: 6px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 12px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+							<span>AirDrop</span>
 						</button>
-						<button id="btn-share-email" type="button" style="height: 38px; border-radius: 8px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>Email</span>
-						</button>
-						<button id="btn-share-whatsapp" type="button" style="height: 38px; border-radius: 8px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+						<button id="btn-share-whatsapp" type="button" style="height: 32px; padding: 0 10px; border-radius: 6px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 12px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
 							<span>WhatsApp</span>
 						</button>
-						<button id="btn-toggle-qr" type="button" style="height: 38px; border-radius: 8px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+						<button id="btn-share-email" type="button" style="height: 32px; padding: 0 10px; border-radius: 6px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 12px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+							<span>Email</span>
+						</button>
+						<button id="btn-toggle-qr" type="button" style="height: 32px; padding: 0 10px; border-radius: 6px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 12px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
 							<span>QR Code</span>
 						</button>
 					</div>
 
 					<!-- QR Code Dropdown Card -->
-					<div id="qr-container-card" style="display:none; text-align: center; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,248,220,0.12); border-radius: 10px; padding: 14px; margin-bottom: 10px;">
+					<div id="qr-container-card" style="display:none; text-align: center; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,248,220,0.12); border-radius: 10px; padding: 14px; margin-bottom: 8px;">
 						<p style="font-size: 13px; color: #fff8dc; font-weight: 700; margin: 0 0 8px 0;">Σκανάρετε με την κάμερα του κινητού ή του tablet:</p>
 						<div id="qr-code-image-wrap" style="display: inline-block; background: #fff; padding: 10px; border-radius: 10px;">
-							<img id="qr-code-img" src="" alt="QR Code" style="width: 160px; height: 160px; display: block;">
+							<img id="qr-code-img" src="" alt="QR Code" style="width: 150px; height: 150px; display: block;">
 						</div>
 						<p style="font-size: 11px; color: #cbbdae; margin: 8px 0 0 0;">Ανοίγει άμεσα τη σελίδα με όλα τα σκορ στον browser!</p>
 					</div>
 
 					<div class="sync-url-preview-wrapper">
-						<input type="text" id="tarea-link" readonly spellcheck="false" title="Κάντε κλικ για αντιγραφή" style="background: rgba(0,0,0,0.4); font-size: 12px; font-family: monospace; color: #cbbdae; padding: 9px 12px; width: 100%; box-sizing: border-box; border: 1px solid rgba(255,248,220,0.12); border-radius: 8px;">
+						<input type="text" id="tarea-link" readonly spellcheck="false" title="Κάντε κλικ για αντιγραφή" style="background: rgba(0,0,0,0.4); font-size: 11px; font-family: monospace; color: #cbbdae; padding: 7px 10px; width: 100%; box-sizing: border-box; border: 1px solid rgba(255,248,220,0.12); border-radius: 6px;">
 					</div>
 				</div>
 
-				<!-- CARD 2: FILE STORAGE IN PROJECT FOLDER (DATA.JS & STANDALONE HTML) -->
+				<!-- CARD 2: FILE / USB OFFLINE STORAGE (DRAG & DROP) -->
 				<div class="sync-card" style="padding: 18px; background: #2d3e50; border: 1px solid rgba(255,248,220,0.12); border-radius: 14px;">
 					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
 						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
 							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#29a744" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-							<h3 style="font-size: 15px; font-weight: 700; color: #fff8dc; margin:0;">2. Αποθήκευση στον Φάκελο του Έργου (USB Stick / Νέο PC)</h3>
+							<h3 style="font-size: 15px; font-weight: 700; color: #fff8dc; margin:0;">2. Μεταφορά με Αρχείο / USB (100% Offline)</h3>
 						</div>
-						<span style="font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: rgba(41, 167, 68, 0.15); color: #29a744; border: 1px solid rgba(41, 167, 68, 0.3);">ΜΟΝΙΜΗ ΑΠΟΘΗΚΕΥΣΗ</span>
+						<span style="font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: rgba(41, 167, 68, 0.15); color: #29a744; border: 1px solid rgba(41, 167, 68, 0.3);">ΧΩΡΙΣ INTERNET</span>
 					</div>
 					<p class="sync-card-desc" style="font-size: 13px; color: #cbbdae; line-height: 1.5; margin: 0 0 12px 0;">
-						Κατεβάστε το αρχείο <code>data.js</code> και αντικαταστήστε το στον τοπικό σας φάκελο. Έτσι, όταν παίρνετε τον φάκελο σε στικάκι USB, ανοίγει σε οποιοδήποτε υπολογιστή με τα δικά σας ονόματα και κάρτες!
+						Ιδανικό αν δεν υπάρχει internet. Κατεβάστε το αρχείο στο 1ο PC και σύρετέ το (Drag &amp; Drop) στην οθόνη του 2ου PC.
 					</p>
 
-					<div style="display: flex; flex-wrap: wrap; gap: 8px;">
-						<button id="btn-export-data-js" type="button" style="flex: 1.3; min-width: 180px; height: 38px; border-radius: 8px; border:none; background: #29a744; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-							<span>💾 Λήψη data.js</span>
-						</button>
-						<button id="btn-reload-data-js" type="button" style="flex: 1; min-width: 160px; height: 38px; border-radius: 8px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-							<span>🔄 Επαναφόρτωση data.js</span>
-						</button>
-						<button id="btn-download-app-html" type="button" style="flex: 1; min-width: 160px; height: 38px; border-radius: 8px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<span>Λήψη Αυτόνομου .html</span>
-						</button>
+					<!-- Two-Column Offline Transfer Grid -->
+					<div class="sync-two-col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 10px;">
+						<!-- EXPORT TO USB -->
+						<div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,248,220,0.1); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;">
+							<div>
+								<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+									<span style="font-size: 14px;">💾</span>
+									<span style="font-size: 13px; font-weight: 700; color: #fff8dc;">Εξαγωγή για USB</span>
+								</div>
+								<p style="font-size: 12px; color: #cbbdae; margin: 0 0 10px 0;">Κατεβάστε ένα πλήρες αντίγραφο των παικτών και των καρτών.</p>
+							</div>
+
+							<div style="display: flex; flex-direction: column; gap: 6px;">
+								<button id="btn-export-backup-json" type="button" style="width: 100%; height: 38px; border-radius: 8px; border:none; background: #29a744; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 8px rgba(41,167,68,0.3);">
+									<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+									<span>💾 Λήψη Αντιγράφου (.json)</span>
+								</button>
+								<div style="display: flex; gap: 6px;">
+									<button id="btn-export-data-js" type="button" style="flex: 1; height: 30px; border-radius: 6px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 11px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+										<span>data.js</span>
+									</button>
+									<button id="btn-download-app-html" type="button" style="flex: 1; height: 30px; border-radius: 6px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 11px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+										<span>Αυτόνομο .html</span>
+									</button>
+									<button id="btn-reload-data-js" type="button" title="Επαναφόρτωση από data.js" style="height: 30px; padding: 0 8px; border-radius: 6px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 11px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center;">
+										<span>🔄</span>
+									</button>
+								</div>
+							</div>
+						</div>
+
+						<!-- IMPORT FROM USB / FILE (DRAG & DROP) -->
+						<div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,248,220,0.1); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;">
+							<div>
+								<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+									<span style="font-size: 14px;">📂</span>
+									<span style="font-size: 13px; font-weight: 700; color: #fff8dc;">Εισαγωγή από USB / Αρχείο</span>
+								</div>
+								<p style="font-size: 12px; color: #cbbdae; margin: 0 0 10px 0;">Σύρετε εδώ το αρχείο (.json ή data.js) για άμεση φόρτωση.</p>
+							</div>
+
+							<div>
+								<div id="sync-file-dropzone" style="border: 2px dashed rgba(255,248,220,0.25); border-radius: 8px; padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(0,0,0,0.2); transition: all 0.2s ease;">
+									<div style="font-size: 18px; margin-bottom: 2px;">📥</div>
+									<div style="font-size: 11px; color: #fff8dc; font-weight: 700;">Σύρετε το αρχείο εδώ ή <span style="color: #17a2b9; text-decoration: underline;">επιλέξτε</span></div>
+									<input type="file" id="sync-file-input" accept=".json,.js,.txt" style="display:none;">
+								</div>
+
+								<!-- Dropzone Preview -->
+								<div id="sync-file-preview" style="display: none; margin-top: 8px; background: rgba(0,0,0,0.4); border: 1px solid rgba(41,167,68,0.5); border-radius: 8px; padding: 8px; text-align: center;">
+									<div id="sync-file-summary" style="font-size: 11px; color: #fff8dc; font-weight: 700;"></div>
+									<button id="btn-apply-imported-file" type="button" style="margin-top: 6px; width: 100%; height: 30px; border-radius: 6px; border:none; background: #29a744; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer;">
+										✅ Εφαρμογή στον Πίνακα
+									</button>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -3481,26 +3592,32 @@ body.show-modal .modal-backdrop {
 				</button>
 			</div>
 
-			<!-- UNIFIED FILE DROPZONE & SELECTOR -->
+			<!-- UNIFIED FOLDER & FILE DROPZONE -->
 			<div style="margin-bottom: 16px;">
-				<label class="migrate-dropzone" id="migrate-dropzone" for="migrate-file-input">
-					<input type="file" id="migrate-file-input" accept=".html,.htm,.json,.txt,.csv" title="Κάντε κλικ ή σύρετε αρχείο">
+				<div class="migrate-dropzone" id="migrate-dropzone">
+					<!-- Invisible inputs for folder selection and file selection -->
+					<input type="file" id="migrate-folder-input" webkitdirectory directory multiple style="display:none;">
+					<input type="file" id="migrate-file-input" accept=".html,.htm,.json,.txt,.csv,.js" multiple style="display:none;">
 					<div class="dropzone-content">
-						<div style="font-size: 34px; margin-bottom: 6px;" id="dropzone-icon">📂</div>
-						<p style="font-size: 14px; font-weight: 700; color: #fff8dc; margin-bottom: 4px;" id="dropzone-text-main">
-							Σύρετε εδώ το παλιό αρχείο ή <span style="color: #17a2b9; text-decoration: underline;">κάντε κλικ για επιλογή</span>
+						<div style="font-size: 38px; margin-bottom: 6px;" id="dropzone-icon">📁</div>
+						<p style="font-size: 15px; font-weight: 800; color: #fff8dc; margin-bottom: 4px;" id="dropzone-text-main">
+							Σύρετε εδώ τον <u>φάκελο</u> του παλιού leaderboard ή κάντε κλικ
 						</p>
-						<p style="font-size: 12px; color: #cbbdae; margin: 0 0 4px 0;">
-							Υποστηρίζονται παλιά <b>leaderboard.html</b>, <b>leaderboard-cards.html</b>, <b>data.js</b>, αρχεία <b>.json</b> ή <b>.csv / .txt</b>
+						<p style="font-size: 12px; color: #cbbdae; margin: 0 0 14px 0; line-height: 1.4;">
+							Το σύστημα σαρώνει αυτόματα τον φάκελο και τραβάει <b>ΜΟΝΟ του</b> και το <b>leaderboard.html</b> (παίκτες) και το <b>leaderboard-cards.html</b> (κάρτες)!
 						</p>
-						<div>
-							<button type="button" class="btn-dropzone-browse" id="btn-browse-file-action">
-								<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-								<span>Επιλογή Αρχείου από τον Υπολογιστή</span>
+						<div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+							<button type="button" class="btn-dropzone-browse" id="btn-browse-folder-action" style="background: #29a744; font-size: 13px; font-weight: 700; padding: 10px 18px; border-radius: 8px; border:none; color:#fff; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow: 0 3px 10px rgba(0,0,0,0.3);">
+								<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+								<span>📁 Επιλογή Φακέλου (Αυτόματη Ανάγνωση Όλων)</span>
+							</button>
+							<button type="button" class="btn-dropzone-browse" id="btn-browse-file-action" style="background: #17a2b9; font-size: 13px; font-weight: 600; padding: 10px 16px; border-radius: 8px; border:none; color:#fff; cursor:pointer; display:inline-flex; align-items:center; gap:8px;">
+								<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+								<span>📄 Επιλογή Αρχείου</span>
 							</button>
 						</div>
 					</div>
-				</label>
+				</div>
 			</div>
 
 			<!-- DIRECT PASTE / LINK SECTION -->
@@ -4342,10 +4459,11 @@ $(document).ready(function() {
 	if (typeof window.__SEEDED_MODE__ !== "undefined") current_display_mode = window.__SEEDED_MODE__;
 	if (typeof window.__SEEDED_THEME__ !== "undefined") apply_theme(window.__SEEDED_THEME__);
 
-	// Check URL Parameters (including old ?q= and new ?sync=)
+	// Check URL Parameters (including old ?q= and new ?sync= or ?code=)
 	var url = new URL(window.location.href);
 	var sync_param = url.searchParams.get("sync");
 	var q_param = url.searchParams.get("q");
+	var code_param = url.searchParams.get("code") || url.searchParams.get("pin");
 	var theme_param = url.searchParams.get("theme");
 	var view_param = url.searchParams.get("view") || url.searchParams.get("mode") || url.searchParams.get("display_mode");
 	var format_param = url.searchParams.get("format");
@@ -4417,6 +4535,30 @@ $(document).ready(function() {
 			}
 		} catch(e) {
 			console.error("Sync error:", e);
+		}
+	}
+
+	if (code_param) {
+		var cleanCode = code_param.replace(/[^0-9]/g, "");
+		if (cleanCode.length === 6) {
+			fetch("https://ntfy.sh/lb-sync-v2-" + cleanCode + "/raw?poll=1")
+				.then(function(resp) {
+					if (!resp.ok) throw new Error("HTTP " + resp.status);
+					return resp.text();
+				})
+				.then(function(rawText) {
+					var parsed = JSON.parse(rawText);
+					if (parsed && (parsed.leaderboard || parsed.lb || parsed.cards)) {
+						apply_synced_payload(parsed, "🎉 Συγχρονίστηκαν επιτυχώς τα δεδομένα μέσω του κωδικού " + cleanCode + "!", false);
+						if (window.history && window.history.replaceState) {
+							var cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+							window.history.replaceState({}, document.title, cleanUrl);
+						}
+					}
+				})
+				.catch(function(err) {
+					console.warn("Auto PIN sync failed:", err);
+				});
 		}
 	}
 
@@ -6187,53 +6329,76 @@ function init_event_listeners() {
 	window.addEventListener("dragover", function(e) { e.preventDefault(); }, false);
 	window.addEventListener("drop", function(e) { e.preventDefault(); }, false);
 
-	// Drag and drop & file selection for migration
+	// Drag and drop & folder/file selection for migration
 	var $fileInput = $("#migrate-file-input");
+	var $folderInput = $("#migrate-folder-input");
 	var $dropzone = $("#migrate-dropzone");
+
+	$(document).on("click", "#btn-browse-folder-action", function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		var nativeFolderInput = document.getElementById("migrate-folder-input");
+		if (nativeFolderInput) nativeFolderInput.click();
+	});
 
 	$(document).on("click", "#btn-browse-file-action", function(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		var nativeInput = document.getElementById("migrate-file-input");
-		if (nativeInput) nativeInput.click();
+		var nativeFileInput = document.getElementById("migrate-file-input");
+		if (nativeFileInput) nativeFileInput.click();
 	});
 
 	$dropzone.on("click", function(e) {
-		if (e.target.id !== "migrate-file-input" && !$(e.target).closest("#btn-browse-file-action").length) {
-			var nativeInput = document.getElementById("migrate-file-input");
-			if (nativeInput) nativeInput.click();
-		}
+		if ($(e.target).closest("#btn-browse-file-action").length) return;
+		if ($(e.target).closest("#btn-browse-folder-action").length) return;
+		var nativeFolderInput = document.getElementById("migrate-folder-input");
+		if (nativeFolderInput) nativeFolderInput.click();
 	});
 
-	$dropzone.add($fileInput).on("dragenter dragover", function(e) {
+	$dropzone.on("dragenter dragover", function(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		$dropzone.addClass("dragover");
-		$("#dropzone-text-main").html('<span style="color:#17a2b9;">📥 Αφήστε το αρχείο εδώ για αυτόματη ανάγνωση!</span>');
+		$("#dropzone-text-main").html('<span style="color:#29a744;">📥 Αφήστε τον φάκελο εδώ για αυτόματη ανάγνωση!</span>');
 	});
 
-	$dropzone.add($fileInput).on("dragleave", function(e) {
+	$dropzone.on("dragleave", function(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		$dropzone.removeClass("dragover");
-		$("#dropzone-text-main").html('Σύρετε εδώ το παλιό αρχείο ή <span style="color: #17a2b9; text-decoration: underline;">κάντε κλικ για επιλογή</span>');
+		$("#dropzone-text-main").html('Σύρετε εδώ τον <u>φάκελο</u> του παλιού leaderboard ή κάντε κλικ');
 	});
 
-	$dropzone.add($fileInput).on("drop", function(e) {
+	$dropzone.on("drop", async function(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		$dropzone.removeClass("dragover");
-		$("#dropzone-text-main").html('Σύρετε εδώ το παλιό αρχείο ή <span style="color: #17a2b9; text-decoration: underline;">κάντε κλικ για επιλογή</span>');
-		var dt = e.originalEvent && e.originalEvent.dataTransfer ? e.originalEvent.dataTransfer : null;
-		var files = dt ? dt.files : null;
-		if (files && files.length > 0) {
-			handle_migration_file(files[0]);
+		$("#dropzone-text-main").html('Σύρετε εδώ τον <u>φάκελο</u> του παλιού leaderboard ή κάντε κλικ');
+		var dt = e.originalEvent && e.originalEvent.dataTransfer ? e.originalEvent.dataTransfer : (e.dataTransfer || null);
+		if (!dt) return;
+		try {
+			var files = await extractDroppedFiles(dt);
+			if (files && files.length > 0) {
+				await handle_migration_file_list(files);
+			}
+		} catch(err) {
+			console.error("Drop error:", err);
+			if (dt.files && dt.files.length > 0) {
+				await handle_migration_file_list(Array.from(dt.files));
+			}
+		}
+	});
+
+	$folderInput.on("change", function(e) {
+		if (e.target.files && e.target.files.length > 0) {
+			handle_migration_file_list(Array.from(e.target.files));
+			$(this).val("");
 		}
 	});
 
 	$fileInput.on("change", function(e) {
-		if (e.target.files && e.target.files[0]) {
-			handle_migration_file(e.target.files[0]);
+		if (e.target.files && e.target.files.length > 0) {
+			handle_migration_file_list(Array.from(e.target.files));
 			$(this).val("");
 		}
 	});
@@ -6296,6 +6461,25 @@ function init_event_listeners() {
 	$("#btn-export-data-js").on("click", export_data_js);
 	$("#btn-reload-data-js").on("click", reload_from_data_js);
 	$("#btn-load-local-json").on("click", load_local_json_file);
+
+	// 6-digit PIN Wireless Transfer
+	$("#btn-generate-sync-pin").on("click", generate_sync_pin);
+	$("#btn-copy-sync-pin").on("click", copy_generated_pin);
+	$("#btn-toggle-qr-pin").on("click", toggle_qr_code);
+	$("#btn-receive-sync-pin").on("click", receive_sync_pin);
+	$("#btn-apply-received-pin-data").on("click", apply_received_pin_data);
+	$("#input-receive-pin").on("keypress", function(e) {
+		if (e.which === 13) receive_sync_pin();
+	}).on("input", function() {
+		var val = $(this).val().replace(/[^0-9]/g, "");
+		if (val.length === 6) {
+			$(this).val(val.slice(0, 3) + " " + val.slice(3));
+		}
+	});
+
+	// Dropzone offline file transfer
+	setup_sync_dropzone();
+	$("#btn-apply-imported-file").on("click", apply_imported_file_data);
 
 	// Sharing & Export Hub Buttons
 	$("#btn-native-share").on("click", trigger_native_share);
@@ -6370,6 +6554,17 @@ function apply_display_mode(mode, saveAndNotify) {
 }
 
 /* --- SYNC & SHARING HUB FUNCTIONS --- */
+var active_generated_pin = "";
+var active_pending_pin_data = null;
+var active_pending_file_data = null;
+
+function get_clean_base_url() {
+	if (window.location.protocol === "file:" || !window.location.host || (window.location.hostname === "localhost" && !window.location.port)) {
+		return "https://gogos.me/leaderboard/";
+	}
+	return [window.location.protocol, "//", window.location.host, window.location.pathname].join("");
+}
+
 function open_sync_hub() {
 	$("body").addClass("show-link");
 	var link = generate_sync_link();
@@ -6385,18 +6580,288 @@ function generate_sync_link() {
 		cards: card_data
 	};
 	var base64_str = btoa(encodeURIComponent(JSON.stringify(payload)));
-	var base_url;
-	if (window.location.protocol === "file:" || !window.location.host || (window.location.hostname === "localhost" && !window.location.port)) {
-		base_url = "https://gogos.me/leaderboard/";
-	} else {
-		base_url = [window.location.protocol, "//", window.location.host, window.location.pathname].join("");
-	}
+	var base_url = get_clean_base_url();
 	var share_url = new URL(base_url);
 	share_url.searchParams.set("sync", base64_str);
 	if (current_display_mode !== "all") {
 		share_url.searchParams.set("view", current_display_mode === "cards_only" ? "cards" : "leaderboard");
 	}
 	return share_url.href;
+}
+
+function apply_synced_payload(parsed, successMessage, isMerge) {
+	if (!parsed || typeof parsed !== "object") return;
+	var incomingLb = parsed.leaderboard || parsed.lb || [];
+	var incomingCards = parsed.cards || [];
+
+	if (isMerge) {
+		if (Array.isArray(incomingLb) && incomingLb.length > 0) {
+			lb_data = lb_data.concat(incomingLb);
+		}
+		if (Array.isArray(incomingCards) && incomingCards.length > 0) {
+			card_data = card_data.concat(incomingCards);
+		}
+	} else {
+		if (Array.isArray(incomingLb) && incomingLb.length > 0) {
+			lb_data = incomingLb;
+		}
+		if (Array.isArray(incomingCards) && incomingCards.length > 0) {
+			card_data = incomingCards;
+		}
+	}
+
+	if (parsed.theme) apply_theme(parsed.theme);
+	if (parsed.display_mode || parsed.mode) apply_display_mode(parsed.display_mode || parsed.mode, false);
+
+	save_and_reload_state(successMessage || "Όλα τα δεδομένα εφαρμόστηκαν επιτυχώς!");
+}
+
+function generate_sync_pin() {
+	var $btn = $("#btn-generate-sync-pin");
+	var originalHtml = $btn.html();
+	$btn.prop("disabled", true).html('<span>⏳ Δημιουργία...</span>');
+
+	var pin = Math.floor(100000 + Math.random() * 900000).toString();
+	active_generated_pin = pin;
+
+	var payload = {
+		app: "leaderboard-suite",
+		version: "2.0",
+		theme: current_theme,
+		display_mode: current_display_mode,
+		leaderboard: lb_data,
+		cards: card_data,
+		created_at: new Date().toISOString()
+	};
+
+	fetch("https://ntfy.sh/lb-sync-v2-" + pin, {
+		method: "POST",
+		headers: {
+			"Title": "Leaderboard Sync PIN",
+			"Tags": "trophy",
+			"Cache": "yes"
+		},
+		body: JSON.stringify(payload)
+	})
+	.then(function(resp) {
+		if (!resp.ok) throw new Error("HTTP " + resp.status);
+		return resp.json();
+	})
+	.then(function(data) {
+		var formattedPin = pin.slice(0, 3) + " " + pin.slice(3);
+		$("#sync-pin-value").text(formattedPin);
+		$("#sync-pin-status").html('<span style="color: #5ace72;">🟢 Έτοιμο! Πληκτρολογήστε τον κωδικό <strong>' + formattedPin + '</strong> στο 2ο PC</span>');
+		$("#sync-pin-display-box").slideDown(200);
+
+		// Also update the direct link with ?code=
+		var baseUrl = get_clean_base_url();
+		var directUrl = new URL(baseUrl);
+		directUrl.searchParams.set("code", pin);
+		$("#tarea-link").val(directUrl.href);
+
+		// Update QR code to point to direct code URL
+		var qrApiUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=" + encodeURIComponent(directUrl.href);
+		$("#qr-code-img").attr("src", qrApiUrl);
+
+		showToast("Ο κωδικός μεταφοράς είναι: " + formattedPin);
+		AudioEngine.playPositive();
+	})
+	.catch(function(err) {
+		console.error("PIN creation error:", err);
+		alert("⚠️ Δεν ήταν δυνατή η ασύρματη δημιουργία κωδικού (ελέγξτε τη σύνδεσή σας στο internet).\n\nΜπορείτε να χρησιμοποιήσετε την «Επιλογή 2: Μεταφορά με Αρχείο / USB» που λειτουργεί 100% offline χωρίς internet!");
+	})
+	.finally(function() {
+		$btn.prop("disabled", false).html(originalHtml);
+	});
+}
+
+function copy_generated_pin() {
+	if (!active_generated_pin) return;
+	var formattedPin = active_generated_pin.slice(0, 3) + " " + active_generated_pin.slice(3);
+	var textToCopy = active_generated_pin;
+	var $btn = $("#btn-copy-sync-pin");
+
+	if (navigator.clipboard && navigator.clipboard.writeText) {
+		navigator.clipboard.writeText(textToCopy).then(function() {
+			$btn.text("Αντιγράφηκε! ✅");
+			showToast("Ο κωδικός " + formattedPin + " αντιγράφηκε!");
+			AudioEngine.playPositive();
+			setTimeout(function() { $btn.text("📋 Αντιγραφή"); }, 2000);
+		}).catch(function() {
+			copy_text_fallback(textToCopy, $btn, "📋 Αντιγραφή");
+		});
+	} else {
+		copy_text_fallback(textToCopy, $btn, "📋 Αντιγραφή");
+	}
+}
+
+function copy_text_fallback(text, $btn, defaultLabel) {
+	var $temp = $("<textarea>");
+	$("body").append($temp);
+	$temp.val(text).select();
+	document.execCommand("copy");
+	$temp.remove();
+	if ($btn) {
+		$btn.text("Αντιγράφηκε! ✅");
+		setTimeout(function() { $btn.text(defaultLabel || "📋 Αντιγραφή"); }, 2000);
+	}
+	showToast("Αντιγράφηκε: " + text);
+	AudioEngine.playPositive();
+}
+
+function receive_sync_pin() {
+	var inputVal = ($("#input-receive-pin").val() || "").trim();
+	var pin = inputVal.replace(/[^0-9]/g, "");
+
+	if (pin.length !== 6) {
+		alert("Παρακαλώ εισάγετε έναν έγκυρο 6-ψήφιο κωδικό (π.χ. 482 195).");
+		$("#input-receive-pin").focus();
+		return;
+	}
+
+	var $btn = $("#btn-receive-sync-pin");
+	var originalHtml = $btn.html();
+	$btn.prop("disabled", true).html('<span>⏳...</span>');
+	$("#sync-receive-preview").slideUp(100);
+
+	fetch("https://ntfy.sh/lb-sync-v2-" + pin + "/raw?poll=1")
+	.then(function(resp) {
+		if (!resp.ok) throw new Error("HTTP " + resp.status);
+		return resp.text();
+	})
+	.then(function(rawText) {
+		var parsed = JSON.parse(rawText);
+		if (!parsed || (!parsed.leaderboard && !parsed.lb && !parsed.cards)) {
+			throw new Error("Invalid payload");
+		}
+		active_pending_pin_data = parsed;
+		var plCount = (parsed.leaderboard || parsed.lb || []).length;
+		var cdCount = (parsed.cards || []).length;
+
+		$("#sync-receive-summary").html('🎉 Βρέθηκαν: <strong>' + plCount + '</strong> Παίκτες &amp; <strong>' + cdCount + '</strong> Κάρτες!');
+		$("#sync-receive-preview").slideDown(180);
+		AudioEngine.playPositive();
+		showToast("Βρέθηκαν δεδομένα για τον κωδικό " + pin + "!");
+	})
+	.catch(function(err) {
+		console.warn("Receive PIN error:", err);
+		alert("❌ Δεν βρέθηκαν δεδομένα για τον κωδικό " + pin + ".\n\nΒεβαιωθείτε ότι:\n1. Ο άλλος υπολογιστής πάτησε «Δημιουργία Κωδικού»\n2. Πληκτρολογήσατε σωστά τα 6 ψηφία\n3. Και οι δύο υπολογιστές είναι συνδεδεμένοι στο internet.");
+	})
+	.finally(function() {
+		$btn.prop("disabled", false).html(originalHtml);
+	});
+}
+
+function apply_received_pin_data() {
+	if (!active_pending_pin_data) return;
+	apply_synced_payload(active_pending_pin_data, "🎉 Τα δεδομένα μεταφέρθηκαν και αποθηκεύτηκαν επιτυχώς!");
+	active_pending_pin_data = null;
+	$("#sync-receive-preview").hide();
+	$("#input-receive-pin").val("");
+}
+
+function setup_sync_dropzone() {
+	var $dropzone = $("#sync-file-dropzone");
+	var $input = $("#sync-file-input");
+
+	$dropzone.on("click", function(e) {
+		if (e.target.id !== "sync-file-input") {
+			$input.click();
+		}
+	});
+
+	$dropzone.on("dragenter dragover", function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$dropzone.addClass("dragover");
+	});
+
+	$dropzone.on("dragleave", function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$dropzone.removeClass("dragover");
+	});
+
+	$dropzone.on("drop", function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$dropzone.removeClass("dragover");
+		var dt = e.originalEvent && e.originalEvent.dataTransfer ? e.originalEvent.dataTransfer : null;
+		var files = dt ? dt.files : null;
+		if (files && files.length > 0) {
+			process_sync_file(files[0]);
+		}
+	});
+
+	$input.on("change", function(e) {
+		if (e.target.files && e.target.files[0]) {
+			process_sync_file(e.target.files[0]);
+			$(this).val("");
+		}
+	});
+}
+
+function process_sync_file(file) {
+	var reader = new FileReader();
+	reader.onload = function(evt) {
+		try {
+			var content = evt.target.result;
+			var parsed = null;
+
+			// Check if JSON
+			try {
+				parsed = JSON.parse(content);
+			} catch(e) {
+				// Check if data.js (window.LEADERBOARD_INITIAL_DATA = { ... })
+				var jsMatch = content.match(/window\.LEADERBOARD_INITIAL_DATA\s*=\s*(\{[\s\S]*\});?/);
+				if (jsMatch && jsMatch[1]) {
+					parsed = JSON.parse(jsMatch[1]);
+				}
+			}
+
+			if (!parsed) {
+				// Fallback: parse text migration format if available
+				if (typeof parse_migration_content === "function") {
+					var textParsed = parse_migration_content(content);
+					if (textParsed.success) {
+						parsed = {
+							leaderboard: textParsed.leaderboard,
+							cards: textParsed.cards,
+							theme: textParsed.theme,
+							display_mode: textParsed.display_mode
+						};
+					}
+				}
+			}
+
+			if (parsed && (parsed.leaderboard || parsed.lb || parsed.cards || Array.isArray(parsed))) {
+				if (Array.isArray(parsed)) {
+					if (parsed.length > 0 && parsed[0].nickname !== undefined) parsed = { leaderboard: parsed, cards: [] };
+					else parsed = { leaderboard: [], cards: parsed };
+				}
+				active_pending_file_data = parsed;
+				var plCount = (parsed.leaderboard || parsed.lb || []).length;
+				var cdCount = (parsed.cards || []).length;
+				$("#sync-file-summary").html('✅ Βρέθηκαν στο <strong>' + escapeHtml(file.name) + '</strong>: <strong>' + plCount + '</strong> Παίκτες &amp; <strong>' + cdCount + '</strong> Κάρτες!');
+				$("#sync-file-preview").slideDown(180);
+				AudioEngine.playPositive();
+				showToast("Το αρχείο αναγνωρίστηκε επιτυχώς!");
+			} else {
+				alert("Το αρχείο δεν περιέχει έγκυρα δεδομένα Leaderboard ή Mystery Cards.");
+			}
+		} catch(err) {
+			console.error("File read error:", err);
+			alert("Σφάλμα ανάγνωσης αρχείου: " + err.message);
+		}
+	};
+	reader.readAsText(file);
+}
+
+function apply_imported_file_data() {
+	if (!active_pending_file_data) return;
+	apply_synced_payload(active_pending_file_data, "🎉 Τα δεδομένα από το αρχείο φορτώθηκαν και αποθηκεύτηκαν επιτυχώς!");
+	active_pending_file_data = null;
+	$("#sync-file-preview").hide();
 }
 
 function copy_sync_link() {
@@ -6829,36 +7294,197 @@ function reset_migrate_modal_state() {
 	$("#migrate-preview-wrap").hide();
 	$("#migrate-paste-input").val("");
 	$("#migrate-file-input").val("");
+	$("#migrate-folder-input").val("");
 	last_handled_file_stamp = 0;
 	$("#migrate-dropzone").removeClass("dragover");
 	$("#browser-scan-status").html("Μπορείτε να τα ανακτήσετε άμεσα με 1 κλικ χωρίς αρχεία.");
 }
 
 var last_handled_file_stamp = 0;
+
 function handle_migration_file(file) {
 	if (!file) return;
-	var now = Date.now();
-	if (now - last_handled_file_stamp < 600) return;
-	last_handled_file_stamp = now;
-
-	var reader = new FileReader();
-	reader.onload = function(evt) {
-		var content = evt.target.result;
-		var parsed = parse_migration_content(content);
-		if (parsed.success) {
-			parsed.detectedType = file.name + " (" + parsed.detectedType + ")";
-			show_migration_preview(parsed);
-		} else {
-			alert("Δεν βρέθηκαν έγκυρα δεδομένα παικτών ή καρτών μέσα στο αρχείο '" + file.name + "'.\n\nΒεβαιωθείτε ότι επιλέξατε ένα αρχείο HTML, JSON ή αρχείο κειμένου.");
-		}
-	};
-	reader.onerror = function() {
-		alert("Σφάλμα κατά την ανάγνωση του αρχείου '" + file.name + "'.");
-	};
-	reader.readAsText(file);
+	handle_migration_file_list([file], file.name);
 }
 
-function parse_migration_content(content) {
+function readFileAsText(file) {
+	return new Promise(function(resolve, reject) {
+		var reader = new FileReader();
+		reader.onload = function(evt) { resolve(evt.target.result || ""); };
+		reader.onerror = function(err) { reject(err); };
+		reader.readAsText(file);
+	});
+}
+
+async function extractDroppedFiles(dataTransfer) {
+	var files = [];
+	if (dataTransfer.items && dataTransfer.items.length > 0) {
+		var entries = [];
+		for (var i = 0; i < dataTransfer.items.length; i++) {
+			var item = dataTransfer.items[i];
+			if (typeof item.webkitGetAsEntry === "function") {
+				var entry = item.webkitGetAsEntry();
+				if (entry) entries.push(entry);
+			}
+		}
+		if (entries.length > 0) {
+			for (var j = 0; j < entries.length; j++) {
+				await traverseFileSystemEntry(entries[j], files);
+			}
+			return files;
+		}
+	}
+	if (dataTransfer.files && dataTransfer.files.length > 0) {
+		for (var k = 0; k < dataTransfer.files.length; k++) {
+			files.push(dataTransfer.files[k]);
+		}
+	}
+	return files;
+}
+
+function traverseFileSystemEntry(entry, fileList) {
+	return new Promise(function(resolve) {
+		if (!entry) return resolve();
+		if (entry.isFile) {
+			entry.file(function(file) {
+				file.fullPath = entry.fullPath || file.name;
+				fileList.push(file);
+				resolve();
+			}, function() { resolve(); });
+		} else if (entry.isDirectory) {
+			var dirReader = entry.createReader();
+			function readBatch() {
+				dirReader.readEntries(async function(entries) {
+					if (!entries || entries.length === 0) {
+						resolve();
+					} else {
+						for (var i = 0; i < entries.length; i++) {
+							await traverseFileSystemEntry(entries[i], fileList);
+						}
+						readBatch();
+					}
+				}, function() { resolve(); });
+			}
+			readBatch();
+		} else {
+			resolve();
+		}
+	});
+}
+
+async function handle_migration_file_list(files, optionalFolderName) {
+	if (!files || files.length === 0) return;
+	var now = Date.now();
+	if (now - last_handled_file_stamp < 300) return;
+	last_handled_file_stamp = now;
+
+	// Filter candidate files (ignore OS files, node_modules, 3rd party vendor libraries, images, etc.)
+	var candidateFiles = [];
+	for (var i = 0; i < files.length; i++) {
+		var f = files[i];
+		var name = (f.name || "").toLowerCase();
+		var path = (f.webkitRelativePath || f.fullPath || name).toLowerCase();
+
+		if (name.startsWith(".") || path.includes("/.") || name === "thumbs.db") continue;
+		if (name.includes("jquery") || name.includes("isotope") || name.includes("bootstrap")) continue;
+		if (name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || 
+		    name.endsWith(".svg") || name.endsWith(".gif") || name.endsWith(".woff") || 
+		    name.endsWith(".woff2") || name.endsWith(".ttf") || name.endsWith(".pdf") || 
+		    name.endsWith(".zip") || name === "readme.md" || name === "license") continue;
+
+		if (name.endsWith(".html") || name.endsWith(".htm") || name.endsWith(".json") || 
+		    name.endsWith(".csv") || name.endsWith(".txt") || name.endsWith(".js") ||
+		    name.includes("leaderboard") || name.includes("card") || name.includes("data")) {
+			candidateFiles.push(f);
+		}
+	}
+
+	if (candidateFiles.length === 0) {
+		alert("Δεν βρέθηκαν σχετικά αρχεία (.html, .json, .csv, .js) στον επιλεγμένο φάκελο.");
+		return;
+	}
+
+	// Prioritize: leaderboard html first, cards html second, json/txt next
+	candidateFiles.sort(function(a, b) {
+		var nameA = (a.name || "").toLowerCase();
+		var nameB = (b.name || "").toLowerCase();
+		var scoreA = 0;
+		var scoreB = 0;
+		if (nameA.includes("leaderboard") && !nameA.includes("card")) scoreA += 20;
+		if (nameA.includes("card")) scoreA += 15;
+		if (nameB.includes("leaderboard") && !nameB.includes("card")) scoreB += 20;
+		if (nameB.includes("card")) scoreB += 15;
+		return scoreB - scoreA;
+	});
+
+	var folderName = optionalFolderName;
+	if (!folderName && files[0] && files[0].webkitRelativePath) {
+		var parts = files[0].webkitRelativePath.split("/");
+		if (parts.length > 1) folderName = parts[0];
+	}
+
+	var combined = {
+		success: false,
+		leaderboard: [],
+		cards: [],
+		theme: null,
+		display_mode: null,
+		detectedType: "",
+		sources: []
+	};
+
+	for (var j = 0; j < candidateFiles.length; j++) {
+		var file = candidateFiles[j];
+		try {
+			var content = await readFileAsText(file);
+			var parsed = parse_migration_content(content, file.name);
+			if (parsed.success) {
+				var fileSummary = [];
+				if (parsed.leaderboard && parsed.leaderboard.length > 0) {
+					var addedLb = 0;
+					parsed.leaderboard.forEach(function(p) {
+						var nick = (p.nickname || "").trim();
+						if (!nick) return;
+						var exists = combined.leaderboard.some(function(item) {
+							return item.nickname.trim().toLowerCase() === nick.toLowerCase();
+						});
+						if (!exists) {
+							combined.leaderboard.push(p);
+							addedLb++;
+						}
+					});
+					if (addedLb > 0) fileSummary.push(addedLb + " παίκτες");
+				}
+				if (parsed.cards && parsed.cards.length > 0) {
+					var addedCards = 0;
+					parsed.cards.forEach(function(c) {
+						combined.cards.push(c);
+						addedCards++;
+					});
+					if (addedCards > 0) fileSummary.push(addedCards + " κάρτες");
+				}
+				if (fileSummary.length > 0) {
+					combined.sources.push(file.name + " (" + fileSummary.join(", ") + ")");
+				}
+				if (parsed.theme && !combined.theme) combined.theme = parsed.theme;
+				if (parsed.display_mode && !combined.display_mode) combined.display_mode = parsed.display_mode;
+			}
+		} catch(err) {
+			console.warn("Σφάλμα ανάγνωσης " + file.name, err);
+		}
+	}
+
+	if (combined.leaderboard.length > 0 || combined.cards.length > 0) {
+		combined.success = true;
+		var title = folderName ? ('📁 Φάκελος "' + folderName + '"') : (candidateFiles.length > 1 ? "📁 Φάκελος / Πολλαπλά Αρχεία" : candidateFiles[0].name);
+		combined.detectedType = title;
+		show_migration_preview(combined);
+	} else {
+		alert("Δεν βρέθηκαν έγκυρα δεδομένα παικτών ή καρτών στον επιλεγμένο φάκελο.\nΒεβαιωθείτε ότι περιέχει τα αρχεία leaderboard.html ή leaderboard-cards.html.");
+	}
+}
+
+function parse_migration_content(content, filename) {
 	var result = {
 		success: false,
 		leaderboard: [],
@@ -7094,13 +7720,18 @@ function show_migration_preview(data) {
 
 	var statsHtml = "";
 	if (data.leaderboard.length > 0) {
-		statsHtml += '<div class="migrate-pill" style="border: 1px solid rgba(23, 162, 185, 0.4); background: rgba(23, 162, 185, 0.15); color: #17a2b9;">' +
+		statsHtml += '<div class="migrate-pill" style="border: 1px solid rgba(23, 162, 185, 0.4); background: rgba(23, 162, 185, 0.15); color: #17a2b9; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 13px;">' +
 			'👥 ' + data.leaderboard.length + ' Παίκτες' +
 		'</div>';
 	}
 	if (data.cards.length > 0) {
-		statsHtml += '<div class="migrate-pill" style="border: 1px solid rgba(41, 167, 68, 0.4); background: rgba(41, 167, 68, 0.15); color: #29a744;">' +
+		statsHtml += '<div class="migrate-pill" style="border: 1px solid rgba(41, 167, 68, 0.4); background: rgba(41, 167, 68, 0.15); color: #29a744; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 13px;">' +
 			'🎴 ' + data.cards.length + ' Κάρτες' +
+		'</div>';
+	}
+	if (data.sources && data.sources.length > 0) {
+		statsHtml += '<div style="width: 100%; font-size: 12px; color: #fff8dc; margin-top: 6px; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,248,220,0.1); padding: 8px 12px; border-radius: 8px; line-height: 1.4;">' +
+			'📁 <b>Αυτόματη ανάγνωση από:</b> ' + escapeHtml(data.sources.join(" | ")) +
 		'</div>';
 	}
 	$("#migrate-preview-stats").html(statsHtml);
@@ -7163,7 +7794,17 @@ function execute_migration() {
 	build_leaderboard();
 	build_cards();
 	close_migrate_modal();
-	showToast("🎉 Η μεταφορά ολοκληρώθηκε επιτυχώς! Καλώς ήρθατε στο νέο σύστημα.");
+	var countLb = pending_migration_data.leaderboard ? pending_migration_data.leaderboard.length : 0;
+	var countCards = pending_migration_data.cards ? pending_migration_data.cards.length : 0;
+	var successMsg = "🎉 Η μεταφορά ολοκληρώθηκε επιτυχώς!";
+	if (countLb > 0 && countCards > 0) {
+		successMsg = "🎉 Η μεταφορά ολοκληρώθηκε! Φορτώθηκαν " + countLb + " παίκτες και " + countCards + " κάρτες.";
+	} else if (countLb > 0) {
+		successMsg = "🎉 Φορτώθηκαν " + countLb + " παίκτες!";
+	} else if (countCards > 0) {
+		successMsg = "🎉 Φορτώθηκαν " + countCards + " κάρτες!";
+	}
+	showToast(successMsg);
 	AudioEngine.playMilestone();
 	ConfettiEngine.launch(150);
 }

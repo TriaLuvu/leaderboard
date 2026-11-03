@@ -294,4 +294,130 @@ describe('Leaderboard Core Data & Logic Unit Tests', () => {
     expect(parsedPlayers[1]).toEqual({ icon: "🦁", nickname: "Nikos", score: 25 });
     expect(parsedPlayers[2]).toEqual({ icon: "abram", nickname: "Abram", score: 100 });
   });
+
+  test('Wireless 6-digit PIN transfer generator & formatter validation', () => {
+    function generatePin() {
+      return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+    function formatPin(pin) {
+      const clean = (pin || '').replace(/[^0-9]/g, '');
+      if (clean.length === 6) {
+        return clean.slice(0, 3) + ' ' + clean.slice(3);
+      }
+      return clean;
+    }
+
+    const pin = generatePin();
+    expect(pin).toMatch(/^\d{6}$/);
+    expect(formatPin(pin)).toBe(pin.slice(0, 3) + ' ' + pin.slice(3));
+    expect(formatPin('482-195')).toBe('482 195');
+    expect(formatPin('482 195')).toBe('482 195');
+
+    // Test payload packaging
+    const payload = {
+      app: 'leaderboard-suite',
+      version: '2.0',
+      theme: 'theme-dripit',
+      display_mode: 'all',
+      leaderboard: [{ icon: '🦁', nickname: 'Nikos', score: 25 }],
+      cards: [{ icon: '🎁', score: '+5', info: 'Bonus!' }],
+      created_at: new Date().toISOString()
+    };
+    expect(payload.leaderboard.length).toBe(1);
+    expect(payload.cards.length).toBe(1);
+  });
+
+  test('Dropzone offline file parser correctly detects and parses JSON and data.js', () => {
+    function parseDropContent(content) {
+      try {
+        return JSON.parse(content);
+      } catch (e) {
+        const jsMatch = content.match(/window\.LEADERBOARD_INITIAL_DATA\s*=\s*(\{[\s\S]*\});?/);
+        if (jsMatch && jsMatch[1]) {
+          return JSON.parse(jsMatch[1]);
+        }
+      }
+      return null;
+    }
+
+    // JSON file format
+    const jsonStr = JSON.stringify({
+      leaderboard: [{ icon: '🦁', nickname: 'Nikos', score: 30 }],
+      cards: [{ icon: '🔥', score: '+10', info: 'Super fire' }]
+    });
+    const parsedJson = parseDropContent(jsonStr);
+    expect(parsedJson).not.toBeNull();
+    expect(parsedJson.leaderboard[0].nickname).toBe('Nikos');
+
+    // data.js file format
+    const dataJsStr = 'window.LEADERBOARD_INITIAL_DATA = ' + jsonStr + ';';
+    const parsedDataJs = parseDropContent(dataJsStr);
+    expect(parsedDataJs).not.toBeNull();
+    expect(parsedDataJs.leaderboard[0].nickname).toBe('Nikos');
+  });
+
+  test('Folder migration logic automatically identifies and combines files from old directory', () => {
+    // Simulating files inside a legacy folder selected by user
+    const mockFolderFiles = [
+      { name: '.DS_Store', path: 'leaderboard/.DS_Store' },
+      { name: 'jquery-3.5.1.min.js', path: 'leaderboard/jquery-3.5.1.min.js' },
+      { name: 'isotope-v3.0.6.pkgd.min.js', path: 'leaderboard/isotope-v3.0.6.pkgd.min.js' },
+      { name: 'README.md', path: 'leaderboard/README.md' },
+      { name: 'leaderboard.html', path: 'leaderboard/leaderboard.html' },
+      { name: 'leaderboard-cards.html', path: 'leaderboard/leaderboard-cards.html' }
+    ];
+
+    // Candidate file filter
+    function filterCandidateFiles(files) {
+      return files.filter(f => {
+        const name = f.name.toLowerCase();
+        const path = (f.path || name).toLowerCase();
+        if (name.startsWith('.') || path.includes('/.')) return false;
+        if (name.includes('jquery') || name.includes('isotope') || name.includes('bootstrap')) return false;
+        if (name.endsWith('.png') || name.endsWith('.jpg') || name.endsWith('.pdf') || name === 'readme.md' || name === 'license') return false;
+        return name.endsWith('.html') || name.endsWith('.htm') || name.endsWith('.json') || name.endsWith('.js') || name.includes('leaderboard') || name.includes('card');
+      });
+    }
+
+    const candidates = filterCandidateFiles(mockFolderFiles);
+    expect(candidates.map(c => c.name)).toEqual(['leaderboard.html', 'leaderboard-cards.html']);
+
+    // Sort to prioritize leaderboard and cards
+    candidates.sort((a, b) => {
+      let scoreA = 0, scoreB = 0;
+      if (a.name.includes('leaderboard') && !a.name.includes('card')) scoreA += 20;
+      if (a.name.includes('card')) scoreA += 15;
+      if (b.name.includes('leaderboard') && !b.name.includes('card')) scoreB += 20;
+      if (b.name.includes('card')) scoreB += 15;
+      return scoreB - scoreA;
+    });
+
+    expect(candidates[0].name).toBe('leaderboard.html');
+    expect(candidates[1].name).toBe('leaderboard-cards.html');
+
+    // Simulate multi-file merge
+    const mockLbData = [{ icon: '🦁', nickname: 'Nikos', score: 25 }, { icon: '🦊', nickname: 'Maria', score: 22 }];
+    const mockCardsData = [{ icon: '🎯', score: '+7', info: 'Bullseye' }, { icon: '🎁', score: '+5', info: 'Gift' }];
+
+    const combined = {
+      leaderboard: [],
+      cards: [],
+      sources: []
+    };
+
+    // Process leaderboard.html
+    mockLbData.forEach(p => combined.leaderboard.push(p));
+    combined.sources.push(`leaderboard.html (${mockLbData.length} παίκτες)`);
+
+    // Process leaderboard-cards.html
+    mockCardsData.forEach(c => combined.cards.push(c));
+    combined.sources.push(`leaderboard-cards.html (${mockCardsData.length} κάρτες)`);
+
+    expect(combined.leaderboard.length).toBe(2);
+    expect(combined.cards.length).toBe(2);
+    expect(combined.sources).toEqual([
+      'leaderboard.html (2 παίκτες)',
+      'leaderboard-cards.html (2 κάρτες)'
+    ]);
+  });
 });

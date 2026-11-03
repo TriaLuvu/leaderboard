@@ -1,5 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const path = require('path');
+const fs = require('fs');
 
 const rawFileUrl = 'file://' + path.resolve(__dirname, '../../leaderboard-standalone.html');
 const fileUrl = rawFileUrl + '?demo=1';
@@ -283,6 +284,53 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     await expect(cards).toHaveCount(18);
   });
 
+  test('Folder migration automatically imports both players and cards in a single step from old folder', async ({ page }) => {
+    const desktopFolder = '/Users/Triantafyllos/Desktop/leaderboard';
+    if (!fs.existsSync(desktopFolder) || !fs.existsSync(path.join(desktopFolder, 'leaderboard.html'))) {
+      test.skip();
+      return;
+    }
+
+    await page.goto(fileUrl);
+    await page.waitForTimeout(300);
+
+    // Open Migration modal
+    await page.click('#tool-btn-migrate', { force: true });
+    await expect(page.locator('.migrate-modal')).toBeVisible();
+
+    // Verify folder browse button is clearly visible and styled with highlight
+    await expect(page.locator('#btn-browse-folder-action')).toBeVisible();
+    await expect(page.locator('#btn-browse-file-action')).toBeVisible();
+
+    // Pass the entire directory directly to the webkitdirectory folder input
+    await page.setInputFiles('#migrate-folder-input', desktopFolder);
+    await expect(page.locator('#migrate-preview-wrap')).toBeVisible({ timeout: 10000 });
+
+    // Verify preview automatically extracted BOTH players and cards in ONE step
+    const statsText = await page.locator('#migrate-preview-stats').innerText();
+    expect(statsText).toContain('12 Παίκτες');
+    expect(statsText).toContain('18 Κάρτες');
+    expect(statsText).toContain('leaderboard.html');
+    expect(statsText).toContain('leaderboard-cards.html');
+
+    // Apply migration
+    await page.click('#btn-apply-migration-now');
+    await expect(page.locator('.migrate-modal')).toBeHidden();
+    await page.waitForTimeout(500);
+
+    // Verify all 12 players imported automatically
+    const rows = page.locator('.leaderboard .person');
+    await expect(rows).toHaveCount(12);
+    const rank1Nick = await page.locator('.podium-column.rank-1 .podium-nickname').innerText();
+    expect(rank1Nick).toBe('Νίκος Παπαδόπουλος');
+
+    // Switch to cards tab and verify all 18 cards imported automatically
+    await page.click('.cat-tab-btn[data-filter="cards"]', { force: true });
+    await page.waitForTimeout(400);
+    const cards = page.locator('.cards-list .card');
+    await expect(cards).toHaveCount(18);
+  });
+
   test('New leaderboard seamlessly imports and renders raw legacy format data via paste and link', async ({ page }) => {
     await page.goto(fileUrl);
     await page.waitForTimeout(300);
@@ -380,5 +428,37 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     // Close migrate modal
     await page.click('#migrate-modal .close-migrate');
     await expect(page.locator('#migrate-modal')).toBeHidden();
+  });
+
+  test('Transfer Hub provides seamless PIN Wireless transfer and Offline File Dropzone', async ({ page }) => {
+    await page.goto(fileUrl);
+    await page.waitForTimeout(400);
+
+    // Open Transfer modal
+    await page.click('#tool-btn-sync', { force: true });
+    await expect(page.locator('.sync-modal')).toBeVisible();
+
+    // Verify Wireless PIN Transfer elements
+    const genPinBtn = page.locator('#btn-generate-sync-pin');
+    await expect(genPinBtn).toBeVisible();
+
+    const pinInput = page.locator('#input-receive-pin');
+    await expect(pinInput).toBeVisible();
+    await pinInput.fill('482195');
+    await expect(pinInput).toHaveValue('482 195');
+
+    const receiveBtn = page.locator('#btn-receive-sync-pin');
+    await expect(receiveBtn).toBeVisible();
+
+    // Verify Offline File Transfer elements
+    const dropzone = page.locator('#sync-file-dropzone');
+    await expect(dropzone).toBeVisible();
+
+    const exportBackupBtn = page.locator('#btn-export-backup-json');
+    await expect(exportBackupBtn).toBeVisible();
+
+    // Close modal
+    await page.locator('.sync-modal .close').first().click();
+    await expect(page.locator('.sync-modal')).toBeHidden();
   });
 });
