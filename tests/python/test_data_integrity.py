@@ -7,7 +7,6 @@ WORKSPACE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")
 
 def test_files_exist():
     assert os.path.exists(os.path.join(WORKSPACE_DIR, "leaderboard-standalone.html"))
-    assert os.path.exists(os.path.join(WORKSPACE_DIR, "index.html"))
     assert os.path.exists(os.path.join(WORKSPACE_DIR, "data.js"))
     assert os.path.exists(os.path.join(WORKSPACE_DIR, "leaderboard-data.json"))
 

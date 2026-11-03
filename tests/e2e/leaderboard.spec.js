@@ -1,9 +1,39 @@
 const { test, expect } = require('@playwright/test');
 const path = require('path');
 
-const fileUrl = 'file://' + path.resolve(__dirname, '../../leaderboard-standalone.html');
+const rawFileUrl = 'file://' + path.resolve(__dirname, '../../leaderboard-standalone.html');
+const fileUrl = rawFileUrl + '?demo=1';
 
 test.describe('Leaderboard Suite E2E Integration Tests', () => {
+
+  test('Formatted empty board state and Format button operations', async ({ page }) => {
+    // Open without demo dataset: should start formatted (empty)
+    await page.goto(rawFileUrl);
+    await page.waitForTimeout(400);
+
+    // Verify empty state notices
+    await expect(page.locator('#lb-empty-notice')).toBeVisible();
+    await expect(page.locator('.leaderboard .person')).toHaveCount(0);
+
+    // Click "Φόρτωση Δειγμάτων (Demo)" button from the empty state card
+    await page.click('#btn-empty-demo');
+    await page.waitForTimeout(400);
+
+    // Verify 12 players loaded
+    await expect(page.locator('.leaderboard .person')).toHaveCount(12);
+
+    // Click Format button (🧹) in toolbar
+    await page.click('#tool-btn-format', { force: true });
+    await expect(page.locator('body')).toHaveClass(/show-confirm/);
+
+    // Confirm format
+    await page.click('#btn-confirm-ok');
+    await page.waitForTimeout(400);
+
+    // Verify board is empty again
+    await expect(page.locator('#lb-empty-notice')).toBeVisible();
+    await expect(page.locator('.leaderboard .person')).toHaveCount(0);
+  });
 
   test('Authentic retro craft palette and zero console errors', async ({ page }) => {
     const errors = [];

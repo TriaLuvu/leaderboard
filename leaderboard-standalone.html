@@ -2615,6 +2615,95 @@ body.show-modal .modal-backdrop {
 		max-width: 95vw;
 	}
 }
+
+/* Empty State / Formatted Board Styles */
+.empty-state-notice {
+	list-style: none;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding: 40px 16px;
+	box-sizing: border-box;
+}
+.empty-state-card {
+	background: #353a40;
+	border: 3px dashed #fff8dc;
+	border-radius: 16px;
+	padding: 40px 30px;
+	text-align: center;
+	max-width: 580px;
+	width: 100%;
+	color: #fff;
+	box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+	animation: emptyStateFadeIn 0.3s ease;
+}
+@keyframes emptyStateFadeIn {
+	from { opacity: 0; transform: translateY(10px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+.empty-state-icon {
+	font-size: 56px;
+	line-height: 1;
+	margin-bottom: 16px;
+}
+.empty-state-title {
+	font-size: 24px;
+	color: #fff8dc;
+	margin-bottom: 12px;
+	font-weight: 700;
+}
+.empty-state-desc {
+	font-size: 15px;
+	color: #d1d5db;
+	margin-bottom: 24px;
+	line-height: 1.6;
+}
+.empty-state-actions {
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+.empty-state-actions .btn {
+	padding: 12px 20px;
+	border-radius: 8px;
+	font-weight: 700;
+	cursor: pointer;
+	border: none;
+	font-size: 14px;
+	transition: all 0.2s ease;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	user-select: none;
+}
+.empty-state-actions .btn-primary {
+	background: #29a744;
+	color: #fff;
+}
+.empty-state-actions .btn-primary:hover {
+	background: #218838;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(41,167,68,0.35);
+}
+.empty-state-actions .btn-secondary {
+	background: #17a2b9;
+	color: #fff;
+}
+.empty-state-actions .btn-secondary:hover {
+	background: #138496;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(23,162,185,0.35);
+}
+.empty-state-actions .btn-outline {
+	background: transparent;
+	border: 2px solid #fff8dc;
+	color: #fff8dc;
+}
+.empty-state-actions .btn-outline:hover {
+	background: rgba(255, 248, 220, 0.15);
+	transform: translateY(-2px);
+}
 	</style>
 
 <body class="mode-lb-active">
@@ -2689,6 +2778,9 @@ body.show-modal .modal-backdrop {
 					</button>
 					<button class="tool-btn btn-migrate-tool" id="tool-btn-migrate" title="Μετάβαση από το Παλιό Σύστημα">
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+					</button>
+					<button class="tool-btn" id="tool-btn-format" title="Φορμάρισμα / Καθαρισμός Leaderboard (0 παίκτες, 0 κάρτες)" aria-label="Φορμάρισμα">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
 					</button>
 				</div>
 
@@ -3745,6 +3837,12 @@ var ConfettiEngine = (function() {
 /* ========================================================
    APPLICATION STATE & CORE LOGIC
    ======================================================== */
+var STORAGE_KEY_LB = "leaderboard_suite_v2_data";
+var STORAGE_KEY_CARDS = "leaderboard_suite_v2_cards";
+var STORAGE_KEY_MODE = "leaderboard_suite_v2_mode";
+var STORAGE_KEY_THEME = "leaderboard_suite_v2_theme";
+var STORAGE_KEY_FORMATTED = "leaderboard_suite_v2_formatted";
+
 var current_mode = "leaderboard";
 var current_display_mode = "all";
 var current_theme = "theme-dripit";
@@ -3776,6 +3874,43 @@ var redo_stack = [];
 var search_query = "";
 var plusPressed = false;
 var minusPressed = false;
+
+// Standard clean test datasets conforming to README guidelines
+var standard_clean_lb = [
+	{ icon: "🦁", nickname: "Νίκος Παπαδόπουλος", score: 25 },
+	{ icon: "🦊", nickname: "Μαρία Γεωργίου", score: 22 },
+	{ icon: "🐼", nickname: "Γιώργος Αλεξίου", score: 20 },
+	{ icon: "🦄", nickname: "Ελένη Δημητρίου", score: 18 },
+	{ icon: "🐯", nickname: "Κώστας Βασιλείου", score: 16 },
+	{ icon: "🦅", nickname: "Δημήτρης Ιωάννου", score: 15 },
+	{ icon: "🦉", nickname: "Σοφία Κωνσταντίνου", score: 13 },
+	{ icon: "🐬", nickname: "Χριστίνα Μιχαήλ", score: 12 },
+	{ icon: "🐸", nickname: "Αλέξανδρος Νικολάου", score: 10 },
+	{ icon: "🐺", nickname: "Βασιλική Σταύρου", score: 9 },
+	{ icon: "🐒", nickname: "Green Monkey", score: 8 },
+	{ icon: "🦎", nickname: "Orange Iguana", score: 7 }
+];
+
+var standard_clean_cards = [
+	{ icon: "🎁", score: "+5",  info: "Τυχερό Κουτί! Κέρδισες 5 πόντους" },
+	{ icon: "🔥", score: "+10", info: "Σούπερ Φωτιά! Προσθέτεις 10 πόντους" },
+	{ icon: "🏆", score: "+15", info: "Μεγάλο Έπαθλο! Προσθέτεις 15 πόντους" },
+	{ icon: "⭐", score: "+8",  info: "Χρυσό Αστέρι! Επιβράβευση 8 πόντων" },
+	{ icon: "⚡", score: "+4",  info: "Αστραπιαία Ερώτηση! Απάντησε σωστά για 4 πόντους" },
+	{ icon: "🦄", score: "+6",  info: "Μαγικό Ουράνιο Τόξο! Παίρνεις 6 πόντους" },
+	{ icon: "💎", score: "+20", info: "Πολύτιμο Διαμάντι! Τεράστιο μπόνους 20 πόντων" },
+	{ icon: "🎯", score: "+7",  info: "Διάνα στο Στόχο! Κέρδισες 7 πόντους" },
+	{ icon: "💣", score: "-5",  info: "Μικρή Παγίδα! Χάνεις 5 πόντους" },
+	{ icon: "🦊", score: "-8",  info: "Πονηρή Αλεπού! Χάνεις 8 πόντους" },
+	{ icon: "👑", score: "-10", info: "Πρόκληση Ηγέτη! Ο πρώτος χάνει 10 πόντους" },
+	{ icon: "🙊", score: "-3",  info: "Σιωπηλή Δοκιμασία! Όποιον επιλέξεις χάνει 3 πόντους" },
+	{ icon: "🌪️", score: "-6",  info: "Ανεμοστρόβιλος! Αφαιρούνται 6 πόντοι" },
+	{ icon: "🧊", score: "-4",  info: "Πάγωμα Σκορ! Αφαιρούνται 4 πόντοι" },
+	{ icon: "🔄", score: "🔁",  info: "Ανταλλαγή Σκορ! Άλλαξε βαθμούς με όποιον παίκτη θέλεις" },
+	{ icon: "✨", score: "x2",  info: "Διπλασιασμός! Οι πόντοι του επόμενου γύρου διπλασιάζονται" },
+	{ icon: "🎲", score: "TIE", info: "Ισοπαλία! Πάρε τους πόντους του αμέσως επόμενου παίκτη" },
+	{ icon: "🛡️", score: "SHIELD", info: "Ασπίδα Προστασίας! Γλιτώνεις την επόμενη ποινή" }
+];
 
 // Smart Delay State (keeps rows stable while clicking points, reorders after 2s idle or mouse leave)
 var smart_reorder_timer = null;
@@ -4261,6 +4396,8 @@ $(document).ready(function() {
 	var q_param = url.searchParams.get("q");
 	var theme_param = url.searchParams.get("theme");
 	var view_param = url.searchParams.get("view") || url.searchParams.get("mode") || url.searchParams.get("display_mode");
+	var format_param = url.searchParams.get("format");
+	var demo_param = url.searchParams.get("demo");
 
 	if (theme_param === "sonexo" || theme_param === "theme-sonexo") apply_theme("theme-sonexo");
 	if (theme_param === "dripit" || theme_param === "theme-dripit") apply_theme("theme-dripit");
@@ -4287,34 +4424,34 @@ $(document).ready(function() {
 				// Old system share link format: array of players or cards
 				if (parsed.length > 0 && parsed[0].nickname !== undefined) {
 					lb_data = parsed;
-					if (local_storage_available) localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+					if (local_storage_available) localStorage.setItem(STORAGE_KEY_LB, JSON.stringify(lb_data));
 					data_was_synced = true;
 					sync_success_msg = "🎉 Τα δεδομένα παικτών από το παλιό σύστημα μεταφέρθηκαν επιτυχώς!";
 				} else if (parsed.length > 0 && (parsed[0].info !== undefined || parsed[0].score !== undefined)) {
 					card_data = parsed;
-					if (local_storage_available) localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
+					if (local_storage_available) localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(card_data));
 					data_was_synced = true;
 					sync_success_msg = "🎉 Οι κάρτες από το παλιό σύστημα μεταφέρθηκαν επιτυχώς!";
 				}
 			} else if (parsed && typeof parsed === "object") {
 				if (parsed.lb && Array.isArray(parsed.lb)) {
 					lb_data = parsed.lb;
-					if (local_storage_available) localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+					if (local_storage_available) localStorage.setItem(STORAGE_KEY_LB, JSON.stringify(lb_data));
 					data_was_synced = true;
 				} else if (parsed.leaderboard && Array.isArray(parsed.leaderboard)) {
 					lb_data = parsed.leaderboard;
-					if (local_storage_available) localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+					if (local_storage_available) localStorage.setItem(STORAGE_KEY_LB, JSON.stringify(lb_data));
 					data_was_synced = true;
 				}
 				if (parsed.cards && Array.isArray(parsed.cards)) {
 					card_data = parsed.cards;
-					if (local_storage_available) localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
+					if (local_storage_available) localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(card_data));
 					data_was_synced = true;
 				}
 				if (parsed.theme) apply_theme(parsed.theme);
 				if (parsed.mode || parsed.display_mode) {
 					current_display_mode = parsed.mode || parsed.display_mode;
-					if (local_storage_available) localStorage.setItem("app_display_mode", current_display_mode);
+					if (local_storage_available) localStorage.setItem(STORAGE_KEY_MODE, current_display_mode);
 				}
 				if (q_param != null) {
 					sync_success_msg = "🎉 Τα δεδομένα από το παλιό σύστημα μεταφέρθηκαν επιτυχώς!";
@@ -4339,20 +4476,53 @@ $(document).ready(function() {
 		} else if (view_param === "all") {
 			current_display_mode = "all";
 		}
-		if (local_storage_available) localStorage.setItem("app_display_mode", current_display_mode);
+		if (local_storage_available) localStorage.setItem(STORAGE_KEY_MODE, current_display_mode);
 	} else if (!data_was_synced && local_storage_available) {
-		var stored_mode = localStorage.getItem("app_display_mode");
+		var stored_mode = localStorage.getItem(STORAGE_KEY_MODE);
 		if (stored_mode) current_display_mode = stored_mode;
 	}
 
-	if (!data_was_synced && local_storage_available) {
-		var stored_lb = localStorage.getItem("leaderboard_data");
-		if (stored_lb) {
-			try { lb_data = JSON.parse(stored_lb) || []; } catch(e) {}
+	// Format URL override
+	if (format_param === "1") {
+		lb_data = [];
+		card_data = [];
+		if (local_storage_available) {
+			localStorage.setItem(STORAGE_KEY_FORMATTED, "true");
+			localStorage.setItem(STORAGE_KEY_LB, JSON.stringify([]));
+			localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify([]));
 		}
-		var stored_cards = localStorage.getItem("leaderboard_card_data");
-		if (stored_cards) {
-			try { card_data = JSON.parse(stored_cards) || []; } catch(e) {}
+	} else if (demo_param === "1") {
+		// Demo dataset URL override
+		lb_data = JSON.parse(JSON.stringify(standard_clean_lb));
+		card_data = JSON.parse(JSON.stringify(standard_clean_cards));
+		if (local_storage_available) {
+			localStorage.removeItem(STORAGE_KEY_FORMATTED);
+			localStorage.setItem(STORAGE_KEY_LB, JSON.stringify(lb_data));
+			localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(card_data));
+		}
+	} else if (!data_was_synced && local_storage_available) {
+		var isFormatted = localStorage.getItem(STORAGE_KEY_FORMATTED) === "true";
+		if (isFormatted) {
+			lb_data = [];
+			card_data = [];
+		} else {
+			var stored_lb = localStorage.getItem(STORAGE_KEY_LB);
+			if (stored_lb) {
+				try { lb_data = JSON.parse(stored_lb) || []; } catch(e) { lb_data = []; }
+			}
+			var stored_cards = localStorage.getItem(STORAGE_KEY_CARDS);
+			if (stored_cards) {
+				try { card_data = JSON.parse(stored_cards) || []; } catch(e) { card_data = []; }
+			}
+
+			// If no saved state exists yet, default to clean formatted/empty state
+			if (stored_lb === null && stored_cards === null) {
+				lb_data = [];
+				card_data = [];
+				localStorage.setItem(STORAGE_KEY_FORMATTED, "true");
+				localStorage.setItem(STORAGE_KEY_LB, JSON.stringify([]));
+				localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify([]));
+			}
 		}
 	}
 
@@ -4371,75 +4541,13 @@ $(document).ready(function() {
 		});
 	}
 
-	// Seed from data.js if present in folder and no local data saved yet
-	if ((!lb_data || lb_data.length === 0) && typeof window.LEADERBOARD_INITIAL_DATA !== "undefined" && window.LEADERBOARD_INITIAL_DATA) {
-		var initData = window.LEADERBOARD_INITIAL_DATA;
-		if (initData.leaderboard && Array.isArray(initData.leaderboard)) lb_data = initData.leaderboard;
-		if (initData.cards && Array.isArray(initData.cards)) card_data = initData.cards;
-		if (initData.theme) apply_theme(initData.theme);
-		if (initData.display_mode) current_display_mode = initData.display_mode;
-		if (local_storage_available) {
-			localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
-			localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
-			localStorage.setItem("app_display_mode", current_display_mode);
-		}
-	}
-
-	// Clean standard data matching README standards
-	var standard_clean_lb = [
-		{ icon: "🦁", nickname: "Νίκος Παπαδόπουλος", score: 25 },
-		{ icon: "🦊", nickname: "Μαρία Γεωργίου", score: 22 },
-		{ icon: "🐼", nickname: "Γιώργος Αλεξίου", score: 20 },
-		{ icon: "🦄", nickname: "Ελένη Δημητρίου", score: 18 },
-		{ icon: "🐯", nickname: "Κώστας Βασιλείου", score: 16 },
-		{ icon: "🦅", nickname: "Δημήτρης Ιωάννου", score: 15 },
-		{ icon: "🦉", nickname: "Σοφία Κωνσταντίνου", score: 13 },
-		{ icon: "🐬", nickname: "Χριστίνα Μιχαήλ", score: 12 },
-		{ icon: "🐸", nickname: "Αλέξανδρος Νικολάου", score: 10 },
-		{ icon: "🐺", nickname: "Βασιλική Σταύρου", score: 9 },
-		{ icon: "🐒", nickname: "Green Monkey", score: 8 },
-		{ icon: "🦎", nickname: "Orange Iguana", score: 7 }
-	];
-
-	var standard_clean_cards = [
-		{ icon: "🎁", score: "+5",  info: "Τυχερό Κουτί! Κέρδισες 5 πόντους" },
-		{ icon: "🔥", score: "+10", info: "Σούπερ Φωτιά! Προσθέτεις 10 πόντους" },
-		{ icon: "🏆", score: "+15", info: "Μεγάλο Έπαθλο! Προσθέτεις 15 πόντους" },
-		{ icon: "⭐", score: "+8",  info: "Χρυσό Αστέρι! Επιβράβευση 8 πόντων" },
-		{ icon: "⚡", score: "+4",  info: "Αστραπιαία Ερώτηση! Απάντησε σωστά για 4 πόντους" },
-		{ icon: "🦄", score: "+6",  info: "Μαγικό Ουράνιο Τόξο! Παίρνεις 6 πόντους" },
-		{ icon: "💎", score: "+20", info: "Πολύτιμο Διαμάντι! Τεράστιο μπόνους 20 πόντων" },
-		{ icon: "🎯", score: "+7",  info: "Διάνα στο Στόχο! Κέρδισες 7 πόντους" },
-		{ icon: "💣", score: "-5",  info: "Μικρή Παγίδα! Χάνεις 5 πόντους" },
-		{ icon: "🦊", score: "-8",  info: "Πονηρή Αλεπού! Χάνεις 8 πόντους" },
-		{ icon: "👑", score: "-10", info: "Πρόκληση Ηγέτη! Ο πρώτος χάνει 10 πόντους" },
-		{ icon: "🙊", score: "-3",  info: "Σιωπηλή Δοκιμασία! Όποιον επιλέξεις χάνει 3 πόντους" },
-		{ icon: "🌪️", score: "-6",  info: "Ανεμοστρόβιλος! Αφαιρούνται 6 πόντοι" },
-		{ icon: "🧊", score: "-4",  info: "Πάγωμα Σκορ! Αφαιρούνται 4 πόντοι" },
-		{ icon: "🔄", score: "🔁",  info: "Ανταλλαγή Σκορ! Άλλαξε βαθμούς με όποιον παίκτη θέλεις" },
-		{ icon: "✨", score: "x2",  info: "Διπλασιασμός! Οι πόντοι του επόμενου γύρου διπλασιάζονται" },
-		{ icon: "🎲", score: "TIE", info: "Ισοπαλία! Πάρε τους πόντους του αμέσως επόμενου παίκτη" },
-		{ icon: "🛡️", score: "SHIELD", info: "Ασπίδα Προστασίας! Γλιτώνεις την επόμενη ποινή" }
-	];
-
-	// Seed data matching standard format if still empty or holding legacy placeholder
-	if (!lb_data || lb_data.length === 0 || (lb_data.length > 0 && lb_data[0].nickname === "Hawk")) {
-		lb_data = standard_clean_lb;
-		if (local_storage_available) localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
-	}
-
-	if (!card_data || card_data.length < 12) {
-		card_data = standard_clean_cards;
-		if (local_storage_available) localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
-	}
-
 	build_leaderboard();
 	build_cards();
 	init_event_listeners();
 	apply_display_mode(current_display_mode, false);
 
 	// Optional auto-fetch from leaderboard-data.json if hosted on server with no local changes yet
-	if (!data_was_synced && local_storage_available && !localStorage.getItem("leaderboard_data") && (window.location.protocol === "http:" || window.location.protocol === "https:")) {
+	if (!data_was_synced && local_storage_available && !localStorage.getItem(STORAGE_KEY_LB) && (window.location.protocol === "http:" || window.location.protocol === "https:")) {
 		fetch("./leaderboard-data.json")
 			.then(function(r) { return r.ok ? r.json() : null; })
 			.then(function(d) {
@@ -4498,6 +4606,35 @@ function build_leaderboard() {
 	var $list = $(".leaderboard");
 	$list.empty();
 
+	if (sorted.length === 0) {
+		$list.append(
+			'<li class="empty-state-notice" id="lb-empty-notice">' +
+			'  <div class="empty-state-card">' +
+			'    <div class="empty-state-icon">📭</div>' +
+			'    <h3 class="empty-state-title">Το Leaderboard είναι άδειο (Φορμαρισμένο)</h3>' +
+			'    <p class="empty-state-desc">Μπορείτε να εισαγάγετε παίκτες από την παλιά έκδοση ή να φορτώσετε δοκιμαστικά δείγματα.</p>' +
+			'    <div class="empty-state-actions">' +
+			'      <button type="button" class="btn btn-primary" id="btn-empty-migrate" onclick="$(\'#tool-btn-migrate\').trigger(\'click\');">📥 Μεταφορά από Παλιό Σύστημα</button>' +
+			'      <button type="button" class="btn btn-secondary" id="btn-empty-demo" onclick="load_standard_demo_data();">💡 Φόρτωση Δειγμάτων (Demo)</button>' +
+			'      <button type="button" class="btn btn-outline" onclick="$(\'#tool-btn-add\').trigger(\'click\');">➕ Προσθήκη Παίκτη</button>' +
+			'    </div>' +
+			'  </div>' +
+			'</li>'
+		);
+		if (leaderboard_iso) {
+			try {
+				leaderboard_iso.isotope("reloadItems");
+				leaderboard_iso.isotope({ filter: "*" });
+			} catch(e) {}
+		}
+		update_podium([]);
+		update_ticker_stats([]);
+		if (local_storage_available) {
+			localStorage.setItem(STORAGE_KEY_LB, JSON.stringify([]));
+		}
+		return;
+	}
+
 	sorted.forEach(function(person, index) {
 		var rank = index + 1;
 		var topClass = rank === 1 ? "top-1" : (rank === 2 ? "top-2" : (rank === 3 ? "top-3" : ""));
@@ -4544,7 +4681,7 @@ function build_leaderboard() {
 	bind_person_events();
 
 	if (local_storage_available) {
-		localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+		localStorage.setItem(STORAGE_KEY_LB, JSON.stringify(lb_data));
 	}
 }
 
@@ -4683,7 +4820,7 @@ function save_inline_edits() {
 
 	lb_data = new_data;
 	if (local_storage_available) {
-		localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+		localStorage.setItem(STORAGE_KEY_LB, JSON.stringify(lb_data));
 	}
 
 	exit_inline_edit_mode();
@@ -4728,6 +4865,11 @@ function toggle_podium() {
 
 /* --- PODIUM UPDATE --- */
 function update_podium(sorted) {
+	if (!sorted || sorted.length === 0) {
+		$("#podium-stage-container").hide();
+		return;
+	}
+	$("#podium-stage-container").show();
 	render_podium_slot(1, sorted[0]);
 	render_podium_slot(2, sorted[1]);
 	render_podium_slot(3, sorted[2]);
@@ -4813,7 +4955,7 @@ function animate_reorder_ranks(changedPersons) {
 	update_ticker_stats(newSorted);
 
 	if (local_storage_available) {
-		localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+		localStorage.setItem(STORAGE_KEY_LB, JSON.stringify(lb_data));
 	}
 
 	// Clear temporary overtake elevation and styling after animation finishes
@@ -4920,7 +5062,7 @@ function apply_score_change(targetPerson, delta, $row, immediate) {
 	// Immediate ticker update & persistence
 	update_ticker_stats(get_sorted_lb_data());
 	if (local_storage_available) {
-		localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+		localStorage.setItem(STORAGE_KEY_LB, JSON.stringify(lb_data));
 	}
 
 	if (immediate) {
@@ -5336,7 +5478,32 @@ function apply_search_filter() {
 function build_cards() {
 	if (inline_cards_edit_active) return;
 	$(".cards-list").empty();
-	if (card_data.length === 0) return;
+	if (card_data.length === 0) {
+		$(".cards-list").append(
+			'<div class="empty-state-notice cards-empty" id="cards-empty-notice">' +
+			'  <div class="empty-state-card">' +
+			'    <div class="empty-state-icon">🃏</div>' +
+			'    <h3 class="empty-state-title">Δεν υπάρχουν κάρτες μυστηρίου</h3>' +
+			'    <p class="empty-state-desc">Μπορείτε να εισαγάγετε τις κάρτες από την παλιά έκδοση ή να φορτώσετε τις προεπιλεγμένες 18 κάρτες.</p>' +
+			'    <div class="empty-state-actions">' +
+			'      <button type="button" class="btn btn-primary" onclick="$(\'#tool-btn-migrate\').trigger(\'click\');">📥 Μεταφορά από Παλιό Σύστημα</button>' +
+			'      <button type="button" class="btn btn-secondary" onclick="load_standard_demo_data();">💡 Φόρτωση Δειγμάτων (Demo)</button>' +
+			'      <button type="button" class="btn btn-outline" onclick="$(\'#btn-add-card\').trigger(\'click\');">➕ Προσθήκη Κάρτας</button>' +
+			'    </div>' +
+			'  </div>' +
+			'</div>'
+		);
+		if (cards_iso) {
+			try {
+				cards_iso.isotope("reloadItems");
+				cards_iso.isotope({ filter: "*" });
+			} catch(e) {}
+		}
+		if (local_storage_available) {
+			localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify([]));
+		}
+		return;
+	}
 
 	card_data.forEach(function(card, idx) {
 		var cardHtml = card_template
@@ -5426,7 +5593,7 @@ function build_cards() {
 	});
 
 	if (local_storage_available) {
-		localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
+		localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(card_data));
 	}
 }
 
@@ -5553,7 +5720,7 @@ function save_cards_inline_edits() {
 
 	card_data = new_cards;
 	if (local_storage_available) {
-		localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
+		localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(card_data));
 	}
 
 	exit_cards_inline_edit_mode();
@@ -5823,6 +5990,10 @@ function init_event_listeners() {
 
 	$("#tool-btn-sync").on("click", function() {
 		open_sync_hub();
+	});
+
+	$("#tool-btn-format").on("click", function() {
+		format_board_now();
 	});
 
 	$("#btn-shuffle-cards").on("click", function() {
@@ -6241,7 +6412,7 @@ function apply_display_mode(mode, saveAndNotify) {
 
 	if (saveAndNotify) {
 		if (local_storage_available) {
-			localStorage.setItem("app_display_mode", current_display_mode);
+			localStorage.setItem(STORAGE_KEY_MODE, current_display_mode);
 		}
 		var label = current_display_mode === "leaderboard_only" 
 			? "Μόνο Leaderboard" 
@@ -6385,9 +6556,9 @@ function download_ready_app_html() {
 		'window.__SEEDED_MODE__ = ' + JSON.stringify(current_display_mode) + ';\n' +
 		'window.__SEEDED_THEME__ = ' + JSON.stringify(current_theme) + ';\n' +
 		'try {\n' +
-		'	localStorage.setItem("leaderboard_data", JSON.stringify(' + JSON.stringify(lb_data) + '));\n' +
-		'	localStorage.setItem("leaderboard_card_data", JSON.stringify(' + JSON.stringify(card_data) + '));\n' +
-		'	localStorage.setItem("app_display_mode", ' + JSON.stringify(current_display_mode) + ');\n' +
+		'	localStorage.setItem("' + STORAGE_KEY_LB + '", JSON.stringify(' + JSON.stringify(lb_data) + '));\n' +
+		'	localStorage.setItem("' + STORAGE_KEY_CARDS + '", JSON.stringify(' + JSON.stringify(card_data) + '));\n' +
+		'	localStorage.setItem("' + STORAGE_KEY_MODE + '", ' + JSON.stringify(current_display_mode) + ');\n' +
 		'} catch(e) {}\n' +
 		'</scr' + 'ipt>';
 
@@ -6445,9 +6616,9 @@ function handle_import_backup(file) {
 			if (parsed.display_mode) apply_display_mode(parsed.display_mode, false);
 
 			if (local_storage_available) {
-				localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
-				localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
-				if (parsed.display_mode) localStorage.setItem("app_display_mode", parsed.display_mode);
+				localStorage.setItem(STORAGE_KEY_LB, JSON.stringify(lb_data));
+				localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(card_data));
+				if (parsed.display_mode) localStorage.setItem(STORAGE_KEY_MODE, parsed.display_mode);
 			}
 
 			build_leaderboard();
@@ -6568,9 +6739,10 @@ function apply_pasted_data() {
 
 function save_and_reload_state(successMessage) {
 	if (local_storage_available) {
-		localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
-		localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
-		localStorage.setItem("app_display_mode", current_display_mode);
+		localStorage.setItem(STORAGE_KEY_LB, JSON.stringify(lb_data));
+		localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(card_data));
+		localStorage.setItem(STORAGE_KEY_MODE, current_display_mode);
+		localStorage.removeItem(STORAGE_KEY_FORMATTED);
 	}
 	build_leaderboard();
 	build_cards();
@@ -6639,15 +6811,47 @@ function load_local_json_file() {
 function reset_to_defaults() {
 	showConfirmDialog(
 		"Επαναφορά Προεπιλογών",
-		"Είστε σίγουροι ότι θέλετε να επαναφέρετε τις αρχικές προεπιλογές; Όλες οι τρέχουσες αλλαγές θα χαθούν!",
+		"Είστε σίγουροι ότι θέλετε να επαναφέρετε τα επίσημα δοκιμαστικά δείγματα (12 παίκτες, 18 κάρτες); Όλες οι τρέχουσες αλλαγές θα αντικατασταθούν.",
 		"warning",
 		function() {
-			localStorage.removeItem("leaderboard_data");
-			localStorage.removeItem("leaderboard_card_data");
-			localStorage.removeItem("app_display_mode");
-			window.location.reload();
+			load_standard_demo_data();
 		}
 	);
+}
+
+function format_board_now() {
+	showConfirmDialog(
+		"Φορμάρισμα Συστήματος",
+		"Είστε σίγουροι ότι θέλετε να αδειάσετε πλήρως το νέο Leaderboard (0 παίκτες και 0 κάρτες); Το σύστημα θα καθαριστεί πλήρως για να δοκιμάσετε καθαρή μεταφορά.",
+		"🧹",
+		function() {
+			lb_data = [];
+			card_data = [];
+			if (local_storage_available) {
+				localStorage.setItem(STORAGE_KEY_FORMATTED, "true");
+				localStorage.setItem(STORAGE_KEY_LB, JSON.stringify([]));
+				localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify([]));
+			}
+			build_leaderboard();
+			build_cards();
+			showToast("🧹 Το Leaderboard φορμαρίστηκε επιτυχώς (είναι πλέον εντελώς άδειο).");
+			AudioEngine.playNegative();
+		}
+	);
+}
+
+function load_standard_demo_data() {
+	lb_data = JSON.parse(JSON.stringify(standard_clean_lb));
+	card_data = JSON.parse(JSON.stringify(standard_clean_cards));
+	if (local_storage_available) {
+		localStorage.removeItem(STORAGE_KEY_FORMATTED);
+		localStorage.setItem(STORAGE_KEY_LB, JSON.stringify(lb_data));
+		localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(card_data));
+	}
+	build_leaderboard();
+	build_cards();
+	showToast("✨ Φορτώθηκαν τα επίσημα δοκιμαστικά δείγματα (12 παίκτες, 18 κάρτες).");
+	AudioEngine.playPositive();
 }
 
 /* ========================================================
@@ -6968,7 +7172,7 @@ function execute_migration() {
 				}
 			});
 		}
-		if (local_storage_available) localStorage.setItem("leaderboard_data", JSON.stringify(lb_data));
+		if (local_storage_available) localStorage.setItem(STORAGE_KEY_LB, JSON.stringify(lb_data));
 	}
 
 	if (pending_migration_data.cards && pending_migration_data.cards.length > 0) {
@@ -6977,7 +7181,7 @@ function execute_migration() {
 		} else {
 			card_data = card_data.concat(pending_migration_data.cards);
 		}
-		if (local_storage_available) localStorage.setItem("leaderboard_card_data", JSON.stringify(card_data));
+		if (local_storage_available) localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(card_data));
 	}
 
 	if (pending_migration_data.theme) apply_theme(pending_migration_data.theme);
@@ -6985,6 +7189,7 @@ function execute_migration() {
 
 	if (local_storage_available) {
 		localStorage.setItem("leaderboard_migrated_v2", "true");
+		localStorage.removeItem(STORAGE_KEY_FORMATTED);
 	}
 
 	build_leaderboard();
