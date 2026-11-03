@@ -1,1 +1,8 @@
 .DS_Store
+node_modules/
+playwright-report/
+test-results/
+*.bak
+*.png
+update_app.py
+.pytest_cache/

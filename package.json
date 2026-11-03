@@ -1,0 +1,31 @@
+{
+  "name": "leaderboard",
+  "version": "2.0.0",
+  "description": "Μια ολοκληρωμένη, αυτόνομη και διαδραστική εφαρμογή πίνακα κατάταξης (Leaderboard) και καρτών επιβράβευσης/μυστηρίου (Mystery Cards).",
+  "main": "data.js",
+  "scripts": {
+    "test": "jest tests/unit",
+    "test:unit": "jest tests/unit",
+    "test:e2e": "playwright test",
+    "test:python": "python3 -m pytest tests/python",
+    "test:all": "npm run test:unit && npm run test:e2e && npm run test:python"
+  },
+  "keywords": [
+    "leaderboard",
+    "mystery-cards",
+    "tournament",
+    "gaming"
+  ],
+  "author": "Triantafyllos",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "jest": "^30.5.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/unit/**/*.test.js"
+    ]
+  }
+}

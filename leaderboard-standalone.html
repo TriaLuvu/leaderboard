@@ -6654,6 +6654,8 @@ function reset_migrate_modal_state() {
 	pending_migration_data = null;
 	$("#migrate-preview-wrap").hide();
 	$("#migrate-paste-input").val("");
+	$("#migrate-file-input").val("");
+	last_handled_file_stamp = 0;
 	$("#migrate-dropzone").removeClass("dragover");
 	$("#browser-scan-status").html("Πατήστε το κουμπί για να γίνει σάρωση της μνήμης του browser...");
 	$('.migrate-modal .modal-tab-btn[data-migratetab="file"]').trigger("click");
@@ -6788,7 +6790,7 @@ function parse_migration_content(content) {
 					var nickname = nickEl ? nickEl.textContent.trim() : "";
 					var scoreEl = el.querySelector(".score, .person-score-badge, .person-score");
 					var score = scoreEl ? parseInt(scoreEl.textContent.trim(), 10) : 0;
-					if (nickname && nickname !== "Προσθήκη Νέου Παίκτη" && !nickname.includes("+")) {
+					if (nickname && !nickname.includes("{{") && nickname !== "Προσθήκη Νέου Παίκτη" && !nickname.includes("+")) {
 						extractedPersons.push({ icon: icon, nickname: nickname, score: isNaN(score) ? 0 : score });
 					}
 				});
@@ -6805,7 +6807,7 @@ function parse_migration_content(content) {
 					var score = scoreEl ? scoreEl.textContent.trim() : "";
 					var infoEl = el.querySelector(".info, .desc, .text, .card-info, .card-info-text");
 					var info = infoEl ? infoEl.textContent.trim() : "";
-					if (info || score) {
+					if ((info || score) && !info.includes("{{") && !score.includes("{{")) {
 						extractedCards.push({ icon: icon, score: score, info: info });
 					}
 				});
@@ -6837,16 +6839,23 @@ function parse_migration_content(content) {
 						if (parsedInit.cards && result.cards.length === 0) result.cards = parsedInit.cards;
 					} catch(e) {}
 				}
-				var matchData = code.match(/data\s*=\s*(\[[\s\S]*?\]);/);
-				if (matchData && matchData[1]) {
+				var matchDataMatches = [...code.matchAll(/data\s*=\s*(\[\s*\{[\s\S]*?\}\s*,?\s*\]);?/g)];
+				matchDataMatches.forEach(function(m) {
 					try {
-						var parsedData = JSON.parse(matchData[1]);
+						var parsedData = (new Function("return " + m[1]))();
 						if (Array.isArray(parsedData) && parsedData.length > 0) {
-							if (parsedData[0].nickname && result.leaderboard.length === 0) result.leaderboard = parsedData;
-							else if (parsedData[0].info && result.cards.length === 0) result.cards = parsedData;
+							if (parsedData[0].nickname) {
+								if (result.leaderboard.length === 0) {
+									result.leaderboard = parsedData.filter(function(p) { return p.nickname && !p.nickname.includes("{{"); });
+								}
+							} else if (parsedData[0].info || parsedData[0].score) {
+								if (result.cards.length === 0) {
+									result.cards = parsedData.filter(function(c) { return (c.info || c.score) && !(c.info && c.info.includes("{{")); });
+								}
+							}
 						}
 					} catch(e) {}
-				}
+				});
 			});
 
 			if (result.leaderboard.length > 0 || result.cards.length > 0) {
