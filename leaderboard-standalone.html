@@ -1500,18 +1500,65 @@ body.show-modal .modal-backdrop {
 	background: #4338ca;
 }
 .migrate-dropzone {
-	border: 2px dashed rgba(139, 92, 246, 0.5);
-	background: rgba(139, 92, 246, 0.05);
-	border-radius: 14px;
-	padding: 28px 18px;
+	position: relative;
+	display: block;
+	border: 2px dashed rgba(139, 92, 246, 0.6);
+	background: rgba(139, 92, 246, 0.06);
+	border-radius: 16px;
+	padding: 30px 20px;
 	text-align: center;
 	cursor: pointer;
-	transition: all 0.2s ease;
+	transition: all 0.22s ease;
+	overflow: hidden;
+	user-select: none;
 }
-.migrate-dropzone:hover, .migrate-dropzone.dragover {
+.migrate-dropzone:hover {
 	border-color: #a855f7;
 	background: rgba(139, 92, 246, 0.12);
-	transform: scale(1.01);
+	box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);
+}
+.migrate-dropzone.dragover {
+	border-color: #38bdf8 !important;
+	background: rgba(56, 189, 248, 0.18) !important;
+	transform: scale(1.02);
+	box-shadow: 0 8px 30px rgba(56, 189, 248, 0.35) !important;
+}
+.migrate-dropzone input[type="file"] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	cursor: pointer;
+	z-index: 10;
+}
+.migrate-dropzone .dropzone-content {
+	pointer-events: none;
+	position: relative;
+	z-index: 1;
+}
+.btn-dropzone-browse {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	margin-top: 14px;
+	padding: 10px 22px;
+	background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+	color: #ffffff;
+	font-size: 13px;
+	font-weight: 800;
+	border-radius: 10px;
+	border: none;
+	box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+	pointer-events: auto;
+	cursor: pointer;
+}
+.btn-dropzone-browse:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 6px 18px rgba(139, 92, 246, 0.55);
 }
 .migrate-tab-pane {
 	display: none;
@@ -2415,6 +2462,159 @@ body.show-modal .modal-backdrop {
 	0%, 100% { transform: scale(1); }
 	50% { transform: scale(1.08); }
 }
+
+/* ========================================================
+   RESPONSIVE CRAFT ADAPTATIONS (MOBILE & TABLET)
+   Maintains 100% authentic retro craft palette while ensuring
+   flawless alignment, touch targets, and zero button collisions.
+   ======================================================== */
+@media (max-width: 768px) {
+	.app-top-nav {
+		padding: 16px 0 12px 0;
+		gap: 12px;
+		margin-bottom: 18px;
+	}
+	.brand-title {
+		font-size: 28px;
+	}
+	.brand-icon {
+		width: 38px;
+		height: 38px;
+	}
+	.category-filter-tabs {
+		order: 3;
+		width: 100%;
+		justify-content: center;
+	}
+	.top-nav-right {
+		width: 100%;
+		justify-content: space-between;
+		gap: 8px;
+	}
+	.search-box-wrap {
+		flex: 1;
+		width: auto;
+		min-width: 140px;
+	}
+	.search-box-wrap:focus-within {
+		width: auto;
+	}
+	.table-card-header {
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+	.table-header-right {
+		flex-wrap: wrap;
+		gap: 8px;
+		width: 100%;
+		justify-content: flex-end;
+	}
+	#btn-shuffle-cards,
+	#btn-refresh-cards {
+		white-space: nowrap;
+		flex-shrink: 0;
+		min-height: 38px;
+	}
+}
+
+@media (max-width: 640px) {
+	.app-container {
+		padding: 0 10px;
+	}
+	.podium-blocks-wrapper {
+		gap: 8px;
+		width: 100%;
+	}
+	.podium-column {
+		flex: 1;
+		width: auto;
+		max-width: 130px;
+		min-width: 85px;
+	}
+	.podium-profile-card {
+		padding: 8px 6px;
+	}
+	.podium-avatar-ring {
+		width: 44px;
+		height: 44px;
+		font-size: 24px;
+		margin: 4px 0;
+	}
+	.podium-nickname {
+		font-size: 13px;
+	}
+	.podium-score-pill {
+		font-size: 14px;
+		padding: 2px 8px;
+	}
+	.podium-pedestal {
+		border-radius: 6px 6px 0 0;
+	}
+	.podium-column.rank-1 .podium-pedestal { height: 95px; }
+	.podium-column.rank-2 .podium-pedestal { height: 75px; }
+	.podium-column.rank-3 .podium-pedestal { height: 60px; }
+	.pedestal-rank-num { font-size: 26px; }
+
+	.tournament-ticker {
+		padding: 8px 14px;
+		gap: 10px;
+		margin-bottom: 20px;
+	}
+	.ticker-label { font-size: 13px; }
+	.ticker-stat strong { font-size: 15px; padding: 2px 8px; }
+
+	/* Mobile Person Row: neatly fitted without overflow */
+	.person {
+		height: 64px;
+		padding: 0 90px 0 0;
+		margin-bottom: 10px;
+	}
+	.person-avatar-wrap {
+		width: 56px;
+		height: 64px;
+		font-size: 32px;
+		line-height: 64px;
+	}
+	.person-avatar-wrap svg {
+		width: 36px;
+		height: 36px;
+	}
+	.person-rank-badge {
+		left: 60px;
+		font-size: 13px;
+	}
+	.person-details {
+		margin-left: 80px;
+	}
+	.person-nickname {
+		font-size: 18px;
+		line-height: 24px;
+	}
+	.person-score-badge {
+		width: 90px;
+		height: 64px;
+		line-height: 64px;
+		font-size: 32px;
+	}
+	.person-point-btns-tray {
+		height: 64px;
+	}
+	.person.open .person-point-btns-tray,
+	.person:hover .person-point-btns-tray {
+		right: 90px;
+	}
+	.pt-btn {
+		width: 44px;
+		height: 64px;
+		line-height: 64px;
+		font-size: 16px;
+	}
+
+	.modal-box {
+		padding: 20px 16px;
+		max-width: 95vw;
+	}
+}
 	</style>
 
 <body class="mode-lb-active">
@@ -3245,16 +3445,24 @@ body.show-modal .modal-backdrop {
 
 			<!-- TAB 1: FILE DROP & SELECT -->
 			<div class="migrate-tab-pane active" id="pane-migrate-file">
-				<div class="migrate-dropzone" id="migrate-dropzone">
-					<div style="font-size: 32px; margin-bottom: 8px;">📂</div>
-					<p style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">
-						Σύρετε εδώ το παλιό αρχείο ή <span style="color: #a855f7; text-decoration: underline;">κάντε κλικ για επιλογή</span>
-					</p>
-					<p style="font-size: 12px; color: var(--text-secondary); margin: 0;">
-						Υποστηρίζονται: παλιά <b>leaderboard.html</b>, <b>leaderboard-cards.html</b>, αντίγραφα <b>.json</b> ή <b>.txt</b>
-					</p>
-					<input type="file" id="migrate-file-input" accept=".html,.htm,.json,.txt,.csv" style="display:none;">
-				</div>
+				<label class="migrate-dropzone" id="migrate-dropzone" for="migrate-file-input">
+					<input type="file" id="migrate-file-input" accept=".html,.htm,.json,.txt,.csv" title="Κάντε κλικ ή σύρετε αρχείο">
+					<div class="dropzone-content">
+						<div style="font-size: 38px; margin-bottom: 8px;" id="dropzone-icon">📂</div>
+						<p style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin-bottom: 6px;" id="dropzone-text-main">
+							Σύρετε εδώ το παλιό αρχείο ή <span style="color: #c084fc; text-decoration: underline;">κάντε κλικ για επιλογή</span>
+						</p>
+						<p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 6px 0;">
+							Υποστηρίζονται: παλιά <b>leaderboard.html</b>, <b>leaderboard-cards.html</b>, αντίγραφα <b>.json</b> ή <b>.txt / .csv</b>
+						</p>
+						<div>
+							<button type="button" class="btn-dropzone-browse" id="btn-browse-file-action">
+								<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+								<span>Επιλογή Αρχείου από τον Υπολογιστή</span>
+							</button>
+						</div>
+					</div>
+				</label>
 			</div>
 
 			<!-- TAB 2: LINK OR RAW TEXT PASTE -->
@@ -3543,6 +3751,22 @@ var current_theme = "theme-dripit";
 var leaderboard_iso = null;
 var cards_iso = null;
 var local_storage_available = false;
+
+function safe_local_storage_set(key, val) {
+	if (!local_storage_available) return;
+	try {
+		localStorage.setItem(key, typeof val === "string" ? val : JSON.stringify(val));
+	} catch(e) {}
+}
+
+function safe_local_storage_get(key) {
+	if (!local_storage_available) return null;
+	try {
+		return localStorage.getItem(key);
+	} catch(e) {
+		return null;
+	}
+}
 var lb_data = [];
 var card_data = [];
 var swap_mode_active = false;
@@ -3994,6 +4218,7 @@ var EmojiPicker = {
 	}
 };
 
+/* --- SEED_INJECTION_ANCHOR --- */
 $(document).ready(function() {
 	test_local_storage();
 	apply_theme(current_theme);
@@ -4729,13 +4954,22 @@ function bind_person_events() {
 			}
 		});
 
-	// Single-click on leaderboard score badge: triggers score swap selection directly!
+	var score_badge_click_timer = null;
+
+	// Single-click on leaderboard score badge: triggers score swap selection directly (debounced to avoid conflict with dblclick)
 	$(".person .person-score-badge").off("click").on("click", function(e) {
 		e.stopPropagation();
 		if ($(this).find("input").length > 0) return;
 		var $row = $(this).closest(".person");
 		var nick = $row.find(".person-nickname").text().trim();
-		handle_score_swap_click(nick);
+		if (score_badge_click_timer) {
+			clearTimeout(score_badge_click_timer);
+			score_badge_click_timer = null;
+		}
+		score_badge_click_timer = setTimeout(function() {
+			score_badge_click_timer = null;
+			handle_score_swap_click(nick);
+		}, 260);
 	});
 
 	// Single-click on podium score pill: triggers score swap selection directly!
@@ -4749,6 +4983,10 @@ function bind_person_events() {
 	// Double-click on score badge: direct manual score typing
 	$(".person .person-score-badge").off("dblclick").on("dblclick", function(e) {
 		e.stopPropagation();
+		if (score_badge_click_timer) {
+			clearTimeout(score_badge_click_timer);
+			score_badge_click_timer = null;
+		}
 		if (pending_smart_reorder_persons.length > 0) {
 			execute_smart_reorder();
 		}
@@ -4840,11 +5078,15 @@ function highlight_swap_selection() {
 	$(".podium-column").removeClass("swap-selected");
 	$(".podium-score-pill").removeClass("score-swap-selected");
 
-	if (swap_selected.length > 0) {
+	if (swap_mode_active || swap_selected.length > 0) {
 		$("body").addClass("swap-mode-active");
 		$("#tool-btn-swap").addClass("active-swap-btn");
 		$("#swap-active-hint").show();
-		$("#swap-active-hint .hint-label").text("1ος Επιλεγμένος: " + swap_selected[0].nickname + " (" + (swap_selected[0].score || 0) + "). Πατήστε τους βαθμούς του 2ου παίκτη.");
+		if (swap_selected.length > 0) {
+			$("#swap-active-hint .hint-label").text("1ος Επιλεγμένος: " + swap_selected[0].nickname + " (" + (swap_selected[0].score || 0) + "). Πατήστε τους βαθμούς του 2ου παίκτη.");
+		} else {
+			$("#swap-active-hint .hint-label").text("Λειτουργία Ανταλλαγής: Επιλέξτε 2 παίκτες για ανταλλαγή βαθμολογίας.");
+		}
 	} else {
 		$("body").removeClass("swap-mode-active");
 		$("#tool-btn-swap").removeClass("active-swap-btn");
@@ -5058,14 +5300,18 @@ function perform_redo() {
 }
 
 /* --- SEARCH FILTERING --- */
+function normalizeSearchText(str) {
+	return (str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+}
+
 function apply_search_filter() {
 	if (!leaderboard_iso) return;
-	var query = search_query.toLowerCase().trim();
+	var query = normalizeSearchText(search_query);
 
 	leaderboard_iso.isotope({
 		filter: function() {
 			if (!query) return true;
-			var name = $(this).find(".person-nickname").text().toLowerCase();
+			var name = normalizeSearchText($(this).find(".person-nickname").text());
 			return name.indexOf(query) > -1;
 		}
 	});
@@ -5799,28 +6045,55 @@ function init_event_listeners() {
 		$("#pane-migrate-" + targetTab).addClass("active");
 	});
 
-	// Drag and drop for migration file
+	// Prevent default browser drag & drop behavior globally so files dropped outside don't navigate away
+	window.addEventListener("dragover", function(e) { e.preventDefault(); }, false);
+	window.addEventListener("drop", function(e) { e.preventDefault(); }, false);
+
+	// Drag and drop & file selection for migration
+	var $fileInput = $("#migrate-file-input");
 	var $dropzone = $("#migrate-dropzone");
-	$dropzone.on("click", function() {
-		$("#migrate-file-input").trigger("click");
-	});
-	$dropzone.on("dragover dragenter", function(e) {
+
+	$(document).on("click", "#btn-browse-file-action", function(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		$(this).addClass("dragover");
+		var nativeInput = document.getElementById("migrate-file-input");
+		if (nativeInput) nativeInput.click();
 	});
-	$dropzone.on("dragleave drop", function(e) {
+
+	$dropzone.on("click", function(e) {
+		if (e.target.id !== "migrate-file-input" && !$(e.target).closest("#btn-browse-file-action").length) {
+			var nativeInput = document.getElementById("migrate-file-input");
+			if (nativeInput) nativeInput.click();
+		}
+	});
+
+	$dropzone.add($fileInput).on("dragenter dragover", function(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		$(this).removeClass("dragover");
+		$dropzone.addClass("dragover");
+		$("#dropzone-text-main").html('<span style="color:#38bdf8;">📥 Αφήστε το αρχείο εδώ για αυτόματη ανάγνωση!</span>');
 	});
-	$dropzone.on("drop", function(e) {
-		var files = e.originalEvent && e.originalEvent.dataTransfer ? e.originalEvent.dataTransfer.files : null;
+
+	$dropzone.add($fileInput).on("dragleave", function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$dropzone.removeClass("dragover");
+		$("#dropzone-text-main").html('Σύρετε εδώ το παλιό αρχείο ή <span style="color: #c084fc; text-decoration: underline;">κάντε κλικ για επιλογή</span>');
+	});
+
+	$dropzone.add($fileInput).on("drop", function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$dropzone.removeClass("dragover");
+		$("#dropzone-text-main").html('Σύρετε εδώ το παλιό αρχείο ή <span style="color: #c084fc; text-decoration: underline;">κάντε κλικ για επιλογή</span>');
+		var dt = e.originalEvent && e.originalEvent.dataTransfer ? e.originalEvent.dataTransfer : null;
+		var files = dt ? dt.files : null;
 		if (files && files.length > 0) {
 			handle_migration_file(files[0]);
 		}
 	});
-	$("#migrate-file-input").on("change", function(e) {
+
+	$fileInput.on("change", function(e) {
 		if (e.target.files && e.target.files[0]) {
 			handle_migration_file(e.target.files[0]);
 			$(this).val("");
@@ -6091,21 +6364,23 @@ function download_ready_app_html() {
 	                   .replace(/show-migrate/g, "");
 
 	// Pre-seed script injection before $(document).ready
-	var seedScript = `
-<script>
-window.__SEEDED_LB__ = ${JSON.stringify(lb_data)};
-window.__SEEDED_CARDS__ = ${JSON.stringify(card_data)};
-window.__SEEDED_MODE__ = ${JSON.stringify(current_display_mode)};
-window.__SEEDED_THEME__ = ${JSON.stringify(current_theme)};
-try {
-	localStorage.setItem("leaderboard_data", JSON.stringify(${JSON.stringify(lb_data)}));
-	localStorage.setItem("leaderboard_card_data", JSON.stringify(${JSON.stringify(card_data)}));
-	localStorage.setItem("app_display_mode", ${JSON.stringify(current_display_mode)});
-} catch(e) {}
-<\/script>
-`;
+	var seedScript = '<script>\n' +
+		'window.__SEEDED_LB__ = ' + JSON.stringify(lb_data) + ';\n' +
+		'window.__SEEDED_CARDS__ = ' + JSON.stringify(card_data) + ';\n' +
+		'window.__SEEDED_MODE__ = ' + JSON.stringify(current_display_mode) + ';\n' +
+		'window.__SEEDED_THEME__ = ' + JSON.stringify(current_theme) + ';\n' +
+		'try {\n' +
+		'	localStorage.setItem("leaderboard_data", JSON.stringify(' + JSON.stringify(lb_data) + '));\n' +
+		'	localStorage.setItem("leaderboard_card_data", JSON.stringify(' + JSON.stringify(card_data) + '));\n' +
+		'	localStorage.setItem("app_display_mode", ' + JSON.stringify(current_display_mode) + ');\n' +
+		'} catch(e) {}\n' +
+		'</scr' + 'ipt>';
 
-	fullHtml = fullHtml.replace("$(document).ready", seedScript + "\n$(document).ready");
+	if (fullHtml.indexOf("/* --- SEED_INJECTION_ANCHOR --- */") !== -1) {
+		fullHtml = fullHtml.replace("/* --- SEED_INJECTION_ANCHOR --- */", seedScript + "\n/* --- SEED_INJECTION_ANCHOR --- */");
+	} else {
+		fullHtml = fullHtml.replace("$(document).ready", seedScript + "\n$(document).ready");
+	}
 
 	var blob = new Blob([fullHtml], { type: "text/html;charset=utf-8" });
 	var url = URL.createObjectURL(blob);
@@ -6384,8 +6659,13 @@ function reset_migrate_modal_state() {
 	$('.migrate-modal .modal-tab-btn[data-migratetab="file"]').trigger("click");
 }
 
+var last_handled_file_stamp = 0;
 function handle_migration_file(file) {
 	if (!file) return;
+	var now = Date.now();
+	if (now - last_handled_file_stamp < 600) return;
+	last_handled_file_stamp = now;
+
 	var reader = new FileReader();
 	reader.onload = function(evt) {
 		var content = evt.target.result;
@@ -6394,8 +6674,11 @@ function handle_migration_file(file) {
 			parsed.detectedType = file.name + " (" + parsed.detectedType + ")";
 			show_migration_preview(parsed);
 		} else {
-			alert("Δεν βρέθηκαν έγκυρα δεδομένα παικτών ή καρτών μέσα στο αρχείο '" + file.name + "'.");
+			alert("Δεν βρέθηκαν έγκυρα δεδομένα παικτών ή καρτών μέσα στο αρχείο '" + file.name + "'.\n\nΒεβαιωθείτε ότι επιλέξατε ένα αρχείο HTML, JSON ή αρχείο κειμένου.");
 		}
+	};
+	reader.onerror = function() {
+		alert("Σφάλμα κατά την ανάγνωση του αρχείου '" + file.name + "'.");
 	};
 	reader.readAsText(file);
 }
@@ -6499,11 +6782,13 @@ function parse_migration_content(content) {
 			if (personNodes.length > 0) {
 				var extractedPersons = [];
 				personNodes.forEach(function(el) {
-					var icon = $(el).find(".icon").text().trim() || "lion";
-					var nickname = $(el).find(".nickname, .name").text().trim();
-					var scoreText = $(el).find(".score").text().trim();
-					var score = parseInt(scoreText, 10);
-					if (nickname) {
+					var iconEl = el.querySelector(".icon, .person-avatar, .vector-badge");
+					var icon = (iconEl ? (iconEl.getAttribute("data-raw") || iconEl.textContent) : "").trim() || "hawk";
+					var nickEl = el.querySelector(".nickname, .person-nickname, .name");
+					var nickname = nickEl ? nickEl.textContent.trim() : "";
+					var scoreEl = el.querySelector(".score, .person-score-badge, .person-score");
+					var score = scoreEl ? parseInt(scoreEl.textContent.trim(), 10) : 0;
+					if (nickname && nickname !== "Προσθήκη Νέου Παίκτη" && !nickname.includes("+")) {
 						extractedPersons.push({ icon: icon, nickname: nickname, score: isNaN(score) ? 0 : score });
 					}
 				});
@@ -6514,9 +6799,12 @@ function parse_migration_content(content) {
 			if (cardNodes.length > 0) {
 				var extractedCards = [];
 				cardNodes.forEach(function(el) {
-					var icon = $(el).find(".icon").text().trim() || "🎁";
-					var score = $(el).find(".score").text().trim() || "";
-					var info = $(el).find(".info, .desc, .text").text().trim() || "";
+					var iconEl = el.querySelector(".icon, .card-avatar, .vector-badge, .emoji-avatar");
+					var icon = (iconEl ? (iconEl.getAttribute("data-raw") || iconEl.textContent) : "").trim() || "🎁";
+					var scoreEl = el.querySelector(".score, .card-score, .card-score-value");
+					var score = scoreEl ? scoreEl.textContent.trim() : "";
+					var infoEl = el.querySelector(".info, .desc, .text, .card-info, .card-info-text");
+					var info = infoEl ? infoEl.textContent.trim() : "";
 					if (info || score) {
 						extractedCards.push({ icon: icon, score: score, info: info });
 					}
@@ -6527,6 +6815,20 @@ function parse_migration_content(content) {
 			var scripts = doc.querySelectorAll("script");
 			scripts.forEach(function(scr) {
 				var code = scr.textContent || "";
+				var matchSeededLb = code.match(/window\.__SEEDED_LB__\s*=\s*(\[[\s\S]*?\]);/);
+				if (matchSeededLb && matchSeededLb[1]) {
+					try {
+						var parsedSeeded = JSON.parse(matchSeededLb[1]);
+						if (Array.isArray(parsedSeeded) && parsedSeeded.length > 0) result.leaderboard = parsedSeeded;
+					} catch(e) {}
+				}
+				var matchSeededCards = code.match(/window\.__SEEDED_CARDS__\s*=\s*(\[[\s\S]*?\]);/);
+				if (matchSeededCards && matchSeededCards[1]) {
+					try {
+						var parsedCards = JSON.parse(matchSeededCards[1]);
+						if (Array.isArray(parsedCards) && parsedCards.length > 0) result.cards = parsedCards;
+					} catch(e) {}
+				}
 				var matchInit = code.match(/window\.LEADERBOARD_INITIAL_DATA\s*=\s*(\{[\s\S]*?\});/);
 				if (matchInit && matchInit[1]) {
 					try {
