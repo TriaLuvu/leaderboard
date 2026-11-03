@@ -19,10 +19,10 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     await expect(page).toHaveTitle(/Leaderboard/);
 
     const persons = page.locator('.person');
-    await expect(persons).toHaveCount(10);
+    await expect(persons).toHaveCount(12);
 
     const cards = page.locator('.card');
-    await expect(cards).toHaveCount(10);
+    await expect(cards).toHaveCount(18);
 
     // Verify authentic color styles
     const bodyBg = await page.evaluate(() => window.getComputedStyle(document.body).backgroundColor);
@@ -49,10 +49,10 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     await page.waitForTimeout(300);
 
     const championName = page.locator('#podium-name-1');
-    await expect(championName).toHaveText('Hawk');
+    await expect(championName).toHaveText('Νίκος Παπαδόπουλος');
 
     const championScore = page.locator('#podium-score-1');
-    await expect(championScore).toHaveText('420');
+    await expect(championScore).toHaveText('25');
 
     // Toggle collapse
     const toggleBtn = page.locator('#btn-toggle-podium');
@@ -110,17 +110,17 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     await page.waitForTimeout(300);
 
     const searchInput = page.locator('#live-search-input');
-    await searchInput.fill('Voyager');
+    await searchInput.fill('Monkey');
     await page.waitForTimeout(300);
 
     const visibleRows = page.locator('.person:visible');
     await expect(visibleRows).toHaveCount(1);
-    await expect(visibleRows.first().locator('.person-nickname')).toHaveText('Voyager');
+    await expect(visibleRows.first().locator('.person-nickname')).toHaveText('Green Monkey');
 
     // Clear search
     await searchInput.fill('');
     await page.waitForTimeout(300);
-    await expect(page.locator('.person:visible')).toHaveCount(10);
+    await expect(page.locator('.person:visible')).toHaveCount(12);
   });
 
   test('Keyboard shortcut "/" focuses live search input', async ({ page }) => {

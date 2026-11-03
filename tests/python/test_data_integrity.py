@@ -81,7 +81,11 @@ def test_data_avatars_and_scores(file_name):
     else:
         data = json.loads(content)
 
-    valid_avatars = {"hawk", "abram", "bytex", "voyager", "kianna", "alfonso", "lion", "fox", "panda", "unicorn", "owl", "tiger", "dolphin", "frog", "trophy", "fire", "gift", "star", "rocket", "shield", "user"}
+    valid_avatars = {
+        "hawk", "abram", "bytex", "voyager", "kianna", "alfonso", "lion", "fox", "panda", "unicorn",
+        "owl", "tiger", "dolphin", "frog", "trophy", "fire", "gift", "star", "rocket", "shield", "user",
+        "🦁", "🦊", "🐼", "🦄", "🐯", "🦅", "🦉", "🐬", "🐸", "🐺", "🐒", "🦎"
+    }
 
     for p in data["leaderboard"]:
         assert p["score"] >= 0
