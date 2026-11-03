@@ -282,4 +282,62 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     const cards = page.locator('.cards-list .card');
     await expect(cards).toHaveCount(18);
   });
+
+  test('New leaderboard seamlessly imports and renders raw legacy format data via paste and link', async ({ page }) => {
+    await page.goto(fileUrl);
+    await page.waitForTimeout(300);
+
+    // Open migration modal
+    await page.click('#tool-btn-migrate', { force: true });
+    await expect(page.locator('.migrate-modal')).toBeVisible();
+
+    // Switch to Link/Text paste tab
+    await page.click('.migrate-modal .modal-tab-btn[data-migratetab="link"]');
+    await expect(page.locator('#pane-migrate-link')).toHaveClass(/active/);
+
+    // Raw legacy JSON containing English icon names and un-normalized numbers from old system
+    const rawLegacyData = JSON.stringify({
+      leaderboard: [
+        { icon: 'fox', nickname: 'Desirae Herwitz', score: '245' },
+        { icon: 'lion', nickname: 'Maren Gouse', score: 290 }
+      ],
+      cards: [
+        { icon: 'gift', score: 2, info: 'Congrats! You win 2 points' },
+        { icon: 'shield', score: '-1', info: 'Whoever you choose loses 1 point' },
+        { icon: 'swap', score: '🤣🔁😠', info: 'Swap your score with someone else' }
+      ]
+    });
+
+    await page.fill('#migrate-paste-input', rawLegacyData);
+    await page.click('#btn-test-migrate-paste');
+    await page.waitForTimeout(300);
+
+    // Verify preview recognized players and cards
+    await expect(page.locator('#migrate-preview-wrap')).toBeVisible();
+
+    // Apply migration
+    await page.click('#btn-apply-migration-now');
+    await expect(page.locator('.migrate-modal')).toBeHidden();
+    await page.waitForTimeout(400);
+
+    // Verify imported legacy players rendered with proper SVGs/avatars
+    const rows = page.locator('.leaderboard .person');
+    await expect(rows).toHaveCount(2);
+    expect(await rows.first().locator('.person-nickname').innerText()).toBe('Maren Gouse');
+    expect(await rows.first().locator('.person-score-badge').innerText()).toBe('290');
+
+    // Switch to cards tab and verify legacy English icon names mapped to emojis
+    await page.click('.cat-tab-btn[data-filter="cards"]', { force: true });
+    await page.waitForTimeout(400);
+    const cards = page.locator('.cards-list .card');
+    await expect(cards).toHaveCount(3);
+
+    // Verify the first card rendered the gift emoji 🎁, not the text "gift"
+    const firstCardIcon = await cards.first().locator('.icon').innerText();
+    expect(firstCardIcon).toBe('🎁');
+
+    // Verify the second card rendered shield 🛡️
+    const secondCardIcon = await cards.nth(1).locator('.icon').innerText();
+    expect(secondCardIcon).toBe('🛡️');
+  });
 });

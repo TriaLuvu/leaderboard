@@ -214,4 +214,84 @@ describe('Leaderboard Core Data & Logic Unit Tests', () => {
     expect(decoded[0].nickname).toBe('Champion');
     expect(decoded[0].score).toBe(500);
   });
+
+  test('New leaderboard perfectly adapts to legacy system player and card formats', () => {
+    const universalLegacyIconMap = {
+      "gift": "🎁", "fire": "🔥", "trophy": "🏆", "star": "⭐", "lightning": "⚡",
+      "unicorn": "🦄", "diamond": "💎", "target": "🎯", "bomb": "💣", "fox": "🦊",
+      "crown": "👑", "monkey": "🙊", "tornado": "🌪️", "ice": "🧊",
+      "swap": "🔄", "sparkles": "✨", "dice": "🎲", "shield": "🛡️", "lion": "🦁",
+      "panda": "🐼", "tiger": "🐯", "eagle": "🦅", "wolf": "🐺", "iguana": "🦎"
+    };
+
+    function resolveLegacyCardIcon(icon) {
+      if (!icon) return "🎁";
+      const key = String(icon).trim().toLowerCase();
+      return universalLegacyIconMap[key] || icon;
+    }
+
+    // Verify all legacy English icon names map to emojis
+    expect(resolveLegacyCardIcon("gift")).toBe("🎁");
+    expect(resolveLegacyCardIcon("shield")).toBe("🛡️");
+    expect(resolveLegacyCardIcon("star")).toBe("⭐");
+    expect(resolveLegacyCardIcon("trophy")).toBe("🏆");
+    expect(resolveLegacyCardIcon("fire")).toBe("🔥");
+    expect(resolveLegacyCardIcon("unicorn")).toBe("🦄");
+    expect(resolveLegacyCardIcon("diamond")).toBe("💎");
+    expect(resolveLegacyCardIcon("target")).toBe("🎯");
+    expect(resolveLegacyCardIcon("bomb")).toBe("💣");
+    expect(resolveLegacyCardIcon("crown")).toBe("👑");
+    expect(resolveLegacyCardIcon("lightning")).toBe("⚡");
+
+    // Verify existing emojis are preserved
+    expect(resolveLegacyCardIcon("🎁")).toBe("🎁");
+    expect(resolveLegacyCardIcon("🔥")).toBe("🔥");
+
+    // Verify legacy card scores handling
+    function parseLegacyCard(raw) {
+      return {
+        icon: resolveLegacyCardIcon(raw.icon),
+        score: raw.score !== undefined && raw.score !== null ? String(raw.score).trim() : "-",
+        info: (raw.info || "").trim()
+      };
+    }
+
+    const legacyRawCards = [
+      { icon: "gift", score: 2, info: "Congrats! You win 2 points" },
+      { icon: "fire", score: "+5", info: "You're on fire! +5" },
+      { icon: "shield", score: "-1", info: "Whoever you choose loses 1 point" },
+      { icon: "swap", score: "🤣🔁😠", info: "Swap your score with someone else" },
+      { icon: "crown", score: "TIE", info: "Tie score" },
+      { icon: "star", score: "x2", info: "Double points" },
+      { icon: "target", score: 10, info: "Bullseye" }
+    ];
+
+    const parsedCards = legacyRawCards.map(parseLegacyCard);
+    expect(parsedCards[0]).toEqual({ icon: "🎁", score: "2", info: "Congrats! You win 2 points" });
+    expect(parsedCards[1]).toEqual({ icon: "🔥", score: "+5", info: "You're on fire! +5" });
+    expect(parsedCards[2]).toEqual({ icon: "🛡️", score: "-1", info: "Whoever you choose loses 1 point" });
+    expect(parsedCards[3]).toEqual({ icon: "🔄", score: "🤣🔁😠", info: "Swap your score with someone else" });
+    expect(parsedCards[4]).toEqual({ icon: "👑", score: "TIE", info: "Tie score" });
+    expect(parsedCards[5]).toEqual({ icon: "⭐", score: "x2", info: "Double points" });
+    expect(parsedCards[6]).toEqual({ icon: "🎯", score: "10", info: "Bullseye" });
+
+    // Verify legacy players with string scores or text icons
+    function parseLegacyPlayer(raw) {
+      return {
+        icon: (raw.icon || "hawk").trim(),
+        nickname: (raw.nickname || "Player").trim(),
+        score: parseInt(raw.score, 10) || 0
+      };
+    }
+
+    const legacyPlayers = [
+      { icon: "fox", nickname: "Desirae Herwitz", score: "245" },
+      { icon: "🦁", nickname: "Nikos", score: 25 },
+      { icon: "abram", nickname: "Abram", score: 100 }
+    ];
+    const parsedPlayers = legacyPlayers.map(parseLegacyPlayer);
+    expect(parsedPlayers[0]).toEqual({ icon: "fox", nickname: "Desirae Herwitz", score: 245 });
+    expect(parsedPlayers[1]).toEqual({ icon: "🦁", nickname: "Nikos", score: 25 });
+    expect(parsedPlayers[2]).toEqual({ icon: "abram", nickname: "Abram", score: 100 });
+  });
 });

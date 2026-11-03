@@ -3660,8 +3660,22 @@ function render_avatar(iconStr) {
 	if (legacyMap[key]) key = legacyMap[key];
 	if (legacyMap[iconStr]) key = legacyMap[iconStr];
 
+	var universalLegacyIconMap = {
+		"gift": "🎁", "fire": "🔥", "trophy": "🏆", "star": "⭐", "lightning": "⚡",
+		"unicorn": "🦄", "diamond": "💎", "target": "🎯", "bomb": "💣", "fox": "🦊",
+		"crown": "👑", "monkey": "🐒", "green monkey": "🐒", "tornado": "🌪️", "ice": "🧊",
+		"swap": "🔄", "sparkles": "✨", "dice": "🎲", "shield": "🛡️", "lion": "🦁",
+		"panda": "🐼", "tiger": "🐯", "eagle": "🦅", "hawk": "🦅", "owl": "🦉",
+		"dolphin": "🐬", "frog": "🐸", "wolf": "🐺", "iguana": "🦎", "orange iguana": "🦎",
+		"rocket": "🚀", "heart": "❤️"
+	};
+
 	if (svgMap[key]) {
 		return `<span class="vector-badge" data-raw="${key}">${svgMap[key]}</span>`;
+	}
+	if (universalLegacyIconMap[key]) {
+		var em = universalLegacyIconMap[key];
+		return `<span class="vector-badge emoji-avatar" data-raw="${em}">${em}</span>`;
 	}
 	return `<span class="vector-badge emoji-avatar" data-raw="${escapeHtml(iconStr)}">${iconStr}</span>`;
 }
@@ -3669,12 +3683,17 @@ function render_avatar(iconStr) {
 function render_card_avatar(iconStr) {
 	if (!iconStr) return '<span class="vector-badge emoji-avatar" data-raw="🎁">🎁</span>';
 	iconStr = String(iconStr).trim();
+	var key = iconStr.toLowerCase();
 	var legacyMap = {
 		"gift": "🎁", "fire": "🔥", "star": "⭐", "rocket": "🚀", "trophy": "🏆",
 		"shield": "🛡️", "lion": "🦁", "fox": "🦊", "panda": "🐼", "unicorn": "🦄",
-		"owl": "🦉", "tiger": "🐯", "dolphin": "🐬", "frog": "🐸", "user": "🎁"
+		"owl": "🦉", "tiger": "🐯", "dolphin": "🐬", "frog": "🐸", "user": "🎁",
+		"lightning": "⚡", "diamond": "💎", "target": "🎯", "bomb": "💣", "crown": "👑",
+		"monkey": "🙊", "tornado": "🌪️", "ice": "🧊", "swap": "🔄", "sparkles": "✨",
+		"dice": "🎲", "heart": "❤️", "eagle": "🦅", "wolf": "🐺", "iguana": "🦎",
+		"green monkey": "🐒", "orange iguana": "🦎"
 	};
-	var emoji = legacyMap[iconStr.toLowerCase()] || iconStr;
+	var emoji = legacyMap[key] || iconStr;
 	return `<span class="vector-badge emoji-avatar" data-raw="${escapeHtml(emoji)}">${emoji}</span>`;
 }
 
@@ -6300,6 +6319,16 @@ function init_event_listeners() {
 		}
 	});
 
+	$("#migrate-paste-input").on("input paste change", function() {
+		var text = $(this).val();
+		if (text && text.trim().length > 5) {
+			var parsed = parse_migration_content(text);
+			if (parsed.success) {
+				show_migration_preview(parsed);
+			}
+		}
+	});
+
 	$("#btn-scan-browser-data").on("click", function() {
 		var scan = scan_browser_legacy_data();
 		if (!scan.hasData) {
@@ -7158,11 +7187,18 @@ function execute_migration() {
 	var isReplace = $("#chk-migrate-replace").is(":checked");
 
 	if (pending_migration_data.leaderboard && pending_migration_data.leaderboard.length > 0) {
+		var cleanImportedLb = pending_migration_data.leaderboard.map(function(p) {
+			return {
+				icon: (p.icon || "hawk").trim(),
+				nickname: (p.nickname || "Player").trim(),
+				score: parseInt(p.score, 10) || 0
+			};
+		});
 		if (isReplace) {
-			lb_data = pending_migration_data.leaderboard;
+			lb_data = cleanImportedLb;
 		} else {
 			// Merge avoiding duplicates by nickname
-			pending_migration_data.leaderboard.forEach(function(newP) {
+			cleanImportedLb.forEach(function(newP) {
 				var existing = lb_data.find(function(p) { return p.nickname.toLowerCase() === newP.nickname.toLowerCase(); });
 				if (existing) {
 					existing.score = newP.score;
@@ -7176,10 +7212,17 @@ function execute_migration() {
 	}
 
 	if (pending_migration_data.cards && pending_migration_data.cards.length > 0) {
+		var cleanImportedCards = pending_migration_data.cards.map(function(c) {
+			return {
+				icon: (c.icon || "🎁").trim(),
+				score: c.score !== undefined && c.score !== null ? String(c.score).trim() : "-",
+				info: (c.info || "").trim()
+			};
+		});
 		if (isReplace) {
-			card_data = pending_migration_data.cards;
+			card_data = cleanImportedCards;
 		} else {
-			card_data = card_data.concat(pending_migration_data.cards);
+			card_data = card_data.concat(cleanImportedCards);
 		}
 		if (local_storage_available) localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(card_data));
 	}
