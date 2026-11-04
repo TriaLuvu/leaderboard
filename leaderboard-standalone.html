@@ -111,6 +111,18 @@
 }));
 
 </script>
+<script type="text/javascript">
+/* --- INLINED QRCODE GENERATOR 1.4.4 (OFFLINE SVG/CANVAS) --- */
+/**
+ * Minified by jsDelivr using Terser v5.37.0.
+ * Original file: /npm/qrcode-generator@1.4.4/qrcode.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],f={},c=function(t,r){o=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(i=4*e+17),l(0,0),l(i-7,0),l(0,i-7),s(),h(),d(t,r),e>=7&&v(t),null==a&&(a=p(e,n,u)),w(a,r)},l=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||i<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||i<=r+n||(o[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},h=function(){for(var t=8;t<i-8;t+=1)null==o[t][6]&&(o[t][6]=t%2==0);for(var r=8;r<i-8;r+=1)null==o[6][r]&&(o[6][r]=r%2==0)},s=function(){for(var t=B.getPatternPosition(e),r=0;r<t.length;r+=1)for(var n=0;n<t.length;n+=1){var i=t[r],a=t[n];if(null==o[i][a])for(var u=-2;u<=2;u+=1)for(var f=-2;f<=2;f+=1)o[i+u][a+f]=-2==u||2==u||-2==f||2==f||0==u&&0==f}},v=function(t){for(var r=B.getBCHTypeNumber(e),n=0;n<18;n+=1){var a=!t&&1==(r>>n&1);o[Math.floor(n/3)][n%3+i-8-3]=a}for(n=0;n<18;n+=1){a=!t&&1==(r>>n&1);o[n%3+i-8-3][Math.floor(n/3)]=a}},d=function(t,r){for(var e=n<<3|r,a=B.getBCHTypeInfo(e),u=0;u<15;u+=1){var f=!t&&1==(a>>u&1);u<6?o[u][8]=f:u<8?o[u+1][8]=f:o[i-15+u][8]=f}for(u=0;u<15;u+=1){f=!t&&1==(a>>u&1);u<8?o[8][i-u-1]=f:u<9?o[8][15-u-1+1]=f:o[8][15-u-1]=f}o[i-8][8]=!t},w=function(t,r){for(var e=-1,n=i-1,a=7,u=0,f=B.getMaskFunction(r),c=i-1;c>0;c-=2)for(6==c&&(c-=1);;){for(var g=0;g<2;g+=1)if(null==o[n][c-g]){var l=!1;u<t.length&&(l=1==(t[u]>>>a&1)),f(n,c-g)&&(l=!l),o[n][c-g]=l,-1==(a-=1)&&(u+=1,a=7)}if((n+=e)<0||i<=n){n-=e,e=-e;break}}},p=function(t,r,e){for(var n=A.getRSBlocks(t,r),o=b(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=k(i[u],l.getLength()-1).mod(l);for(a[u]=new Array(l.getLength()-1),g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=s>=0?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};f.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=M(t);break;case"Alphanumeric":e=x(t);break;case"Byte":e=m(t);break;case"Kanji":e=L(t);break;default:throw"mode:"+r}u.push(e),a=null},f.isDark=function(t,r){if(t<0||i<=t||r<0||i<=r)throw t+","+r;return o[t][r]},f.getModuleCount=function(){return i},f.make=function(){if(e<1){for(var t=1;t<40;t++){for(var r=A.getRSBlocks(t,n),o=b(),i=0;i<u.length;i++){var a=u[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var g=0;for(i=0;i<r.length;i++)g+=r[i].dataCount;if(o.getLengthInBits()<=8*g)break}e=t}c(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){c(!0,e);var n=B.getLostPoint(f);(0==e||t>n)&&(t=n,r=e)}return r}())},f.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<f.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<f.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=f.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},f.createSvgTag=function(t,r,e,n){var o={};"object"==typeof arguments[0]&&(t=(o=arguments[0]).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,c,g=f.getModuleCount()*t+2*r,l="";for(c="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",l+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',l+=o.scalable?"":' width="'+g+'px" height="'+g+'px"',l+=' viewBox="0 0 '+g+" "+g+'" ',l+=' preserveAspectRatio="xMinYMin meet"',l+=n.text||e.text?' role="img" aria-labelledby="'+y([n.id,e.id].join(" ").trim())+'"':"",l+=">",l+=n.text?'<title id="'+y(n.id)+'">'+y(n.text)+"</title>":"",l+=e.text?'<description id="'+y(e.id)+'">'+y(e.text)+"</description>":"",l+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',l+='<path d="',a=0;a<f.getModuleCount();a+=1)for(u=a*t+r,i=0;i<f.getModuleCount();i+=1)f.isDark(a,i)&&(l+="M"+(i*t+r)+","+u+c);return l+='" stroke="transparent" fill="black"/>',l+="</svg>"},f.createDataURL=function(t,r){t=t||2,r=void 0===r?4*t:r;var e=f.getModuleCount()*t+2*r,n=r,o=e-r;return I(e,e,(function(r,e){if(n<=r&&r<o&&n<=e&&e<o){var i=Math.floor((r-n)/t),a=Math.floor((e-n)/t);return f.isDark(a,i)?0:1}return 1}))},f.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=f.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=f.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=y(e),o+='"'),o+="/>"};var y=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return f.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*f.getModuleCount()+2*t,u=t,c=a-t,g={"██":"█","█ ":"▀"," █":"▄","  ":" "},l={"██":"▀","█ ":"▀"," █":" ","  ":" "},h="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<c&&u<=r&&r<c&&f.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<c&&u<=r+1&&r+1<c&&f.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",h+=t<1&&r+1>=c?l[i]:g[i];h+="\n"}return a%2&&t>0?h.substring(0,h.length-a-1)+Array(a+1).join("▀"):h.substring(0,h.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=f.getModuleCount()*t+2*r,u=r,c=a-r,g=Array(t+1).join("██"),l=Array(t+1).join("  "),h="",s="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),s="",n=0;n<a;n+=1)i=1,u<=n&&n<c&&u<=e&&e<c&&f.isDark(o,Math.floor((n-u)/t))&&(i=0),s+=i?g:l;for(o=0;o<t;o+=1)h+=s+"\n"}return h.substring(0,h.length-1)},f.renderTo2dContext=function(t,r){r=r||2;for(var e=f.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=f.isDark(n,o)?"black":"white",t.fillRect(n*r,o*r,r,r)},f};t.stringToBytes=(t.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,t.createStringToBytes=function(t,r){var e=function(){for(var e=S(t),n=function(){var t=e.read();if(-1==t)throw"eof";return t},o=0,i={};;){var a=e.read();if(-1==a)break;var u=n(),f=n()<<8|n();i[String.fromCharCode(a<<8|u)]=f,o+=1}if(o!=r)throw o+" != "+r;return i}(),n="?".charCodeAt(0);return function(t){for(var r=[],o=0;o<t.length;o+=1){var i=t.charCodeAt(o);if(i<128)r.push(i);else{var a=e[t.charAt(o)];"number"==typeof a?(255&a)==a?r.push(a):(r.push(a>>>8),r.push(255&a)):r.push(n)}}return r}};var r,e,n,o,i,a=1,u=2,f=4,c=8,g={L:1,M:0,Q:3,H:2},l=0,h=1,s=2,v=3,d=4,w=5,p=6,y=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],e=1335,n=7973,i=function(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r},(o={}).getBCHTypeInfo=function(t){for(var r=t<<10;i(r)-i(e)>=0;)r^=e<<i(r)-i(e);return 21522^(t<<10|r)},o.getBCHTypeNumber=function(t){for(var r=t<<12;i(r)-i(n)>=0;)r^=n<<i(r)-i(n);return t<<12|r},o.getPatternPosition=function(t){return r[t-1]},o.getMaskFunction=function(t){switch(t){case l:return function(t,r){return(t+r)%2==0};case h:return function(t,r){return t%2==0};case s:return function(t,r){return r%3==0};case v:return function(t,r){return(t+r)%3==0};case d:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case w:return function(t,r){return t*r%2+t*r%3==0};case p:return function(t,r){return(t*r%2+t*r%3)%2==0};case y:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},o.getErrorCorrectPolynomial=function(t){for(var r=k([1],0),e=0;e<t;e+=1)r=r.multiply(k([1,C.gexp(e)],0));return r},o.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case f:case c:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case f:return 16;case c:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case f:return 16;case c:return 12;default:throw"mode:"+t}}},o.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);i>5&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},o),C=function(){for(var t=new Array(256),r=new Array(256),e=0;e<8;e+=1)t[e]=1<<e;for(e=8;e<256;e+=1)t[e]=t[e-4]^t[e-5]^t[e-6]^t[e-8];for(e=0;e<255;e+=1)r[t[e]]=e;var n={glog:function(t){if(t<1)throw"glog("+t+")";return r[t]},gexp:function(r){for(;r<0;)r+=255;for(;r>=256;)r-=255;return t[r]}};return n}();function k(t,r){if(void 0===t.length)throw t.length+"/"+r;var e=function(){for(var e=0;e<t.length&&0==t[e];)e+=1;for(var n=new Array(t.length-e+r),o=0;o<t.length-e;o+=1)n[o]=t[o+e];return n}(),n={getAt:function(t){return e[t]},getLength:function(){return e.length},multiply:function(t){for(var r=new Array(n.getLength()+t.getLength()-1),e=0;e<n.getLength();e+=1)for(var o=0;o<t.getLength();o+=1)r[e+o]^=C.gexp(C.glog(n.getAt(e))+C.glog(t.getAt(o)));return k(r,0)},mod:function(t){if(n.getLength()-t.getLength()<0)return n;for(var r=C.glog(n.getAt(0))-C.glog(t.getAt(0)),e=new Array(n.getLength()),o=0;o<n.getLength();o+=1)e[o]=n.getAt(o);for(o=0;o<t.getLength();o+=1)e[o]^=C.gexp(C.glog(t.getAt(o))+r);return k(e,0).mod(t)}};return n}var A=function(){var t=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],r=function(t,r){var e={};return e.totalCount=t,e.dataCount=r,e},e={};return e.getRSBlocks=function(e,n){var o=function(r,e){switch(e){case g.L:return t[4*(r-1)+0];case g.M:return t[4*(r-1)+1];case g.Q:return t[4*(r-1)+2];case g.H:return t[4*(r-1)+3];default:return}}(e,n);if(void 0===o)throw"bad rs block @ typeNumber:"+e+"/errorCorrectionLevel:"+n;for(var i=o.length/3,a=[],u=0;u<i;u+=1)for(var f=o[3*u+0],c=o[3*u+1],l=o[3*u+2],h=0;h<f;h+=1)a.push(r(c,l));return a},e}(),b=function(){var t=[],r=0,e={getBuffer:function(){return t},getAt:function(r){var e=Math.floor(r/8);return 1==(t[e]>>>7-r%8&1)},put:function(t,r){for(var n=0;n<r;n+=1)e.putBit(1==(t>>>r-n-1&1))},getLengthInBits:function(){return r},putBit:function(e){var n=Math.floor(r/8);t.length<=n&&t.push(0),e&&(t[n]|=128>>>r%8),r+=1}};return e},M=function(t){var r=a,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+2<r.length;)t.put(o(r.substring(n,n+3)),10),n+=3;n<r.length&&(r.length-n==1?t.put(o(r.substring(n,n+1)),4):r.length-n==2&&t.put(o(r.substring(n,n+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return n},x=function(t){var r=u,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+1<r.length;)t.put(45*o(r.charAt(n))+o(r.charAt(n+1)),11),n+=2;n<r.length&&t.put(o(r.charAt(n)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return n},m=function(r){var e=f,n=t.stringToBytes(r),o={getMode:function(){return e},getLength:function(t){return n.length},write:function(t){for(var r=0;r<n.length;r+=1)t.put(n[r],8)}};return o},L=function(r){var e=c,n=t.stringToBytesFuncs.SJIS;if(!n)throw"sjis not supported.";!function(){var t=n("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=n(r),i={getMode:function(){return e},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return i},D=function(){var t=[],r={writeByte:function(r){t.push(255&r)},writeShort:function(t){r.writeByte(t),r.writeByte(t>>>8)},writeBytes:function(t,e,n){e=e||0,n=n||t.length;for(var o=0;o<n;o+=1)r.writeByte(t[o+e])},writeString:function(t){for(var e=0;e<t.length;e+=1)r.writeByte(t.charCodeAt(e))},toByteArray:function(){return t},toString:function(){var r="";r+="[";for(var e=0;e<t.length;e+=1)e>0&&(r+=","),r+=t[e];return r+="]"}};return r},S=function(t){var r=t,e=0,n=0,o=0,i={read:function(){for(;o<8;){if(e>=r.length){if(0==o)return-1;throw"unexpected end of file./"+o}var t=r.charAt(e);if(e+=1,"="==t)return o=0,-1;t.match(/^\s$/)||(n=n<<6|a(t.charCodeAt(0)),o+=6)}var i=n>>>o-8&255;return o-=8,i}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return i},I=function(t,r,e){for(var n=function(t,r){var e=t,n=r,o=new Array(t*r),i={setPixel:function(t,r,n){o[r*e+t]=n},write:function(t){t.writeString("GIF87a"),t.writeShort(e),t.writeShort(n),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(e),t.writeShort(n),t.writeByte(0);var r=a(2);t.writeByte(2);for(var o=0;r.length-o>255;)t.writeByte(255),t.writeBytes(r,o,255),o+=255;t.writeByte(r.length-o),t.writeBytes(r,o,r.length-o),t.writeByte(0),t.writeString(";")}},a=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,i=u(),a=0;a<r;a+=1)i.add(String.fromCharCode(a));i.add(String.fromCharCode(r)),i.add(String.fromCharCode(e));var f,c,g,l=D(),h=(f=l,c=0,g=0,{write:function(t,r){if(t>>>r!=0)throw"length over";for(;c+r>=8;)f.writeByte(255&(t<<c|g)),r-=8-c,t>>>=8-c,g=0,c=0;g|=t<<c,c+=r},flush:function(){c>0&&f.writeByte(g)}});h.write(r,n);var s=0,v=String.fromCharCode(o[s]);for(s+=1;s<o.length;){var d=String.fromCharCode(o[s]);s+=1,i.contains(v+d)?v+=d:(h.write(i.indexOf(v),n),i.size()<4095&&(i.size()==1<<n&&(n+=1),i.add(v+d)),v=d)}return h.write(i.indexOf(v),n),h.write(e,n),h.flush(),l.toByteArray()},u=function(){var t={},r=0,e={add:function(n){if(e.contains(n))throw"dup key:"+n;t[n]=r,r+=1},size:function(){return r},indexOf:function(r){return t[r]},contains:function(r){return void 0!==t[r]}};return e};return i}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=D();n.write(a);for(var u=function(){var t=0,r=0,e=0,n="",o={},i=function(t){n+=String.fromCharCode(a(63&t))},a=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return o.writeByte=function(n){for(t=t<<8|255&n,r+=8,e+=1;r>=6;)i(t>>>r-6),r-=6},o.flush=function(){if(r>0&&(i(t<<6-r),t=0,r=0),e%3!=0)for(var o=3-e%3,a=0;a<o;a+=1)n+="="},o.toString=function(){return n},o}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return t}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||n>=57344?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports&&(module.exports=t())}((function(){return qrcode}));
+//# sourceMappingURL=/sm/26b4b0d0b1e283d6b3ec9857ac597d7a60c76ac17be1ef4c965f03086de426bb.map
+if (typeof window !== "undefined") window.qrcode = qrcode;
+</script>
 
 	<style>
 /* ========================================================
@@ -2413,27 +2425,574 @@ body.show-modal .modal-backdrop {
 	background: var(--btn-ok);
 }
 
-/* Sync & Backup Hub Modal Adjustments */
+/* ========================================================
+   TRANSFER & MIGRATION HUBS (BESPOKE RETRO CRAFT)
+   High-contrast, ergonomic, human-designed modal layouts
+   ======================================================== */
+.sync-modal .modal-box,
+.migrate-modal .modal-box {
+	background: #353a40;
+	color: #fff8dc;
+	border: 1px solid rgba(255, 248, 220, 0.15);
+	border-radius: 16px;
+	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 2px 8px rgba(0, 0, 0, 0.4);
+	padding: 20px 24px;
+	width: 100%;
+}
 .sync-modal .modal-box {
-	max-width: 720px;
+	max-width: 660px;
+	width: 100%;
+	max-height: 94vh;
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: relative;
+	padding: 18px 20px 14px 20px;
+	border-radius: 14px;
+	box-sizing: border-box;
+}
+.sync-modal .sync-header {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	border-bottom: 1px solid rgba(255, 248, 220, 0.12);
+	padding: 12px 42px 10px 42px;
+	margin: -18px -20px 10px -20px;
+	border-radius: 14px 14px 0 0;
+	background: #353a40;
+}
+.sync-modal .sync-header-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+}
+.sync-modal .sync-icon-badge {
+	width: 36px;
+	height: 36px;
+	border-radius: 8px;
+	background: #2d3e50;
+	color: #fff8dc;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	border: 1px solid rgba(255, 248, 220, 0.18);
+}
+.sync-modal .sync-header-title {
+	font-size: 17.5px;
+	font-weight: 800;
+	margin: 0 0 2px 0;
+	color: #fff8dc;
+	letter-spacing: -0.2px;
+	line-height: 1.2;
+	text-align: center;
+}
+.sync-modal .sync-header-subtitle {
+	font-size: 11px;
+	color: #cbbdae;
+	margin: 0;
+	line-height: 1.25;
+	text-align: center;
+}
+.sync-modal .modal-close-icon-btn {
+	position: absolute;
+	right: 14px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.sync-modal .modal-close-icon-btn:hover {
+	transform: translateY(-50%) scale(1.08);
+}
+.migrate-modal .modal-box {
+	max-width: 660px;
+}
+
+/* Modal Headers */
+.sync-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid rgba(255, 248, 220, 0.12);
+	padding-bottom: 14px;
+	margin-bottom: 16px;
+	gap: 12px;
+}
+.sync-header-left {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+.sync-icon-badge {
+	width: 42px;
+	height: 42px;
+	border-radius: 10px;
+	background: #2d3e50;
+	color: #fff8dc;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	border: 1px solid rgba(255, 248, 220, 0.18);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+.sync-header-title {
+	font-size: 19px;
+	font-weight: 800;
+	margin: 0 0 2px 0;
+	color: #fff8dc;
+	letter-spacing: -0.2px;
+	line-height: 1.2;
+}
+.sync-header-subtitle {
+	font-size: 12px;
+	color: #cbbdae;
+	margin: 0;
+	line-height: 1.35;
+}
+.modal-close-icon-btn {
+	background: rgba(255, 255, 255, 0.06);
+	border: 1px solid rgba(255, 248, 220, 0.12);
+	color: #cbbdae;
+	border-radius: 8px;
+	width: 32px;
+	height: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	font-size: 18px;
+	line-height: 1;
+	transition: all 0.15s ease;
+	flex-shrink: 0;
+}
+.modal-close-icon-btn:hover {
+	background: rgba(255, 255, 255, 0.12);
+	color: #fff8dc;
+	border-color: rgba(255, 248, 220, 0.25);
+	transform: scale(1.05);
+}
+
+/* Progressive Disclosure Transfer Mode Selector */
+.sync-mode-selector-wrap {
+	margin-bottom: 10px;
+}
+.sync-mode-selector-heading {
+	display: block;
+	font-size: 10px;
+	font-weight: 800;
+	color: #a49787;
+	text-transform: uppercase;
+	letter-spacing: 0.8px;
+	margin-bottom: 6px;
+	text-align: center;
+}
+.sync-mode-nav {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 6px;
+	width: 100%;
+	box-sizing: border-box;
+}
+@media (max-width: 600px) {
+	.sync-mode-nav {
+		grid-template-columns: 1fr;
+	}
+}
+.sync-mode-tab {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	background: #202d3a;
+	border: 1px solid rgba(255, 248, 220, 0.12);
+	border-radius: 8px;
+	padding: 7px 8px;
+	min-height: 42px;
+	box-sizing: border-box;
+	cursor: pointer;
+	text-align: left;
+	position: relative;
+	transition: all 0.15s ease;
+	outline: none;
+	user-select: none;
+	min-width: 0;
+	overflow: hidden;
+}
+.sync-mode-tab:hover {
+	background: #263544;
+	border-color: rgba(255, 248, 220, 0.25);
+}
+.sync-mode-tab.active {
+	background: #2d3e50;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+.sync-mode-tab.active[data-sync-tab="pin"] {
+	border-color: #17a2b9;
+	border-width: 1.5px;
+}
+.sync-mode-tab.active[data-sync-tab="file"] {
+	border-color: #29a744;
+	border-width: 1.5px;
+}
+.sync-mode-tab.active[data-sync-tab="raw"] {
+	border-color: #ffc107;
+	border-width: 1.5px;
+}
+
+.sync-mode-tab-icon-wrap {
+	width: 26px;
+	height: 26px;
+	border-radius: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+.sync-mode-tab-icon-wrap.teal {
+	background: rgba(23, 162, 185, 0.15);
+	color: #17a2b9;
+	border: 1px solid rgba(23, 162, 185, 0.3);
+}
+.sync-mode-tab-icon-wrap.green {
+	background: rgba(41, 167, 68, 0.15);
+	color: #29a744;
+	border: 1px solid rgba(41, 167, 68, 0.3);
+}
+.sync-mode-tab-icon-wrap.gold {
+	background: rgba(255, 193, 7, 0.15);
+	color: #ffc107;
+	border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.sync-mode-tab-info {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	flex: 1;
+	overflow: hidden;
+}
+.sync-mode-tab-title {
+	font-size: 11.5px;
+	font-weight: 800;
+	color: #fff8dc;
+	line-height: 1.2;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.sync-mode-tab-desc {
+	font-size: 9.5px;
+	color: #a49787;
+	line-height: 1.2;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.sync-mode-tab.active .sync-mode-tab-desc {
+	color: #cbbdae;
+}
+.sync-mode-tab-check {
+	display: none;
+}
+
+/* Sections / Cards */
+.sync-options-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }
 .sync-card {
-	border: none !important;
-	border-radius: 12px !important;
+	background: #2d3e50;
+	border: 1px solid rgba(255, 248, 220, 0.12);
+	border-radius: 10px;
+	padding: 10px 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-#sync-file-dropzone:hover {
+.sync-card:hover {
+	border-color: rgba(255, 248, 220, 0.2);
+}
+.sync-card-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 8px;
+	gap: 8px;
+}
+.sync-card-title-group {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.sync-card-title-icon {
+	width: 24px;
+	height: 24px;
+	border-radius: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+.sync-card-title-icon.teal {
+	background: rgba(23, 162, 185, 0.18);
+	color: #17a2b9;
+	border: 1px solid rgba(23, 162, 185, 0.35);
+}
+.sync-card-title-icon.green {
+	background: rgba(41, 167, 68, 0.18);
+	color: #29a744;
+	border: 1px solid rgba(41, 167, 68, 0.35);
+}
+.sync-card-title-icon.gold {
+	background: rgba(255, 248, 220, 0.12);
+	color: #fff8dc;
+	border: 1px solid rgba(255, 248, 220, 0.25);
+}
+.sync-card-title {
+	font-size: 14px;
+	font-weight: 800;
+	color: #fff8dc;
+	margin: 0;
+	letter-spacing: -0.2px;
+}
+.sync-card-tag {
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	padding: 2px 7px;
+	border-radius: 5px;
+	white-space: nowrap;
+}
+.sync-card-tag.teal {
+	background: rgba(23, 162, 185, 0.16);
+	color: #17a2b9;
+	border: 1px solid rgba(23, 162, 185, 0.32);
+}
+.sync-card-tag.green {
+	background: rgba(41, 167, 68, 0.16);
+	color: #29a744;
+	border: 1px solid rgba(41, 167, 68, 0.32);
+}
+.sync-card-tag.gold {
+	background: rgba(255, 248, 220, 0.12);
+	color: #fff8dc;
+	border: 1px solid rgba(255, 248, 220, 0.22);
+}
+.sync-card-desc {
+	font-size: 12px;
+	color: #cbbdae;
+	line-height: 1.4;
+	margin: 0 0 10px 0;
+}
+
+/* Two-column sub-panels inside cards */
+.sync-two-col {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+}
+.sync-subpanel {
+	background: #202d3a;
+	border: 1px solid rgba(255, 248, 220, 0.08);
+	border-radius: 8px;
+	padding: 8px 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 5px;
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+.sync-subpanel-title {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	font-size: 11.5px;
+	font-weight: 700;
+	color: #fff8dc;
+	margin-bottom: 1px;
+}
+.sync-subpanel-desc {
+	font-size: 11px;
+	color: #a49787;
+	margin: 0 0 8px 0;
+	line-height: 1.35;
+}
+
+/* Monospace PIN Display */
+.sync-pin-box {
+	background: #18222c;
+	border: 1.5px solid rgba(23, 162, 185, 0.45);
+	border-radius: 9px;
+	padding: 8px 12px;
+	text-align: center;
+	margin-top: 8px;
+	box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+.sync-pin-digits {
+	font-size: 24px;
+	font-weight: 800;
+	letter-spacing: 5px;
+	font-family: var(--font-mono, monospace);
+	color: #fff8dc;
+	margin: 2px 0 6px 0;
+	user-select: all;
+	text-shadow: 0 0 10px rgba(23, 162, 185, 0.35);
+}
+.sync-pin-actions {
+	display: flex;
+	gap: 6px;
+	justify-content: center;
+}
+.sync-pin-chip-btn {
+	padding: 4px 10px;
+	font-size: 11px;
+	font-weight: 700;
+	background: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 248, 220, 0.18);
+	color: #fff8dc;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+.sync-pin-chip-btn:hover {
+	background: rgba(255, 255, 255, 0.16);
+	border-color: rgba(255, 248, 220, 0.35);
+}
+
+/* Secondary quick share row */
+.sync-share-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	align-items: center;
+}
+.sync-share-btn {
+	height: 32px;
+	padding: 0 12px;
+	border-radius: 7px;
+	border: 1px solid rgba(255, 248, 220, 0.14);
+	background: rgba(255, 255, 255, 0.05);
+	color: #fff8dc;
+	font-size: 11px;
+	font-weight: 700;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	transition: all 0.15s ease;
+}
+.sync-share-btn:hover {
+	background: rgba(255, 255, 255, 0.12);
+	border-color: rgba(255, 248, 220, 0.28);
+	color: #ffffff;
+}
+.sync-share-btn.primary {
+	background: #17a2b9;
+	border-color: #17a2b9;
+	color: #ffffff;
+}
+.sync-share-btn.primary:hover {
+	background: #138496;
+	border-color: #138496;
+}
+
+/* Card 3 Raw Data compact row */
+.sync-card-raw-row {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 10px;
+	align-items: center;
+}
+
+/* USB / Offline Dropzone */
+.sync-usb-dropzone {
+	border: 1.5px dashed rgba(255, 248, 220, 0.22);
+	border-radius: 8px;
+	padding: 10px 8px;
+	text-align: center;
+	cursor: pointer;
+	background: #18222c;
+	transition: all 0.2s ease;
+}
+.sync-usb-dropzone:hover {
 	border-color: #17a2b9 !important;
 	background: rgba(23, 162, 185, 0.1) !important;
 }
-#sync-file-dropzone.dragover {
+.sync-usb-dropzone.dragover {
 	border-color: #29a744 !important;
 	background: rgba(41, 167, 68, 0.2) !important;
 	transform: scale(1.02);
 }
-.sync-two-col {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-	gap: 12px;
+
+/* Footer Actions */
+.sync-footer-actions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 10px;
+	padding-top: 8px;
+	border-top: 1px solid rgba(255, 248, 220, 0.12);
+}
+.btn-reset-data {
+	background: transparent;
+	border: none;
+	color: #dc3546;
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: color 0.15s ease;
+}
+.btn-reset-data:hover {
+	color: #ef4444;
+	text-decoration: underline;
+}
+.btn-modal-close-action {
+	padding: 8px 20px;
+	border-radius: 7px;
+	background: rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 248, 220, 0.14);
+	color: #fff8dc;
+	font-size: 12px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.15s ease;
+}
+.btn-modal-close-action:hover {
+	background: rgba(255, 255, 255, 0.18);
+	border-color: rgba(255, 248, 220, 0.28);
+	color: #ffffff;
+}
+
+/* Migration Smart Banner */
+.migrate-smart-banner {
+	display: none;
+	margin-bottom: 18px;
+	padding: 14px 18px;
+	background: rgba(41, 167, 68, 0.12);
+	border: 1px solid rgba(41, 167, 68, 0.35);
+	border-radius: 12px;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+.migrate-smart-banner-icon {
+	width: 38px;
+	height: 38px;
+	border-radius: 10px;
+	background: rgba(41, 167, 68, 0.2);
+	color: #29a744;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	font-size: 18px;
 }
 
 /* Toast Notifications */
@@ -3324,88 +3883,124 @@ body.show-modal .modal-backdrop {
 
 	<!-- Sync & Backup Hub Modal (Transfer & Share) -->
 	<div class="popup-modal link-popup sync-modal">
-		<div class="modal-box sync-box" style="max-width: 720px; max-height: 90vh; overflow-y: auto; text-align: left; padding: 24px 26px;">
-			<div class="sync-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,248,220,0.12); padding-bottom: 16px; margin-bottom: 18px;">
-				<div style="display: flex; align-items: center; gap: 14px;">
-					<div class="sync-icon-badge" style="width: 46px; height: 46px; border-radius: 12px; background: #2d3e50; color: #fff8dc; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid rgba(255,248,220,0.15);">
-						<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+		<div class="modal-box sync-box">
+			<div class="sync-header">
+				<div class="sync-header-center">
+					<div class="sync-icon-badge">
+						<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
 					</div>
 					<div>
-						<h2 style="font-size: 20px; font-weight: 800; margin: 0 0 3px 0; color: #fff8dc;">Μεταφορά σε άλλο Υπολογιστή</h2>
-						<p class="sync-subtitle" style="font-size: 13px; color: #cbbdae; margin: 0;">Μεταφέρετε εύκολα όλα τα δεδομένα (βαθμολογίες &amp; κάρτες) ασύρματα ή με USB</p>
+						<h2 class="sync-header-title">Μεταφορά σε άλλο Υπολογιστή</h2>
+						<p class="sync-header-subtitle">Ασύρματος συγχρονισμός με κωδικό ή μεταφορά μέσω αρχείου / USB</p>
 					</div>
 				</div>
-				<button class="modal-actions-btn close" type="button" style="background: rgba(255,255,255,0.08); border:none; color: #fff8dc; border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px;" title="Κλείσιμο">&times;</button>
+				<button class="modal-close-icon-btn close" type="button" title="Κλείσιμο">&times;</button>
 			</div>
 
-			<div class="sync-options-grid" style="display: flex; flex-direction: column; gap: 16px;">
+			<!-- Progressive Disclosure Mode Selector (Prompt user what they want to do) -->
+			<div class="sync-mode-selector-wrap">
+				<label class="sync-mode-selector-heading">Τι θέλετε να κάνετε;</label>
+				<div class="sync-mode-nav" role="tablist" aria-label="Επιλογή τρόπου μεταφοράς">
+					<button type="button" class="sync-mode-tab active" data-sync-tab="pin" id="tab-sync-pin" role="tab" aria-selected="true" aria-controls="pane-sync-pin">
+						<div class="sync-mode-tab-icon-wrap teal">
+							<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+						</div>
+						<div class="sync-mode-tab-info">
+							<div class="sync-mode-tab-title">1. Ασύρματα με Κωδικό</div>
+							<div class="sync-mode-tab-desc">Μέσω Internet (PIN / QR)</div>
+						</div>
+					</button>
+
+					<button type="button" class="sync-mode-tab" data-sync-tab="file" id="tab-sync-file" role="tab" aria-selected="false" aria-controls="pane-sync-file">
+						<div class="sync-mode-tab-icon-wrap green">
+							<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+						</div>
+						<div class="sync-mode-tab-info">
+							<div class="sync-mode-tab-title">2. Με Αρχείο / USB</div>
+							<div class="sync-mode-tab-desc">100% Offline (Αρχείο .json)</div>
+						</div>
+					</button>
+
+					<button type="button" class="sync-mode-tab" data-sync-tab="raw" id="tab-sync-raw" role="tab" aria-selected="false" aria-controls="pane-sync-raw">
+						<div class="sync-mode-tab-icon-wrap gold">
+							<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+						</div>
+						<div class="sync-mode-tab-info">
+							<div class="sync-mode-tab-title">3. Αντιγραφή Κειμένου</div>
+							<div class="sync-mode-tab-desc">Χειροκίνητο Copy-Paste</div>
+						</div>
+					</button>
+				</div>
+			</div>
+
+			<div class="sync-options-grid">
 
 				<!-- CARD 1: WIRELESS PIN SYNC & INSTANT SHARING -->
-				<div class="sync-card" style="padding: 18px; background: #2d3e50; border: 1px solid rgba(255,248,220,0.12); border-radius: 14px;">
-					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
-							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#17a2b9" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-							<h3 style="font-size: 15px; font-weight: 700; color: #fff8dc; margin:0;">1. Ασύρματη Μεταφορά (Online με 6-ψήφιο Κωδικό)</h3>
+				<div class="sync-card sync-pane" data-sync-pane="pin" id="pane-sync-pin" role="tabpanel" aria-labelledby="tab-sync-pin" style="display: block;">
+					<div class="sync-card-header">
+						<div class="sync-card-title-group">
+							<div class="sync-card-title-icon teal">
+								<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+							</div>
+							<h3 class="sync-card-title">1. Ασύρματη Σύνδεση με Κωδικό</h3>
 						</div>
-						<span style="font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: rgba(23, 162, 185, 0.15); color: #17a2b9; border: 1px solid rgba(23, 162, 185, 0.3);">ΤΑΧΥΤΑΤΟ • ΧΩΡΙΣ ΑΡΧΕΙΑ</span>
+						<span class="sync-card-tag teal">Online • Ταχύτατο</span>
 					</div>
-					<p class="sync-card-desc" style="font-size: 13px; color: #cbbdae; line-height: 1.5; margin: 0 0 12px 0;">
-						Ο πιο απλός τρόπος! Πατήστε <strong>«Δημιουργία Κωδικού»</strong> στο 1ο PC και πληκτρολογήστε τον στο 2ο PC για άμεσο συγχρονισμό.
-					</p>
 
 					<!-- Two-Column Interactive PIN Transfer Grid -->
-					<div class="sync-two-col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 12px;">
+					<div class="sync-two-col">
 						<!-- SENDER BOX (PC 1) -->
-						<div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,248,220,0.1); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;">
-							<div>
-								<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
-									<span style="font-size: 14px;">📤</span>
-									<span style="font-size: 13px; font-weight: 700; color: #fff8dc;">Αποστολή (από αυτό το PC)</span>
-								</div>
-								<p style="font-size: 12px; color: #cbbdae; margin: 0 0 10px 0;">Δημιουργήστε έναν μοναδικό κωδικό για να στείλετε τους παίκτες και τις κάρτες.</p>
+						<div class="sync-subpanel">
+							<div class="sync-subpanel-title">
+								<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#17a2b9" stroke-width="2.2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+								<span>Αποστολή (από αυτό το PC)</span>
 							</div>
 
 							<div>
-								<button id="btn-generate-sync-pin" type="button" style="width: 100%; height: 38px; border-radius: 8px; border:none; background: #17a2b9; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 8px rgba(23,162,185,0.3);">
-									<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+								<button id="btn-generate-sync-pin" type="button" class="sync-share-btn primary" style="width: 100%; height: 32px; font-size: 11.5px;">
+									<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
 									<span>✨ Δημιουργία Κωδικού</span>
 								</button>
 
 								<!-- PIN Result Display -->
-								<div id="sync-pin-display-box" style="display: none; margin-top: 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(23,162,185,0.4); border-radius: 8px; padding: 10px; text-align: center;">
-									<div style="font-size: 11px; color: #cbbdae; margin-bottom: 4px;">Κωδικός Μεταφοράς:</div>
-									<div id="sync-pin-value" style="font-size: 26px; font-weight: 800; letter-spacing: 5px; font-family: var(--font-mono); color: #fff8dc; user-select: all;">--- ---</div>
-									<div style="display: flex; gap: 6px; justify-content: center; margin-top: 8px;">
-										<button id="btn-copy-sync-pin" type="button" style="padding: 4px 10px; font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,248,220,0.2); color: #fff8dc; border-radius: 6px; cursor: pointer;">📋 Αντιγραφή</button>
-										<button id="btn-toggle-qr-pin" type="button" style="padding: 4px 10px; font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,248,220,0.2); color: #fff8dc; border-radius: 6px; cursor: pointer;">📱 QR Code</button>
+								<div id="sync-pin-display-box" class="sync-pin-box" style="display: none;">
+									<div style="font-size: 10px; font-weight: 700; color: #a49787; text-transform: uppercase;">Κωδικός:</div>
+									<div id="sync-pin-value" class="sync-pin-digits" style="font-size: 22px; margin: 2px 0 4px 0;">--- ---</div>
+									<div class="sync-pin-actions">
+										<button id="btn-copy-sync-pin" type="button" class="sync-pin-chip-btn">
+											<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+											<span>Αντιγραφή</span>
+										</button>
+										<button id="btn-toggle-qr-pin" type="button" class="sync-pin-chip-btn">
+											<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+											<span>QR</span>
+										</button>
 									</div>
-									<div id="sync-pin-status" style="font-size: 11px; color: #5ace72; margin-top: 6px;">🟢 Έτοιμο! Πληκτρολογήστε τον στο άλλο PC</div>
+									<div id="sync-pin-status" style="font-size: 9.5px; font-weight: 600; color: #5ace72; margin-top: 3px;">🟢 Έτοιμο!</div>
 								</div>
 							</div>
 						</div>
 
 						<!-- RECEIVER BOX (PC 2) -->
-						<div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,248,220,0.1); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;">
-							<div>
-								<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
-									<span style="font-size: 14px;">📥</span>
-									<span style="font-size: 13px; font-weight: 700; color: #fff8dc;">Λήψη (σε αυτό το PC)</span>
-								</div>
-								<p style="font-size: 12px; color: #cbbdae; margin: 0 0 10px 0;">Εισάγετε τον 6-ψήφιο κωδικό που βλέπετε στον άλλο υπολογιστή.</p>
+						<div class="sync-subpanel">
+							<div class="sync-subpanel-title">
+								<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#29a744" stroke-width="2.2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+								<span>Λήψη (σε αυτό το PC)</span>
 							</div>
 
 							<div>
-								<div style="display: flex; gap: 8px;">
-									<input type="text" id="input-receive-pin" placeholder="π.χ. 482 195" maxlength="7" style="flex: 1; height: 38px; text-align: center; font-size: 16px; font-weight: 700; letter-spacing: 2px; font-family: var(--font-mono); border-radius: 8px; border: 1px solid rgba(255,248,220,0.2); background: rgba(0,0,0,0.4); color: #fff; outline:none;">
-									<button id="btn-receive-sync-pin" type="button" style="padding: 0 14px; height: 38px; border-radius: 8px; border:none; background: #29a744; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap;">
-										<span>📥 Λήψη</span>
+								<div style="display: flex; gap: 5px;">
+									<input type="text" id="input-receive-pin" placeholder="π.χ. 482 195" maxlength="7" style="flex: 1; height: 32px; text-align: center; font-size: 14px; font-weight: 800; letter-spacing: 2px; font-family: var(--font-mono, monospace); border-radius: 7px; border: 1px solid rgba(255,248,220,0.18); background: #18222c; color: #fff8dc; outline: none;">
+									<button id="btn-receive-sync-pin" type="button" style="padding: 0 12px; height: 32px; border-radius: 7px; border: none; background: #29a744; color: #fff; font-size: 11.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap;">
+										<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+										<span>Λήψη</span>
 									</button>
 								</div>
 
 								<!-- Receive Result / Preview Container -->
-								<div id="sync-receive-preview" style="display: none; margin-top: 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(41,167,68,0.5); border-radius: 8px; padding: 10px; text-align: center;">
-									<div id="sync-receive-summary" style="font-size: 12px; color: #fff8dc; font-weight: 700;"></div>
-									<button id="btn-apply-received-pin-data" type="button" style="margin-top: 8px; width: 100%; height: 32px; border-radius: 6px; border:none; background: #29a744; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer;">
+								<div id="sync-receive-preview" style="display: none; margin-top: 6px; background: #18222c; border: 1px solid rgba(41,167,68,0.5); border-radius: 7px; padding: 6px; text-align: center;">
+									<div id="sync-receive-summary" style="font-size: 10.5px; color: #fff8dc; font-weight: 700;"></div>
+									<button id="btn-apply-received-pin-data" type="button" style="margin-top: 4px; width: 100%; height: 26px; border-radius: 5px; border:none; background: #29a744; color: #fff; font-size: 10.5px; font-weight: 700; cursor: pointer;">
 										✅ Εφαρμογή στον Πίνακα
 									</button>
 								</div>
@@ -3414,77 +4009,72 @@ body.show-modal .modal-backdrop {
 					</div>
 
 					<!-- Secondary Quick Sharing Actions Row -->
-					<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; padding-top: 8px; border-top: 1px dashed rgba(255,248,220,0.1);">
-						<button class="btn-copy-sync" type="button" style="flex: 1; min-width: 120px; height: 32px; border-radius: 6px; border:none; background: rgba(23, 162, 185, 0.25); border: 1px solid rgba(23,162,185,0.4); color:#fff; font-size: 12px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+					<div class="sync-share-row" style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed rgba(255,248,220,0.08); gap: 4px;">
+						<span style="font-size: 10.5px; font-weight: 600; color: #a49787; margin-right: 2px;">Κοινοποίηση:</span>
+						<button class="btn-copy-sync sync-share-btn primary" type="button" style="height: 25px; padding: 0 8px; font-size: 10.5px;">
+							<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
 							<span>Αντιγραφή Link</span>
 						</button>
-						<button id="btn-native-share" type="button" style="height: 32px; padding: 0 10px; border-radius: 6px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 12px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+						<button id="btn-toggle-qr" class="sync-share-btn" type="button" style="height: 25px; padding: 0 8px; font-size: 10.5px;">
+							<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+							<span>QR</span>
+						</button>
+						<button id="btn-native-share" class="sync-share-btn" type="button" style="height: 25px; padding: 0 8px; font-size: 10.5px;">
 							<span>AirDrop</span>
 						</button>
-						<button id="btn-share-whatsapp" type="button" style="height: 32px; padding: 0 10px; border-radius: 6px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 12px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+						<button id="btn-share-whatsapp" class="sync-share-btn" type="button" style="height: 25px; padding: 0 8px; font-size: 10.5px;">
 							<span>WhatsApp</span>
 						</button>
-						<button id="btn-share-email" type="button" style="height: 32px; padding: 0 10px; border-radius: 6px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 12px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+						<button id="btn-share-email" class="sync-share-btn" type="button" style="height: 25px; padding: 0 8px; font-size: 10.5px;">
 							<span>Email</span>
 						</button>
-						<button id="btn-toggle-qr" type="button" style="height: 32px; padding: 0 10px; border-radius: 6px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 12px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
-							<span>QR Code</span>
-						</button>
+						<input type="text" id="tarea-link" readonly spellcheck="false" style="display:none;">
 					</div>
 
 					<!-- QR Code Dropdown Card -->
-					<div id="qr-container-card" style="display:none; text-align: center; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,248,220,0.12); border-radius: 10px; padding: 14px; margin-bottom: 8px;">
-						<p style="font-size: 13px; color: #fff8dc; font-weight: 700; margin: 0 0 8px 0;">Σκανάρετε με την κάμερα του κινητού ή του tablet:</p>
-						<div id="qr-code-image-wrap" style="display: inline-block; background: #fff; padding: 10px; border-radius: 10px;">
-							<img id="qr-code-img" src="" alt="QR Code" style="width: 150px; height: 150px; display: block;">
+					<div id="qr-container-card" style="display:none; text-align: center; background: #18222c; border: 1px solid rgba(255,248,220,0.12); border-radius: 9px; padding: 8px; margin-top: 6px;">
+						<div id="qr-code-image-wrap" style="display: inline-block; background: #ffffff; padding: 6px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.35);">
+							<div id="qr-code-svg-target" style="width: 120px; height: 120px; display: flex; align-items: center; justify-content: center;"></div>
+							<img id="qr-code-img" src="" alt="QR Code" style="width: 120px; height: 120px; display: none;">
 						</div>
-						<p style="font-size: 11px; color: #cbbdae; margin: 8px 0 0 0;">Ανοίγει άμεσα τη σελίδα με όλα τα σκορ στον browser!</p>
-					</div>
-
-					<div class="sync-url-preview-wrapper">
-						<input type="text" id="tarea-link" readonly spellcheck="false" title="Κάντε κλικ για αντιγραφή" style="background: rgba(0,0,0,0.4); font-size: 11px; font-family: monospace; color: #cbbdae; padding: 7px 10px; width: 100%; box-sizing: border-box; border: 1px solid rgba(255,248,220,0.12); border-radius: 6px;">
+						<p style="font-size: 10.5px; color: #cbbdae; margin: 4px 0 0 0;">Σκανάρετε με κινητό ή tablet</p>
 					</div>
 				</div>
 
 				<!-- CARD 2: FILE / USB OFFLINE STORAGE (DRAG & DROP) -->
-				<div class="sync-card" style="padding: 18px; background: #2d3e50; border: 1px solid rgba(255,248,220,0.12); border-radius: 14px;">
-					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
-							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#29a744" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-							<h3 style="font-size: 15px; font-weight: 700; color: #fff8dc; margin:0;">2. Μεταφορά με Αρχείο / USB (100% Offline)</h3>
+				<div class="sync-card sync-pane" data-sync-pane="file" id="pane-sync-file" role="tabpanel" aria-labelledby="tab-sync-file" style="display: none;">
+					<div class="sync-card-header">
+						<div class="sync-card-title-group">
+							<div class="sync-card-title-icon green">
+								<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+							</div>
+							<h3 class="sync-card-title">2. Μεταφορά με Αρχείο / USB</h3>
 						</div>
-						<span style="font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: rgba(41, 167, 68, 0.15); color: #29a744; border: 1px solid rgba(41, 167, 68, 0.3);">ΧΩΡΙΣ INTERNET</span>
+						<span class="sync-card-tag green">100% Offline • Αρχείο .json</span>
 					</div>
-					<p class="sync-card-desc" style="font-size: 13px; color: #cbbdae; line-height: 1.5; margin: 0 0 12px 0;">
-						Ιδανικό αν δεν υπάρχει internet. Κατεβάστε το αρχείο στο 1ο PC και σύρετέ το (Drag &amp; Drop) στην οθόνη του 2ου PC.
-					</p>
 
 					<!-- Two-Column Offline Transfer Grid -->
-					<div class="sync-two-col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 10px;">
+					<div class="sync-two-col">
 						<!-- EXPORT TO USB -->
-						<div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,248,220,0.1); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;">
-							<div>
-								<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
-									<span style="font-size: 14px;">💾</span>
-									<span style="font-size: 13px; font-weight: 700; color: #fff8dc;">Εξαγωγή για USB</span>
-								</div>
-								<p style="font-size: 12px; color: #cbbdae; margin: 0 0 10px 0;">Κατεβάστε ένα πλήρες αντίγραφο των παικτών και των καρτών.</p>
+						<div class="sync-subpanel">
+							<div class="sync-subpanel-title">
+								<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#29a744" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+								<span>Εξαγωγή Αντιγράφου</span>
 							</div>
 
-							<div style="display: flex; flex-direction: column; gap: 6px;">
-								<button id="btn-export-backup-json" type="button" style="width: 100%; height: 38px; border-radius: 8px; border:none; background: #29a744; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 8px rgba(41,167,68,0.3);">
-									<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+							<div style="display: flex; flex-direction: column; gap: 5px;">
+								<button id="btn-export-backup-json" type="button" style="width: 100%; height: 32px; border-radius: 7px; border:none; background: #29a744; color:#fff; font-size: 11.5px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 5px; box-shadow: 0 2px 6px rgba(41,167,68,0.25);">
+									<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
 									<span>💾 Λήψη Αντιγράφου (.json)</span>
 								</button>
-								<div style="display: flex; gap: 6px;">
-									<button id="btn-export-data-js" type="button" style="flex: 1; height: 30px; border-radius: 6px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 11px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+								<div style="display: flex; gap: 4px;">
+									<button id="btn-export-data-js" type="button" class="sync-share-btn" style="flex: 1; height: 24px; font-size: 9.5px; padding: 0 4px;">
 										<span>data.js</span>
 									</button>
-									<button id="btn-download-app-html" type="button" style="flex: 1; height: 30px; border-radius: 6px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 11px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+									<button id="btn-download-app-html" type="button" class="sync-share-btn" style="flex: 1; height: 24px; font-size: 9.5px; padding: 0 4px;">
 										<span>Αυτόνομο .html</span>
 									</button>
-									<button id="btn-reload-data-js" type="button" title="Επαναφόρτωση από data.js" style="height: 30px; padding: 0 8px; border-radius: 6px; border: 1px solid rgba(255,248,220,0.15); background: rgba(255,255,255,0.06); color: #fff8dc; font-size: 11px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center;">
+									<button id="btn-reload-data-js" type="button" class="sync-share-btn" title="Επαναφόρτωση από data.js" style="height: 24px; padding: 0 6px; font-size: 10px;">
 										<span>🔄</span>
 									</button>
 								</div>
@@ -3492,27 +4082,23 @@ body.show-modal .modal-backdrop {
 						</div>
 
 						<!-- IMPORT FROM USB / FILE (DRAG & DROP) -->
-						<div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,248,220,0.1); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;">
-							<div>
-								<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
-									<span style="font-size: 14px;">📂</span>
-									<span style="font-size: 13px; font-weight: 700; color: #fff8dc;">Εισαγωγή από USB / Αρχείο</span>
-								</div>
-								<p style="font-size: 12px; color: #cbbdae; margin: 0 0 10px 0;">Σύρετε εδώ το αρχείο (.json ή data.js) για άμεση φόρτωση.</p>
+						<div class="sync-subpanel">
+							<div class="sync-subpanel-title">
+								<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#17a2b9" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+								<span>Εισαγωγή Αρχείου</span>
 							</div>
 
 							<div>
-								<div id="sync-file-dropzone" style="border: 2px dashed rgba(255,248,220,0.25); border-radius: 8px; padding: 12px 8px; text-align: center; cursor: pointer; background: rgba(0,0,0,0.2); transition: all 0.2s ease;">
-									<div style="font-size: 18px; margin-bottom: 2px;">📥</div>
-									<div style="font-size: 11px; color: #fff8dc; font-weight: 700;">Σύρετε το αρχείο εδώ ή <span style="color: #17a2b9; text-decoration: underline;">επιλέξτε</span></div>
+								<div id="sync-file-dropzone" class="sync-usb-dropzone" style="padding: 7px 6px;">
+									<div style="font-size: 10.5px; color: #fff8dc; font-weight: 700;">📥 Σύρετε αρχείο (.json / data.js) ή <span style="color: #17a2b9; text-decoration: underline;">επιλέξτε</span></div>
 									<input type="file" id="sync-file-input" accept=".json,.js,.txt" style="display:none;">
 								</div>
 
 								<!-- Dropzone Preview -->
-								<div id="sync-file-preview" style="display: none; margin-top: 8px; background: rgba(0,0,0,0.4); border: 1px solid rgba(41,167,68,0.5); border-radius: 8px; padding: 8px; text-align: center;">
-									<div id="sync-file-summary" style="font-size: 11px; color: #fff8dc; font-weight: 700;"></div>
-									<button id="btn-apply-imported-file" type="button" style="margin-top: 6px; width: 100%; height: 30px; border-radius: 6px; border:none; background: #29a744; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer;">
-										✅ Εφαρμογή στον Πίνακα
+								<div id="sync-file-preview" style="display: none; margin-top: 5px; background: #18222c; border: 1px solid rgba(41,167,68,0.5); border-radius: 7px; padding: 5px 6px; text-align: center;">
+									<div id="sync-file-summary" style="font-size: 9.5px; color: #fff8dc; font-weight: 700;"></div>
+									<button id="btn-apply-imported-file" type="button" style="margin-top: 3px; width: 100%; height: 24px; border-radius: 5px; border:none; background: #29a744; color: #fff; font-size: 10.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+										<span>✅ Εφαρμογή</span>
 									</button>
 								</div>
 							</div>
@@ -3520,76 +4106,73 @@ body.show-modal .modal-backdrop {
 					</div>
 				</div>
 
-				<!-- CARD 3: RAW DATA COPY / PASTE -->
-				<div class="sync-card" style="padding: 18px; background: #2d3e50; border: 1px solid rgba(255,248,220,0.12); border-radius: 14px;">
-					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-						<div class="sync-card-title" style="display: flex; align-items: center; gap: 8px;">
-							<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff8dc" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
-							<h3 style="font-size: 15px; font-weight: 700; color: #fff8dc; margin:0;">3. Χειροκίνητη Αντιγραφή &amp; Επικόλληση Δεδομένων</h3>
+				<!-- CARD 3: RAW DATA COPY / PASTE (CLEAN SINGLE ROW) -->
+				<div class="sync-card sync-pane" data-sync-pane="raw" id="pane-sync-raw" role="tabpanel" aria-labelledby="tab-sync-raw" style="display: none;">
+					<div class="sync-card-header" style="margin-bottom: 6px;">
+						<div class="sync-card-title-group">
+							<div class="sync-card-title-icon gold">
+								<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+							</div>
+							<h3 class="sync-card-title">3. Αντιγραφή &amp; Επικόλληση (JSON)</h3>
 						</div>
-						<span style="font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: rgba(255,248,220,0.1); color: #fff8dc; border: 1px solid rgba(255,248,220,0.2);">ΑΜΕΣΟ JSON</span>
+						<span class="sync-card-tag gold">Χειροκίνητο</span>
 					</div>
-					<p class="sync-card-desc" style="font-size: 13px; color: #cbbdae; line-height: 1.5; margin: 0 0 12px 0;">
-						Αντιγράψτε όλα τα δεδομένα για φύλαξη ή επικολλήστε δεδομένα που έχετε αντιγράψει από άλλον υπολογιστή.
-					</p>
 
-					<div style="display: flex; flex-direction: column; gap: 10px;">
-						<button id="btn-copy-raw-data" type="button" style="width: 100%; height: 38px; border-radius: 8px; border:none; background: #17a2b9; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-							<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-							<span>📋 Αντιγραφή Όλων των Δεδομένων (Copy)</span>
+					<div class="sync-card-raw-row">
+						<button id="btn-copy-raw-data" type="button" class="sync-share-btn" style="height: 32px; padding: 0 12px; font-size: 11px; font-weight: 700; background: rgba(255, 248, 220, 0.08); border-color: rgba(255, 248, 220, 0.2); color: #fff8dc; white-space: nowrap;">
+							<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+							<span>📋 Αντιγραφή Όλων</span>
 						</button>
 
-						<div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,248,220,0.12); border-radius: 10px; padding: 10px;">
-							<label style="display: block; font-size: 12px; font-weight: 700; color: #fff8dc; margin-bottom: 6px;">
-								📥 Επικόλληση Δεδομένων για άμεση ενημέρωση:
-							</label>
-							<div style="display: flex; gap: 8px;">
-								<input type="text" id="input-paste-data" placeholder="Επικολλήστε εδώ τα δεδομένα..." style="flex:1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,248,220,0.12); border-radius: 6px; color:#fff; padding: 8px 10px; font-size: 12px; font-family: monospace; outline:none;">
-								<button id="btn-apply-pasted-data" type="button" style="padding: 0 16px; height: 34px; border-radius: 6px; border:none; background: #29a744; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer; white-space: nowrap;">
-									Εφαρμογή
-								</button>
-							</div>
+						<div style="display: flex; gap: 5px;">
+							<input type="text" id="input-paste-data" placeholder="Επικόλληση JSON για άμεση ενημέρωση..." style="flex: 1; height: 32px; background: #18222c; border: 1px solid rgba(255,248,220,0.14); border-radius: 7px; color: #fff; padding: 0 8px; font-size: 10.5px; font-family: var(--font-mono, monospace); outline: none;">
+							<button id="btn-apply-pasted-data" type="button" style="height: 32px; padding: 0 12px; border-radius: 7px; border: none; background: #29a744; color: #fff; font-size: 11.5px; font-weight: 700; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(41,167,68,0.25);">
+								Εφαρμογή
+							</button>
 						</div>
 					</div>
 				</div>
 
 			</div>
 
-			<div class="sync-footer-actions" style="display: flex; align-items: center; justify-content: space-between; margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255,248,220,0.12);">
-				<button class="btn-reset-data" type="button" style="background: transparent; border:none; color: #dc3546; font-size: 13px; font-weight: 700; cursor: pointer;">Επαναφορά Προεπιλογών</button>
-				<button class="modal-actions-btn close" type="button" style="padding: 9px 22px; border-radius: 8px; background: rgba(255,255,255,0.12); border:none; color:#fff; font-weight:700; cursor:pointer;">ΚΛΕΙΣΙΜΟ</button>
+			<div class="sync-footer-actions">
+				<button class="btn-reset-data" type="button">Επαναφορά Προεπιλογών</button>
+				<button class="modal-actions-btn close btn-modal-close-action" type="button">ΚΛΕΙΣΙΜΟ</button>
 			</div>
 		</div>
 	</div>
 
 	<!-- Migration from Old System Modal -->
 	<div class="popup-modal migrate-modal" id="migrate-modal">
-		<div class="modal-box migrate-box" style="max-width: 620px; max-height: 90vh; overflow-y: auto; text-align: left; padding: 26px 28px;">
-			<div class="sync-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,248,220,0.12); padding-bottom: 16px; margin-bottom: 18px;">
-				<div style="display: flex; align-items: center; gap: 14px;">
-					<div style="width: 46px; height: 46px; border-radius: 12px; background: #2d3e50; color: #fff8dc; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid rgba(255,248,220,0.15);">
-						<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+		<div class="modal-box migrate-box" style="max-height: 92vh; overflow-y: auto; text-align: left;">
+			<div class="sync-header">
+				<div class="sync-header-left">
+					<div class="sync-icon-badge">
+						<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
 					</div>
 					<div>
-						<h2 style="font-size: 20px; font-weight: 800; margin: 0 0 3px 0; color: #fff8dc;">Μετάβαση από το Παλιό Σύστημα</h2>
-						<p style="font-size: 13px; color: #cbbdae; margin: 0;">Ενιαία εισαγωγή παικτών, σκορ &amp; καρτών από παλιό αρχείο, link ή browser</p>
+						<h2 class="sync-header-title">Μετάβαση από το Παλιό Σύστημα</h2>
+						<p class="sync-header-subtitle">Ενιαία εισαγωγή παικτών, σκορ &amp; καρτών από παλιό φάκελο, αρχείο ή link</p>
 					</div>
 				</div>
-				<button class="modal-actions-btn close-migrate" type="button" style="background: rgba(255,255,255,0.08); border:none; color: #fff8dc; border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px;" title="Κλείσιμο">&times;</button>
+				<button class="modal-close-icon-btn close-migrate" type="button" title="Κλείσιμο">&times;</button>
 			</div>
 
 			<!-- AUTO-DETECTED BROWSER DATA BANNER (Appears if old data is found in browser localStorage) -->
-			<div id="migrate-browser-notice" style="display:none; margin-bottom: 16px; padding: 14px 16px; background: rgba(41,167,68,0.15); border: 1px solid rgba(41,167,68,0.35); border-radius: 12px; align-items: center; justify-content: space-between; gap: 12px;">
-				<div style="display: flex; align-items: center; gap: 10px;">
-					<span style="font-size: 20px;">💡</span>
+			<div id="migrate-browser-notice" class="migrate-smart-banner">
+				<div style="display: flex; align-items: center; gap: 12px;">
+					<div class="migrate-smart-banner-icon">⚡</div>
 					<div>
-						<div id="migrate-browser-text" style="font-size: 13px; font-weight: 700; color: #fff8dc;">Βρέθηκαν παλιά δεδομένα στον περιηγητή σας!</div>
+						<div id="migrate-browser-text" style="font-size: 13px; font-weight: 800; color: #fff8dc;">Βρέθηκαν παλιά δεδομένα στον περιηγητή σας!</div>
 						<div id="browser-scan-status" style="font-size: 11px; color: #cbbdae;">Μπορείτε να τα ανακτήσετε άμεσα με 1 κλικ χωρίς αρχεία.</div>
 					</div>
 				</div>
-				<button type="button" id="btn-scan-browser-data" style="padding: 8px 16px; border-radius: 8px; border:none; background: #29a744; color:#fff; font-size: 12px; font-weight: 700; cursor:pointer; white-space: nowrap; flex-shrink: 0;">
-					⚡ Άμεση Ανάκτηση
-				</button>
+				<div style="display: flex; align-items: center; gap: 8px;">
+					<button type="button" id="btn-scan-browser-data" style="padding: 8px 16px; border-radius: 8px; border:none; background: #29a744; color:#fff; font-size: 12px; font-weight: 700; cursor:pointer; white-space: nowrap; flex-shrink: 0; box-shadow: 0 2px 6px rgba(41,167,68,0.3);">
+						⚡ Άμεση Ανάκτηση
+					</button>
+					<button type="button" id="btn-dismiss-browser-notice" style="background: rgba(255,255,255,0.08); border:none; color:#cbbdae; width: 28px; height: 28px; border-radius: 6px; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Απόκρυψη">&times;</button>
+				</div>
 			</div>
 
 			<!-- UNIFIED FOLDER & FILE DROPZONE -->
@@ -3620,42 +4203,30 @@ body.show-modal .modal-backdrop {
 				</div>
 			</div>
 
-			<!-- DIRECT PASTE / LINK SECTION -->
-			<div class="migrate-section active" id="pane-migrate-link" style="background: #2d3e50; border: 1px solid rgba(255,248,220,0.12); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;">
-				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-					<label for="migrate-paste-input" style="font-size: 13px; font-weight: 700; color: #fff8dc; display: flex; align-items: center; gap: 6px;">
-						<span>🔗</span> Ή επικολλήστε παλιό σύνδεσμο (?q=), κείμενο εξαγωγής ή JSON:
-					</label>
-				</div>
-				<textarea id="migrate-paste-input" rows="3" placeholder="Επικολλήστε εδώ το link ή το κείμενο από το παλιό σύστημα..." style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,248,220,0.15); border-radius: 8px; color:#fff; padding: 8px 10px; font-size: 12px; font-family: monospace; outline:none; resize: vertical; margin-bottom: 8px;"></textarea>
-				<button type="button" id="btn-test-migrate-paste" style="width: 100%; height: 36px; border-radius: 8px; border:none; background: #17a2b9; color:#fff; font-size: 13px; font-weight: 700; cursor:pointer;">
-					🔍 Έλεγχος &amp; Ανάγνωση Δεδομένων
-				</button>
-			</div>
 
 			<!-- DYNAMIC PREVIEW & CONFIRMATION BOX -->
-			<div id="migrate-preview-wrap" style="display:none; margin-bottom: 16px; background: rgba(41,167,68,0.12); border: 1.5px solid #29a744; border-radius: 12px; padding: 14px 16px;">
+			<div id="migrate-preview-wrap" style="display:none; margin-bottom: 16px; background: rgba(41,167,68,0.12); border: 1.5px solid #29a744; border-radius: 12px; padding: 16px;">
 				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
 					<div style="display: flex; align-items: center; gap: 8px;">
 						<span style="font-size: 18px;">✅</span>
 						<h4 style="font-size: 14px; font-weight: 800; color: #29a744; margin: 0;">Δεδομένα Έτοιμα για Μεταφορά!</h4>
 					</div>
-					<span id="migrate-source-tag" style="font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(255,255,255,0.1); color: #fff8dc;">Πηγή</span>
+					<span id="migrate-source-tag" style="font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 6px; background: rgba(255,255,255,0.1); color: #fff8dc; border: 1px solid rgba(255,248,220,0.15);">Πηγή</span>
 				</div>
 				<div id="migrate-preview-stats" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
 					<!-- Populated by JS -->
 				</div>
-				<label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #fff8dc; cursor: pointer; margin-bottom: 12px;">
+				<label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #fff8dc; cursor: pointer; margin-bottom: 14px;">
 					<input type="checkbox" id="chk-migrate-replace" checked>
 					<span>Αντικατάσταση των υπαρχόντων παικτών &amp; καρτών (προτείνεται)</span>
 				</label>
-				<button type="button" id="btn-apply-migration-now" style="width: 100%; height: 42px; border-radius: 8px; border:none; background: #29a744; color:#fff; font-size: 14px; font-weight: 800; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+				<button type="button" id="btn-apply-migration-now" style="width: 100%; height: 42px; border-radius: 8px; border:none; background: #29a744; color:#fff; font-size: 14px; font-weight: 800; cursor:pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 3px 10px rgba(41,167,68,0.35);">
 					<span>🚀 Εφαρμογή &amp; Ολοκλήρωση Μετάβασης</span>
 				</button>
 			</div>
 
-			<div style="display: flex; align-items: center; justify-content: flex-end; padding-top: 12px; border-top: 1px solid rgba(255,248,220,0.12);">
-				<button class="modal-actions-btn close-migrate" type="button" style="padding: 9px 22px; border-radius: 8px; background: rgba(255,255,255,0.12); border:none; color:#fff; font-weight:700; cursor:pointer;">ΚΛΕΙΣΙΜΟ</button>
+			<div style="display: flex; align-items: center; justify-content: flex-end; padding-top: 14px; border-top: 1px solid rgba(255,248,220,0.12);">
+				<button class="modal-actions-btn close-migrate btn-modal-close-action" type="button">ΚΛΕΙΣΙΜΟ</button>
 			</div>
 		</div>
 	</div>
@@ -6315,6 +6886,12 @@ function init_event_listeners() {
 		open_migrate_modal();
 	});
 	$("#btn-quick-browser-migrate, #btn-scan-browser-data").on("click", quick_browser_migrate);
+	$("#btn-dismiss-browser-notice").on("click", function() {
+		if (local_storage_available) {
+			localStorage.setItem("leaderboard_legacy_recovered", "true");
+		}
+		$("#migrate-browser-notice").slideUp(180);
+	});
 	$(".close-migrate").on("click", close_migrate_modal);
 
 	$(document).on("click", ".migrate-modal .modal-tab-btn", function() {
@@ -6455,6 +7032,15 @@ function init_event_listeners() {
 		apply_display_mode(targetMode, true);
 	});
 
+	// Progressive Disclosure Mode Switcher in Sync Modal
+	$(document).on("click", ".sync-mode-tab", function() {
+		var tab = $(this).attr("data-sync-tab");
+		$(".sync-mode-tab").removeClass("active").attr("aria-selected", "false");
+		$(this).addClass("active").attr("aria-selected", "true");
+		$(".sync-modal .sync-card").hide();
+		$('.sync-modal .sync-card[data-sync-pane="' + tab + '"]').show();
+	});
+
 	// Data Transfer & Paste Actions
 	$("#btn-copy-raw-data").on("click", copy_all_raw_data);
 	$("#btn-apply-pasted-data").on("click", apply_pasted_data);
@@ -6569,6 +7155,9 @@ function open_sync_hub() {
 	$("body").addClass("show-link");
 	var link = generate_sync_link();
 	$("#tarea-link").val(link);
+	var activeTab = $(".sync-mode-tab.active").attr("data-sync-tab") || "pin";
+	$(".sync-modal .sync-card").hide();
+	$('.sync-modal .sync-card[data-sync-pane="' + activeTab + '"]').show();
 }
 
 function generate_sync_link() {
@@ -6659,9 +7248,8 @@ function generate_sync_pin() {
 		directUrl.searchParams.set("code", pin);
 		$("#tarea-link").val(directUrl.href);
 
-		// Update QR code to point to direct code URL
-		var qrApiUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=" + encodeURIComponent(directUrl.href);
-		$("#qr-code-img").attr("src", qrApiUrl);
+		// Render offline vector QR code pointing to direct code URL
+		render_qr_code(directUrl.href);
 
 		showToast("Ο κωδικός μεταφοράς είναι: " + formattedPin);
 		AudioEngine.playPositive();
@@ -6739,7 +7327,13 @@ function receive_sync_pin() {
 		var cdCount = (parsed.cards || []).length;
 
 		$("#sync-receive-summary").html('🎉 Βρέθηκαν: <strong>' + plCount + '</strong> Παίκτες &amp; <strong>' + cdCount + '</strong> Κάρτες!');
-		$("#sync-receive-preview").slideDown(180);
+		$("#sync-receive-preview").slideDown(180, function() {
+			var previewEl = document.getElementById("sync-receive-preview");
+			if (previewEl && previewEl.scrollIntoView) {
+				previewEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+			}
+			$("#btn-apply-received-pin-data").focus();
+		});
 		AudioEngine.playPositive();
 		showToast("Βρέθηκαν δεδομένα για τον κωδικό " + pin + "!");
 	})
@@ -6843,7 +7437,19 @@ function process_sync_file(file) {
 				var plCount = (parsed.leaderboard || parsed.lb || []).length;
 				var cdCount = (parsed.cards || []).length;
 				$("#sync-file-summary").html('✅ Βρέθηκαν στο <strong>' + escapeHtml(file.name) + '</strong>: <strong>' + plCount + '</strong> Παίκτες &amp; <strong>' + cdCount + '</strong> Κάρτες!');
-				$("#sync-file-preview").slideDown(180);
+				$("#sync-file-preview").slideDown(200, function() {
+					var $box = $(".modal-box.sync-box");
+					if ($box.length) {
+						$box.animate({ scrollTop: $box[0].scrollHeight }, 280);
+					}
+					var previewEl = document.getElementById("sync-file-preview");
+					if (previewEl && previewEl.scrollIntoView) {
+						previewEl.scrollIntoView({ behavior: "smooth", block: "end" });
+					}
+					setTimeout(function() {
+						$("#btn-apply-imported-file").focus();
+					}, 300);
+				});
 				AudioEngine.playPositive();
 				showToast("Το αρχείο αναγνωρίστηκε επιτυχώς!");
 			} else {
@@ -6864,8 +7470,86 @@ function apply_imported_file_data() {
 	$("#sync-file-preview").hide();
 }
 
+function get_effective_sync_link() {
+	if (active_generated_pin) {
+		var directUrl = new URL(get_clean_base_url());
+		directUrl.searchParams.set("code", active_generated_pin);
+		return directUrl.href;
+	}
+	// If no PIN yet, create a fresh one so the QR code and link are short & fast
+	var pin = Math.floor(100000 + Math.random() * 900000).toString();
+	active_generated_pin = pin;
+
+	// Update the PIN display box in Card 1 as well
+	var formattedPin = pin.slice(0, 3) + " " + pin.slice(3);
+	$("#sync-pin-value").text(formattedPin);
+	$("#sync-pin-status").html('<span style="color: #5ace72;">🟢 Έτοιμο! Πληκτρολογήστε τον κωδικό <strong>' + formattedPin + '</strong> στο 2ο PC</span>');
+	$("#sync-pin-display-box").slideDown(200);
+
+	// Silently upload payload to ntfy.sh in background so code is live immediately
+	var payload = {
+		app: "leaderboard-suite",
+		version: "2.0",
+		theme: current_theme,
+		display_mode: current_display_mode,
+		leaderboard: lb_data,
+		cards: card_data,
+		created_at: new Date().toISOString()
+	};
+	fetch("https://ntfy.sh/lb-sync-v2-" + pin, {
+		method: "POST",
+		headers: {
+			"Title": "Leaderboard Sync PIN",
+			"Tags": "trophy",
+			"Cache": "yes"
+		},
+		body: JSON.stringify(payload)
+	}).catch(function(e) {
+		console.warn("Background PIN upload notice:", e);
+	});
+
+	var directUrl = new URL(get_clean_base_url());
+	directUrl.searchParams.set("code", pin);
+	return directUrl.href;
+}
+
+function render_qr_code(url) {
+	if (typeof qrcode !== "undefined") {
+		try {
+			var qr = qrcode(0, "M");
+			qr.addData(url);
+			qr.make();
+			var svgTag = qr.createSvgTag({ scalable: true, margin: 2 });
+			$("#qr-code-svg-target").html(svgTag).show();
+			$("#qr-code-svg-target svg").css({ width: "150px", height: "150px", display: "block" });
+			try {
+				var dataUri = qr.createDataURL(4, 2);
+				$("#qr-code-img").attr("src", dataUri);
+			} catch(e) {}
+			return true;
+		} catch(err) {
+			console.warn("Client-side QR generation failed with Level M, trying Level L:", err);
+			try {
+				var qrL = qrcode(0, "L");
+				qrL.addData(url);
+				qrL.make();
+				var svgTagL = qrL.createSvgTag({ scalable: true, margin: 2 });
+				$("#qr-code-svg-target").html(svgTagL).show();
+				$("#qr-code-svg-target svg").css({ width: "150px", height: "150px", display: "block" });
+				return true;
+			} catch(err2) {
+				console.warn("URL too long for single QR code:", err2);
+			}
+		}
+	}
+	var fallbackUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=" + encodeURIComponent(url);
+	$("#qr-code-svg-target").hide();
+	$("#qr-code-img").attr("src", fallbackUrl).show();
+	return false;
+}
+
 function copy_sync_link() {
-	var link = generate_sync_link();
+	var link = get_effective_sync_link();
 	$("#tarea-link").val(link);
 	var $btn = $(".btn-copy-sync span");
 
@@ -6895,7 +7579,7 @@ function copy_link_fallback(link, $btn) {
 }
 
 function trigger_native_share() {
-	var link = generate_sync_link();
+	var link = get_effective_sync_link();
 	if (navigator.share) {
 		navigator.share({
 			title: "Leaderboard & Mystery Cards",
@@ -6916,7 +7600,7 @@ function trigger_native_share() {
 }
 
 function share_via_email() {
-	var link = generate_sync_link();
+	var link = get_effective_sync_link();
 	var subject = encodeURIComponent("Leaderboard & Mystery Cards");
 	var bodyText = "Γεια σας!\n\nΜπορείτε να ανοίξετε το Leaderboard με όλα τα τρέχοντα σκορ και τις κάρτες στον παρακάτω σύνδεσμο:\n\n" + link + "\n\n(Δεν χρειάζεται εγκατάσταση - ανοίγει άμεσα σε οποιονδήποτε υπολογιστή ή κινητό)";
 	var body = encodeURIComponent(bodyText);
@@ -6925,7 +7609,7 @@ function share_via_email() {
 }
 
 function share_via_whatsapp() {
-	var link = generate_sync_link();
+	var link = get_effective_sync_link();
 	var text = encodeURIComponent("Leaderboard & Mystery Cards:\n" + link);
 	window.open("https://wa.me/?text=" + text, "_blank");
 	showToast("Άνοιγμα WhatsApp...");
@@ -6936,10 +7620,18 @@ function toggle_qr_code() {
 	if ($qrCard.is(":visible")) {
 		$qrCard.slideUp(180);
 	} else {
-		var link = generate_sync_link();
-		var qrApiUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=" + encodeURIComponent(link);
-		$("#qr-code-img").attr("src", qrApiUrl);
-		$qrCard.slideDown(220);
+		var link = get_effective_sync_link();
+		$("#tarea-link").val(link);
+		render_qr_code(link);
+		$qrCard.slideDown(220, function() {
+			var $box = $(".modal-box.sync-box");
+			if ($box.length) {
+				var cardTop = $qrCard.position().top;
+				if (cardTop > $box.height() - 160) {
+					$box.animate({ scrollTop: $box.scrollTop() + cardTop - 60 }, 200);
+				}
+			}
+		});
 		showToast("Σκανάρετε το QR Code.");
 		AudioEngine.playFlip();
 	}
@@ -7272,6 +7964,18 @@ function open_migrate_modal() {
 }
 
 function check_and_show_browser_data_banner() {
+	var alreadyRecovered = local_storage_available && (
+		localStorage.getItem("leaderboard_legacy_recovered") === "true" ||
+		localStorage.getItem("leaderboard_migrated_v2") === "true"
+	);
+	var hasActiveData = Array.isArray(lb_data) && lb_data.length > 0;
+
+	// Do not show the banner if data was already recovered or leaderboard is already actively populated
+	if (alreadyRecovered || hasActiveData) {
+		$("#migrate-browser-notice").hide();
+		return;
+	}
+
 	var scan = scan_browser_legacy_data();
 	if (scan && scan.hasData) {
 		var parts = [];
@@ -7735,7 +8439,19 @@ function show_migration_preview(data) {
 		'</div>';
 	}
 	$("#migrate-preview-stats").html(statsHtml);
-	$("#migrate-preview-wrap").slideDown(200);
+	$("#migrate-preview-wrap").slideDown(220, function() {
+		var $box = $(".modal-box.migrate-box");
+		if ($box.length) {
+			$box.animate({ scrollTop: $box[0].scrollHeight }, 280);
+		}
+		var previewEl = document.getElementById("migrate-preview-wrap");
+		if (previewEl && previewEl.scrollIntoView) {
+			previewEl.scrollIntoView({ behavior: "smooth", block: "end" });
+		}
+		setTimeout(function() {
+			$("#btn-apply-migration-now").focus();
+		}, 300);
+	});
 }
 
 function execute_migration() {
@@ -7788,6 +8504,7 @@ function execute_migration() {
 
 	if (local_storage_available) {
 		localStorage.setItem("leaderboard_migrated_v2", "true");
+		localStorage.setItem("leaderboard_legacy_recovered", "true");
 		localStorage.removeItem(STORAGE_KEY_FORMATTED);
 	}
 

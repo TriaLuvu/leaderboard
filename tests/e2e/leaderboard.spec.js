@@ -335,12 +335,9 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     await page.goto(fileUrl);
     await page.waitForTimeout(300);
 
-    // Open migration modal
-    await page.click('#tool-btn-migrate', { force: true });
-    await expect(page.locator('.migrate-modal')).toBeVisible();
-
-    // Unified migration screen: direct paste is immediately visible and active
-    await expect(page.locator('#pane-migrate-link')).toHaveClass(/active/);
+    // Open sync / transfer hub modal
+    await page.click('#tool-btn-sync', { force: true });
+    await expect(page.locator('.sync-modal')).toBeVisible();
 
     // Raw legacy JSON containing English icon names and un-normalized numbers from old system
     const rawLegacyData = JSON.stringify({
@@ -355,17 +352,15 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
       ]
     });
 
-    await page.fill('#migrate-paste-input', rawLegacyData);
-    await page.click('#btn-test-migrate-paste');
-    await page.waitForTimeout(300);
+    // Select Raw Data tab in the segmented mode switcher
+    await page.click('#tab-sync-raw', { force: true });
 
-    // Verify preview recognized players and cards
-    await expect(page.locator('#migrate-preview-wrap')).toBeVisible();
-
-    // Apply migration
-    await page.click('#btn-apply-migration-now');
-    await expect(page.locator('.migrate-modal')).toBeHidden();
+    await page.fill('#input-paste-data', rawLegacyData);
+    await page.click('#btn-apply-pasted-data');
     await page.waitForTimeout(400);
+
+    // Sync modal closes automatically after applying pasted data
+    await expect(page.locator('.sync-modal')).toBeHidden();
 
     // Verify imported legacy players rendered with proper SVGs/avatars
     const rows = page.locator('.leaderboard .person');
@@ -421,7 +416,7 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     await expect(page.locator('#migrate-modal')).toBeVisible();
     await expect(page.locator('#migrate-modal .modal-tab-header')).toHaveCount(0);
     await expect(page.locator('#migrate-dropzone')).toBeVisible();
-    await expect(page.locator('#migrate-paste-input')).toBeVisible();
+    await expect(page.locator('#pane-migrate-link')).toHaveCount(0);
     await expect(page.locator('#btn-apply-migration-now')).toBeAttached();
     await expect(page.locator('#migrate-preview-wrap')).toBeHidden();
 
@@ -450,12 +445,60 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     const receiveBtn = page.locator('#btn-receive-sync-pin');
     await expect(receiveBtn).toBeVisible();
 
+    // Verify Offline Vector QR Code toggle and rendering
+    const qrToggleBtn = page.locator('#btn-toggle-qr');
+    await expect(qrToggleBtn).toBeVisible();
+    await qrToggleBtn.click();
+    await expect(page.locator('#qr-container-card')).toBeVisible();
+    await expect(page.locator('#qr-code-svg-target svg')).toBeVisible();
+
+    // Select File / USB Transfer tab in the segmented mode switcher
+    await page.click('#tab-sync-file', { force: true });
+
     // Verify Offline File Transfer elements
     const dropzone = page.locator('#sync-file-dropzone');
     await expect(dropzone).toBeVisible();
 
     const exportBackupBtn = page.locator('#btn-export-backup-json');
     await expect(exportBackupBtn).toBeVisible();
+
+    // Close modal
+    await page.locator('.sync-modal .close').first().click();
+    await expect(page.locator('.sync-modal')).toBeHidden();
+  });
+
+  test('Transfer Hub progressive disclosure opens only selected mode pane', async ({ page }) => {
+    await page.goto(fileUrl);
+    await page.waitForTimeout(300);
+
+    // Open Transfer Hub modal
+    await page.click('#tool-btn-sync', { force: true });
+    await expect(page.locator('.sync-modal')).toBeVisible();
+
+    // Verify mode selector navigation is present with 3 tabs
+    const tabs = page.locator('.sync-mode-tab');
+    await expect(tabs).toHaveCount(3);
+
+    // Default active tab is PIN
+    await expect(page.locator('#tab-sync-pin')).toHaveClass(/active/);
+    await expect(page.locator('#pane-sync-pin')).toBeVisible();
+    await expect(page.locator('#pane-sync-file')).toBeHidden();
+    await expect(page.locator('#pane-sync-raw')).toBeHidden();
+
+    // Switch to File mode
+    await page.click('#tab-sync-file');
+    await expect(page.locator('#tab-sync-file')).toHaveClass(/active/);
+    await expect(page.locator('#tab-sync-pin')).not.toHaveClass(/active/);
+    await expect(page.locator('#pane-sync-file')).toBeVisible();
+    await expect(page.locator('#pane-sync-pin')).toBeHidden();
+    await expect(page.locator('#pane-sync-raw')).toBeHidden();
+
+    // Switch to Raw mode
+    await page.click('#tab-sync-raw');
+    await expect(page.locator('#tab-sync-raw')).toHaveClass(/active/);
+    await expect(page.locator('#pane-sync-raw')).toBeVisible();
+    await expect(page.locator('#pane-sync-pin')).toBeHidden();
+    await expect(page.locator('#pane-sync-file')).toBeHidden();
 
     // Close modal
     await page.locator('.sync-modal .close').first().click();

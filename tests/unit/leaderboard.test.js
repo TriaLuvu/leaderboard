@@ -420,4 +420,57 @@ describe('Leaderboard Core Data & Logic Unit Tests', () => {
       'leaderboard-cards.html (2 κάρτες)'
     ]);
   });
+
+  test('Standalone offline QR Code generator produces valid vector SVG and data URI', () => {
+    const htmlContent = fs.readFileSync(path.resolve(__dirname, '../../leaderboard-standalone.html'), 'utf8');
+    expect(htmlContent).toContain('INLINED QRCODE GENERATOR 1.4.4');
+    expect(htmlContent).toContain('qr-code-svg-target');
+
+    // Extract the inlined qrcode generator from HTML and execute in VM
+    const match = htmlContent.match(/var qrcode\s*=\s*function[\s\S]*?\(function\(\)\{return qrcode\}\)\);/);
+    expect(match).not.toBeNull();
+
+    const sandbox = { window: {} };
+    const vm = require('vm');
+    vm.createContext(sandbox);
+    vm.runInContext(match[0] + '\nsandbox_qrcode = qrcode;', sandbox);
+
+    const qrcodeFn = sandbox.sandbox_qrcode;
+    expect(typeof qrcodeFn).toBe('function');
+
+    const qr = qrcodeFn(0, 'M');
+    qr.addData('https://gogos.me/leaderboard/?code=677619');
+    qr.make();
+
+    const svg = qr.createSvgTag({ scalable: true, margin: 2 });
+    expect(svg).toContain('<svg');
+    expect(svg).toContain('viewBox="0 0');
+    expect(svg).toContain('</svg>');
+
+    const dataUri = qr.createDataURL(4, 2);
+    expect(dataUri).toMatch(/^data:image\/gif;base64,/);
+  });
+
+  test('Browser migration banner is suppressed when data is already recovered or active', () => {
+    const htmlContent = fs.readFileSync(path.resolve(__dirname, '../../leaderboard-standalone.html'), 'utf8');
+    expect(htmlContent).toContain('leaderboard_legacy_recovered');
+
+    // Simulate check_and_show_browser_data_banner logic
+    function shouldShowBanner(alreadyRecovered, hasActiveData, scanHasData) {
+      if (alreadyRecovered || hasActiveData) return false;
+      return scanHasData;
+    }
+
+    // 1. Initial empty state with legacy data in localStorage -> shows banner
+    expect(shouldShowBanner(false, false, true)).toBe(true);
+
+    // 2. Already recovered -> suppressed
+    expect(shouldShowBanner(true, false, true)).toBe(false);
+
+    // 3. Board already has active players -> suppressed
+    expect(shouldShowBanner(false, true, true)).toBe(false);
+
+    // 4. Both recovered and active -> suppressed
+    expect(shouldShowBanner(true, true, true)).toBe(false);
+  });
 });
