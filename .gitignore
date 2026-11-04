@@ -1,8 +1,40 @@
+# Operating System & Editor files
 .DS_Store
+Thumbs.db
+*.tmp
+*.log
+.vscode/
+.idea/
+
+# Dependencies & Testing artifacts
 node_modules/
 playwright-report/
 test-results/
+.pytest_cache/
+update_app.py
 *.bak
 *.png
-update_app.py
-.pytest_cache/
+
+# ========================================================
+# USER DATA & EXPORTS (Αποκλεισμός προσωπικών δεδομένων / σκορ)
+# ========================================================
+# Εξαγόμενα αντίγραφα ασφαλείας JSON
+leaderboard-backup-*.json
+*backup*.json
+*.backup
+
+# Εξαγόμενα αυτόνομα HTML με αποθηκευμένα σκορ
+leaderboard-app-*.html
+*export*.html
+*saved*.html
+
+# Τοπικά δεδομένα χρήστη & εξαγωγές
+data.local.js
+data.user.js
+*.local.json
+*.local.js
+*export*.json
+
+# Αρχεία μαζικής εισαγωγής/εξαγωγής παικτών
+*.csv
+*.tsv

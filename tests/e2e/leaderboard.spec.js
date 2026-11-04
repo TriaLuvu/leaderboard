@@ -7,23 +7,15 @@ const fileUrl = rawFileUrl + '?demo=1';
 
 test.describe('Leaderboard Suite E2E Integration Tests', () => {
 
-  test('Formatted empty board state and Format button operations', async ({ page }) => {
-    // Open without demo dataset: should start formatted (empty)
+  test('Initial state loads default demo players and Format button operations', async ({ page }) => {
+    // Open without URL parameters: should start with default demo players so user sees how it looks
     await page.goto(rawFileUrl);
     await page.waitForTimeout(400);
 
-    // Verify empty state notices
-    await expect(page.locator('#lb-empty-notice')).toBeVisible();
-    await expect(page.locator('.leaderboard .person')).toHaveCount(0);
-
-    // Click "Φόρτωση Δειγμάτων (Demo)" button from the empty state card
-    await page.click('#btn-empty-demo');
-    await page.waitForTimeout(400);
-
-    // Verify 12 players loaded
+    // Verify 12 default players loaded out of the box
     await expect(page.locator('.leaderboard .person')).toHaveCount(12);
 
-    // Click Format button (🧹) in toolbar
+    // Click Format button (🧹) in toolbar to clean the board
     await page.click('#tool-btn-format', { force: true });
     await expect(page.locator('body')).toHaveClass(/show-confirm/);
 
@@ -31,9 +23,16 @@ test.describe('Leaderboard Suite E2E Integration Tests', () => {
     await page.click('#btn-confirm-ok');
     await page.waitForTimeout(400);
 
-    // Verify board is empty again
+    // Verify board is now formatted and empty
     await expect(page.locator('#lb-empty-notice')).toBeVisible();
     await expect(page.locator('.leaderboard .person')).toHaveCount(0);
+
+    // Click "Φόρτωση Δειγμάτων (Demo)" button from the empty state card to reload samples
+    await page.click('#btn-empty-demo');
+    await page.waitForTimeout(400);
+
+    // Verify 12 players loaded again
+    await expect(page.locator('.leaderboard .person')).toHaveCount(12);
   });
 
   test('Authentic retro craft palette and zero console errors', async ({ page }) => {

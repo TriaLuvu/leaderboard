@@ -5180,13 +5180,17 @@ $(document).ready(function() {
 				try { card_data = JSON.parse(stored_cards) || []; } catch(e) { card_data = []; }
 			}
 
-			// If no saved state exists yet, default to clean formatted/empty state
+			// If no saved state exists yet, load standard default demo players and cards
 			if (stored_lb === null && stored_cards === null) {
-				lb_data = [];
-				card_data = [];
-				localStorage.setItem(STORAGE_KEY_FORMATTED, "true");
-				localStorage.setItem(STORAGE_KEY_LB, JSON.stringify([]));
-				localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify([]));
+				if (typeof window.LEADERBOARD_INITIAL_DATA !== "undefined" && window.LEADERBOARD_INITIAL_DATA && window.LEADERBOARD_INITIAL_DATA.leaderboard) {
+					lb_data = JSON.parse(JSON.stringify(window.LEADERBOARD_INITIAL_DATA.leaderboard));
+					card_data = JSON.parse(JSON.stringify(window.LEADERBOARD_INITIAL_DATA.cards || []));
+				} else {
+					lb_data = JSON.parse(JSON.stringify(standard_clean_lb));
+					card_data = JSON.parse(JSON.stringify(standard_clean_cards));
+				}
+				localStorage.setItem(STORAGE_KEY_LB, JSON.stringify(lb_data));
+				localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(card_data));
 			}
 		}
 	}
